@@ -2,7 +2,7 @@
 # MODNPM_OMITDEV=No 
 # MODNPM_OMITOPTIONAL=No 
 # MODNPM_INCLUDES=
-# MODNPM_EXCLUDES=
+# MODNPM_EXCLUDES=keytar
 DISTFILES.npm += \
 ${MODNPM_DIST}/@ampproject-{@ampproject/remapping/-/}remapping-2.2.0.tgz \
 ${MODNPM_DIST}/@azure-rest-{@azure-rest/ai-translation-text/-/}ai-translation-text-1.0.0-beta.1.tgz \
@@ -1027,7 +1027,6 @@ ${MODNPM_DIST}/{jws/-/}jws-4.0.0.tgz \
 ${MODNPM_DIST}/{katex/-/}katex-0.16.10.tgz \
 ${MODNPM_DIST}/{kerberos/-/}kerberos-2.1.1.tgz \
 ${MODNPM_DIST}/{keygrip/-/}keygrip-1.1.0.tgz \
-${MODNPM_DIST}/{keytar/-/}keytar-7.9.0.tgz \
 ${MODNPM_DIST}/{keyv/-/}keyv-4.5.4.tgz \
 ${MODNPM_DIST}/{kind-of/-/}kind-of-1.1.0.tgz \
 ${MODNPM_DIST}/{kind-of/-/}kind-of-3.2.2.tgz \
@@ -4498,7 +4497,6 @@ MODNPM_TREE += \
 /vscode-1.96.2/build/node_modules/linkify-it;linkify-it-3.0.3.tgz \
 /vscode-1.96.2/build/node_modules/leven;leven-3.1.0.tgz \
 /vscode-1.96.2/build/node_modules/keyv;keyv-4.5.4.tgz \
-/vscode-1.96.2/build/node_modules/keytar;keytar-7.9.0.tgz \
 /vscode-1.96.2/build/node_modules/jws;jws-4.0.0.tgz \
 /vscode-1.96.2/build/node_modules/jwa;jwa-2.0.0.tgz \
 /vscode-1.96.2/build/node_modules/jsonwebtoken;jsonwebtoken-9.0.0.tgz \

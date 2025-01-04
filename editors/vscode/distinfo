@@ -1022,7 +1022,6 @@ SHA256 (npm_modules/jws-4.0.0.tgz) = Fi1gaFvLGLv2WnazRJv7zFS2CCRilQ6RtpLPzMUCamc
 SHA256 (npm_modules/katex-0.16.10.tgz) = MQ6PypyH95rekNxj8tGK2ajJwfIhp81bpV1LZv0Fz5U=
 SHA256 (npm_modules/kerberos-2.1.1.tgz) = m/rcfeamTWF0QW5lX/HXHX+zKN0z4aLSQD+TyWp6AF0=
 SHA256 (npm_modules/keygrip-1.1.0.tgz) = Fgxa6dwSRLqHatEqoC2rMiPgwiVhRkrdmlXq57P7PyA=
-SHA256 (npm_modules/keytar-7.9.0.tgz) = Ow+vXlkGPwz8kNLKMSJWiWbNlAT8X3YceysrKt3qGXM=
 SHA256 (npm_modules/keyv-4.5.4.tgz) = 6ybxxWHlevSkNl5rVPXz50XjljdHqThFrx8ACnR7YJg=
 SHA256 (npm_modules/kind-of-1.1.0.tgz) = yyVxVPl+n6iyPb8bpj87KjPvhyuY9xMBPqyz0e2dxOU=
 SHA256 (npm_modules/kind-of-3.2.2.tgz) = eKQuNPuLorlFkgfmADvTywgjM1kbSI8gccXZMIa2XUc=
@@ -2792,7 +2791,6 @@ SIZE (npm_modules/jws-4.0.0.tgz) = 5884
 SIZE (npm_modules/katex-0.16.10.tgz) = 1475253
 SIZE (npm_modules/kerberos-2.1.1.tgz) = 30338
 SIZE (npm_modules/keygrip-1.1.0.tgz) = 3399
-SIZE (npm_modules/keytar-7.9.0.tgz) = 9410
 SIZE (npm_modules/keyv-4.5.4.tgz) = 8620
 SIZE (npm_modules/kind-of-1.1.0.tgz) = 2067
 SIZE (npm_modules/kind-of-3.2.2.tgz) = 4861

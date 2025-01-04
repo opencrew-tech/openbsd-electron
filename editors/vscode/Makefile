@@ -2,25 +2,25 @@
 # XXX kerberos test ?
 
 # XXX too restrictive ?
-ONLY_FOR_ARCHS=	amd64
+ONLY_FOR_ARCHS=		amd64
 
-COMMENT=	Visual Studio Code - Open Source ("Code - OSS")
+COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=		1.96.2
-COMMIT=		f1a4fb101478ce6ec82fe9627c43efbf9e98c813
-PKGNAME=	vscode-${V}
-REVISION=	0
+V=			1.96.2
+COMMIT=			f1a4fb101478ce6ec82fe9627c43efbf9e98c813
+PKGNAME=		vscode-${V}
+REVISION=		1
 
-DIST_TUPLE=	github microsoft vscode ${V} .
+DIST_TUPLE=		github microsoft vscode ${V} .
 
-CATEGORIES=	editors
+CATEGORIES=		editors
 
-HOMEPAGE=	https://code.visualstudio.com/
+HOMEPAGE=		https://code.visualstudio.com/
 
-MAINTAINER=	Fabien Romano <fabien@openbsd.org>
+MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 
 # MIT
-PERMIT_PACKAGE=	Yes
+PERMIT_PACKAGE=		Yes
 
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
@@ -40,14 +40,15 @@ EXTRACT_CASES+=		*.vsix) \
 
 WANTLIB += ${COMPILER_LIBCXX} c m notify util
 
-COMPILER=	base-clang ports-gcc
+COMPILER=		base-clang ports-gcc
 
-MODULES=	devel/npm \
-		lang/python \
-		security/heimdal \
-		www/electron
 
-MODPY_RUNDEP=	No
+MODULES=		devel/npm \
+			lang/python \
+			security/heimdal \
+			www/electron
+
+MODPY_RUNDEP=		No
 
 MODNPM_TARGETS=$$( \
 	grep "'," ${WRKSRC}/build/npm/dirs.js | \
@@ -57,8 +58,11 @@ MODNPM_LOCKS=$$( \
 	grep "'," ${WRKSRC}/build/npm/dirs.js | \
 		cut -f 2 -d "'" | \
 		xargs -L1 printf '${WRKSRC}/%s/package-lock.json\n')
-MODNPM_BUILD=	No
-MODNPM_INSTALL=	No
+MODNPM_BUILD=		No
+MODNPM_INSTALL=		No
+# optional depends keytar for @vscode/vsce, not installed
+# it needs x11/gnome/libsecret to build only
+MODNPM_EXCLUDES=	keytar
 
 MODELECTRON_TARGET=	code-oss
 MODELECTRON_APP_NAME=	"Code - OSS"
@@ -66,27 +70,27 @@ MODELECTRON_UNVEIL=	Yes
 MODELECTRON_BUILD=	No
 MODELECTRON_INSTALL=	No
 
-BUILD_DEPENDS=	archivers/unzip \
-		archivers/zip \
-		devel/libinotify \
-		lang/node \
-		textproc/ripgrep
-RUN_DEPENDS=	devel/desktop-file-utils \
-		devel/xdg-utils \
-		shells/bash
-LIB_DEPENDS=	devel/libnotify
+BUILD_DEPENDS=		archivers/unzip \
+			archivers/zip \
+			devel/libinotify \
+			lang/node \
+			textproc/ripgrep
+RUN_DEPENDS=		devel/desktop-file-utils \
+			devel/xdg-utils \
+			shells/bash
+LIB_DEPENDS=		devel/libnotify
 
-USE_GMAKE=	Yes
+USE_GMAKE=		Yes
 
-CXXFLAGS+=	-I${LOCALBASE}/include/inotify
-LDFLAGS+=	-L${LOCALBASE}/lib
+CXXFLAGS+=		-I${LOCALBASE}/include/inotify
+LDFLAGS+=		-L${LOCALBASE}/lib
 
-MAKE_ENV+=	BUILD_SOURCEVERSION=${SOURCE_COMMIT_HASH}
+MAKE_ENV+=		BUILD_SOURCEVERSION=${SOURCE_COMMIT_HASH}
 # Don't download browser binaries on playwright node_modules installation
-MAKE_ENV+=	PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
-		PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+MAKE_ENV+=		PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
+			PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
-MAKE_ENV+=	CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
+MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 
 post-extract:
 	cp ${WRKSRC}/build/.moduleignore{.linux,.openbsd}
@@ -112,17 +116,17 @@ do-configure:
 pre-build:
 	# rebuild native node modules for electron
 	for subdir in `find ${WRKSRC}/node_modules -type f \
-	    -name binding.gyp -exec dirname {} ';'`; do \
+	-name binding.gyp -exec dirname {} ';'`; do \
 		[ -f $${subdir}/.build_done ] && \
 			echo "skip $${subdir}" && \
 			continue; \
 		echo "rebuild $${subdir}"; \
 		cd $${subdir} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-			node ${NPM_GYP_BIN} rebuild --verbose ; \
+			node ${NPM_GYP_BIN} rebuild ${NPM_ARGS} ; \
 		touch $${subdir}/.build_done; \
 	done
 	cd ${WRKSRC}/extensions && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV}
-		npm rebuild --verbose
+		npm rebuild ${NPM_ARGS}
 	# rebuild native node modules for node
 .for dir in build remote
 	cd ${WRKSRC}/${dir} && ${NPM_CMD} rebuild ${NPM_ARGS}
@@ -134,6 +138,8 @@ pre-build:
 	mkdir -p ${WRKSRC}/remote/node_modules/@vscode/ripgrep/bin
 	cp -p ${LOCALBASE}/bin/rg \
 		${WRKSRC}/remote/node_modules/@vscode/ripgrep/bin
+	# remove duplicate kerberos.node
+	rm -rf ${WRKSRC}/node_modules/kerberos/build/Release/obj.target
 
 do-build:
 	# build and package vscode

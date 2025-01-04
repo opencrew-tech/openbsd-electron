@@ -629,12 +629,15 @@ ${MODELECTRON_DIST_T}/extensions/ms-vscode.vscode-js-profile-table/resources/
 ${MODELECTRON_DIST_T}/extensions/ms-vscode.vscode-js-profile-table/resources/icon.png
 ${MODELECTRON_DIST_T}/extensions/ms-vscode.vscode-js-profile-table/tsconfig.browser.json
 ${MODELECTRON_DIST_T}/extensions/node_modules/
-${MODELECTRON_DIST_T}/extensions/node_modules/@parcel/
-${MODELECTRON_DIST_T}/extensions/node_modules/@parcel/node-addon-api/
-${MODELECTRON_DIST_T}/extensions/node_modules/@parcel/node-addon-api/node_api.Makefile
-${MODELECTRON_DIST_T}/extensions/node_modules/@parcel/node-addon-api/nothing.target.mk
 ${MODELECTRON_DIST_T}/extensions/node_modules/typescript/
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/LICENSE.txt
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/SECURITY.md
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/ThirdPartyNoticeText.txt
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/bin/
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/bin/tsc
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/bin/tsserver
 ${MODELECTRON_DIST_T}/extensions/node_modules/typescript/lib/
+${MODELECTRON_DIST_T}/extensions/node_modules/typescript/lib/_tsc.js
 ${MODELECTRON_DIST_T}/extensions/node_modules/typescript/lib/_tsserver.js
 ${MODELECTRON_DIST_T}/extensions/node_modules/typescript/lib/_typingsInstaller.js
 ${MODELECTRON_DIST_T}/extensions/node_modules/typescript/lib/cancellationToken.js
@@ -1883,8 +1886,6 @@ ${MODELECTRON_DIST_T}/node_modules/kerberos/LICENSE
 ${MODELECTRON_DIST_T}/node_modules/kerberos/build/
 ${MODELECTRON_DIST_T}/node_modules/kerberos/build/Release/
 @bin ${MODELECTRON_DIST_T}/node_modules/kerberos/build/Release/kerberos.node
-${MODELECTRON_DIST_T}/node_modules/kerberos/build/Release/obj.target/
-@bin ${MODELECTRON_DIST_T}/node_modules/kerberos/build/Release/obj.target/kerberos.node
 ${MODELECTRON_DIST_T}/node_modules/kerberos/lib/
 ${MODELECTRON_DIST_T}/node_modules/kerberos/lib/auth_processes/
 ${MODELECTRON_DIST_T}/node_modules/kerberos/lib/auth_processes/mongodb.js

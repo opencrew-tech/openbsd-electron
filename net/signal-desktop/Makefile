@@ -1,22 +1,22 @@
-COMMENT=	Signal Desktop links with Signal
+COMMENT=		Signal Desktop links with Signal
 
-V=		7.36.1
-DISTNAME=	Signal-Desktop-${V}
-PKGNAME=	${DISTNAME:L}
+V=			7.36.1
+DISTNAME=		Signal-Desktop-${V}
+PKGNAME=		${DISTNAME:L}
 
 # "node_modules/react-virtualized/dist/commonjs": permission denied
 FIX_EXTRACT_PERMISSIONS=Yes
 
-DIST_TUPLE=	github signalapp Signal-Desktop v${V} .
+DIST_TUPLE=		github signalapp Signal-Desktop v${V} .
 
-CATEGORIES=	net
+CATEGORIES=		net
 
-HOMEPAGE=	https://signal.org/
+HOMEPAGE=		https://signal.org/
 
-MAINTAINER=	Fabien Romano <fabien@openbsd.org>
+MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 
 # BSD 2-Clause
-PERMIT_PACKAGE=	Yes
+PERMIT_PACKAGE=		Yes
 
 WANTLIB += ${MODCARGO_WANTLIB} c++ crypto m
 
@@ -33,13 +33,11 @@ FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
 LIBSIGNAL_V=	0.62.0
 BORING_ID=	3d4180b232d332a86ee3b41d1a622b0f1c1c6037
+CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
+BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
 RINGRTC_V=	2.48.7
 WEBRTC_V=	6723a
-
-# libsignal, boring depends to update by hand
-#https://github.com/signalapp/boring/tree/${BORING_ID}/boring-sys/deps
-BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 
 # XXX ringrtc, cubeb-sys > libcubeb depends workaround by hand
 #https://github.com/mozilla/cubeb-rs/issues/109
@@ -52,12 +50,10 @@ SQLCIPHER_T=	${WRKSRC}/node_modules/@signalapp/better-sqlite3/deps
 SITES.sqlc=	${SQLCIPHER_URI}
 DISTFILES.sqlc=	sqlcipher-${SQLCIPHER_V}.tar.gz
 EXTRACT_CASES+=	${DISTFILES.sqlc});;
-
 # Signal-Sqlcipher-Extension, AGPLv3
 SQLCEXT_SRC=	${WRKDIR}/Signal-Sqlcipher-Extension-${SQLCEXT_V}
 SQLCEXT_TOML=	${SQLCEXT_SRC}/Cargo.toml
 DIST_TUPLE+=	github signalapp Signal-Sqlcipher-Extension v${SQLCEXT_V} .
-
 # Signal-FTS5-Extension, AGPLv3
 FTS5_SRC=	${WRKDIR}/Signal-FTS5-Extension-${FTS5_ID}
 FTS5_TOML=	${FTS5_SRC}/Cargo.toml
@@ -69,10 +65,13 @@ LIBSIGNAL_NODE=	${LIBSIGNAL_SRC}/node
 LIBSIGNAL_TOML=	${LIBSIGNAL_SRC}/Cargo.toml
 LIBSIGNAL_T=	${WRKSRC}/node_modules/@signalapp/libsignal-client/prebuilds
 DIST_TUPLE+=	github signalapp libsignal v${LIBSIGNAL_V} .
-
+# boring (signalapp fork), Apache-2.0
+DIST_TUPLE+=	github signalapp boring ${BORING_ID} boring
 # boringssl, OpenSSL/ISC
 BORINGSSL_T=	${WRKDIR}/boring-${BORING_ID}/boring-sys/deps
 DIST_TUPLE+=	github google boringssl ${BORINGSSL_ID} .
+# curve25519-dalek (signalapp fork), XXX LICENCE
+DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
 
 # ringrtc, AGPLv3
 RINGRTC_SRC=	${WRKDIR}/ringrtc-${RINGRTC_V}
@@ -80,38 +79,36 @@ RINGRTC_NODE=	${RINGRTC_SRC}/src/node
 RINGRTC_TOML=	${RINGRTC_SRC}/Cargo.toml
 RINGRTC_T=	${WRKSRC}/node_modules/@signalapp/ringrtc/build
 DIST_TUPLE+=	github signalapp ringrtc v${RINGRTC_V} .
-
 # webrtc, BSD-3-Clause
 WEBRTC_SRC=	${RINGRTC_SRC}/src/webrtc/src
 WEBRTC_T=	${WRKDIR}/ringrtc-${RINGRTC_V}/src/webrtc
 SITES.webrtc=	http://distfiles.opencrew.tech/webrtc/
 DISTFILES.webrtc=webrtc-${WEBRTC_V}.tgz
-
 # libcubeb, Mozilla Foundation
 CUBEB_SRC=	${WRKDIR}/cubeb-${CUBEB_ID}
 CUBEB_T=	${WRKSRC}/modcargo-crates/cubeb-sys-${CUBEB_SYS_V}/libcubeb
 DIST_TUPLE+=	github mozilla cubeb ${CUBEB_ID} .
 
-ALL_PATCHFILES+=${PATCHDIR}/chromium/patch-*
-PATCH_CASES+=	${PATCHDIR}/chromium/patch-*) \
-		    ${PATCH} ${PATCH_DIST_ARGS} \
-		    -z .orig.chromium \
-		    -d ${WEBRTC_SRC}/ <$$patchfile ;;
+ALL_PATCHFILES+=	${PATCHDIR}/chromium/patch-*
+PATCH_CASES+=		${PATCHDIR}/chromium/patch-*) \
+			    ${PATCH} ${PATCH_DIST_ARGS} \
+			    -z .orig.chromium \
+			    -d ${WEBRTC_SRC}/ <$$patchfile ;;
 
-COMPILER=	base-clang ports-gcc
+COMPILER=		base-clang ports-gcc
 
-MODULES=	devel/cargo \
-		devel/cmake \
-		devel/npm \
-		lang/clang \
-		lang/python \
-		www/electron
+MODULES=		devel/cargo \
+			devel/cmake \
+			devel/npm \
+			lang/clang \
+			lang/python \
+			www/electron
 
-USE_GMAKE=	Yes
-USE_NINJA=	No	# disable MODCMAKE targets
+USE_GMAKE=		Yes
+USE_NINJA=		No	# disable MODCMAKE targets
 
 # pledge signal-desktop, avoid sqlcipher_mlock()
-CFLAGS+=	-DOMIT_MEMLOCK
+CFLAGS+=		-DOMIT_MEMLOCK
 
 # see custom modcargo-gen-crates
 MODCARGO_CARGOS_TOML=	${FTS5_TOML} \
@@ -146,86 +143,88 @@ MODPY_RUNDEP=		No
 
 NPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 
-BUILD_DEPENDS+=	devel/app-builder \
-		devel/gn \
-		devel/ninja \
-		textproc/re2
-RUN_DEPENDS+=	devel/desktop-file-utils
+BUILD_DEPENDS+=		devel/app-builder \
+			devel/gn \
+			devel/ninja \
+			devel/protobuf \
+			textproc/re2
+RUN_DEPENDS+=		devel/desktop-file-utils
 
-DEBUG_PACKAGES=	${BUILD_PACKAGES}
+DEBUG_PACKAGES=		${BUILD_PACKAGES}
 
-SUBST_VARS+=	WRKDIR WRKSRC MODCARGO_TARGET_DIR
+SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR
 
 # pre-define source date, no git show -s --format=%ct
-MAKE_ENV+=	SOURCE_DATE_EPOCH=$$(date +'%s')
+MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
 # signal's appbuilder config
-MAKE_ENV+=	SIGNAL_ENV=production
+MAKE_ENV+=		SIGNAL_ENV=production
 
-TEST_ENV+=	PATH='${PORTPATH}'
+TEST_ENV+=		PATH='${PORTPATH}'
 
 # see electron/Makefile
-GN_SYSTEM_LIBS=	crc32c \
-		dav1d \
-		double-conversion \
-		icu \
-		jsoncpp \
-		libaom \
-		libevent \
-		libpng \
-		libvpx \
-		libwebp \
-		libxml \
-		libxslt \
-		openh264 \
-		re2 \
-		snappy \
-		woff2
-GN_ARGS=	use_system_libjpeg=true \
-		use_system_harfbuzz=true
+GN_SYSTEM_LIBS=		crc32c \
+			dav1d \
+			double-conversion \
+			icu \
+			jsoncpp \
+			libaom \
+			libevent \
+			libpng \
+			libvpx \
+			libwebp \
+			libxml \
+			libxslt \
+			openh264 \
+			re2 \
+			snappy \
+			woff2
+GN_ARGS=		use_system_libjpeg=true \
+			use_system_harfbuzz=true
 # electron/Makefile link options
-GN_ARGS+=	symbol_level=1 \
-		is_component_build=false
-GN_ARGS+=	use_thin_lto=false \
-		thin_lto_enable_optimizations=true
-_EXTRA_LDFLAGS=-L${LOCALBASE}/lib -L${X11BASE}/lib
+GN_ARGS+=		symbol_level=1 \
+			is_component_build=false
+GN_ARGS+=		use_thin_lto=false \
+			thin_lto_enable_optimizations=true
+_EXTRA_LDFLAGS=		-L${LOCALBASE}/lib -L${X11BASE}/lib
 .if ${MACHINE_ARCH} == "aarch64"
-GN_ARGS+=	extra_ldflags=\"${_EXTRA_LDFLAGS}\"
-PKG_ARGS+=	-Dswiftshader=0
+GN_ARGS+=		extra_ldflags=\"${_EXTRA_LDFLAGS}\"
+PKG_ARGS+=		-Dswiftshader=0
 .elif ${MACHINE_ARCH} == "amd64"
-BUILD_DEPENDS+=	devel/nasm
-GN_ARGS+=	extra_ldflags=\"${_EXTRA_LDFLAGS}\"
-PKG_ARGS+=	-Dswiftshader=1
+BUILD_DEPENDS+=		devel/nasm
+GN_ARGS+=		extra_ldflags=\"${_EXTRA_LDFLAGS}\"
+PKG_ARGS+=		-Dswiftshader=1
 .elif ${MACHINE_ARCH} == "i386"
-BUILD_DEPENDS+=	devel/nasm
-GN_ARGS+=	extra_ldflags=\"${_EXTRA_LDFLAGS} -Wl,--no-keep-memory\"
-PKG_ARGS+=	-Dswiftshader=1
+BUILD_DEPENDS+=		devel/nasm
+GN_ARGS+=		extra_ldflags=\"${_EXTRA_LDFLAGS} -Wl,--no-keep-memory\"
+PKG_ARGS+=		-Dswiftshader=1
 .else
-PKG_ARGS+=	-Dswiftshader=0
+PKG_ARGS+=		-Dswiftshader=0
 .endif
 # electron/Makefile common options
-_EXTRA_CPPFLAGS=-idirafter ${LOCALBASE}/include -idirafter ${X11BASE}/include
-GN_ARGS+=	clang_use_chrome_plugins=false \
-		enable_rust=false \
-		extra_cppflags=\"${_EXTRA_CPPFLAGS}\" \
-		fatal_linker_warnings=false \
-		treat_warnings_as_errors=false \
-		use_custom_libcxx=false \
-		use_sysroot=false
+_EXTRA_CPPFLAGS=	-idirafter ${LOCALBASE}/include \
+			-idirafter ${X11BASE}/include
+GN_ARGS+=		clang_use_chrome_plugins=false \
+			enable_rust=false \
+			extra_cppflags=\"${_EXTRA_CPPFLAGS}\" \
+			fatal_linker_warnings=false \
+			treat_warnings_as_errors=false \
+			use_custom_libcxx=false \
+			use_sysroot=false
 
 # see ringrtc/bin/build-electron
-GN_ARGS+=	rtc_build_examples=false \
-		rtc_build_tools=false \
-		rtc_include_tests=false \
-		rtc_enable_protobuf=false \
-		rtc_use_x11=false \
-		rtc_enable_sctp=false \
-		rtc_libvpx_build_vp9=true \
-		rtc_include_ilbc=false
+GN_ARGS+=		rtc_build_examples=false \
+			rtc_build_tools=false \
+			rtc_include_tests=false \
+			rtc_enable_protobuf=false \
+			rtc_use_x11=false \
+			rtc_enable_sctp=false \
+			rtc_libvpx_build_vp9=true \
+			rtc_include_ilbc=false
 
 # webrtc
-GN_ARGS+=	is_debug=false \
-		is_clang=true \
-		extra_cxxflags=\"${CXXFLAGS}\"
+GN_ARGS+=		is_debug=false \
+			is_clang=true \
+			extra_cxxflags=\"${CXXFLAGS}\"
 
 post-extract:
 	# setup boring-sys
@@ -253,7 +252,7 @@ pre-patch:
 	cd ${WRKSRC} && for _p in patches/*.patch; do \
 		echo "===>  Applying signal-desktop $${_p}" ; \
 		${PATCH} -l -f -p1 -z .orig.signal \
-			-d ${WRKSRC} -i ${WRKSRC}/$${_p}; \
+		    -d ${WRKSRC} -i ${WRKSRC}/$${_p}; \
 	done
 
 pre-configure:
@@ -292,10 +291,12 @@ post-install:
 
 # XXX test-better-sqlite ?
 # XXX test-libwebrtc ?
-# XXX skipt test-ringrtc, spawn electron but does not run
+# XXX test-ringrtc ?
 do-test:	test-libsignal \
 		test-sticker-creator \
 		test-signal-desktop
+
+### custom targets
 
 sqlcipher-extension:
 	# build sqlcipher-extension native depends for better-sqlite3
@@ -408,80 +409,92 @@ webrtc-compile_commands:
 	${_PBUILD} make _webrtc-compile_commands
 
 # make versions : download, extract then print versions for depends
-# XXX note : maintainer still have to manually update BORINGSSL_ID
 # make modnpm-gen-modules : regen modules.inc, see devel/npm
 # make modcargo-gen-crates : handle multiple Cargo.toml, regen crates.inc
 # make tarball : gen webrtc-${WEBRTC_V}.tgz with gclient
-# make chromium-patches : check OpenBSD specific patches for chromium src
+# make chromium-patches : check OpenBSD patches for chromium src (webrtc)
 # make dns-fallback : no net during build, pre-made files/dns-fallback.json
 
-_TMP = /tmp/signal-desktop-${V}
-_SIGNALAPP_GH =	https://raw.githubusercontent.com/signalapp
-_BORING_GH =	${_SIGNALAPP_GH}/boring/
-_BSQL_GH =	${_SIGNALAPP_GH}/better-sqlite3/
-_LIBSIGNAL_GH =	${_SIGNALAPP_GH}/libsignal/
-_RINGRTC_GH =	${_SIGNALAPP_GH}/ringrtc/
-_SIGNAL_GH =	${_SIGNALAPP_GH}/Signal-Desktop/
+_TMP=		/tmp/signal-desktop-${V}
+_SIGNALAPP_GH=	https://raw.githubusercontent.com/signalapp
+_BORING_GIT=	https://github.com/signalapp/boring.git
+_BSQL_GH=	${_SIGNALAPP_GH}/better-sqlite3/
+_LIBSIGNAL_GH=	${_SIGNALAPP_GH}/libsignal/
+_RINGRTC_GH=	${_SIGNALAPP_GH}/ringrtc/
+_SIGNAL_GH=	${_SIGNALAPP_GH}/Signal-Desktop/
 _SSQLE_GH=	${_SIGNALAPP_GH}/Signal-Sqlcipher-Extension
 versions:
 	# make versions
-	@mkdir -p ${_TMP} ; \
-	ftp -VMo ${_TMP}/package.json \
-		${_SIGNAL_GH}/v${V}/package.json ; \
-	_ringrtc_v=$$(grep "@signalapp/ringrtc" \
-		${_TMP}/package.json | awk -F ":" '{print $$2}' | \
-		sed -E 's#("|,| )##g') ; \
-	_libsignal_v=$$(grep "@signalapp/libsignal-client" \
-		${_TMP}/package.json | awk -F ":" '{print $$2}' | \
-		sed -E 's#("|,| )##g') ; \
-	_bsql_v=$$(grep '@signalapp/better-sqlite3' \
-		${_TMP}/package.json | awk -F ":" '{print $$2}' | \
-		sed -E 's#("|,| )##g') ; \
-	printf "# ELECTRON_V=%s\n" $$(awk /'"electron":'/'{print $$2}' \
-		${_TMP}/package.json | sed -E 's/("|,)//g') ; \
-	printf "# NODE_V=%s\n" $$(awk /'"node":'/'{print $$2}' \
-		${_TMP}/package.json | sed 's/"//g') ; \
-	printf "# better-sqlite3 deps\n" ; \
-	printf "# BETTER_SQLITE3_V=%s\n" $$_bsql_v ; \
-	ftp -VMo ${_TMP}/download.js \
-		${_BSQL_GH}/v$${_bsql_v}/deps/download.js ; \
-	printf "SQLCIPHER_H=\t%s\n" $$(grep "const HASH" \
-		${_TMP}/download.js | awk -F '=' '{print $$2}' | \
-		sed -e "s/ '//" -e "s/';//") ; \
-	printf "SQLCIPHER_URI=\t%s/\n" $$(grep "const BASE_URI" \
-		${_TMP}/download.js | awk -F '=' '{print $$2}' | \
-		sed -e "s/ \`//" -e "s/\`;//") ; \
-	_sqlcipher_v=$$(grep "const SQLCIPHER_VERSION" \
-		${_TMP}/download.js | awk -F '=' '{print $$2}' | \
-		sed -e "s/ '//" -e "s/';//") ; \
-	_extension_v=$$(grep "const EXTENSION_VERSION" \
-		${_TMP}/download.js | awk -F '=' '{print $$2}' | \
-		sed -e "s/ '//" -e "s/';//") ; \
-	printf "SQLCIPHER_V=\tv2-%s--%s-\$${SQLCIPHER_H}\n" \
-		$$_sqlcipher_v $$_extension_v ; \
-	printf "SQLCEXT_V=\t%s\n" $$_extension_v ; \
-	ftp -VMo ${_TMP}/sqlcipher.Cargo.lock \
-		${_SSQLE_GH}/v$${_extension_v}/Cargo.lock ; \
+	@mkdir -p ${_TMP} ;						\
+	ftp -VMo ${_TMP}/package.json					\
+		${_SIGNAL_GH}/v${V}/package.json ;			\
+	_ringrtc_v=$$(grep "@signalapp/ringrtc"				\
+		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
+		sed -E 's#("|,| )##g') ;				\
+	_libsignal_v=$$(grep "@signalapp/libsignal-client"		\
+		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
+		sed -E 's#("|,| )##g') ;				\
+	_bsql_v=$$(grep '@signalapp/better-sqlite3'			\
+		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
+		sed -E 's#("|,| )##g') ;				\
+	printf "# ELECTRON_V=%s\n" $$(awk /'"electron":'/'{print $$2}'	\
+		${_TMP}/package.json | sed -E 's/("|,)//g') ;		\
+	printf "# NODE_V=%s\n" $$(awk /'"node":'/'{print $$2}'		\
+		${_TMP}/package.json | sed 's/"//g') ;			\
+									\
+	printf "# better-sqlite3 deps\n" ;				\
+	printf "# BETTER_SQLITE3_V=%s\n" $$_bsql_v ;			\
+	ftp -VMo ${_TMP}/download.js					\
+		${_BSQL_GH}/v$${_bsql_v}/deps/download.js ;		\
+	printf "SQLCIPHER_H=\t%s\n" $$(grep "const HASH"		\
+		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
+		sed -e "s/ '//" -e "s/';//") ;				\
+	printf "SQLCIPHER_URI=\t%s/\n" $$(grep "const BASE_URI"		\
+		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
+		sed -e "s/ \`//" -e "s/\`;//") ;			\
+	_sqlcipher_v=$$(grep "const SQLCIPHER_VERSION"			\
+		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
+		sed -e "s/ '//" -e "s/';//") ;				\
+	_extension_v=$$(grep "const EXTENSION_VERSION"			\
+		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
+		sed -e "s/ '//" -e "s/';//") ;				\
+	printf "SQLCIPHER_V=\tv2-%s--%s-\$${SQLCIPHER_H}\n"		\
+		$$_sqlcipher_v $$_extension_v ;				\
+	printf "SQLCEXT_V=\t%s\n" $$_extension_v ;			\
+	ftp -VMo ${_TMP}/sqlcipher.Cargo.lock				\
+		${_SSQLE_GH}/v$${_extension_v}/Cargo.lock ;		\
 	printf "FTS5_ID=\t%s\n" $$(grep "signalapp/Signal-FTS5-Extension" \
-		${_TMP}/sqlcipher.Cargo.lock | \
-		uniq | awk -F '#|"' '{print $$3}') ; \
-	printf "# libsignal depends\n" ; \
-	printf "LIBSIGNAL_V=\t%s\n" $$_libsignal_v ; \
-	ftp -VMo ${_TMP}/libsignal.Cargo.lock \
-		${_LIBSIGNAL_GH}/v$${_libsignal_v}/Cargo.lock ; \
-	_boring_v=$$(grep "signalapp/boring" \
-		${_TMP}/libsignal.Cargo.lock | \
-		uniq | awk -F '#|"' '{print $$3}') ; \
-	printf "BORING_ID=\t%s\n" $$_boring_v ; \
-	printf "# ringrtc depends\n" ; \
-	printf "RINGRTC_V=\t%s\n" $$_ringrtc_v ; \
-	ftp -VMo ${_TMP}/version.properties \
+		${_TMP}/sqlcipher.Cargo.lock |				\
+		uniq | awk -F '#|"' '{print $$3}') ;			\
+									\
+	printf "# libsignal depends\n" ;				\
+	printf "LIBSIGNAL_V=\t%s\n" $$_libsignal_v ;			\
+	ftp -VMo ${_TMP}/libsignal.Cargo.lock				\
+		${_LIBSIGNAL_GH}/v$${_libsignal_v}/Cargo.lock ;		\
+	_boring_v=$$(grep "signalapp/boring"				\
+		${_TMP}/libsignal.Cargo.lock |				\
+		uniq | awk -F '#|"' '{print $$3}') ;			\
+	_curve_v=$$(grep "signalapp/curve25519-dalek"			\
+		${_TMP}/libsignal.Cargo.lock |				\
+		uniq | awk -F '#|"' '{print $$3}') ;			\
+	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
+	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
+	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
+		git init >/dev/null && git fetch --depth 1		\
+		    ${_BORING_GIT} $$_boring_v >/dev/null 2>&1 &&	\
+		git checkout FETCH_HEAD >/dev/null 2>&1 &&		\
+		_boringssl_v=$$(git submodule |				\
+		    awk -F ' |-' '/boringssl$$/ {print $$2}') ;		\
+	printf "BORINGSSL_ID=\t%s\n" $$_boringssl_v ;			\
+									\
+	printf "# ringrtc depends\n" ;					\
+	printf "RINGRTC_V=\t%s\n" $$_ringrtc_v ;			\
+	ftp -VMo ${_TMP}/version.properties				\
 		${_RINGRTC_GH}/v$${_ringrtc_v}/config/version.properties ; \
-	printf "WEBRTC_V=\t%s\n" $$(grep "webrtc.version" \
-		${_TMP}/version.properties | awk -F "=" '{print $$2}' ) ; \
+	printf "WEBRTC_V=\t%s\n" $$(grep "webrtc.version"		\
+		${_TMP}/version.properties | awk -F "=" '{print $$2}' ) ;
 
 # handle multiple cargo files and add github depends for libsignal
-# XXX make modcargo-gen-crates-licenses doesn't preserve git+ depends
 modcargo-gen-crates:
 	@make extract >/dev/null 2>&1
 	@echo '# run: make modcargo-gen-crates-licenses'
@@ -491,12 +504,6 @@ modcargo-gen-crates:
 		/^source = "registry\+.*github.com.*crates\.io-index"/ \
 			{ print "MODCARGO_CRATES +=	" n "	" v; }' | \
 		sort | uniq
-	# libsignal/Cargo.lock git+ depends
-.for _target in boring curve25519-dalek
-	@printf "DIST_TUPLE+=\tgithub signalapp ${_target} %s %s\n" $$( \
-		grep "signalapp/${_target}" ${LIBSIGNAL_SRC}/Cargo.lock | \
-		uniq | awk -F '#|"' '{print $$3}' ) ${_target}
-.endfor
 
 # XXX need ~10G, usualy run with a custom _SRC
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?

@@ -1,6 +1,6 @@
 COMMENT=	fast, disk space efficient package manager
 
-DISTNAME=	pnpm-9.1.2
+DISTNAME=	pnpm-9.15.4
 
 CATEGORIES=	devel
 

@@ -6,10 +6,9 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.96.2
-COMMIT=			f1a4fb101478ce6ec82fe9627c43efbf9e98c813
+V=			1.96.4
+COMMIT=			cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba
 PKGNAME=		vscode-${V}
-REVISION=		1
 
 DIST_TUPLE=		github microsoft vscode ${V} .
 
@@ -42,11 +41,14 @@ WANTLIB += ${COMPILER_LIBCXX} c m notify util
 
 COMPILER=		base-clang ports-gcc
 
-
 MODULES=		devel/npm \
 			lang/python \
 			security/heimdal \
 			www/electron
+
+# XXX MODULES+=		security/heimdal
+#WANTLIB+= 		heimdal/lib/gssapi heimdal/lib/krb5
+#LIB_DEPENDS+=		security/heimdal,-libs
 
 MODPY_RUNDEP=		No
 
@@ -65,7 +67,7 @@ MODNPM_INSTALL=		No
 MODNPM_EXCLUDES=	keytar
 
 MODELECTRON_TARGET=	code-oss
-MODELECTRON_APP_NAME=	"Code - OSS"
+MODELECTRON_APP_NAME=	Code - OSS
 MODELECTRON_UNVEIL=	Yes
 MODELECTRON_BUILD=	No
 MODELECTRON_INSTALL=	No
@@ -85,7 +87,7 @@ USE_GMAKE=		Yes
 CXXFLAGS+=		-I${LOCALBASE}/include/inotify
 LDFLAGS+=		-L${LOCALBASE}/lib
 
-MAKE_ENV+=		BUILD_SOURCEVERSION=${SOURCE_COMMIT_HASH}
+MAKE_ENV+=		BUILD_SOURCEVERSION=${COMMIT}
 # Don't download browser binaries on playwright node_modules installation
 MAKE_ENV+=		PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
 			PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1

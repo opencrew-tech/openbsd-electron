@@ -22,9 +22,9 @@ Index: boring/boring-sys/build/main.rs
  
      if config.features.pq_experimental {
          println!("cargo:warning=applying experimental post quantum crypto patch to boringssl");
-@@ -507,15 +507,15 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
-         .join(patch_name)
-         .canonicalize()?;
+@@ -511,15 +511,15 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
+     #[cfg(windows)]
+     let cmd_path = config.manifest_dir.join("patches").join(patch_name);
  
 -    let mut args = vec!["apply", "-v", "--whitespace=fix"];
 +    let mut args = vec!["-p 1",];

@@ -1,6 +1,6 @@
 COMMENT=		Signal Desktop links with Signal
 
-V=			7.36.1
+V=			7.40.1
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -18,32 +18,26 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # BSD 2-Clause
 PERMIT_PACKAGE=		Yes
 
-WANTLIB += ${MODCARGO_WANTLIB} c++ crypto m
+WANTLIB += ${MODCARGO_WANTLIB} c++ m
 
 # make versions
-# ELECTRON_V=33.1.0
-# NODE_V=20.18.0
+# ELECTRON_V=33.3.1
+# NODE_V=20.18.1
 # better-sqlite3 deps
-# BETTER_SQLITE3_V=9.0.8
-SQLCIPHER_H=	b0dbebe5b2d81879984bfa2318ba364fb4d436669ddc1668d2406eaaaee40b7e
+# BETTER_SQLITE3_V=9.0.9
+SQLCIPHER_H=	9d2afebba9bfd8f18afd36a90a800df84fcf6975defacbfa1e1c5e1e8a6d05f1
 SQLCIPHER_URI=	https://build-artifacts.signal.org/desktop/
-SQLCIPHER_V=	v2-4.6.1-signal-patch2--0.2.0-${SQLCIPHER_H}
-SQLCEXT_V=	0.2.0
+SQLCIPHER_V=	v2-4.6.1-signal-patch2--0.2.1-${SQLCIPHER_H}
+SQLCEXT_V=	0.2.1
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.62.0
-BORING_ID=	3d4180b232d332a86ee3b41d1a622b0f1c1c6037
+LIBSIGNAL_V=	0.65.2
+BORING_ID=	1af143f50937bce6a9a9c7405ec824a9153c8ba0
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
 BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
-RINGRTC_V=	2.48.7
-WEBRTC_V=	6723a
-
-# XXX ringrtc, cubeb-sys > libcubeb depends workaround by hand
-#https://github.com/mozilla/cubeb-rs/issues/109
-CUBEB_SYS_V=	0.17.0
-#https://github.com/mozilla/cubeb-rs/tree/cubeb-v${CUBEB_SYS_V}/cubeb-sys
-CUBEB_ID=	78b2bce70e0d1c21d3c175b72f322c50801b2e94
+RINGRTC_V=	2.49.3
+WEBRTC_V=	6834c
 
 # better-sqlite3, MIT
 SQLCIPHER_T=	${WRKSRC}/node_modules/@signalapp/better-sqlite3/deps
@@ -84,10 +78,6 @@ WEBRTC_SRC=	${RINGRTC_SRC}/src/webrtc/src
 WEBRTC_T=	${WRKDIR}/ringrtc-${RINGRTC_V}/src/webrtc
 SITES.webrtc=	http://distfiles.opencrew.tech/webrtc/
 DISTFILES.webrtc=webrtc-${WEBRTC_V}.tgz
-# libcubeb, Mozilla Foundation
-CUBEB_SRC=	${WRKDIR}/cubeb-${CUBEB_ID}
-CUBEB_T=	${WRKSRC}/modcargo-crates/cubeb-sys-${CUBEB_SYS_V}/libcubeb
-DIST_TUPLE+=	github mozilla cubeb ${CUBEB_ID} .
 
 ALL_PATCHFILES+=	${PATCHDIR}/chromium/patch-*
 PATCH_CASES+=		${PATCHDIR}/chromium/patch-*) \
@@ -146,8 +136,7 @@ NPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 BUILD_DEPENDS+=		devel/app-builder \
 			devel/gn \
 			devel/ninja \
-			devel/protobuf \
-			textproc/re2
+			devel/protobuf
 RUN_DEPENDS+=		devel/desktop-file-utils
 
 DEBUG_PACKAGES=		${BUILD_PACKAGES}
@@ -161,25 +150,35 @@ MAKE_ENV+=		SIGNAL_ENV=production
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
-# see electron/Makefile
-GN_SYSTEM_LIBS=		crc32c \
+# GN webrtc build, see electron/Makefile
+# XXX libringrtc-x64.node: undefined symbol '_ZN3re23RE2...'
+#GN_SYSTEM_LIBS+=re2
+GN_SYSTEM_LIBS=		brotli \
+			crc32c \
 			dav1d \
-			double-conversion \
+			fontconfig \
+			freetype \
+			flatbuffers \
+			harfbuzz-ng \
+			highway \
 			icu \
 			jsoncpp \
 			libaom \
+			libavif \
 			libevent \
+			libjpeg \
 			libpng \
+			libsecret \
+			libusb \
 			libvpx \
 			libwebp \
 			libxml \
 			libxslt \
 			openh264 \
-			re2 \
+			opus \
 			snappy \
-			woff2
-GN_ARGS=		use_system_libjpeg=true \
-			use_system_harfbuzz=true
+			woff2 \
+			zstd
 # electron/Makefile link options
 GN_ARGS+=		symbol_level=1 \
 			is_component_build=false
@@ -212,14 +211,15 @@ GN_ARGS+=		clang_use_chrome_plugins=false \
 			use_sysroot=false
 
 # see ringrtc/bin/build-electron
+# XXX system libvpx, no vp9 support ? rtc_libvpx_build_vp9=true
 GN_ARGS+=		rtc_build_examples=false \
 			rtc_build_tools=false \
 			rtc_include_tests=false \
 			rtc_enable_protobuf=false \
 			rtc_use_x11=false \
 			rtc_enable_sctp=false \
-			rtc_libvpx_build_vp9=true \
-			rtc_include_ilbc=false
+			rtc_disable_metrics=true \
+			rtc_disable_trace_events=true
 
 # webrtc
 GN_ARGS+=		is_debug=false \
@@ -245,8 +245,6 @@ pre-patch:
 	ln -s ${WRKSRC}/libsignal ${LIBSIGNAL_SRC}
 	mv ${RINGRTC_SRC} ${WRKSRC}/ringrtc
 	ln -s ${WRKSRC}/ringrtc ${RINGRTC_SRC}
-	mv ${CUBEB_SRC} ${CUBEB_T}
-	ln -s ${CUBEB_T} ${CUBEB_SRC}
 	# apply signal-desktop patches
 	# [ $${_p} == "protobufjs+7.3.2.patch" ] && continue;
 	cd ${WRKSRC} && for _p in patches/*.patch; do \
@@ -414,6 +412,7 @@ webrtc-compile_commands:
 # make tarball : gen webrtc-${WEBRTC_V}.tgz with gclient
 # make chromium-patches : check OpenBSD patches for chromium src (webrtc)
 # make dns-fallback : no net during build, pre-made files/dns-fallback.json
+# make gn_args-system : helper to list webrtc gn args and display system one
 
 _TMP=		/tmp/signal-desktop-${V}
 _SIGNALAPP_GH=	https://raw.githubusercontent.com/signalapp
@@ -480,7 +479,7 @@ versions:
 	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
 	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
 	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
-		git init >/dev/null && git fetch --depth 1		\
+		git init >/dev/null 2>&1 && git fetch --depth 1		\
 		    ${_BORING_GIT} $$_boring_v >/dev/null 2>&1 &&	\
 		git checkout FETCH_HEAD >/dev/null 2>&1 &&		\
 		_boringssl_v=$$(git submodule |				\
@@ -505,14 +504,21 @@ modcargo-gen-crates:
 			{ print "MODCARGO_CRATES +=	" n "	" v; }' | \
 		sort | uniq
 
+# prepare custom tarball for stable fetch
 # XXX need ~10G, usualy run with a custom _SRC
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?
-_EXCLUDE_third_party=(re2|pipewire|openh264|lss|libvpx|libunwind|libevent|libc++abi|libc++|libaom|libFuzzer|jsoncpp|harfbuzz-ng|gtest-parallel|grpc|googletest|google_benchmark|fuzztest|freetype|fontconfig|flatbuffers|ffmpeg|depot_tools|dav1d|crc32c|colorama|clang-format|ced|breakpad)
 _SRC?=		${WRKDIR}/webrtc
 _VER?=		${WEBRTC_V}
 _PKG?=		webrtc
 _FETCH?=	https://github.com/signalapp/webrtc.git \
 		+refs/tags/${WEBRTC_V}
+# third parties not needed to build ringrtc
+.for _f in breakpad ced clang-format colorama depot_tools ffmpeg flatbuffers \
+    fontconfig freetype fuzztest google_benchmark googletest grpc \
+    gtest-parallel harfbuzz-ng jsoncpp libaom libc++ libc++abi libevent \
+    libFuzzer libunwind lss pipewire ${GN_SYSTEM_LIBS}
+_EXCLUDE_third_party+=-o \( -path '*/third_party/${_f}/*' -a ! -name '*.gn*' \)
+.endfor
 tarball:
 	ulimit -d `ulimit -dH`
 	mkdir -p ${_SRC}/src
@@ -530,14 +536,15 @@ tarball:
 	find ./src -type f -a ! \( \
 	    -path '*/.git/*' \
 	    -o -path '*/out/*' \
-	    -o -path '*/buildtools/(linux64|reclient)/*' \
+	    -o -path '*/buildtools/linux64/*' \
+	    -o -path '*/buildtools/reclient/*' \
+	    ${_EXCLUDE_third_party} \
 	    -o -path '*/third_party/blink/tools/*' \
 	    -o -path '*/third_party/blink/web_tests/*' \
-	    -o -path '*/third_party/breakpad/breakpad/src/processor/testdata/*'\
 	    -o -path '*/third_party/catapult/tracing/test_data/*' \
 	    -o -path '*/third_party/hunspell/tests/*' \
-	    -o -path '*/third_party/${_EXCLUDE_third_party}/*' \
-	    -o -path '*/tools/(luci-go|resultdb)/*' \
+	    -o -path '*/tools/luci-go/*' \
+	    -o -path '*/tools/resultdb/*' \
 	    \) | sort > files && \
 	tar -cRzf ${_PKG}-${_VER}.tgz -I files \
 	    -s '|src/|${_PKG}-${_VER}/|' && \
@@ -545,12 +552,14 @@ tarball:
 
 chromium-patches:
 	make extract
+	@mkdir -p ${_TMP}
+	# cvs co -D 20241116 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -d chromium ports/www/chromium ; \
+		cvs co -D 20250107 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches

@@ -19,7 +19,7 @@ Index: app/main.ts
    const usePreloadBundle =
      !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
  
-@@ -2578,7 +2580,7 @@ ipc.on('draw-attention', () => {
+@@ -2580,7 +2582,7 @@ ipc.on('draw-attention', () => {
      return;
    }
  

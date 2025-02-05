@@ -1,4 +1,4 @@
-SHA256 (app-builder-v5.0.0.zip) = 0PGgvm0hm6zGkUMSJuCnlCcWcIWJe+7tJlxO7zfK6Sw=
+SHA256 (app-builder-v5.0.0pl20241212193511.zip) = nsbJO3Ar/qYsqmFG8/XcRKSsPRMo9+tiSv8Vyqqk3NY=
 SHA256 (go_modules/github.com/aclements/go-rabin/@v/v0.0.0-20170911142644-d0b643ea1a4c.mod) = t6zu+kb6y+mRifTEvfBGM8wK+gGYd86EAgngzd1IOOA=
 SHA256 (go_modules/github.com/aclements/go-rabin/@v/v0.0.0-20170911142644-d0b643ea1a4c.zip) = CwmR8nYEWHwe0+FkNu17g7MorbIvu3dTCNlR8M6Fnsk=
 SHA256 (go_modules/github.com/alecthomas/kingpin/@v/v2.2.6+incompatible.mod) = Up2zj/u70vePyeteJTJtgXA8R9roPUClBG0CdFWNeVs=
@@ -190,7 +190,7 @@ SHA256 (go_modules/gopkg.in/yaml.v3/@v/v3.0.1.mod) = IVeYYKIDBvz0OxvSNNH7oxlJnHd
 SHA256 (go_modules/gopkg.in/yaml.v3/@v/v3.0.1.zip) = qrj7xOYwDqCOav4crqGKIckMefSJ9SxT4vIEMfGpoBU=
 SHA256 (go_modules/howett.net/plist/@v/v1.0.0.mod) = yCzVtVedg9sbqQjwQYS1bAT7SpBSBC6DLOaPetxzkzU=
 SHA256 (go_modules/howett.net/plist/@v/v1.0.0.zip) = lfIFr5R/WlEcL2kEa6/1b9g1cr9v0FG6TEMM65zF0hQ=
-SIZE (app-builder-v5.0.0.zip) = 767343
+SIZE (app-builder-v5.0.0pl20241212193511.zip) = 863506
 SIZE (go_modules/github.com/aclements/go-rabin/@v/v0.0.0-20170911142644-d0b643ea1a4c.mod) = 37
 SIZE (go_modules/github.com/aclements/go-rabin/@v/v0.0.0-20170911142644-d0b643ea1a4c.zip) = 15971
 SIZE (go_modules/github.com/alecthomas/kingpin/@v/v2.2.6+incompatible.mod) = 37

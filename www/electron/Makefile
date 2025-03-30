@@ -58,8 +58,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		33.3.0
-REVISION=		0
+ELECTRON_V=		33.4.8
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -75,10 +74,10 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # MIT
 PERMIT_PACKAGE=		Yes
 
-# XXX make version
+# XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		130.0.6723.152
-NODE_V=			20.18.1
+CHROMIUM_V=		130.0.6723.191
+NODE_V=			20.18.3
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
@@ -103,18 +102,19 @@ DISTFILES.nodemodule=	chromium-nodejs-{}${NODE_MODULES_HASH}
 EXTRACT_CASES+=		chromium-nodejs-${NODE_MODULES_HASH});;
 
 # uses pledge()
-WANTLIB += EGL FLAC GL X11 X11-xcb Xau Xcomposite Xcursor Xdamage
-WANTLIB += Xdmcp Xext Xfixes Xft Xi Xinerama Xrandr Xrender Xtst
-WANTLIB += Xxf86vm aom atk-1.0 atk-bridge-2.0 atspi c cairo cairo-gobject
-WANTLIB += cares cbor crc32c crypto cups dav1d dbus-1 double-conversion
-WANTLIB += drm epoll-shim epoxy event execinfo expat ffi fido2
-WANTLIB += fontconfig freetype fribidi gbm gdk-3 gdk_pixbuf-2.0
-WANTLIB += gio-2.0 glib-2.0 gmodule-2.0 gobject-2.0 graphite2
-WANTLIB += gthread-2.0 gtk-3 harfbuzz harfbuzz-gobject harfbuzz-subset
-WANTLIB += icudata icui18n icuuc intl jpeg kvm lcms2 lzma m nghttp2
-WANTLIB += nspr4 nss3 nssutil3 ogg openh264 opus pango-1.0 pangocairo-1.0
-WANTLIB += pangoft2-1.0 pcre2-8 pixman-1 plc4 plds4 png sharpyuv
-WANTLIB += smime3 snappy sndio tiff udev usbhid util vpx wayland-client
+WANTLIB += EGL FLAC GL Lerc X11 X11-xcb Xau Xcomposite Xcursor
+WANTLIB += Xdamage Xdmcp Xext Xfixes Xft Xi Xinerama Xrandr Xrender
+WANTLIB += Xtst Xxf86vm aom atk-1.0 atk-bridge-2.0 atspi c cairo
+WANTLIB += cairo-gobject cares cbor crc32c crypto cups dav1d dbus-1
+WANTLIB += double-conversion drm epoll-shim epoxy event execinfo
+WANTLIB += expat ffi fido2 fontconfig freetype fribidi gbm gcrypt
+WANTLIB += gdk-3 gdk_pixbuf-2.0 gio-2.0 glib-2.0 gmodule-2.0 gobject-2.0
+WANTLIB += gpg-error graphite2 gthread-2.0 gtk-3 harfbuzz harfbuzz-gobject
+WANTLIB += harfbuzz-subset icudata icui18n icuuc intl jpeg kvm
+WANTLIB += lcms2 lzma m nghttp2 nspr4 nss3 nssutil3 ogg openh264
+WANTLIB += opus pango-1.0 pangocairo-1.0 pangoft2-1.0 pcre2-8
+WANTLIB += pixman-1 plc4 plds4 png pthread secret-1 sharpyuv smime3
+WANTLIB += snappy sndio tiff udev usbhid util vpx wayland-client
 WANTLIB += wayland-cursor wayland-egl webp webpdemux webpmux xcb
 WANTLIB += xcb-dri2 xcb-glx xcb-render xcb-shm xkbcommon xml2
 WANTLIB += xshmfence xslt z zstd
@@ -122,8 +122,8 @@ WANTLIB += xshmfence xslt z zstd
 # Electron depends on Chromium and Node which are bundled&patched all together :
 # 1. patches/pre-patch, ensure electron patches apply correctly
 # 2. pre-patch walk over electron/patches/config.json, apply all .patches files
-# 3. apply www/chromium/patches from patches/chromium, make chromium-patches
-# 4. apply lang/node/patches from patches/node, make node-patches
+# 3. apply www/chromium/patches from patches/chromium, see make chromium-patches
+# 4. apply lang/node/patches from patches/node, see make node-patches
 # 5. solve any conflicts, apply custom patches in patches/conflict
 # 6. apply common *BSD patches from patches/electron
 # 7. apply OpenBSD electron's port specific patches
@@ -151,7 +151,7 @@ COMPILER=	ports-clang
 
 MODULES=	devel/yarn lang/clang lang/python x11/qt5
 
-MODCLANG_VERSION=	17
+MODCLANG_VERSION=	19
 MODPY_RUNDEP=		No
 MODQT5_DEPS=		No
 MODYARN_TARGETS=	${WRKSRC}/electron ${WRKSRC}/electron/spec
@@ -200,6 +200,8 @@ LIB_DEPENDS+=	archivers/snappy \
 		multimedia/openh264 \
 		net/libcares \
 		print/cups,-libs \
+		security/libgcrypt \
+		security/libgpg-error \
 		security/nss \
 		sysutils/libudev-openbsd \
 		textproc/icu4c \
@@ -207,6 +209,7 @@ LIB_DEPENDS+=	archivers/snappy \
 		textproc/libxslt \
 		www/nghttp2 \
 		x11/gnome/at-spi2-core \
+		x11/gnome/libsecret \
 		x11/gtk+3,-main \
 		x11/xkbcommon \
 		${MODGCC4_CPPLIBDEP}
@@ -244,31 +247,33 @@ DIST_TARGET=	electron/${ELECTRON_V}
 # These libraries are used from the system and the build infrastructure
 # removes them from the bundled third_party directory and replaces them
 # with hooks to use them from the system.
-# XXX Some GN_SYSTEM_LIBS just change args, prefer GN_ARGS then ?
+# Note, Some GN_SYSTEM_LIBS just change args, prefer GN_SYSTEM_LIBS to further
+# reduce tarball based on this list.
 GN_SYSTEM_LIBS=	crc32c \
 		dav1d \
 		double-conversion \
 		flac \
+		fontconfig \
+		freetype \
+		harfbuzz-ng \
+		highway \
 		icu \
 		libaom \
 		libevent \
+		libjpeg \
 		libpng \
+		libsecret \
 		libvpx \
 		libwebp \
 		libxml \
 		libxslt \
 		openh264 \
 		opus \
-		snappy
-
-# XXX notyet, use_custom_libcxx=true (llvm17 ?)
-#GN_SYSTEM_LIBS+=re2
+		snappy \
+		zstd
 
 # make gn_args-system, search ${WRKDIR}/gn_args.list for use_system/bundled
-GN_ARGS=	use_bundled_fontconfig=false \
-		use_system_libjpeg=true \
-		use_system_harfbuzz=true \
-		use_system_cares=true \
+GN_ARGS=	use_system_cares=true \
 		use_system_nghttp2=true
 # pdfium only
 GN_ARGS+=	use_system_lcms2=true \
@@ -383,7 +388,7 @@ post-extract:
 	mv ${WRKDIR}/reclient-configs-${ENGFLOW_V} \
 		${WRKSRC}/third_party/engflow-reclient-configs
 	# tweek some patches to apply cleanly
-# XXX call there so we fix yarn.lock before module's post-extract
+# XXX call there so we can fix yarn.lock before module's post-extract
 	@if cd ${PATCHDIR}/pre-patches 2>/dev/null; then \
 		for p in ${PATCHDIR}/pre-patches/patch-*; do \
 			${ECHO_MSG} "===>   Applying pre-patch $${p}"; \
@@ -540,15 +545,17 @@ do-test:
 
 ### targets for port maintainer(s)
 
-# run under _pbuild
 _compile_commands:
+# run under _pbuild
 	cd ${WRKSRC} && ${MODPY_BIN} tools/clang/scripts/generate_compdb.py \
 		-p out/${BUILDTYPE} -o ${WRKSRC}/compile_commands.json \
 		${BUILD_TARGET}
 	mkdir -p ${WRKSRC}/.cache && chmod a+rwx ${WRKSRC}/.cache
+
 compile_commands:
 	${_PBUILD} make _compile_commands
 
+# prepare custom tarball for stable fetch
 # XXX need ~20G, usualy run with a custom _SRC
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?
 _SRC?=		${WRKDIR}/chromium
@@ -556,6 +563,34 @@ _VER?=		${CHROMIUM_V}
 _PKG?=		chromium
 _FETCH?=	https://chromium.googlesource.com/chromium/src.git \
 		+refs/tags/${_VER}
+# handmade exclusion list based on manual compare with official tarball
+_EXCLUDE+=\
+	-path '*/.git/*' \
+	-o -path '*/out/*' \
+	-o -path '*/chrome/test/data/*' \
+	-o -path '*/content/test/data/*' \
+	-o -path '*/courgette/testdata/*' \
+	-o -path '*/extensions/test/data/*' \
+	-o -path '*/media/test/data/*' \
+	-o -path '*/third_party/blink/tools/*' \
+	-o -path '*/third_party/blink/web_tests/*' \
+	-o -path '*/third_party/breakpad/breakpad/src/processor/testdata/*'\
+	-o -path '*/third_party/catapult/tracing/test_data/*' \
+	-o -path '*/third_party/hunspell/tests/*' \
+	-o -path '*/third_party/hunspell_dictionaries/*' \
+	-o -path '*/third_party/liblouis/src/tests/braille-specs/*' \
+	-o -path '*/third_party/xdg-utils/tests/*' \
+	-o -path '*/third_party/depot_tools/*' \
+	-o -path '*/__pycache__/*' -o -name '*.pyc' \
+	-o -path '*/v8/test*/*'
+# third parties not needed to build electron
+.for _f in ${GN_SYSTEM_LIBS}
+_EXCLUDE+=	-o -path './src/third_party/${_f}/*'
+.endfor
+# required files to build
+_INCLUDE+=	-o -path './src/third_party/libxml/chromium/*' \
+		-o -name '*.gn*' -o -name '*.gyp*' \
+		-o -name '*.isolate' -o -name '*.tq'
 tarball:
 	ulimit -d `ulimit -dH`
 	mkdir -p ${_SRC}/src
@@ -580,29 +615,10 @@ tarball:
 	    -s third_party/dawn \
 	    --revision gpu/webgpu/DAWN_VERSION \
 	)
-	# handmade exclusion list based on manual compare with official tarball
 	# how google generated its tarball in the past ?
 	cd ${_SRC} && \
-	find ./src -type f -a ! \( \
-	    -path '*/.git/*' \
-	    -o -path '*/out/*' \
-	    -o \( -path '*/chrome/test/data/*' -a ! -name '*.gn*' \) \
-	    -o -path '*/content/test/data/*' \
-	    -o -path '*/courgette/testdata/*' \
-	    -o -path '*/extensions/test/data/*' \
-	    -o -path '*/media/test/data/*' \
-	    -o -path '*/third_party/blink/tools/*' \
-	    -o -path '*/third_party/blink/web_tests/*' \
-	    -o -path '*/third_party/breakpad/breakpad/src/processor/testdata/*'\
-	    -o -path '*/third_party/catapult/tracing/test_data/*' \
-	    -o -path '*/third_party/hunspell/tests/*' \
-	    -o -path '*/third_party/hunspell_dictionaries/*' \
-	    -o -path '*/third_party/liblouis/src/tests/braille-specs/*' \
-	    -o -path '*/third_party/xdg-utils/tests/*' \
-	    -o -path '*/third_party/depot_tools/*' \
-	    -o -path '*/__pycache__/*' -o -name '*.pyc' \
-	    -o \( -path '*/v8/test*/*' -a ! -name '*.gn*' -a ! -name '*.tq' \) \
-	    \) | sort > files && \
+	find ./src -type f -a \( ! \( ${_EXCLUDE} \) ${_INCLUDE} \) \
+	    | sort > files && \
 	tar -cRzf ${_PKG}-${_VER}.tgz -I files \
 	    -s '|src/|${_PKG}-${_VER}/|' && \
 	sha256 -b ${_PKG}-${_VER}.tgz
@@ -661,8 +677,8 @@ node-patches:
 	@ls ${_TMP}/patches/node.rej
 	# remember to copy ${_TMP}/patches/node/ into port && make clean
 
-# run under _pbuild
 _gn_args-list:
+# run under _pbuild
 	# ${WRKDIR}/gn_args.list
 	@if [ ! -e "${WRKDIR}/gn_args.list" ] ; then \
 		cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
@@ -670,8 +686,8 @@ _gn_args-list:
 			--list > ${WRKDIR}/gn_args.list ; \
 	fi
 
-# run under _pbuild
 _gn_args-chromium-list:
+# run under _pbuild
 	# ${WRKDIR}/gn_args-chromium.list
 	@if [ ! -e "${WRKDIR}/gn_args-chromium.list" ] ; then \
 		cd ${PORTSDIR}/www/chromium ; \

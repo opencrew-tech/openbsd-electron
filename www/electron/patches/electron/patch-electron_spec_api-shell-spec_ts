@@ -1,7 +1,7 @@
 Index: electron/spec/api-shell-spec.ts
 --- electron/spec/api-shell-spec.ts.orig
 +++ electron/spec/api-shell-spec.ts
-@@ -26,7 +26,7 @@ describe('shell module', () => {
+@@ -37,7 +37,7 @@ describe('shell module', () => {
  
      afterEach(async () => {
        // reset env vars to prevent side effects
@@ -10,7 +10,7 @@ Index: electron/spec/api-shell-spec.ts
          process.env.DE = envVars.de;
          process.env.BROWSER = envVars.browser;
          process.env.DISPLAY = envVars.display;
-@@ -39,6 +39,11 @@ describe('shell module', () => {
+@@ -54,6 +54,11 @@ describe('shell module', () => {
        let requestReceived: Promise<any>;
        if (process.platform === 'linux') {
          process.env.BROWSER = '/bin/true';

@@ -33,7 +33,7 @@ Index: electron/spec/chromium-spec.ts
        const rc = await startRemoteControlApp(['--trace-startup=*', `--trace-startup-file=${outputFilePath}`, '--trace-startup-duration=1', '--enable-logging']);
        const stderrComplete = new Promise<string>(resolve => {
          let stderr = '';
-@@ -2917,12 +2917,12 @@ describe('font fallback', () => {
+@@ -2924,12 +2924,12 @@ describe('font fallback', () => {
        expect(fonts[0].familyName).to.equal('Arial');
      } else if (process.platform === 'darwin') {
        expect(fonts[0].familyName).to.equal('Helvetica');
@@ -48,7 +48,7 @@ Index: electron/spec/chromium-spec.ts
      const html = `
      <html lang="ja-JP">
        <head>
-@@ -3047,6 +3047,7 @@ describe('iframe using HTML fullscreen API while windo
+@@ -3055,6 +3055,7 @@ describe('iframe using HTML fullscreen API while windo
    });
  });
  
@@ -56,7 +56,7 @@ Index: electron/spec/chromium-spec.ts
  describe('navigator.serial', () => {
    let w: BrowserWindow;
    before(async () => {
-@@ -3173,6 +3174,7 @@ describe('navigator.serial', () => {
+@@ -3181,6 +3182,7 @@ describe('navigator.serial', () => {
      }
    });
  });
@@ -64,7 +64,7 @@ Index: electron/spec/chromium-spec.ts
  
  describe('window.getScreenDetails', () => {
    let w: BrowserWindow;
-@@ -3318,7 +3320,7 @@ describe('navigator.clipboard.write', () => {
+@@ -3473,7 +3475,7 @@ describe('paste execCommand', () => {
    });
  });
  

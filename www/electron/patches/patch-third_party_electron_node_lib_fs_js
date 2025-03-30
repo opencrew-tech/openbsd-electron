@@ -4,7 +4,7 @@ always call realpath*.native() instead.
 Index: third_party/electron_node/lib/fs.js
 --- third_party/electron_node/lib/fs.js.orig
 +++ third_party/electron_node/lib/fs.js
-@@ -2649,134 +2649,7 @@ if (isWindows) {
+@@ -2650,134 +2650,7 @@ if (isWindows) {
   * @returns {string | Buffer}
   */
  function realpathSync(p, options) {
@@ -140,7 +140,7 @@ Index: third_party/electron_node/lib/fs.js
  }
  
  /**
-@@ -2806,134 +2679,7 @@ realpathSync.native = (path, options) => {
+@@ -2807,134 +2680,7 @@ realpathSync.native = (path, options) => {
   * @returns {void}
   */
  function realpath(p, options, callback) {

@@ -1,5 +1,5 @@
 # sync with Makefile
-ELECTRON_V=		33.3.0
+ELECTRON_V=		33.4.8
 
 ELECTRON_DIST_APPS=	electron/resources
 ELECTRON_WRAPPER=	electron/${ELECTRON_V}/electron.sh
@@ -78,7 +78,6 @@ TEST_DEPENDS +=		www/electron
 .endif
 
 PORTHOME=		${WRKDIR}
-MAKE_ENV+=		TMPDIR=${WRKDIR}/tmp
 MAKE_ENV+=		USE_SYSTEM_APP_BUILDER=true
 MAKE_ENV+=		ELECTRON_SKIP_BINARY_DOWNLOAD=1
 TEST_ENV+=		HOME=${PORTHOME}

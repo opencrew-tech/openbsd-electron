@@ -1,6 +1,7 @@
---- build/lib/snapshotLoader.ts.orig	2022-07-05 18:15:23 UTC
+Index: build/lib/snapshotLoader.ts
+--- build/lib/snapshotLoader.ts.orig
 +++ build/lib/snapshotLoader.ts
-@@ -25,7 +25,7 @@ namespace snaps {
+@@ -25,7 +25,7 @@ export namespace snaps {
  			break;
  
  		case 'win32':

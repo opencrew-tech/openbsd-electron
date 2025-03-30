@@ -6,8 +6,8 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.96.4
-COMMIT=			cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba
+V=			1.98.2
+COMMIT=			ddc367ed5c8936efe395cffeec279b04ffd7db78
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -62,8 +62,8 @@ MODNPM_LOCKS=$$( \
 		xargs -L1 printf '${WRKSRC}/%s/package-lock.json\n')
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
-# optional depends keytar for @vscode/vsce, not installed
-# it needs x11/gnome/libsecret to build only
+# optional depends keytar for @vscode/vsce, which is not installed
+# it also needs x11/gnome/libsecret to build
 MODNPM_EXCLUDES=	keytar
 
 MODELECTRON_TARGET=	code-oss
@@ -150,12 +150,18 @@ do-build:
 		-p build/tsconfig.build.json
 	echo "require('graceful-fs').gracefulify(require('fs'));" \
 		> ${WRKSRC}/use-graceful-fs.cjs
-# XXX _pbuild default to openfiles-max=1024 is not eough ?
-	ulimit -Sn `ulimit -Hn`
-	ulimit -Sd `ulimit -Hd`
+# XXX need to adjust login.conf
+# XXX default :openfiles-max=1024: is not eough, need ~5120 (less ?)
+# XXX _pbuild :datasize-cur=8192M: is not enough, need >17Go
+# XXX _pbuild :stacksize-cur=8M: is not enough, need >32Mo
+	ulimit -Sn 5120 ; \
+	ulimit -Sd 17825792 ; \
+	ulimit -Ss 32768 ; \
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
-		node ./node_modules/gulp/bin/gulp.js vscode-linux-x64-min
+		ESBUILD_MAX_THREADS=${MAKE_JOBS} \
+		node --max-old-space-size=17408 \
+		./node_modules/gulp/bin/gulp.js vscode-linux-x64-min
 	# copy marketplace extensions
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
 	_dst='${WRKDIR}/VSCode-linux-x64/extensions' && \

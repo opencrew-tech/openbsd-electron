@@ -1,7 +1,7 @@
 Index: src/vs/code/electron-main/app.ts
 --- src/vs/code/electron-main/app.ts.orig
 +++ src/vs/code/electron-main/app.ts
-@@ -1000,7 +1000,7 @@ export class CodeApplication extends Disposable {
+@@ -1006,7 +1006,7 @@ export class CodeApplication extends Disposable {
  				services.set(IUpdateService, new SyncDescriptor(Win32UpdateService));
  				break;
  

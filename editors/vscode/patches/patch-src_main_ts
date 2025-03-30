@@ -10,7 +10,7 @@ Index: src/main.ts
  	const electronLocale = (!userLocale || userLocale === 'qps-ploc') ? 'en' : userLocale;
  	app.commandLine.appendSwitch('lang', electronLocale);
  }
-@@ -206,7 +206,7 @@ function configureCommandlineSwitchesSync(cliArgs: Nat
+@@ -231,7 +231,7 @@ function configureCommandlineSwitchesSync(cliArgs: Nat
  		'proxy-bypass-list'
  	];
  

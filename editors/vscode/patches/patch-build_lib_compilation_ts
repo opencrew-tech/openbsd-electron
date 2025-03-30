@@ -1,0 +1,12 @@
+Index: build/lib/compilation.ts
+--- build/lib/compilation.ts.orig
++++ build/lib/compilation.ts
+@@ -61,7 +61,7 @@ function createCompile(src: string, { build, emitError
+ 	}
+ 
+ 	const compilation = tsb.create(projectPath, overrideOptions, {
+-		verbose: false,
++		verbose: true,
+ 		transpileOnly: Boolean(transpileOnly),
+ 		transpileWithSwc: typeof transpileOnly !== 'boolean' && transpileOnly.esbuild
+ 	}, err => reporter(err));

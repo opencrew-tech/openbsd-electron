@@ -1,6 +1,6 @@
 COMMENT=		unofficial Microsoft Teams client
 
-DIST_TUPLE=		github IsmaelMartinez teams-for-linux v1.12.7 .
+DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.0.12 .
 
 CATEGORIES=		net
 

@@ -22,7 +22,6 @@ MODELECTRON_WRAPPER=	Yes
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 MODNPM_OMITOPTIONAL=	Yes
-MODNPM_EXCLUDES=	macos-notification-state
 
 BUILD_DEPENDS+=		devel/app-builder
 

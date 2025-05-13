@@ -5,10 +5,6 @@ V =		0.20241220
 DISTNAME =	depot_tools-${COMMIT}
 PKGNAME =	gclient-${V}
 
-# see gsutil.py
-GSUTIL_V =	4.68
-GSUTIL_T =	${WRKSRC}/external_bin/gsutil/gsutil_${GSUTIL_V}
-
 # see cipd_client_version
 CIPD_COMMIT =	b1f414539ac10cc67a0250890a38712cc06cf102
 CIPD_PLATFORM =	openbsd-${MACHINE_ARCH}
@@ -23,7 +19,7 @@ MAINTAINER=	Fabien Romano <fabien@openbsd.org>
 PERMIT_PACKAGE=	Yes
 
 # googlesource.com does not provide stable snapshots
-SITES=		http://distfiles.opencrew.tech/depot_tools/
+SITES =		http://distfiles.opencrew.tech/depot_tools/
 
 # XXX devel/cipd port
 SITES.cipd =	https://chrome-infra-packages.appspot.com/
@@ -35,6 +31,7 @@ EXTRACT_CASES+=cipd-*) \
 
 MODULES =		lang/python
 
+# google-cloud-sdk for gsutil
 RUN_DEPENDS =		shells/bash \
 			sysutils/google-cloud-sdk \
 			www/py-httplib2

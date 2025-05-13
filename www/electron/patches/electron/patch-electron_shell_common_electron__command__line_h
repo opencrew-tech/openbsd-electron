@@ -1,8 +1,9 @@
---- electron/shell/common/electron_command_line.h.orig	2022-05-18 15:31:32 UTC
+Index: electron/shell/common/electron_command_line.h
+--- electron/shell/common/electron_command_line.h.orig
 +++ electron/shell/common/electron_command_line.h
-@@ -22,7 +22,7 @@ class ElectronCommandLine {
+@@ -24,7 +24,7 @@ class ElectronCommandLine {
  
-   static void Init(int argc, base::CommandLine::CharType** argv);
+   static void Init(int argc, base::CommandLine::CharType const* const* argv);
  
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)

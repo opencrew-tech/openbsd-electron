@@ -1,7 +1,7 @@
 Index: electron/shell/common/api/electron_api_native_image.cc
 --- electron/shell/common/api/electron_api_native_image.cc.orig
 +++ electron/shell/common/api/electron_api_native_image.cc
-@@ -638,7 +638,7 @@ void Initialize(v8::Local<v8::Object> exports,
+@@ -641,7 +641,7 @@ void Initialize(v8::Local<v8::Object> exports,
    native_image.SetMethod("createFromDataURL", &NativeImage::CreateFromDataURL);
    native_image.SetMethod("createFromNamedImage",
                           &NativeImage::CreateFromNamedImage);

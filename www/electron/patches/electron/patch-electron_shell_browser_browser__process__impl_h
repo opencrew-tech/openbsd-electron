@@ -19,7 +19,7 @@ Index: electron/shell/browser/browser_process_impl.h
    void SetLinuxStorageBackend(os_crypt::SelectedLinuxBackend selected_backend);
    [[nodiscard]] const std::string& linux_storage_backend() const {
      return selected_linux_storage_backend_;
-@@ -150,7 +150,7 @@ class BrowserProcessImpl : public BrowserProcess {
+@@ -151,7 +151,7 @@ class BrowserProcessImpl : public BrowserProcess {
    std::unique_ptr<PrefService> local_state_;
    std::string locale_;
    std::string system_locale_;

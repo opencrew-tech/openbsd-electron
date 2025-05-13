@@ -1,0 +1,11 @@
+Index: ui/views/BUILD.gn
+--- ui/views/BUILD.gn.orig
++++ ui/views/BUILD.gn
+@@ -705,7 +705,6 @@ component("views") {
+     ]
+     public_deps += [ "//components/remote_cocoa/common:mojo" ]
+     deps += [
+-      "//components/crash/core/common",
+       "//components/remote_cocoa/app_shim",
+       "//components/remote_cocoa/browser",
+       "//ui/accelerated_widget_mac",

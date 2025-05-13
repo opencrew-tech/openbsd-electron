@@ -1,7 +1,7 @@
 Index: electron/shell/app/node_main.cc
 --- electron/shell/app/node_main.cc.orig
 +++ electron/shell/app/node_main.cc
-@@ -46,7 +46,7 @@
+@@ -48,7 +48,7 @@
  #include "shell/common/mac/codesign_util.h"
  #endif
  
@@ -10,7 +10,7 @@ Index: electron/shell/app/node_main.cc
  #include "components/crash/core/app/crashpad.h"  // nogncheck
  #include "shell/app/electron_crash_reporter_client.h"
  #include "shell/common/crash_keys.h"
-@@ -97,14 +97,14 @@ bool UnsetHijackableEnvs(base::Environment* env) {
+@@ -99,14 +99,14 @@ bool UnsetHijackableEnvs(base::Environment* env) {
  }
  #endif
  
@@ -27,7 +27,7 @@ Index: electron/shell/app/node_main.cc
    electron::crash_keys::GetCrashKeys(&keys);
  #endif
    return gin::ConvertToV8(isolate, keys);
-@@ -269,7 +269,7 @@ int NodeMain(int argc, char* argv[]) {
+@@ -264,7 +264,7 @@ int NodeMain() {
        // Setup process.crashReporter in child node processes
        auto reporter = gin_helper::Dictionary::CreateEmpty(isolate);
        reporter.SetMethod("getParameters", &GetParameters);

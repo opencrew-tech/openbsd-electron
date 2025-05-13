@@ -1,0 +1,15 @@
+Make GN_SYSTEM_LIBS+=brotli works but this isn't enough.
+Build failure including brotli/shared_dictionary.h.
+Keep patche to latter test with updated brotli > 1.0.9.
+
+Index: build/linux/unbundle/brotli.gn
+--- build/linux/unbundle/brotli.gn.orig
++++ build/linux/unbundle/brotli.gn
+@@ -31,6 +31,6 @@ source_set("enc") {
+ }
+ 
+ copy("brotli") {
+-  sources = [ "/usr/bin/brotli" ]
++  sources = [ "/usr/local/bin/brotli" ]
+   outputs = [ "$root_out_dir/brotli" ]
+ }

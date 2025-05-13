@@ -1,11 +1,11 @@
 Index: build/rust/std/BUILD.gn
 --- build/rust/std/BUILD.gn.orig
 +++ build/rust/std/BUILD.gn
-@@ -74,13 +74,20 @@
+@@ -89,13 +89,20 @@ if (toolchain_has_rust) {
      # These are no longer present in the Windows toolchain.
      stdlib_files += [
        "addr2line",
--      "adler",
+-      "adler2",
        "gimli",
        "libc",
        "memchr",
@@ -21,9 +21,9 @@ Index: build/rust/std/BUILD.gn
 +      stdlib_files += [ "adler2" ]
 +    }
    }
-
+ 
    if (toolchain_for_rust_host_build_tools) {
-@@ -100,7 +107,6 @@
+@@ -115,7 +122,6 @@ if (toolchain_has_rust) {
    # don't need to pass to the C++ linker because they're used for specialized
    # purposes.
    skip_stdlib_files = [

@@ -19,7 +19,7 @@ Index: electron/shell/browser/ui/views/electron_views_delegate.cc
  bool IsDesktopEnvironmentUnity() {
    auto env = base::Environment::Create();
    base::nix::DesktopEnvironment desktop_env =
-@@ -53,7 +53,7 @@ void ViewsDelegate::NotifyMenuItemFocused(const std::u
+@@ -54,7 +54,7 @@ void ViewsDelegate::NotifyMenuItemFocused(const std::u
                                            int item_count,
                                            bool has_submenu) {}
  
@@ -28,7 +28,7 @@ Index: electron/shell/browser/ui/views/electron_views_delegate.cc
  gfx::ImageSkia* ViewsDelegate::GetDefaultWindowIcon() const {
    return nullptr;
  }
-@@ -81,7 +81,7 @@ void ViewsDelegate::OnBeforeWidgetInit(
+@@ -82,7 +82,7 @@ void ViewsDelegate::OnBeforeWidgetInit(
  }
  
  bool ViewsDelegate::WindowManagerProvidesTitleBar(bool maximized) {

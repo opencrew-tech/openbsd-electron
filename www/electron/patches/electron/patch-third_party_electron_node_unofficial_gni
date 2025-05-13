@@ -1,0 +1,31 @@
+Index: third_party/electron_node/unofficial.gni
+--- third_party/electron_node/unofficial.gni.orig
++++ third_party/electron_node/unofficial.gni
+@@ -222,17 +222,17 @@ template("node_gn_build") {
+       sources += node_inspector.node_inspector_sources +
+                  node_inspector.node_inspector_generated_sources
+     }
+-    if (is_linux) {
+-      import("//build/config/linux/pkg_config.gni")
+-        if (use_system_cares) {
+-          pkg_config("cares") {
+-            packages = [ "libcares" ]
+-          }
++  }
++  if (is_linux) {
++    import("//build/config/linux/pkg_config.gni")
++      if (use_system_cares) {
++        pkg_config("cares") {
++          packages = [ "libcares" ]
+         }
+-      if (use_system_nghttp2) {
+-        pkg_config("nghttp2") {
+-          packages = [ "libnghttp2" ]
+-        }
++      }
++    if (use_system_nghttp2) {
++      pkg_config("nghttp2") {
++        packages = [ "libnghttp2" ]
+       }
+     }
+   }

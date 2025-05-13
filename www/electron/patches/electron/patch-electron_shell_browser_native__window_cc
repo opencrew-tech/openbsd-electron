@@ -1,7 +1,7 @@
 Index: electron/shell/browser/native_window.cc
 --- electron/shell/browser/native_window.cc.orig
 +++ electron/shell/browser/native_window.cc
-@@ -202,7 +202,7 @@ void NativeWindow::InitFromOptions(const gin_helper::D
+@@ -198,7 +198,7 @@ void NativeWindow::InitFromOptions(const gin_helper::D
    } else {
      SetSizeConstraints(size_constraints);
    }

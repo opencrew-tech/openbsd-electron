@@ -58,7 +58,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		33.4.8
+ELECTRON_V=		35.2.1
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -76,15 +76,15 @@ PERMIT_PACKAGE=		Yes
 
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		130.0.6723.191
-NODE_V=			20.18.3
+CHROMIUM_V=		134.0.6998.205
+NODE_V=			22.14.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
 MANTLE_V=		78d3966b3c331292ea29ec38661b25df0a245948
 ENGFLOW_V=		955335c30a752e9ef7bff375baab5e0819b6c00d
 # See chromium/third_party/node/node_modules.tar.gz.sha1
-NODE_MODULES_HASH=	8832b899a93c8be572bd8d8ff9b3e4af563169fe
+NODE_MODULES_HASH=	59332695e189485e2e2b06e60e4d49d3d54b8e92
 
 DIST_TUPLE+=		github nodejs node v${NODE_V} .
 DIST_TUPLE+=		github nodejs nan ${NAN_V} .
@@ -120,29 +120,22 @@ WANTLIB += xcb-dri2 xcb-glx xcb-render xcb-shm xkbcommon xml2
 WANTLIB += xshmfence xslt z zstd
 
 # Electron depends on Chromium and Node which are bundled&patched all together :
-# 1. patches/pre-patch, ensure electron patches apply correctly
+# 1. (optionnal) patches/pre-patch, ensure electron patches apply correctly
 # 2. pre-patch walk over electron/patches/config.json, apply all .patches files
 # 3. apply www/chromium/patches from patches/chromium, see make chromium-patches
-# 4. apply lang/node/patches from patches/node, see make node-patches
-# 5. solve any conflicts, apply custom patches in patches/conflict
-# 6. apply common *BSD patches from patches/electron
-# 7. apply OpenBSD electron's port specific patches
+# 4. solve any conflicts with electron, apply custom patches in patches/conflict
+# 5. apply common *BSD patches from patches/electron
+# 6. apply OpenBSD electron's port specific patches
 ELECTRON_PATCH=	${WRKSRC}/electron/patches/config.json
 .if empty(_GEN_PATCHES)
-# pre-patch electron (1-2) > ALL_PATCHFILES(3-4) > PATCH_LIST(5-7)
-ALL_PATCHFILES=	${PATCHDIR}/chromium/patch-* \
-		${PATCHDIR}/node/patch-*
+# pre-patch electron (1-2) > ALL_PATCHFILES(3) > PATCH_LIST(4-6)
+ALL_PATCHFILES=	${PATCHDIR}/chromium/patch-*
 PATCH_CASES+=	${PATCHDIR}/chromium/patch-*) \
 		    ${PATCH} ${PATCH_DIST_ARGS} \
 		    -z .orig.chromium \
 		    -d ${WRKSRC}/ <$$patchfile ;;
-PATCH_CASES+=	${PATCHDIR}/node/patch-*) \
-		    ${PATCH} ${PATCH_DIST_ARGS} \
-		    -z .orig.node \
-		    -d ${WRKSRC}/third_party/electron_node/ \
-		    <$$patchfile ;;
 PATCH_LIST=	patch-* electron/patch-* conflict/patch-*
-.else # pre-patch only, see targets chromium-patches & node-patches
+.else # pre-patch only, see targets chromium-patches
 ALL_PATCHFILES=
 PATCH_LIST=
 .endif
@@ -187,10 +180,12 @@ LIB_DEPENDS+=	archivers/snappy \
 		audio/opus \
 		devel/crc32c \
 		devel/epoll-shim \
+		devel/highway \
 		devel/pango \
 		graphics/jpeg \
 		graphics/lcms2 \
 		graphics/libwebp \
+		graphics/openjp2 \
 		graphics/png \
 		graphics/tiff \
 		math/double-conversion \
@@ -259,7 +254,7 @@ GN_SYSTEM_LIBS=	crc32c \
 		highway \
 		icu \
 		libaom \
-		libevent \
+		libdrm \
 		libjpeg \
 		libpng \
 		libsecret \
@@ -272,16 +267,17 @@ GN_SYSTEM_LIBS=	crc32c \
 		snappy \
 		zstd
 
-# make gn_args-system, search ${WRKDIR}/gn_args.list for use_system/bundled
+# make gn_args-system, search ${WRKDIR}/gn_args-electron.list use_system/bundled
 GN_ARGS=	use_system_cares=true \
 		use_system_nghttp2=true
 # pdfium only
 GN_ARGS+=	use_system_lcms2=true \
+		use_system_libopenjpeg2=true \
 		use_system_libpng=true \
 		use_system_libtiff=true \
 		use_system_zlib=true
 
-# make gn_args-check, check www/chromium against ${WRKDIR}/gn_args.list
+# make gn_args-check, check www/chromium against ${WRKDIR}/gn_args-electron.list
 # C++20 vs. system libc++, use_custom_libcxx=true (default)
 # XXX todo, test use_custom_libunwind=false (default), wasm support needed ?
 EXTRA_CPPFLAGS=	-I${LOCALBASE}/include/libepoll-shim \
@@ -290,7 +286,6 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		disable_fieldtrial_testing_config=true \
 		enable_backup_ref_ptr_support=false \
 		enable_hangout_services_extension=true \
-		enable_log_error_not_reached=true \
 		enable_remoting=false \
 		enable_rust=false \
 		extra_cppflags=\"${EXTRA_CPPFLAGS}\" \
@@ -368,6 +363,8 @@ GN_ARGS+=	chrome_pgo_phase=0
 BUILDTYPE=	Release
 BUILDDIR=	${WRKSRC}/out/${BUILDTYPE}
 ELECTRON_GN=	//electron/build/args/release.gn
+MAKE_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
+TEST_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
 
 post-extract:
 	# setup distfiles into src
@@ -432,6 +429,7 @@ pre-configure:
     base/process/process_handle_openbsd.cc \
     build/gn_run_binary.py \
     build/rust/rust_bindgen.gni \
+    build/rust/rust_bindgen_generator.gni \
     v8/tools/run.py \
     tools/protoc_wrapper/protoc_wrapper.py \
     third_party/blink/renderer/build/scripts/run_with_pythonpath.py \
@@ -515,30 +513,27 @@ do-install:
 		${PREFIX}/${DIST_TARGET}/gen/v8/embedded.S
 
 # Tests requirements :
+# ? --no-sandbox (hard to setup, not tested)
 # * needs /etc/electron for pledge/unveil :
-# --no-sandbox (hard to setup, not tested)
-# unveil "/	rwcx" (/etc/electron/unveil.main)
-# * needs 'Xvfb :1 &', env DISPLAY=:1
-
-# XXX still true ? (ELECTRON_EXE_PATH=${BUILDDIR}/electron)
-# some test spawn electron (${LOCALBASE}/electron/x.y.z/electron)
+# -> unveil "/	rwcx" (/etc/electron/unveil.main)
+# -> unveil "/	rwcx" (/etc/electron/unveil.utility_network)
+# * env DISPLAY=:1
+# -> Xvfb :1 &
+# * openfiles max 1024 isn't enouch
+# -> adjust _pbuild to :openfiles-max=2048: (/etc/login.conf)
 
 # some note about tests :
 # * openbsd use a wrapper, skip bin/electron check
 # -> electron/spec/api-app-spec.ts
 # * test crashReporter, check if its actually disabled from source ?
-# not ok 709 -> 748
 # -> electron/spec/disabled-tests.json
 
 do-test:
 	rm -rf ${WRKDIR}/.config
 	mkdir -p ${WRKDIR}/.config
-#XXX ?
-#ulimit -Sn `ulimit -Hn`
-#ulimit -Sd `ulimit -Hd`
+	ulimit -Sn `ulimit -Hn` && \
 	cd ${WRKSRC}/electron && ${SETENV} ${TEST_ENV} \
 		HOME=${WRKDIR} \
-		ELECTRON_OUT_DIR=${BUILDTYPE} \
 		LD_LIBRARY_PATH=${BUILDDIR} \
 		DISPLAY=:1 \
 		npm run test -- --ci
@@ -588,9 +583,11 @@ _EXCLUDE+=\
 _EXCLUDE+=	-o -path './src/third_party/${_f}/*'
 .endfor
 # required files to build
-_INCLUDE+=	-o -path './src/third_party/libxml/chromium/*' \
-		-o -name '*.gn*' -o -name '*.gyp*' \
-		-o -name '*.isolate' -o -name '*.tq'
+_INCLUDE+=\
+	-o -path './src/third_party/libxml/chromium/*' \
+	-o -path './src/third_party/devtools-frontend/*/out/*' \
+	-o -name '*.gn*' -o -name '*.gyp*' \
+	-o -name '*.isolate' -o -name '*.tq'
 tarball:
 	ulimit -d `ulimit -dH`
 	mkdir -p ${_SRC}/src
@@ -631,7 +628,7 @@ chromium-patches:
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D '2024/11/07' -d chromium ports/www/chromium ; \
+		cvs co -D '2025/03/23' -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches on top of electron patch (pre-patch)
 	rm -rf ${_TMP}/patches/chromium*
@@ -655,35 +652,13 @@ chromium-patches:
 	@ls ${_TMP}/patches/chromium.rej
 	# if ok, copy ${_TMP}/patches/chromium into port && make clean
 
-node-patches:
-	make -D _GEN_PATCHES patch
-	# remember to update cvs co -D "..." if you change targeted version
-	if [ -d ${_TMP}/node ]; then \
-		echo "${_TMP}/node exists, skip cvs co" ; \
-	else \
-		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D '2024/11/08' -d node ports/lang/node ; \
-	fi
-	# test node patches on top of electron patch (pre-patch)
-	rm -rf ${_TMP}/patches/node*
-	mkdir -p ${_TMP}/patches/node{,.rej}
-	for p in ${_TMP}/node/patches/patch-*; do \
-		${PATCH} ${PATCH_DIST_ARGS} -sfC -z .orig.node \
-			-d ${WRKSRC}/third_party/electron_node/ < $${p} && \
-		cp $${p} ${_TMP}/patches/node/ || \
-		cp $${p} ${_TMP}/patches/node.rej/ ; \
-	done
-	@echo "rejected:"
-	@ls ${_TMP}/patches/node.rej
-	# remember to copy ${_TMP}/patches/node/ into port && make clean
-
-_gn_args-list:
+_gn_args-electron-list:
 # run under _pbuild
-	# ${WRKDIR}/gn_args.list
-	@if [ ! -e "${WRKDIR}/gn_args.list" ] ; then \
+	# ${WRKDIR}/gn_args-electron.list
+	@if [ ! -e "${WRKDIR}/gn_args-electron.list" ] ; then \
 		cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
 			gn args out/${BUILDTYPE} \
-			--list > ${WRKDIR}/gn_args.list ; \
+			--list > ${WRKDIR}/gn_args-electron.list ; \
 	fi
 
 _gn_args-chromium-list:
@@ -699,7 +674,7 @@ _gn_args-chromium-list:
 
 gn_args-diff:
 	make configure
-	${_PBUILD} make _gn_args-list
+	${_PBUILD} make _gn_args-electron-list
 	# configure www/chromium in order to compare
 	cd ${PORTSDIR}/www/chromium && make configure ; cd -
 	${_PBUILD} make _gn_args-chromium-list
@@ -710,7 +685,7 @@ gn_args-diff:
 
 gn_args-check:
 	make configure
-	${_PBUILD} make _gn_args-list
+	${_PBUILD} make _gn_args-electron-list
 	# check GN_ARGS from www/chromium
 	@cd ${PORTSDIR}/www/chromium && make show=GN_ARGS \
 	    | perl -pe 's/\\"[^"]*\\"(*SKIP)(*F)|\h+/$&\n/g' \
@@ -718,29 +693,30 @@ gn_args-check:
 	    | while IFS=';' read _gn ; do \
 		_arg=$${_gn%%=*} ; \
 		_value=$${_gn##*=} ; \
-		grep -A1 "^$${_arg}$$" ${WRKDIR}/gn_args.list \
+		grep -A1 "^$${_arg}$$" ${WRKDIR}/gn_args-electron.list \
 		    | grep -q "$$_value" || \
-		echo "Wrong" $$(grep -A1 "^$${_arg}$$" ${WRKDIR}/gn_args.list) \
+		echo "Wrong" $$( \
+		    grep -A1 "^$${_arg}$$" ${WRKDIR}/gn_args-electron.list) \
 		    "\nInstead of $$_arg = $$_value"; \
 	done
 
 gn_args-system:
 	make configure
-	${_PBUILD} make _gn_args-list
+	${_PBUILD} make _gn_args-electron-list
 	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_system_.*' \
-		${WRKDIR}/gn_args.list) ; \
+		${WRKDIR}/gn_args-electron.list) ; \
 	for _system in $$_systems; do \
-		grep -A1 "^$$_system" ${WRKDIR}/gn_args.list | \
-			grep -q true || \
-			echo $$(grep -A1 "^$$_system" ${WRKDIR}/gn_args.list) \
+		grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list | \
+			grep -q true || echo $$( \
+			grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list) \
 		; \
 	done
 	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_bundled_.*' \
-		${WRKDIR}/gn_args.list) ; \
+		${WRKDIR}/gn_args-electron.list) ; \
 	for _system in $$_systems; do \
-		grep -A1 "^$$_system" ${WRKDIR}/gn_args.list | \
-			grep -q false || \
-			echo $$(grep -A1 "^$$_system" ${WRKDIR}/gn_args.list) \
+		grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list | \
+			grep -q false || echo $$( \
+			grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list) \
 		; \
 	done
 

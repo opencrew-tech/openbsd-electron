@@ -1,7 +1,7 @@
 Index: electron/shell/browser/net/system_network_context_manager.cc
 --- electron/shell/browser/net/system_network_context_manager.cc.orig
 +++ electron/shell/browser/net/system_network_context_manager.cc
-@@ -40,7 +40,7 @@
+@@ -39,7 +39,7 @@
  #include "shell/common/options_switches.h"
  #include "url/gurl.h"
  

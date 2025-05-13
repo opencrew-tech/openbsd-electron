@@ -1,7 +1,7 @@
 Index: electron/lib/browser/init.ts
 --- electron/lib/browser/init.ts.orig
 +++ electron/lib/browser/init.ts
-@@ -162,7 +162,7 @@ const mainStartupScript = packageJson.main || 'index.j
+@@ -165,7 +165,7 @@ const mainStartupScript = packageJson.main || 'index.j
  const KNOWN_XDG_DESKTOP_VALUES = new Set(['Pantheon', 'Unity:Unity7', 'pop:GNOME']);
  
  function currentPlatformSupportsAppIndicator () {

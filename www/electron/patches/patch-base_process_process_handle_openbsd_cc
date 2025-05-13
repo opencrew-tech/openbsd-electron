@@ -1,7 +1,7 @@
 Index: base/process/process_handle_openbsd.cc
 --- base/process/process_handle_openbsd.cc.orig
 +++ base/process/process_handle_openbsd.cc
-@@ -57,10 +57,10 @@ FilePath GetProcessExecutablePath(ProcessHandle proces
+@@ -59,10 +59,10 @@ FilePath GetProcessExecutablePath(ProcessHandle proces
  
    int mib[] = { CTL_KERN, KERN_PROC_ARGS, process, KERN_PROC_ARGV };
  

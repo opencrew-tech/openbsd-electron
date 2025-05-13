@@ -1,7 +1,7 @@
 Index: electron/shell/browser/api/electron_api_desktop_capturer.cc
 --- electron/shell/browser/api/electron_api_desktop_capturer.cc.orig
 +++ electron/shell/browser/api/electron_api_desktop_capturer.cc
-@@ -47,7 +47,7 @@
+@@ -48,7 +48,7 @@
  #endif
  
  namespace {

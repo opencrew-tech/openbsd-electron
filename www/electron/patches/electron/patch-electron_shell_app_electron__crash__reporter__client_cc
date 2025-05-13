@@ -10,7 +10,7 @@ Index: electron/shell/app/electron_crash_reporter_client.cc
  void ElectronCrashReporterClient::SetCrashReporterClientIdFromGUID(
      const std::string& client_guid) {
    crash_keys::SetMetricsClientIdFromGUID(client_guid);
-@@ -192,7 +192,7 @@ void ElectronCrashReporterClient::GetProcessSimpleAnno
+@@ -172,7 +172,7 @@ void ElectronCrashReporterClient::GetProcessSimpleAnno
    (*annotations)["ver"] = ELECTRON_VERSION_STRING;
  }
  

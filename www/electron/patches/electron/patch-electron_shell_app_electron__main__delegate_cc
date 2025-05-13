@@ -1,7 +1,7 @@
 Index: electron/shell/app/electron_main_delegate.cc
 --- electron/shell/app/electron_main_delegate.cc.orig
 +++ electron/shell/app/electron_main_delegate.cc
-@@ -58,13 +58,13 @@
+@@ -59,13 +59,13 @@
  #include "chrome/child/v8_crashpad_support_win.h"
  #endif
  
@@ -17,7 +17,7 @@ Index: electron/shell/app/electron_main_delegate.cc
  #include "components/crash/core/app/crash_switches.h"  // nogncheck
  #include "components/crash/core/app/crashpad.h"        // nogncheck
  #include "components/crash/core/common/crash_key.h"
-@@ -155,7 +155,7 @@ bool ElectronPathProvider(int key, base::FilePath* res
+@@ -156,7 +156,7 @@ bool ElectronPathProvider(int key, base::FilePath* res
        create_dir = true;
        break;
      }
@@ -26,7 +26,7 @@ Index: electron/shell/app/electron_main_delegate.cc
      case DIR_APP_DATA: {
        auto env = base::Environment::Create();
        cur = base::nix::GetXDGDirectory(
-@@ -281,7 +281,7 @@ std::optional<int> ElectronMainDelegate::BasicStartupC
+@@ -282,7 +282,7 @@ std::optional<int> ElectronMainDelegate::BasicStartupC
      base::win::PinUser32();
  #endif
  
@@ -35,7 +35,7 @@ Index: electron/shell/app/electron_main_delegate.cc
    // Check for --no-sandbox parameter when running as root.
    if (getuid() == 0 && IsSandboxEnabled(command_line))
      LOG(FATAL) << "Running as root without --"
-@@ -331,7 +331,7 @@ void ElectronMainDelegate::PreSandboxStartup() {
+@@ -332,7 +332,7 @@ void ElectronMainDelegate::PreSandboxStartup() {
        /* is_preinit = */ IsBrowserProcess() || IsZygoteProcess());
  #endif
  
@@ -44,7 +44,7 @@ Index: electron/shell/app/electron_main_delegate.cc
    crash_reporter::InitializeCrashKeys();
  #endif
  
-@@ -366,7 +366,7 @@ void ElectronMainDelegate::PreSandboxStartup() {
+@@ -367,7 +367,7 @@ void ElectronMainDelegate::PreSandboxStartup() {
    }
  #endif
  
@@ -53,7 +53,7 @@ Index: electron/shell/app/electron_main_delegate.cc
    crash_keys::SetCrashKeysFromCommandLine(*command_line);
    crash_keys::SetPlatformCrashKey();
  #endif
-@@ -401,7 +401,7 @@ std::optional<int> ElectronMainDelegate::PreBrowserMai
+@@ -402,7 +402,7 @@ std::optional<int> ElectronMainDelegate::PreBrowserMai
  #if BUILDFLAG(IS_MAC)
    RegisterAtomCrApp();
  #endif

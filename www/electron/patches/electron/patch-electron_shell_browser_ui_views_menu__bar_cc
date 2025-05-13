@@ -1,7 +1,7 @@
 Index: electron/shell/browser/ui/views/menu_bar.cc
 --- electron/shell/browser/ui/views/menu_bar.cc.orig
 +++ electron/shell/browser/ui/views/menu_bar.cc
-@@ -13,7 +13,7 @@
+@@ -14,7 +14,7 @@
  #include "ui/views/background.h"
  #include "ui/views/layout/box_layout.h"
  
@@ -10,7 +10,7 @@ Index: electron/shell/browser/ui/views/menu_bar.cc
  #include "ui/gtk/gtk_util.h"  // nogncheck
  #endif
  
-@@ -212,7 +212,7 @@ void MenuBar::ViewHierarchyChanged(
+@@ -214,7 +214,7 @@ void MenuBar::ViewHierarchyChanged(
  
  void MenuBar::RefreshColorCache(const ui::NativeTheme* theme) {
    if (theme) {
@@ -19,7 +19,7 @@ Index: electron/shell/browser/ui/views/menu_bar.cc
      background_color_ = gtk::GetBgColor("GtkMenuBar#menubar");
      enabled_color_ =
          gtk::GetFgColor("GtkMenuBar#menubar GtkMenuItem#menuitem GtkLabel");
-@@ -237,7 +237,7 @@ void MenuBar::RebuildChildren() {
+@@ -239,7 +239,7 @@ void MenuBar::RebuildChildren() {
  }
  
  void MenuBar::UpdateViewColors() {
@@ -28,7 +28,7 @@ Index: electron/shell/browser/ui/views/menu_bar.cc
    // set menubar background color
    SetBackground(views::CreateSolidBackground(background_color_));
  #endif
-@@ -245,7 +245,7 @@ void MenuBar::UpdateViewColors() {
+@@ -247,7 +247,7 @@ void MenuBar::UpdateViewColors() {
    // set child colors
    if (menu_model_ == nullptr)
      return;

@@ -1,7 +1,7 @@
 Index: chrome/browser/ui/webui/management/management_ui_handler.h
 --- chrome/browser/ui/webui/management/management_ui_handler.h.orig
 +++ chrome/browser/ui/webui/management/management_ui_handler.h
-@@ -31,7 +31,7 @@ namespace policy {
+@@ -30,7 +30,7 @@ namespace policy {
  class PolicyService;
  }  // namespace policy
  
@@ -10,12 +10,12 @@ Index: chrome/browser/ui/webui/management/management_ui_handler.h
  namespace device_signals {
  class UserPermissionService;
  }  // namespace device_signals
-@@ -72,7 +72,7 @@ class ManagementUIHandler : public content::WebUIMessa
+@@ -71,7 +71,7 @@ class ManagementUIHandler : public content::WebUIMessa
    base::Value::List GetManagedWebsitesInfo(Profile* profile) const;
    base::Value::List GetApplicationsInfo(Profile* profile) const;
    virtual policy::PolicyService* GetPolicyService();
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
    virtual device_signals::UserPermissionService* GetUserPermissionService();
+   base::Value::Dict GetDeviceSignalGrantedMessage();
  #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
- 

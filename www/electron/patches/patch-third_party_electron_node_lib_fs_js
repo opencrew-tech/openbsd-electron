@@ -4,7 +4,7 @@ always call realpath*.native() instead.
 Index: third_party/electron_node/lib/fs.js
 --- third_party/electron_node/lib/fs.js.orig
 +++ third_party/electron_node/lib/fs.js
-@@ -2650,134 +2650,7 @@ if (isWindows) {
+@@ -2709,133 +2709,7 @@ if (isWindows) {
   * @returns {string | Buffer}
   */
  function realpathSync(p, options) {
@@ -41,7 +41,7 @@ Index: third_party/electron_node/lib/fs.js
 -
 -  // On windows, check that the root exists. On unix there is no need.
 -  if (isWindows) {
--    const out = binding.lstat(pathModule.toNamespacedPath(base), false, undefined, true /* throwIfNoEntry */);
+-    const out = binding.lstat(base, false, undefined, true /* throwIfNoEntry */);
 -    if (out === undefined) {
 -      return;
 -    }
@@ -83,8 +83,7 @@ Index: third_party/electron_node/lib/fs.js
 -      // Use stats array directly to avoid creating an fs.Stats instance just
 -      // for our internal use.
 -
--      const baseLong = pathModule.toNamespacedPath(base);
--      const stats = binding.lstat(baseLong, true, undefined, true /* throwIfNoEntry */);
+-      const stats = binding.lstat(base, true, undefined, true /* throwIfNoEntry */);
 -      if (stats === undefined) {
 -        return;
 -      }
@@ -108,8 +107,8 @@ Index: third_party/electron_node/lib/fs.js
 -        }
 -      }
 -      if (linkTarget === null) {
--        binding.stat(baseLong, false, undefined, true);
--        linkTarget = binding.readlink(baseLong, undefined);
+-        binding.stat(base, false, undefined, true);
+-        linkTarget = binding.readlink(base, undefined);
 -      }
 -      resolvedLink = pathModule.resolve(previous, linkTarget);
 -
@@ -126,7 +125,7 @@ Index: third_party/electron_node/lib/fs.js
 -
 -    // On windows, check that the root exists. On unix there is no need.
 -    if (isWindows && !knownHard.has(base)) {
--      const out = binding.lstat(pathModule.toNamespacedPath(base), false, undefined, true /* throwIfNoEntry */);
+-      const out = binding.lstat(base, false, undefined, true /* throwIfNoEntry */);
 -      if (out === undefined) {
 -        return;
 -      }
@@ -140,7 +139,7 @@ Index: third_party/electron_node/lib/fs.js
  }
  
  /**
-@@ -2807,134 +2680,7 @@ realpathSync.native = (path, options) => {
+@@ -2864,134 +2738,7 @@ realpathSync.native = (path, options) => {
   * @returns {void}
   */
  function realpath(p, options, callback) {

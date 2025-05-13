@@ -17,7 +17,7 @@ Index: electron/script/spec-runner.js
  const runners = new Map([
    ['main', { description: 'Main process specs', run: runMainProcessElectronTests }]
 @@ -89,14 +91,19 @@ async function main () {
-     console.log(`Running against Electron ${chalk.green(versionString)}`);
+     console.log(`Running against Electron ${versionString.green}`);
    }
  
 +  /*

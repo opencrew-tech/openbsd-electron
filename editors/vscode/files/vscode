@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Kerberos support
+# Kerberos support, test welcome
 if [ -n "$LD_LIBRARY_PATH" ]; then
 	LD_LIBRARY_PATH="${TRUEPREFIX}/heimdal/lib:$LD_LIBRARY_PATH"
 else

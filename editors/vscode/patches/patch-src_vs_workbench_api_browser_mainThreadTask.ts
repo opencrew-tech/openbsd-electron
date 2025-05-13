@@ -1,7 +1,7 @@
 Index: src/vs/workbench/api/browser/mainThreadTask.ts
 --- src/vs/workbench/api/browser/mainThreadTask.ts.orig
 +++ src/vs/workbench/api/browser/mainThreadTask.ts
-@@ -678,7 +678,7 @@ export class MainThreadTask extends Disposable impleme
+@@ -726,7 +726,7 @@ export class MainThreadTask extends Disposable impleme
  			case 'darwin':
  				platform = Platform.Platform.Mac;
  				break;

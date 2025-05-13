@@ -6,8 +6,8 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.98.2
-COMMIT=			ddc367ed5c8936efe395cffeec279b04ffd7db78
+V=			1.100.0
+COMMIT=			19e0f9e681ecb8e5c09d8784acaa601316ca4571
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -23,7 +23,7 @@ PERMIT_PACKAGE=		Yes
 
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
-			js-debug js-debug 1.96.0 \
+			js-debug js-debug 1.100.0 \
 			js-profile-visualizer vscode-js-profile-table 1.0.10
 SITES.exts=		https://github.com/microsoft/
 
@@ -150,17 +150,11 @@ do-build:
 		-p build/tsconfig.build.json
 	echo "require('graceful-fs').gracefulify(require('fs'));" \
 		> ${WRKSRC}/use-graceful-fs.cjs
-# XXX need to adjust login.conf
-# XXX default :openfiles-max=1024: is not eough, need ~5120 (less ?)
-# XXX _pbuild :datasize-cur=8192M: is not enough, need >17Go
-# XXX _pbuild :stacksize-cur=8M: is not enough, need >32Mo
-	ulimit -Sn 5120 ; \
-	ulimit -Sd 17825792 ; \
-	ulimit -Ss 32768 ; \
+	ulimit -S -d $$(ulimit -H -d) && \
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
-		ESBUILD_MAX_THREADS=${MAKE_JOBS} \
-		node --max-old-space-size=17408 \
+		ESBUILD_MAX_THREADS=1 \
+		node --max-old-space-size=8192 \
 		./node_modules/gulp/bin/gulp.js vscode-linux-x64-min
 	# copy marketplace extensions
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
@@ -217,12 +211,12 @@ do-test:
 	# unit tests
 	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 		./scripts/test.sh || true
-	# UI smoke tests
+#	# UI smoke tests
 # XXX Error: Unsupported platform: openbsd
 # node_modules/playwright-core/lib/server/registry/index.js
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-		ELECTRON_PATH=${LOCALBASE}/bin/electron \
-		npm run smoketest
+#	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
+#		ELECTRON_PATH=${LOCALBASE}/bin/electron \
+#		npm run smoketest
 
 .include "modules.inc"
 

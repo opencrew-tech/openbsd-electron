@@ -1,7 +1,7 @@
 Index: build/lib/compilation.ts
 --- build/lib/compilation.ts.orig
 +++ build/lib/compilation.ts
-@@ -61,7 +61,7 @@ function createCompile(src: string, { build, emitError
+@@ -61,7 +61,7 @@ export function createCompile(src: string, { build, em
  	}
  
  	const compilation = tsb.create(projectPath, overrideOptions, {

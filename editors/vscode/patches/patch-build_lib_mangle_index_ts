@@ -1,0 +1,16 @@
+Experimental, limit ressources to fit in _pbuild defaults.
+
+Index: build/lib/mangle/index.ts
+--- build/lib/mangle/index.ts.orig
++++ build/lib/mangle/index.ts
+@@ -407,8 +407,8 @@ export class Mangler {
+ 	) {
+ 
+ 		this.renameWorkerPool = workerpool.pool(path.join(__dirname, 'renameWorker.js'), {
+-			maxWorkers: 4,
+-			minWorkers: 'max'
++			maxWorkers: 1,
++			minWorkers: 1
+ 		});
+ 	}
+ 

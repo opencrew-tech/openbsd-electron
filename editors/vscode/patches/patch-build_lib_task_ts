@@ -1,3 +1,5 @@
+Experimental, limit ressources to fit in _pbuild defaults.
+
 Index: build/lib/task.ts
 --- build/lib/task.ts.orig
 +++ build/lib/task.ts

@@ -67,7 +67,7 @@ Index: electron/shell/browser/api/electron_api_web_contents.cc
    if (owner_window())
      owner_window()->Focus(true);
  #endif
-@@ -4319,7 +4319,7 @@ ui::ImageModel WebContents::GetDevToolsWindowIcon() {
+@@ -4311,7 +4311,7 @@ ui::ImageModel WebContents::GetDevToolsWindowIcon() {
  }
  #endif
  

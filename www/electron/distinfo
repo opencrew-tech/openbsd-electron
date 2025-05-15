@@ -4,7 +4,7 @@ SHA256 (ReactiveCocoa-ReactiveObjC-74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76.tar.
 SHA256 (Squirrel-Squirrel.Mac-0e5d146ba13101a1302d59ea6e6e0b3cace4ae38.tar.gz) = 9Ou0Co2F27fvAqoFcbL44iGCxtc7aZJISlPJAEd3nQE=
 SHA256 (chromium-134.0.6998.205.tgz) = /2DF+JCCrbbt+GeZpiIJMyV57A3Xg2y/vJPGuw7ptvE=
 SHA256 (chromium-nodejs-59332695e189485e2e2b06e60e4d49d3d54b8e92) = pAyhBvpNayXNCjuxx0mRZmrpHptTNXmfEkPaQfbXgqs=
-SHA256 (electron-electron-v35.2.1.tar.gz) = 8zKt9LjPdaiqx9JUuuVz0MVM5WKzVTCjkS7lqb2L7/o=
+SHA256 (electron-electron-v35.3.0.tar.gz) = 0A1TaPsng1kusb6zkoG/FH812pySH8WiHYhIA6apt3A=
 SHA256 (nodejs-nan-e14bdcd1f72d62bca1d541b66da43130384ec213.tar.gz) = Au341bP++a+U2KE1XaYFZKV+fyyZy0IrzgQkAGB+0us=
 SHA256 (nodejs-node-v22.14.0.tar.gz) = yhorXAx7yDQ8zxtLY0ejyrCT7XrGQjlxiaFQmBBYCcM=
 SHA256 (npm_modules/@azure-abort-controller-1.0.4.tgz) = IFoPxIx+hqv1CY92wUgqoqvng47ltL69gVIJZqnr2+s=
@@ -1336,7 +1336,7 @@ SIZE (ReactiveCocoa-ReactiveObjC-74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76.tar.gz
 SIZE (Squirrel-Squirrel.Mac-0e5d146ba13101a1302d59ea6e6e0b3cace4ae38.tar.gz) = 2112918
 SIZE (chromium-134.0.6998.205.tgz) = 2167550863
 SIZE (chromium-nodejs-59332695e189485e2e2b06e60e4d49d3d54b8e92) = 9100683
-SIZE (electron-electron-v35.2.1.tar.gz) = 14743240
+SIZE (electron-electron-v35.3.0.tar.gz) = 14762701
 SIZE (nodejs-nan-e14bdcd1f72d62bca1d541b66da43130384ec213.tar.gz) = 180646
 SIZE (nodejs-node-v22.14.0.tar.gz) = 121559746
 SIZE (npm_modules/@azure-abort-controller-1.0.4.tgz) = 12059

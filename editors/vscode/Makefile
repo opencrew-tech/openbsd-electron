@@ -6,8 +6,8 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.100.1
-COMMIT=			91fa95bccb027ece6a968589bb1d662fa9c8e170
+V=			1.100.2
+COMMIT=			848b80aeb52026648a8ff9f7c45a9b0a80641e2e
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .

@@ -1,6 +1,6 @@
 COMMENT=		unofficial Microsoft Teams client
 
-DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.0.12 .
+DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.0.13 .
 
 CATEGORIES=		net
 
@@ -9,7 +9,6 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # GPLv3
 PERMIT_PACKAGE=		Yes
 
-# Any modules we may be using
 MODULES=		devel/npm \
 			www/electron
 

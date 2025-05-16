@@ -1,4 +1,4 @@
-SHA256 (IsmaelMartinez-teams-for-linux-v2.0.12.tar.gz) = jXYqnQwMEMhsSndKNYuR8hB5Bov5C8NbFqyiTIdF9Ys=
+SHA256 (IsmaelMartinez-teams-for-linux-v2.0.13.tar.gz) = HJ+q7ETQLfmT6bo7SnbvsVu4jQuCM/6XU/S+jjmc9cs=
 SHA256 (npm_modules/7zip-bin-5.2.0.tgz) = BPlzjuAL6L5T9dBiVKnm5LURexf4t0BYR32HDmJ2Sn0=
 SHA256 (npm_modules/@develar-schema-utils-2.6.5.tgz) = pg3EkKQwpOpzssreqU4vrjSgEpYIYLS6TZVuMk0WUGw=
 SHA256 (npm_modules/@electron-asar-3.2.18.tgz) = wQNwVgguJGZwoGakyhH4ProOT8waFdpXaXQLp+l+IPs=
@@ -149,7 +149,7 @@ SHA256 (npm_modules/duplexer-0.1.2.tgz) = qjFqYGpKCvGXjVxr/LH5QqgZQYiShI02crRI4M
 SHA256 (npm_modules/eastasianwidth-0.2.0.tgz) = 7M+hK72nH5+OCd560aTlVDaaa01D1/hghehQVahpTCc=
 SHA256 (npm_modules/ee-first-1.1.1.tgz) = UUjo634iKyoJEnYYu9tQM9r2Jiz8c10xAeqYYgEouZw=
 SHA256 (npm_modules/ejs-3.1.10.tgz) = mQrWCXC0OfeeupytnljwOUcewAP1f04G5qmj/cnku5U=
-SHA256 (npm_modules/electron-35.2.2.tgz) = c8eHwkt4Zs6YtatPujf+IEtekZEfWjhhP6hjrjLBJ0c=
+SHA256 (npm_modules/electron-35.4.0.tgz) = mW0Oe1e0ihzo8o77jKulBFubrPP2fyJE7fH/9o57Zno=
 SHA256 (npm_modules/electron-builder-26.0.12.tgz) = FFits9fFMceqZVKakc7agmKVfQR8hBPCaT5XSlE+6KE=
 SHA256 (npm_modules/electron-builder-squirrel-windows-26.0.12.tgz) = JwFPvYJUDrLvckuTePsFeMXBta8zcr8FFj9MPfXPiWs=
 SHA256 (npm_modules/electron-log-5.4.0.tgz) = P/sWjXF06nqFrYKf+JxDHINHIKa+vQQS/3T83wX5R4Q=
@@ -228,7 +228,7 @@ SHA256 (npm_modules/glob-8.1.0.tgz) = oJW+DPg0cSEoUJex6W81spJzo4smrX6uFS7CFuPPqL
 SHA256 (npm_modules/glob-parent-6.0.2.tgz) = NFu5QvO+H+I0yrCd3B3yxEPLLoSq9XQ8GGLPK06NUGY=
 SHA256 (npm_modules/global-agent-3.0.0.tgz) = w4l1zyzNFg9GK6DR/vAvyzHgOC5jMTXxVFHRXuhJnqk=
 SHA256 (npm_modules/globals-14.0.0.tgz) = +rusApldyhxDLwjGdfO0D4ce3Y0GCaxYCmbNcGT4jmo=
-SHA256 (npm_modules/globals-16.0.0.tgz) = aCWh/3JOGWj8uQRWqtNpyjXsp4nEWeTOTeNY7nJnOKA=
+SHA256 (npm_modules/globals-16.1.0.tgz) = iUCWAvzZHAlkZ9goitzlTgz0AaHzC2hDngBB8vhDMVY=
 SHA256 (npm_modules/globalthis-1.0.4.tgz) = 3pjaODxvXCrjnIR87dKi5P1Lo0QxLEMJ2M7mo6Bwdus=
 SHA256 (npm_modules/gopd-1.2.0.tgz) = 1TbQ3k3ShdwUaPu385M0pH7g7snCf5tiam5xRmyf2oI=
 SHA256 (npm_modules/got-11.8.6.tgz) = As++1xsfpZ6HKiGDY8HzsNydhoVij/+EhbO22EkVpQM=
@@ -490,7 +490,7 @@ SHA256 (npm_modules/yauzl-2.10.0.tgz) = VQ8xg117ZABzCQM9+zNXGCW0zP2S0xcpdJE5tQTC
 SHA256 (npm_modules/yocto-queue-0.1.0.tgz) = x3K87KWPIPDqCKxhIbo4X1XbcVzTwsRrKzjQbTxhKfE=
 SHA256 (npm_modules/zod-3.24.4.tgz) = sGCtSAA+BQoY/dXVy4IUoJmZjhb9DtQ3dvtlWsDEtco=
 SHA256 (npm_modules/zod-to-json-schema-3.24.5.tgz) = vvG+Tv/za9WY2NnCqiwWYcmBw+hrnnZMFhIRjvSlGLg=
-SIZE (IsmaelMartinez-teams-for-linux-v2.0.12.tar.gz) = 12432737
+SIZE (IsmaelMartinez-teams-for-linux-v2.0.13.tar.gz) = 12432769
 SIZE (npm_modules/7zip-bin-5.2.0.tgz) = 5625880
 SIZE (npm_modules/@develar-schema-utils-2.6.5.tgz) = 15731
 SIZE (npm_modules/@electron-asar-3.2.18.tgz) = 23482
@@ -641,7 +641,7 @@ SIZE (npm_modules/duplexer-0.1.2.tgz) = 2474
 SIZE (npm_modules/eastasianwidth-0.2.0.tgz) = 2893
 SIZE (npm_modules/ee-first-1.1.1.tgz) = 2733
 SIZE (npm_modules/ejs-3.1.10.tgz) = 42688
-SIZE (npm_modules/electron-35.2.2.tgz) = 175174
+SIZE (npm_modules/electron-35.4.0.tgz) = 175251
 SIZE (npm_modules/electron-builder-26.0.12.tgz) = 19934
 SIZE (npm_modules/electron-builder-squirrel-windows-26.0.12.tgz) = 8023
 SIZE (npm_modules/electron-log-5.4.0.tgz) = 26362
@@ -720,7 +720,7 @@ SIZE (npm_modules/glob-8.1.0.tgz) = 15721
 SIZE (npm_modules/glob-parent-6.0.2.tgz) = 3449
 SIZE (npm_modules/global-agent-3.0.0.tgz) = 30541
 SIZE (npm_modules/globals-14.0.0.tgz) = 17235
-SIZE (npm_modules/globals-16.0.0.tgz) = 25804
+SIZE (npm_modules/globals-16.1.0.tgz) = 26240
 SIZE (npm_modules/globalthis-1.0.4.tgz) = 8504
 SIZE (npm_modules/gopd-1.2.0.tgz) = 4584
 SIZE (npm_modules/got-11.8.6.tgz) = 67729

@@ -1,7 +1,5 @@
-# XXX _pbuild default to openfiles-max=1024 is not eough ?
-# XXX kerberos test ?
-
-# XXX too restrictive ?
+# XXX security/heimdal patches, kerberos test ?
+# XXX ONLY_FOR_ARCHS, too restrictive ?
 ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
@@ -9,6 +7,7 @@ COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 V=			1.100.2
 COMMIT=			848b80aeb52026648a8ff9f7c45a9b0a80641e2e
 PKGNAME=		vscode-${V}
+REVISION=		0
 
 DIST_TUPLE=		github microsoft vscode ${V} .
 
@@ -46,7 +45,7 @@ MODULES=		devel/npm \
 			security/heimdal \
 			www/electron
 
-# XXX MODULES+=		security/heimdal
+# XXX drop MODULES security/heimdal and select minimum depends ?
 #WANTLIB+= 		heimdal/lib/gssapi heimdal/lib/krb5
 #LIB_DEPENDS+=		security/heimdal,-libs
 
@@ -150,7 +149,6 @@ do-build:
 		-p build/tsconfig.build.json
 	echo "require('graceful-fs').gracefulify(require('fs'));" \
 		> ${WRKSRC}/use-graceful-fs.cjs
-	ulimit -S -d $$(ulimit -H -d) && \
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
 		ESBUILD_MAX_THREADS=1 \

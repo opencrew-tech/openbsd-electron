@@ -1,0 +1,18 @@
+Build with defaults _pbuild limits.
+Limit tasks to one thread by using series() even if parallel() is called.
+Fix bundle-non-native-extensions-build.
+
+Index: build/lib/task.ts
+--- build/lib/task.ts.orig
++++ build/lib/task.ts
+@@ -94,7 +94,9 @@ export function series(...tasks: Task[]): PromiseTask 
+ 
+ export function parallel(...tasks: Task[]): PromiseTask {
+ 	const result = async () => {
+-		await Promise.all(tasks.map(t => _execute(t)));
++		for (let i = 0; i < tasks.length; i++) {
++			await _execute(tasks[i]);
++		}
+ 	};
+ 	result._tasks = tasks;
+ 	return result;

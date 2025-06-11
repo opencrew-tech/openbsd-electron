@@ -1,5 +1,5 @@
 # sync with Makefile
-ELECTRON_V=		35.3.0
+ELECTRON_V=		35.4.0
 
 ELECTRON_DIST_APPS=	electron/resources
 ELECTRON_WRAPPER=	electron/${ELECTRON_V}/electron.sh
@@ -31,7 +31,7 @@ MODELECTRON_UNVEIL_FILE?=
 MODELECTRON_BUILDER?=	No
 # directory to build/install with electron-builder
 MODELECTRON_SRC?=	${WRKSRC}
-MODELECTRON_BUILDER_DIR=${MODELECTRON_SRC}/dist/linux-unpacked/resources
+MODELECTRON_BUILDER_DIR?=${MODELECTRON_SRC}/dist/linux-unpacked/resources
 
 MODELECTRON_WRAPPER?=	No
 # setup common wrapper during build
@@ -99,14 +99,15 @@ MODELECTRON_UNVEIL_INSTALL=\
 	${INSTALL_DATA} ${FILESDIR}/unveil.${MODELECTRON_TARGET} \
 		${PREFIX}/share/examples/electron
 
+# XXX NODE_ENV='production' useless ?
 MODELECTRON_BUILDER_BUILD=\
 	mkdir -p ${WRKDIR}/electron && \
 		ln -fs ${LOCALBASE}/electron/${ELECTRON_V}/electron \
 			${WRKDIR}/electron/electron ; \
 	cd ${MODELECTRON_SRC} && ${SETENV} ${MAKE_ENV} \
+		NODE_ENV='production' \
 		./node_modules/electron-builder/cli.js \
-		--linux --dir \
-		--config.npmRebuild=false \
+		--linux --dir --config.npmRebuild=false \
 		--config.electronVersion=${ELECTRON_V} \
 		--config.electronDist=${WRKDIR}/electron
 

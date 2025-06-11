@@ -1,7 +1,17 @@
+Fix unbundle.
+
 Index: third_party/electron_node/unofficial.gni
 --- third_party/electron_node/unofficial.gni.orig
 +++ third_party/electron_node/unofficial.gni
-@@ -222,17 +222,17 @@ template("node_gn_build") {
+@@ -164,7 +164,6 @@ template("node_gn_build") {
+       "//third_party/brotli:dec",
+       "//third_party/brotli:enc",
+       "//third_party/zstd:decompress",
+-      "//third_party/zstd:headers",
+       "$node_simdutf_path",
+       "$node_v8_path:v8_libplatform",
+     ]
+@@ -229,17 +228,17 @@ template("node_gn_build") {
        sources += node_inspector.node_inspector_sources +
                   node_inspector.node_inspector_generated_sources
      }

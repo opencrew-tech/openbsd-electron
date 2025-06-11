@@ -12,7 +12,7 @@ Index: third_party/electron_node/src/env.cc
  namespace node {
  
  using errors::TryCatchScope;
-@@ -758,29 +760,11 @@ std::unique_ptr<v8::BackingStore> Environment::release
+@@ -761,29 +763,11 @@ std::unique_ptr<v8::BackingStore> Environment::release
  }
  
  std::string Environment::GetExecPath(const std::vector<std::string>& argv) {

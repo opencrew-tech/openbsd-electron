@@ -1,48 +1,3 @@
-# XXX start apps with --app= instead of a bundle electron copy
-# runing command line without args bring a different config, diff ?
-# note also some installer use fuses (hotfix into bin)
-
-# https://www.electronjs.org/docs/latest/tutorial/fuses
-# * runAsNode (Enabled), needed for vscode, ELECTRON_RUN_AS_NODE=1
-# * cookieEncryption (Disabled) -> Enabled, change default ?
-# * nodeOptions (Enabled) -> Disabled, change default ?
-# * nodeCliInspect (Enabled) -> Disabled, change default ?
-# * embeddedAsarIntegrityValidation (Disabled), !openbsd
-# * onlyLoadAppFromAsar (Disabled), required on openbsd
-# * loadBrowserProcessSpecificV8Snapshot (Disabled), XXX
-# * grantFileProtocolExtraPrivileges (Enabled), XXX
-
-# signal-desktop
-#// Disables ELECTRON_RUN_AS_NODE
-#[FuseV1Options.RunAsNode]: false,
-#// Enables cookie encryption
-#[FuseV1Options.EnableCookieEncryption]: true,
-#// Disables the NODE_OPTIONS environment variable
-#[FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
-#// Disables the --inspect and --inspect-brk family of CLI options
-#[FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
-#// Enables validation of the app.asar archive on macOS/Windows
-#[FuseV1Options.EnableEmbeddedAsarIntegrityValidation]:
-#electronPlatformName === 'darwin' || electronPlatformName === 'win32',
-#// Enforces that Electron will only load your app from "app.asar" instead of
-#// its normal search paths
-#[FuseV1Options.OnlyLoadAppFromAsar]: true,
-
-# teams-for-linux
-#[FuseV1Options.EnableCookieEncryption]: true,
-
-# XXX something to consider
-#WARNING: --openssl-no-asm will result in binaries that do not take advantage
-#         of modern CPU cryptographic instructions and will therefore be slower.
-#         Please refer to BUILDING.md
-#WARNING: warnings were emitted in the configure phase
-
-# XXX .node detection in pkg tools
-# @bin *.node is wrong ?
-
-# XXX services/device/device_service.cc crash
-# NOTREACHED_IN_MIGRATION() << "Serial devices not supported on this platform.";
-
 BROKEN-i386=v8/src/compiler/turboshaft/int64-lowering-reducer.h:295:24: error:
 # call to member function 'Word32Constant' is ambiguous
 # (but will probably run out of memory linking under DPB even if fixed)
@@ -58,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		35.3.0
+ELECTRON_V=		35.4.0
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -77,7 +32,7 @@ PERMIT_PACKAGE=		Yes
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
 CHROMIUM_V=		134.0.6998.205
-NODE_V=			22.14.0
+NODE_V=			22.15.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
@@ -170,7 +125,7 @@ BUILD_DEPENDS+=	archivers/bzip2 \
 		shells/bash \
 		sysutils/flock \
 		sysutils/pciutils \
-		x11/py-xcbgen${MODPY_FLAVOR} \
+		x11/py-xcbgen \
 		x11/qt5/qtbase,-main \
 		${MODGCC4_CPPDEP} \
 		${RUN_DEPENDS}
@@ -426,6 +381,7 @@ pre-configure:
 	ln -sf ${TRUEPREFIX}/bin/node \
 		${WRKSRC}/third_party/node/openbsd/node-openbsd/bin/node
 .for f in \
+    base/base_paths_posix.cc \
     base/process/process_handle_openbsd.cc \
     build/gn_run_binary.py \
     build/rust/rust_bindgen.gni \
@@ -433,7 +389,9 @@ pre-configure:
     v8/tools/run.py \
     tools/protoc_wrapper/protoc_wrapper.py \
     third_party/blink/renderer/build/scripts/run_with_pythonpath.py \
-    third_party/electron_node/src/env.cc
+    third_party/electron_node/src/env.cc \
+    third_party/perfetto/src/base/utils.cc \
+    third_party/vulkan-loader/src/loader/vk_loader_platform.h
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
 

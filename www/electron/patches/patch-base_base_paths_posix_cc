@@ -1,0 +1,16 @@
+Index: base/base_paths_posix.cc
+--- base/base_paths_posix.cc.orig
++++ base/base_paths_posix.cc
+@@ -116,10 +116,10 @@ out:
+         kvm_close(kd);
+       if (!ret) {
+ #endif
+-        if ((cpath = getenv("CHROME_EXE_PATH")) != NULL)
++        if ((cpath = getenv("ELECTRON_EXE_PATH")) != NULL)
+           *result = FilePath(cpath);
+         else
+-          *result = FilePath("/usr/local/chrome/chrome");
++          *result = FilePath("${LOCALBASE}/electron/${ELECTRON_V}/electron");
+         return true;
+ #if !BUILDFLAG(IS_AIX)
+       }

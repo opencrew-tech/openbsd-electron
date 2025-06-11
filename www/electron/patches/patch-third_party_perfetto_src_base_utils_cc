@@ -1,0 +1,14 @@
+Index: third_party/perfetto/src/base/utils.cc
+--- third_party/perfetto/src/base/utils.cc.orig
++++ third_party/perfetto/src/base/utils.cc
+@@ -290,8 +290,8 @@ std::string GetCurExecutablePath() {
+   self_path = std::string(buf, static_cast<size_t>(size));
+ #elif PERFETTO_BUILDFLAG(PERFETTO_OS_BSD)
+   char *buf;
+-  const char *cpath = "/usr/local/chrome/chrome";
+-  if ((buf = getenv("CHROME_EXE_PATH")) != NULL)
++  const char *cpath = "${LOCALBASE}/electron/${ELECTRON_V}/electron";
++  if ((buf = getenv("ELECTRON_EXE_PATH")) != NULL)
+     self_path = std::string(buf);
+   else
+     self_path = std::string(cpath);

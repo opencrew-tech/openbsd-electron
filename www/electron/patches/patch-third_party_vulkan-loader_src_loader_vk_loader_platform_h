@@ -1,0 +1,16 @@
+Index: third_party/vulkan-loader/src/loader/vk_loader_platform.h
+--- third_party/vulkan-loader/src/loader/vk_loader_platform.h.orig
++++ third_party/vulkan-loader/src/loader/vk_loader_platform.h
+@@ -355,10 +355,10 @@ static inline char *loader_platform_executable_path(ch
+ }
+ #elif defined(__OpenBSD__)
+ static inline char *loader_platform_executable_path(char *buffer, size_t size) {
+-    if ((buffer = getenv("CHROME_EXE_PATH")) != NULL)
++    if ((buffer = getenv("ELECTRON_EXE_PATH")) != NULL)
+         return buffer;
+     else
+-        buffer = "/usr/local/chrome/chrome";
++        buffer = "${LOCALBASE}/electron/${ELECTRON_V}/electron";
+   return buffer;
+ }
+ #elif defined(__Fuchsia__)

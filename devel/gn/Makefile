@@ -3,8 +3,8 @@ BROKEN-sparc64= Doesn't support sparc64 as an architecture
 COMMENT=	meta build framework for ninja
 DPB_PROPERTIES=	parallel
 
-COMMIT=		95b0f8fe31a992a33c040bbe3867901335c12762
-DATE =		20240924
+COMMIT=		0c25d1bbde6ef17e1e6d3938011f56a00c02e457
+DATE =		20250515
 VERSION =	0.0.${DATE}
 DISTNAME =	gn-${DATE}
 PKGNAME =	gn-${VERSION}

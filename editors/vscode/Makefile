@@ -4,10 +4,9 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.100.2
-COMMIT=			848b80aeb52026648a8ff9f7c45a9b0a80641e2e
+V=			1.101.2
+COMMIT=			2901c5ac6db8a986a5666c3af51ff804d05af0d4
 PKGNAME=		vscode-${V}
-REVISION=		0
 
 DIST_TUPLE=		github microsoft vscode ${V} .
 
@@ -62,7 +61,7 @@ MODNPM_LOCKS=$$( \
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 # optional depends keytar for @vscode/vsce, which is not installed
-# it also needs x11/gnome/libsecret to build
+# keytar needs x11/gnome/libsecret to build
 MODNPM_EXCLUDES=	keytar
 
 MODELECTRON_TARGET=	code-oss
@@ -149,6 +148,7 @@ do-build:
 		-p build/tsconfig.build.json
 	echo "require('graceful-fs').gracefulify(require('fs'));" \
 		> ${WRKSRC}/use-graceful-fs.cjs
+	ulimit -d $$(ulimit -Hd) && \
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
 		ESBUILD_MAX_THREADS=1 \

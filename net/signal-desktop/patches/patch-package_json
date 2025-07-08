@@ -1,0 +1,11 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -14,7 +14,6 @@
+   "browserslist": "last 1 chrome versions",
+   "main": "app/main.js",
+   "scripts": {
+-    "postinstall": "pnpm run build:acknowledgments && pnpm run electron:install-app-deps",
+     "postuninstall": "pnpm run build:acknowledgments",
+     "start": "electron .",
+     "generate": "npm-run-all build-protobuf build:esbuild build:icu-types build:compact-locales sass get-expire-time copy-components",

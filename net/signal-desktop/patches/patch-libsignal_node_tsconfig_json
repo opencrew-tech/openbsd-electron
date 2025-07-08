@@ -1,15 +1,14 @@
 Index: libsignal/node/tsconfig.json
 --- libsignal/node/tsconfig.json.orig
 +++ libsignal/node/tsconfig.json
-@@ -5,7 +5,9 @@
-     "declaration": true,
+@@ -6,7 +6,9 @@
      "outDir": "./dist",
      "strict": true,
+     "skipLibCheck": true,
 -    "sourceMap": true
 +    "sourceMap": true,
 +    "baseUrl": ".",
 +    "typeRoots": ["./node_modules/@types"]
    },
--  "include": ["ts/**/*.ts"]
-+  "include": ["ts/**/*.ts"],
+   "include": ["ts/**/*.ts"]
  }

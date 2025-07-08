@@ -1,12 +1,10 @@
 Index: ringrtc/src/node/tsconfig.json
 --- ringrtc/src/node/tsconfig.json.orig
 +++ ringrtc/src/node/tsconfig.json
-@@ -6,6 +6,8 @@
-     "outDir": "./dist",
-     "strict": true,
+@@ -8,5 +8,7 @@
      "esModuleInterop": true,
--    "sourceMap": true
-+    "sourceMap": true,
+     "sourceMap": true,
+     "stripInternal": true
 +    "baseUrl": ".",
 +    "typeRoots": ["./node_modules/@types"]
    }

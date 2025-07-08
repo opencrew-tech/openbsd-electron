@@ -1,0 +1,12 @@
+Index: node-sqlcipher/deps/sqlcipher/sqlcipher.gyp
+--- node-sqlcipher/deps/sqlcipher/sqlcipher.gyp.orig
++++ node-sqlcipher/deps/sqlcipher/sqlcipher.gyp
+@@ -92,7 +92,7 @@
+         }, {
+           'link_settings': {
+             'libraries': [
+-              '<(SHARED_INTERMEDIATE_DIR)/libsignal_sqlcipher_extension.a',
++              '${MODCARGO_TARGET_DIR}/release/libsignal_sqlcipher_extension.a',
+             ]
+           },
+         }],

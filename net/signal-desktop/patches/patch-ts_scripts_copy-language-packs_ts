@@ -1,0 +1,13 @@
+Index: ts/scripts/copy-language-packs.ts
+--- ts/scripts/copy-language-packs.ts.orig
++++ ts/scripts/copy-language-packs.ts
+@@ -31,8 +31,7 @@ export async function afterPack({
+       'Resources'
+     );
+   } else if (
+-    electronPlatformName === 'linux' ||
+-    electronPlatformName === 'win32'
++    ['linux', 'openbsd', 'freebsd', 'win32'].includes(electronPlatformName)
+   ) {
+     // Shared between windows and linux
+     // en-US.pak

@@ -1,7 +1,7 @@
 Index: ts/test-node/app/menu_test.ts
 --- ts/test-node/app/menu_test.ts.orig
 +++ ts/test-node/app/menu_test.ts
-@@ -199,6 +199,11 @@ const PLATFORMS = [
+@@ -202,6 +202,11 @@ const PLATFORMS = [
      platform: 'linux',
      expectedDefault: EXPECTED_LINUX,
    },

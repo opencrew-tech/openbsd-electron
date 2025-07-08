@@ -1,14 +1,15 @@
 Index: libsignal/Cargo.toml
 --- libsignal/Cargo.toml.orig
 +++ libsignal/Cargo.toml
-@@ -159,11 +159,10 @@ visibility = "0.1.1"
+@@ -210,12 +210,12 @@ webpsan = { version = "0.5.3", default-features = fals
  x25519-dalek = "2.0.0"
- zerocopy = "0.7.34"
+ zerocopy = "0.8.24"
  
 -[patch.crates-io]
 -# When building libsignal, just use our forks so we don't end up with two different versions of the libraries.
 -
--boring = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.13.0' }
+-boring = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.15.0' }
+-boring-sys = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.15.0' }
 -curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.1.3' }
 -
  [profile.dev.package.argon2]
@@ -16,5 +17,7 @@ Index: libsignal/Cargo.toml
 +
 +[patch.crates-io]
 +boring-signal = { path = '${WRKSRC}/boring/boring', package = "boring" }
++boring-sys = { path = '${WRKSRC}/boring/boring-sys', package = "boring-sys" }
 +curve25519-dalek-signal = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek', package = "curve25519-dalek" }
 +tokio-boring-signal = { path = '${WRKSRC}/boring/tokio-boring', package = "tokio-boring" }
++spqr = { path = '${WRKSRC}/spqr', package = "spqr" }

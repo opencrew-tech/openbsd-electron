@@ -1,11 +1,10 @@
+# XXX only for arch ports-clang ?
+
 COMMENT=		Signal Desktop links with Signal
 
-V=			7.40.1
+V=			7.60.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
-
-# "node_modules/react-virtualized/dist/commonjs": permission denied
-FIX_EXTRACT_PERMISSIONS=Yes
 
 DIST_TUPLE=		github signalapp Signal-Desktop v${V} .
 
@@ -21,33 +20,27 @@ PERMIT_PACKAGE=		Yes
 WANTLIB += ${MODCARGO_WANTLIB} c++ m
 
 # make versions
-# ELECTRON_V=33.3.1
-# NODE_V=20.18.1
-# better-sqlite3 deps
-# BETTER_SQLITE3_V=9.0.9
-SQLCIPHER_H=	9d2afebba9bfd8f18afd36a90a800df84fcf6975defacbfa1e1c5e1e8a6d05f1
-SQLCIPHER_URI=	https://build-artifacts.signal.org/desktop/
-SQLCIPHER_V=	v2-4.6.1-signal-patch2--0.2.1-${SQLCIPHER_H}
-SQLCEXT_V=	0.2.1
+# ELECTRON_V=36.3.2
+# NODE_V=22.15.0
+# sqlcipher depends
+SQLCIPHER_V=	2.0.3
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.65.2
-BORING_ID=	1af143f50937bce6a9a9c7405ec824a9153c8ba0
+LIBSIGNAL_V=	0.74.1
+BORING_ID=	bb42da53b3900aea1936d41decf9403f25c4259c
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
+SPQR_ID=	d6c10734689ec5844d09c1a054a288d36cde2adc
 BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
-RINGRTC_V=	2.49.3
-WEBRTC_V=	6834c
+RINGRTC_V=	2.53.0
+WEBRTC_V=	7103d
 
-# better-sqlite3, MIT
-SQLCIPHER_T=	${WRKSRC}/node_modules/@signalapp/better-sqlite3/deps
-SITES.sqlc=	${SQLCIPHER_URI}
-DISTFILES.sqlc=	sqlcipher-${SQLCIPHER_V}.tar.gz
-EXTRACT_CASES+=	${DISTFILES.sqlc});;
-# Signal-Sqlcipher-Extension, AGPLv3
-SQLCEXT_SRC=	${WRKDIR}/Signal-Sqlcipher-Extension-${SQLCEXT_V}
+# node-sqlcipher, AGPLv3
+SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
+SQLCIPHER_T=	${WRKSRC}/node_modules/@signalapp/sqlcipher/prebuilds
+DIST_TUPLE+=	github signalapp node-sqlcipher v${SQLCIPHER_V} .
+SQLCEXT_SRC=	${SQLCIPHER_SRC}/deps/extension
 SQLCEXT_TOML=	${SQLCEXT_SRC}/Cargo.toml
-DIST_TUPLE+=	github signalapp Signal-Sqlcipher-Extension v${SQLCEXT_V} .
 # Signal-FTS5-Extension, AGPLv3
 FTS5_SRC=	${WRKDIR}/Signal-FTS5-Extension-${FTS5_ID}
 FTS5_TOML=	${FTS5_SRC}/Cargo.toml
@@ -56,16 +49,19 @@ DIST_TUPLE+=	github signalapp Signal-FTS5-Extension ${FTS5_ID} .
 # libsignal, AGPLv3
 LIBSIGNAL_SRC=	${WRKDIR}/libsignal-${LIBSIGNAL_V}
 LIBSIGNAL_NODE=	${LIBSIGNAL_SRC}/node
+LIBSIGNAL_PREB=	@signalapp/libsignal-client/prebuilds/openbsd-${NODE_ARCH}
 LIBSIGNAL_TOML=	${LIBSIGNAL_SRC}/Cargo.toml
-LIBSIGNAL_T=	${WRKSRC}/node_modules/@signalapp/libsignal-client/prebuilds
+LIBSIGNAL_T=	${WRKSRC}/node_modules/${LIBSIGNAL_PREB}
 DIST_TUPLE+=	github signalapp libsignal v${LIBSIGNAL_V} .
 # boring (signalapp fork), Apache-2.0
 DIST_TUPLE+=	github signalapp boring ${BORING_ID} boring
-# boringssl, OpenSSL/ISC
+# curve25519-dalek (signalapp fork), BSD 3-Clause|MIT|Apache-2.0
+DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
+# SparsePostQuantumRatchet, AGPLv3
+DIST_TUPLE+=	github signalapp SparsePostQuantumRatchet ${SPQR_ID} spqr
+# boring -> boringssl, OpenSSL/ISC
 BORINGSSL_T=	${WRKDIR}/boring-${BORING_ID}/boring-sys/deps
 DIST_TUPLE+=	github google boringssl ${BORINGSSL_ID} .
-# curve25519-dalek (signalapp fork), XXX LICENCE
-DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
 
 # ringrtc, AGPLv3
 RINGRTC_SRC=	${WRKDIR}/ringrtc-${RINGRTC_V}
@@ -85,11 +81,13 @@ PATCH_CASES+=		${PATCHDIR}/chromium/patch-*) \
 			    -z .orig.chromium \
 			    -d ${WEBRTC_SRC}/ <$$patchfile ;;
 
-COMPILER=		base-clang ports-gcc
+# rust bindgen need libclang.so
+COMPILER=		ports-clang
 
 MODULES=		devel/cargo \
 			devel/cmake \
 			devel/npm \
+			devel/pnpm \
 			lang/clang \
 			lang/python \
 			www/electron
@@ -101,15 +99,15 @@ USE_NINJA=		No	# disable MODCMAKE targets
 CFLAGS+=		-DOMIT_MEMLOCK
 
 # see custom modcargo-gen-crates
-MODCARGO_CARGOS_TOML=	${FTS5_TOML} \
+MODCARGO_CARGOS_TOML=	${SQLCEXT_TOML} \
+			${FTS5_TOML} \
 			${LIBSIGNAL_TOML} \
-			${RINGRTC_TOML} \
-			${SQLCEXT_TOML}
+			${RINGRTC_TOML}
 # libsignal/linkme is broken with https://github.com/dtolnay/linkme/commit
 # 64e7c63c106848481bea8f66c4885b52c26ca9ec
 # It's probably related to https://github.com/dtolnay/linkme/issues/49
 MODCARGO_RUSTFLAGS+=	-Clink-dead-code
-# libclang.so
+# rust bindgen need libclang.so
 MODCARGO_ENV+=		LIBCLANG_PATH=${LOCALBASE}/llvm${MODCLANG_VERSION}/lib \
 			LD_LIBRARY_PATH=${LOCALBASE}/llvm${MODCLANG_VERSION}/lib
 MODCARGO_BUILD=		No
@@ -124,17 +122,23 @@ MODELECTRON_WRAPPER_ENV=NODE_ENV=production
 
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
-MODNPM_TARGETS=		${WRKSRC} \
+MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
+
+MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
+MODPNPM_BUILD=		No
+MODPNPM_INSTALL=	No
+MODPNPM_GEN_UPDATE=	esbuild@0.25.5
+MODPNPM_GEN_INSTALL=	@swc/wasm@1.10.16 # fallback for @swc/core
+MODPNPM_GEN_OVERRIDES=	"esbuild":"0.25.5"
+MODPNPM_TARGETS=	${WRKSRC} \
 			${WRKSRC}/sticker-creator \
-			${LIBSIGNAL_NODE} \
-			${RINGRTC_NODE}
+			${WRKSRC}/node-sqlcipher
 
 MODPY_RUNDEP=		No
 
 NPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 
-BUILD_DEPENDS+=		devel/app-builder \
-			devel/gn \
+BUILD_DEPENDS+=		devel/gn \
 			devel/ninja \
 			devel/protobuf
 RUN_DEPENDS+=		devel/desktop-file-utils
@@ -147,12 +151,13 @@ SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR
 MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
 # signal's appbuilder config
 MAKE_ENV+=		SIGNAL_ENV=production
+# override esbuild & use system bin
+MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
-# GN webrtc build, see electron/Makefile
-# XXX libringrtc-x64.node: undefined symbol '_ZN3re23RE2...'
-#GN_SYSTEM_LIBS+=re2
+# GN webrtc build
+# XXX Unrecognized system libraries requested: libavif, libevent
 GN_SYSTEM_LIBS=		brotli \
 			crc32c \
 			dav1d \
@@ -164,8 +169,6 @@ GN_SYSTEM_LIBS=		brotli \
 			icu \
 			jsoncpp \
 			libaom \
-			libavif \
-			libevent \
 			libjpeg \
 			libpng \
 			libsecret \
@@ -176,6 +179,7 @@ GN_SYSTEM_LIBS=		brotli \
 			libxslt \
 			openh264 \
 			opus \
+			re2 \
 			snappy \
 			woff2 \
 			zstd
@@ -211,53 +215,45 @@ GN_ARGS+=		clang_use_chrome_plugins=false \
 			use_sysroot=false
 
 # see ringrtc/bin/build-electron
-# XXX system libvpx, no vp9 support ? rtc_libvpx_build_vp9=true
 GN_ARGS+=		rtc_build_examples=false \
 			rtc_build_tools=false \
-			rtc_include_tests=false \
-			rtc_enable_protobuf=false \
-			rtc_use_x11=false \
-			rtc_enable_sctp=false \
 			rtc_disable_metrics=true \
-			rtc_disable_trace_events=true
-
+			rtc_disable_trace_events=true \
+			rtc_enable_protobuf=false \
+			rtc_enable_sctp=false \
+			rtc_include_tests=false \
+			rtc_libvpx_build_vp9=true \
+			rtc_use_x11=false
 # webrtc
 GN_ARGS+=		is_debug=false \
 			is_clang=true \
 			extra_cxxflags=\"${CXXFLAGS}\"
 
 post-extract:
-	# setup boring-sys
-	mkdir -p ${BORINGSSL_T}
-	rm -rf ${BORINGSSL_T}/*
+	# boring-sys
+	mkdir -p ${BORINGSSL_T} && rm -rf ${BORINGSSL_T}/*
 	mv ${WRKDIR}/boringssl-${BORINGSSL_ID} ${BORINGSSL_T}/boringssl
-	# setup webrtc
-	mkdir -p ${WEBRTC_T}
+	# webrtc
+	mkdir -p ${WEBRTC_T} && rm -rf ${WEBRTC_T}/*
 	mv ${WRKDIR}/webrtc-${WEBRTC_V} ${WEBRTC_T}/src
+	# node-sqlcipher
+	mv ${SQLCIPHER_SRC} ${WRKSRC}/node-sqlcipher
+	ln -s ${WRKSRC}/node-sqlcipher ${SQLCIPHER_SRC}
 
 pre-patch:
 	# link depends into ${WRKSRC} to handle patches
 	mv ${FTS5_SRC} ${WRKSRC}/Signal-FTS5-Extension
 	ln -s ${WRKSRC}/Signal-FTS5-Extension ${FTS5_SRC}
-	mv ${SQLCEXT_SRC} ${WRKSRC}/Signal-Sqlcipher-Extension
-	ln -s ${WRKSRC}/Signal-Sqlcipher-Extension ${SQLCEXT_SRC}
 	mv ${LIBSIGNAL_SRC} ${WRKSRC}/libsignal
 	ln -s ${WRKSRC}/libsignal ${LIBSIGNAL_SRC}
 	mv ${RINGRTC_SRC} ${WRKSRC}/ringrtc
 	ln -s ${WRKSRC}/ringrtc ${RINGRTC_SRC}
-	# apply signal-desktop patches
-	# [ $${_p} == "protobufjs+7.3.2.patch" ] && continue;
-	cd ${WRKSRC} && for _p in patches/*.patch; do \
-		echo "===>  Applying signal-desktop $${_p}" ; \
-		${PATCH} -l -f -p1 -z .orig.signal \
-		    -d ${WRKSRC} -i ${WRKSRC}/$${_p}; \
-	done
 
 pre-configure:
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/python
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/vpython3
 	@ln -sf ${LOCALBASE}/bin/llvm-ar-${MODCLANG_VERSION} ${WRKDIR}/bin/ar
-	@mkdir ${WRKDIR}/tmp
+	@mkdir -p ${WRKDIR}/tmp
 
 do-configure:
 	${SUBST_CMD} ${LIBSIGNAL_TOML} ${RINGRTC_TOML}
@@ -266,17 +262,15 @@ do-configure:
 		${WRKDIR}/cargo.toml
 	cat ${WRKDIR}/cargo.toml >>${WRKDIR}/.cargo/config
 
-pre-build: better-sqlite3 libsignal ringrtc sticker-creator
+pre-build: node-sqlcipher libsignal ringrtc sticker-creator
 	# setup build dir with dns-fallback.json
 	mkdir -p ${WRKSRC}/build
 	cp ${FILESDIR}/dns-fallback.json ${WRKSRC}/build/dns-fallback.json
-	# setup required bin
-	cd ${WRKSRC} && ${NPM_CMD} rebuild ${NPM_ARGS} \
-		npm-run-all protobufjs-cli sass
 	# build signal
-	cd ${WRKSRC} && ${NPM_CMD} run build:acknowledgments ${NPM_ARGS}
-	cd ${WRKSRC} && ${NPM_CMD} run generate ${NPM_ARGS}
-	cd ${WRKSRC} && ${NPM_CMD} run build:esbuild:prod ${NPM_ARGS}
+	cd ${WRKSRC} && ${MODPNPM_CMD} rebuild -dd
+	cd ${WRKSRC} && ${MODPNPM_CMD} run build:acknowledgments
+	cd ${WRKSRC} && ${MODPNPM_CMD} run generate
+	cd ${WRKSRC} && ${MODPNPM_CMD} run build:esbuild:prod
 
 post-install:
 	# menu
@@ -287,7 +281,6 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/images/signal-logo-desktop-linux.png \
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
 
-# XXX test-better-sqlite ?
 # XXX test-libwebrtc ?
 # XXX test-ringrtc ?
 do-test:	test-libsignal \
@@ -297,27 +290,29 @@ do-test:	test-libsignal \
 ### custom targets
 
 sqlcipher-extension:
-	# build sqlcipher-extension native depends for better-sqlite3
+	# build sqlcipher-extension native depends (node-gyp rust build fail)
 	cd ${SQLCEXT_SRC} && ${SETENV} ${MAKE_ENV} ${CONFIGURE_ENV} \
-		${MODCARGO_ENV} ${MODCARGO_CARGO_BIN} build \
-		--release
+		${MODCARGO_ENV} ${MODCARGO_CARGO_BIN} build --release
 
-better-sqlite3: sqlcipher-extension
-	# build better-sqlite3 native depends
-	cp ${DISTDIR}/${DISTFILES.sqlc} ${SQLCIPHER_T}/sqlcipher.tar.gz
-	${SUBST_CMD} ${SQLCIPHER_T}/sqlite3.gyp
-	cd ${SQLCIPHER_T}/.. && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-		node ${NPM_GYP_BIN} rebuild
+node-sqlcipher:sqlcipher-extension
+	# build node-sqlcipher native depends
+	${SUBST_CMD} ${SQLCIPHER_SRC}/deps/sqlcipher/sqlcipher.gyp
+	cd ${SQLCIPHER_SRC} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
+		node ${NPM_GYP_BIN} rebuild --verbose
+	# install node-sqlcipher prebuild
+	mkdir -p ${SQLCIPHER_T}/openbsd-${NODE_ARCH}
+	cp ${SQLCIPHER_SRC}/build/Release/node_sqlcipher.node \
+		${SQLCIPHER_T}/openbsd-${NODE_ARCH}/@signalapp+sqlcipher.node
 
 libsignal:
-	# build libsignal native depends (fake node-gyp build)
+	# build libsignal native depends (node-gyp rust build fail)
 	cd ${LIBSIGNAL_SRC} && ${SETENV} ${MAKE_ENV} ${CONFIGURE_ENV} \
 		${MODCARGO_ENV} ${MODCARGO_CARGO_BIN} build \
 		-p libsignal-node --release
 	# install libsignal prebuild
-	mkdir -p ${LIBSIGNAL_T}/openbsd-${NODE_ARCH}
+	mkdir -p ${LIBSIGNAL_T}
 	cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
-		${LIBSIGNAL_T}/openbsd-${NODE_ARCH}/node.napi.node
+	    ${LIBSIGNAL_T}/@signalapp+libsignal-client.node
 
 webrtc:
 	# configure libwebrtc native depends for ringrtc
@@ -346,14 +341,15 @@ ringrtc: webrtc
 sticker-creator:
 	# build sticker-creator
 	cd ${WRKSRC}/sticker-creator && \
-		${NPM_CMD} rebuild ${NPM_ARGS} && \
-		${NPM_CMD} run build
+		${MODPNPM_CMD} rebuild -dd && \
+		${MODPNPM_CMD} build
 
 test-libsignal:
-	# copy libsignal native lib
-	mkdir -p ${LIBSIGNAL_NODE}/build/Release
-	cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
-		${LIBSIGNAL_NODE}/build/Release/node.napi.node
+	# install libsignal prebuild for tests
+	cd ${LIBSIGNAL_NODE}/node_modules && \
+		mkdir -p ${LIBSIGNAL_PREB} && \
+		cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
+			${LIBSIGNAL_PREB}/@signalapp+libsignal-client.node
 	# setup required bin
 	cd ${LIBSIGNAL_NODE} && ${NPM_CMD} rebuild ${NPM_ARGS} mocha
 	# build libsignal tests
@@ -362,44 +358,25 @@ test-libsignal:
 
 test-sticker-creator:
 	# run sticker-creator test
-	cd ${WRKSRC}/sticker-creator && ${SETENV} ${MAKE_ENV} \
-		CI=ci npm run test || true
+	cd ${WRKSRC}/sticker-creator && \
+		${MODPNPM_CMD} test || true
 
 # XXX Xvfb :1 &
 test-signal-desktop:
 	# copy libsignal native lib
-	cd ${WRKSRC}/node_modules/@signalapp/mock-server/node_modules && \
-		mkdir -p @signalapp/libsignal-client/build/Release && \
+	cd `realpath ${WRKSRC}/node_modules/@signalapp/mock-server`/../.. &&\
+		mkdir -p ${LIBSIGNAL_PREB} && \
 		cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
-			@signalapp/libsignal-client/build/Release/node.napi.node
-	# setup required bin
-	cd ${WRKSRC} && ${NPM_CMD} rebuild ${NPM_ARGS} \
-		npm-run-all cross-env electron-mocha mocha
+			${LIBSIGNAL_PREB}/@signalapp+libsignal-client.node
 	# run signal-desktop test
 	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 		ELECTRON_PATH=${LOCALBASE}/${ELECTRON_NOSANDBOX} \
 		npm run test || true
-# XXX fake launch test from system or make one more wraper ?
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-		ELECTRON_PATH=${LOCALBASE}/${ELECTRON_NOSANDBOX} \
-		npm run test-release || true
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-		ELECTRON_PATH=${LOCALBASE}/${ELECTRON_NOSANDBOX} \
-		npm run test-mock || true
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-		ELECTRON_PATH=${LOCALBASE}/${ELECTRON_NOSANDBOX} \
-		ELECTRON_OVERRIDE_DIST_PATH=${WRKSRC}/node_modules/.bin \
-		npm run test-node-coverage || true
 
 ### targets for port maintainer(s)
 
-user-dev:
-	cp ${WRKSRC}/config/{production,local-development}.json
-	cd ${WRKSRC} && \
-		NODE_ENV=development electron .
-
-# run under _pbuild
 _webrtc-compile_commands:
+# run under _pbuild
 	cd ${WEBRTC_SRC} && ${SETENV} ${MAKE_ENV} \
 		ninja -j ${MAKE_JOBS} -C out/release \
 		-t compdb > compile_commands.json
@@ -407,9 +384,10 @@ webrtc-compile_commands:
 	${_PBUILD} make _webrtc-compile_commands
 
 # make versions : download, extract then print versions for depends
-# make modnpm-gen-modules : regen modules.inc, see devel/npm
-# make modcargo-gen-crates : handle multiple Cargo.toml, regen crates.inc
 # make tarball : gen webrtc-${WEBRTC_V}.tgz with gclient
+# make modpnpm-gen-modules : override modules.inc, see devel/pnpm
+# make modnpm-gen-modules : output >> modules.inc, see devel/npm
+# make modcargo-gen-crates : output > crates.inc, handle multiple Cargo.toml
 # make chromium-patches : check OpenBSD patches for chromium src (webrtc)
 # make dns-fallback : no net during build, pre-made files/dns-fallback.json
 # make gn_args-system : helper to list webrtc gn args and display system one
@@ -417,23 +395,22 @@ webrtc-compile_commands:
 _TMP=		/tmp/signal-desktop-${V}
 _SIGNALAPP_GH=	https://raw.githubusercontent.com/signalapp
 _BORING_GIT=	https://github.com/signalapp/boring.git
-_BSQL_GH=	${_SIGNALAPP_GH}/better-sqlite3/
+_SIGNAL_GH=	${_SIGNALAPP_GH}/Signal-Desktop/
+_SQLCIPHER_GH=	${_SIGNALAPP_GH}/node-sqlcipher/
+_SQLCIPHER_LOCK=deps/extension/Cargo.lock
 _LIBSIGNAL_GH=	${_SIGNALAPP_GH}/libsignal/
 _RINGRTC_GH=	${_SIGNALAPP_GH}/ringrtc/
-_SIGNAL_GH=	${_SIGNALAPP_GH}/Signal-Desktop/
-_SSQLE_GH=	${_SIGNALAPP_GH}/Signal-Sqlcipher-Extension
 versions:
 	# make versions
 	@mkdir -p ${_TMP} ;						\
-	ftp -VMo ${_TMP}/package.json					\
-		${_SIGNAL_GH}/v${V}/package.json ;			\
+	ftp -VMo ${_TMP}/package.json ${_SIGNAL_GH}/v${V}/package.json ;\
 	_ringrtc_v=$$(grep "@signalapp/ringrtc"				\
 		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
 		sed -E 's#("|,| )##g') ;				\
 	_libsignal_v=$$(grep "@signalapp/libsignal-client"		\
 		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
 		sed -E 's#("|,| )##g') ;				\
-	_bsql_v=$$(grep '@signalapp/better-sqlite3'			\
+	_sqlcipher_v=$$(grep "@signalapp/sqlcipher"			\
 		${_TMP}/package.json | awk -F ":" '{print $$2}' |	\
 		sed -E 's#("|,| )##g') ;				\
 	printf "# ELECTRON_V=%s\n" $$(awk /'"electron":'/'{print $$2}'	\
@@ -441,27 +418,10 @@ versions:
 	printf "# NODE_V=%s\n" $$(awk /'"node":'/'{print $$2}'		\
 		${_TMP}/package.json | sed 's/"//g') ;			\
 									\
-	printf "# better-sqlite3 deps\n" ;				\
-	printf "# BETTER_SQLITE3_V=%s\n" $$_bsql_v ;			\
-	ftp -VMo ${_TMP}/download.js					\
-		${_BSQL_GH}/v$${_bsql_v}/deps/download.js ;		\
-	printf "SQLCIPHER_H=\t%s\n" $$(grep "const HASH"		\
-		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
-		sed -e "s/ '//" -e "s/';//") ;				\
-	printf "SQLCIPHER_URI=\t%s/\n" $$(grep "const BASE_URI"		\
-		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
-		sed -e "s/ \`//" -e "s/\`;//") ;			\
-	_sqlcipher_v=$$(grep "const SQLCIPHER_VERSION"			\
-		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
-		sed -e "s/ '//" -e "s/';//") ;				\
-	_extension_v=$$(grep "const EXTENSION_VERSION"			\
-		${_TMP}/download.js | awk -F '=' '{print $$2}' |	\
-		sed -e "s/ '//" -e "s/';//") ;				\
-	printf "SQLCIPHER_V=\tv2-%s--%s-\$${SQLCIPHER_H}\n"		\
-		$$_sqlcipher_v $$_extension_v ;				\
-	printf "SQLCEXT_V=\t%s\n" $$_extension_v ;			\
+	printf "# sqlcipher depends\n" ;				\
+	printf "SQLCIPHER_V=\t%s\n" $$_sqlcipher_v ;			\
 	ftp -VMo ${_TMP}/sqlcipher.Cargo.lock				\
-		${_SSQLE_GH}/v$${_extension_v}/Cargo.lock ;		\
+		${_SQLCIPHER_GH}/v$${_sqlcipher_v}/${_SQLCIPHER_LOCK} ;	\
 	printf "FTS5_ID=\t%s\n" $$(grep "signalapp/Signal-FTS5-Extension" \
 		${_TMP}/sqlcipher.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
@@ -476,8 +436,12 @@ versions:
 	_curve_v=$$(grep "signalapp/curve25519-dalek"			\
 		${_TMP}/libsignal.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
+	_spqr_v=$$(grep "signalapp/SparsePostQuantumRatchet"		\
+		${_TMP}/libsignal.Cargo.lock |				\
+		uniq | awk -F '#|"' '{print $$3}') ;			\
 	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
 	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
+	printf "SPQR_ID=\t%s\n" $$_spqr_v ;				\
 	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
 		git init >/dev/null 2>&1 && git fetch --depth 1		\
 		    ${_BORING_GIT} $$_boring_v >/dev/null 2>&1 &&	\
@@ -492,17 +456,6 @@ versions:
 		${_RINGRTC_GH}/v$${_ringrtc_v}/config/version.properties ; \
 	printf "WEBRTC_V=\t%s\n" $$(grep "webrtc.version"		\
 		${_TMP}/version.properties | awk -F "=" '{print $$2}' ) ;
-
-# handle multiple cargo files and add github depends for libsignal
-modcargo-gen-crates:
-	@make extract >/dev/null 2>&1
-	@echo '# run: make modcargo-gen-crates-licenses'
-	@cat ${MODCARGO_CARGOS_TOML:toml=lock} | awk '\
-		/^name = / { n=$$3; gsub("\"", "", n); } \
-		/^version = / { v=$$3; gsub("\"", "", v); } \
-		/^source = "registry\+.*github.com.*crates\.io-index"/ \
-			{ print "MODCARGO_CRATES +=	" n "	" v; }' | \
-		sort | uniq
 
 # prepare custom tarball for stable fetch
 # XXX need ~10G, usualy run with a custom _SRC
@@ -520,7 +473,7 @@ _FETCH?=	https://github.com/signalapp/webrtc.git \
 _EXCLUDE_third_party+=-o \( -path '*/third_party/${_f}/*' -a ! -name '*.gn*' \)
 .endfor
 tarball:
-	ulimit -d `ulimit -dH`
+	@which jq >/dev/null
 	mkdir -p ${_SRC}/src
 	cp ${FILESDIR}/gclient ${_SRC}/.gclient
 	cd ${_SRC}/src && [ -d ".git" ] || ( \
@@ -550,16 +503,31 @@ tarball:
 	    -s '|src/|${_PKG}-${_VER}/|' && \
 	sha256 -b ${_PKG}-${_VER}.tgz
 
+# handle multiple cargo files
+modcargo-gen-crates:
+	@make extract >/dev/null 2>&1
+	@echo '# run: make modcargo-gen-crates-licenses'
+	@cat ${MODCARGO_CARGOS_TOML:toml=lock} | awk '\
+		/^name = / { n=$$3; gsub("\"", "", n); } \
+		/^version = / { v=$$3; gsub("\"", "", v); } \
+		/^source = "registry\+.*github.com.*crates\.io-index"/ \
+			{ print "MODCARGO_CRATES +=	" n "	" v; }' | \
+		sort | uniq
+
+# target chromium <milestone>.0.${WEBRTC_V}
+# check https://chromiumdash.appspot.com/branches to know the milestone
+# check ports/www/chromium to choose the closest version
+# https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/www/chromium/Makefile
 chromium-patches:
 	make extract
 	@mkdir -p ${_TMP}
-	# cvs co -D 20241116 -d chromium ports/www/chromium
+	# cvs co -D 20250516 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -D 20250107 -d chromium ports/www/chromium ; \
+		cvs co -D 20250516 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches
@@ -598,6 +566,34 @@ dns-fallback:
 	@cd ${WRKSRC} && \
 		${_PBUILD} ${NPM_CMD} run build:dns-fallback && \
 		cat ${WRKSRC}/build/dns-fallback.json
+
+_gn_args-list:
+# run under _pbuild
+	# ${WRKDIR}/gn_args.list
+	@if [ ! -e "${WRKDIR}/gn_args.list" ] ; then \
+		cd ${WEBRTC_SRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} \
+			gn args out/release --list > ${WRKDIR}/gn_args.list ; \
+	fi
+
+gn_args-system:
+	make configure
+	${_PBUILD} make _gn_args-list
+	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_system_.*' \
+		${WRKDIR}/gn_args.list) ; \
+	for _system in $$_systems; do \
+		grep -A1 "^$$_system" ${WRKDIR}/gn_args.list | \
+			grep -q true || \
+			echo $$(grep -A1 "^$$_system" ${WRKDIR}/gn_args.list) \
+		; \
+	done
+	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_bundled_.*' \
+		${WRKDIR}/gn_args.list) ; \
+	for _system in $$_systems; do \
+		grep -A1 "^$$_system" ${WRKDIR}/gn_args.list | \
+			grep -q false || \
+			echo $$(grep -A1 "^$$_system" ${WRKDIR}/gn_args.list) \
+		; \
+	done
 
 .include "modules.inc"
 .include "crates.inc"

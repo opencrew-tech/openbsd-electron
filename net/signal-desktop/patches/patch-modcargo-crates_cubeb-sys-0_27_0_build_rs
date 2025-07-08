@@ -1,7 +1,7 @@
-Index: modcargo-crates/cubeb-sys-0.20.0/build.rs
---- modcargo-crates/cubeb-sys-0.20.0/build.rs.orig
-+++ modcargo-crates/cubeb-sys-0.20.0/build.rs
-@@ -38,7 +38,7 @@ fn main() {
+Index: modcargo-crates/cubeb-sys-0.27.0/build.rs
+--- modcargo-crates/cubeb-sys-0.27.0/build.rs.orig
++++ modcargo-crates/cubeb-sys-0.27.0/build.rs
+@@ -33,7 +33,7 @@ fn main() {
          return;
      }
  
@@ -10,7 +10,7 @@ Index: modcargo-crates/cubeb-sys-0.20.0/build.rs
      t!(fs::create_dir_all(env::var("OUT_DIR").unwrap()));
  
      env::remove_var("DESTDIR");
-@@ -82,6 +82,7 @@ fn main() {
+@@ -77,6 +77,7 @@ fn main() {
      let windows = target.contains("windows");
      let darwin = target.contains("darwin");
      let freebsd = target.contains("freebsd");
@@ -18,7 +18,7 @@ Index: modcargo-crates/cubeb-sys-0.20.0/build.rs
      let android = target.contains("android");
      let mut cfg = cmake::Config::new(&libcubeb_path);
  
-@@ -150,7 +151,7 @@ fn main() {
+@@ -144,7 +145,7 @@ fn main() {
  
          println!("cargo:rustc-link-search=native={}/lib", dst.display());
      } else {
@@ -27,15 +27,14 @@ Index: modcargo-crates/cubeb-sys-0.20.0/build.rs
              println!("cargo:rustc-link-lib=dylib=c++");
          } else {
              println!("cargo:rustc-link-lib=dylib=stdc++");
-@@ -161,23 +162,23 @@ fn main() {
+@@ -155,22 +156,22 @@ fn main() {
          // Ignore the result of find_library. We don't care if the
          // libraries are missing.
          let _ = pkg_config::find_library("alsa");
 -        if pkg_config::find_library("libpulse").is_ok() {
 -            // Do not link the rust backends for tests: doing so causes duplicate
 -            // symbol definitions.
--            #[cfg(not(feature = "unittest-build"))]
--            {
+-            if build_rust_libs {
 -                println!("cargo:rustc-link-lib=static=cubeb_pulse");
 -                let mut search_path = std::env::current_dir().unwrap();
 -                search_path.push(&(libcubeb_path + "/src/cubeb-pulse-rs/target"));
@@ -51,8 +50,7 @@ Index: modcargo-crates/cubeb-sys-0.20.0/build.rs
 +        // if pkg_config::find_library("libpulse").is_ok() {
 +        //     // Do not link the rust backends for tests: doing so causes duplicate
 +        //     // symbol definitions.
-+        //     #[cfg(not(feature = "unittest-build"))]
-+        //     {
++        //     if build_rust_libs {
 +        //         println!("cargo:rustc-link-lib=static=cubeb_pulse");
 +        //         let mut search_path = std::env::current_dir().unwrap();
 +        //         search_path.push(&(libcubeb_path + "/src/cubeb-pulse-rs/target"));

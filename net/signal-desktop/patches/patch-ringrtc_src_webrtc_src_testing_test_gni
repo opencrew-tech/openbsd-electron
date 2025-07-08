@@ -1,7 +1,7 @@
 Index: ringrtc/src/webrtc/src/testing/test.gni
 --- ringrtc/src/webrtc/src/testing/test.gni.orig
 +++ ringrtc/src/webrtc/src/testing/test.gni
-@@ -18,7 +18,7 @@ declare_args() {
+@@ -19,7 +19,7 @@ declare_args() {
    # "location_tags.json", and so we don't want to try and upload the tags
    # for their tests.
    # And, some build configs may simply turn off generation altogether.

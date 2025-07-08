@@ -1,7 +1,7 @@
 Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
 --- ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs.orig
 +++ ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
-@@ -114,7 +114,7 @@ impl DeviceCollectionWrapper {
+@@ -116,7 +116,7 @@ impl DeviceCollectionWrapper {
          if self.count() == 0 {
              None
          } else if idx > 0 {
@@ -10,7 +10,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
              {
                  self.iter().nth(idx - 1)
              }
-@@ -144,7 +144,7 @@ impl DeviceCollectionWrapper {
+@@ -146,7 +146,7 @@ impl DeviceCollectionWrapper {
      #[cfg(not(target_os = "windows"))]
      /// Returns the number of devices, counting the default device.
      pub fn count(&self) -> usize {

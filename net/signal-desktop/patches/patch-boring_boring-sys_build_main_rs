@@ -1,7 +1,7 @@
 Index: boring/boring-sys/build/main.rs
 --- boring/boring-sys/build/main.rs.orig
 +++ boring/boring-sys/build/main.rs
-@@ -471,15 +471,15 @@ fn get_extra_clang_args_for_bindgen(config: &Config) -
+@@ -472,15 +472,15 @@ fn get_extra_clang_args_for_bindgen(config: &Config) -
  
  fn ensure_patches_applied(config: &Config) -> io::Result<()> {
      let mut lock_file = LockFile::open(&config.out_dir.join(".patch_lock"))?;
@@ -22,7 +22,7 @@ Index: boring/boring-sys/build/main.rs
  
      if config.features.pq_experimental {
          println!("cargo:warning=applying experimental post quantum crypto patch to boringssl");
-@@ -511,15 +511,15 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
+@@ -512,15 +512,15 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
      #[cfg(windows)]
      let cmd_path = config.manifest_dir.join("patches").join(patch_name);
  
@@ -43,3 +43,12 @@ Index: boring/boring-sys/build/main.rs
              .args(&args)
              .arg(cmd_path)
              .current_dir(src_path),
+@@ -649,7 +649,7 @@ fn get_cpp_runtime_lib(config: &Config) -> Option<Stri
+     // TODO(rmehra): figure out how to do this for windows
+     if env::var_os("CARGO_CFG_UNIX").is_some() {
+         match env::var("CARGO_CFG_TARGET_OS").unwrap().as_ref() {
+-            "macos" | "ios" => Some("c++".into()),
++            "macos" | "ios" | "openbsd" => Some("c++".into()),
+             _ => Some("stdc++".into()),
+         }
+     } else {

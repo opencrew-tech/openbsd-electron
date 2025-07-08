@@ -10,3 +10,6 @@ curve25519-dalek-derive = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek-
 
 [patch.'https://github.com/signalapp/Signal-FTS5-Extension']
 signal-tokenizer = { path = "${WRKSRC}/Signal-FTS5-Extension" }
+
+[patch.'https://github.com/signalapp/SparsePostQuantumRatchet']
+spqr = { path = '${WRKSRC}/spqr' }

@@ -1,7 +1,7 @@
 Index: ringrtc/src/rust/build.rs
 --- ringrtc/src/rust/build.rs.orig
 +++ ringrtc/src/rust/build.rs
-@@ -81,7 +81,9 @@ fn main() {
+@@ -83,7 +83,9 @@ fn main() {
          println!("cargo:rustc-link-search=native={}", webrtc_dir);
          println!("cargo:rustc-link-lib=webrtc");
  

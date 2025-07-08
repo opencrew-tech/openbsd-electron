@@ -1,11 +1,10 @@
 Index: ts/updater/index.ts
 --- ts/updater/index.ts.orig
 +++ ts/updater/index.ts
-@@ -72,6 +72,6 @@ export function onRestartCancelled(): void {
+@@ -63,5 +63,5 @@ export function onRestartCancelled(): void {
+ }
  
  function autoUpdateDisabled() {
-   return (
--    process.platform === 'linux' || process.mas || !config.get('updatesEnabled')
-+    process.platform === 'freebsd' || process.platform === 'openbsd' || process.platform === 'linux' || process.mas || !config.get('updatesEnabled')
-   );
+-  return !app.isPackaged || process.mas || !config.get('updatesEnabled');
++  return true;
  }

@@ -8,5 +8,14 @@ Index: ts/types/Settings.ts
 -  OS.isWindows() || OS.isLinux();
 +  OS.isWindows() || OS.isLinux() || OS.isBSD();
  
- export const getDefaultSystemTraySetting = (
-   OS: OSType,
+ export const isContentProtectionSupported = (OS: OSType): boolean =>
+   OS.isWindows();
+@@ -49,7 +49,7 @@ export const getDefaultSystemTraySetting = (
+ 
+   // System tray on linux may not be well supported, so we default to it being off in
+   // production
+-  if (OS.isLinux() && isProduction(appVersion)) {
++  if ((OS.isLinux() || OS.isBSD()) && isProduction(appVersion)) {
+     return SystemTraySetting.DoNotUseSystemTray;
+   }
+ 

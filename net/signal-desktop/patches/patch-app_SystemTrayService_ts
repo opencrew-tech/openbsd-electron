@@ -1,0 +1,12 @@
+Index: app/SystemTrayService.ts
+--- app/SystemTrayService.ts.orig
++++ app/SystemTrayService.ts
+@@ -310,7 +310,7 @@ function getIcon(unreadCount: number) {
+ 
+   let image: NativeImage;
+ 
+-  if (platform === 'linux') {
++  if (['linux', 'openbsd', 'freebsd'].includes(platform)) {
+     // Linux: Static tray icons
+     // Use a single tray icon for Linux, as it does not support scale factors.
+     // We choose the best icon based on the highest display scale factor.

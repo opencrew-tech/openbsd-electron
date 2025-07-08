@@ -1,7 +1,7 @@
 Index: ts/test-electron/models/messages_test.ts
 --- ts/test-electron/models/messages_test.ts.orig
 +++ ts/test-electron/models/messages_test.ts
-@@ -707,6 +707,9 @@ describe('Message', () => {
+@@ -688,6 +688,9 @@ describe('Message', () => {
          isLinux() {
            return false;
          },

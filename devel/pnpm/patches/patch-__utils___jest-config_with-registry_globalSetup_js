@@ -1,0 +1,12 @@
+Index: __utils__/jest-config/with-registry/globalSetup.js
+--- __utils__/jest-config/with-registry/globalSetup.js.orig
++++ __utils__/jest-config/with-registry/globalSetup.js
+@@ -12,7 +12,7 @@ module.exports = async () => {
+     // Verdaccio stopped working properly on Node.js 22.
+     // You can test the issue by running:
+     //   pnpm --filter=core run test test/install/auth.ts
+-    useNodeVersion: '20.16.0',
++    // useNodeVersion: '20.16.0',
+     stdio: 'inherit',
+     listen: process.env.PNPM_REGISTRY_MOCK_PORT,
+   })

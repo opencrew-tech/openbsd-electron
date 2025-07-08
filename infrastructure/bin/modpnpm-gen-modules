@@ -1,0 +1,169 @@
+#!/usr/bin/perl -w
+
+# $OpenBSD$
+
+# Copyright (c) 2025 Fabien Romano <fabien@openbsd.org>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all cp.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+use 5.012;
+use strict;
+use warnings;
+
+use OpenBSD::Getopt;
+
+my %includes;
+my %excludes;
+getopts('i:x:', {
+	'i' => sub {
+		my $pkg = shift;
+		$pkg =~ s/^\s+//;
+		$includes{$pkg} = 1;
+	},
+	'x' => sub {
+		my $pkg = shift;
+		$pkg =~ s/^\s+//;
+		$excludes{$pkg} = 1;
+	},
+});
+
+die if @ARGV < 1;
+
+my @pkgs = ();
+my @dists_pnpm = ();
+my @dists_github = ();
+
+while (my $file = shift) {
+
+	open my $h, '<', $file or die $!;
+
+	my $package = 0;
+
+	my ($id, $version, $os); # package specification
+	my ($scope, $project); # @scope is optionnal, on github its the account
+	my ($dist, $pkg); # port distfiles to fetch & filename on disk
+	my ($type, $dists); # type of package (mainly 'pnpm' & \@dists_pnpm)
+	my $storeid; # package id in the store
+
+	while(my $line = <$h>) {
+		$line =~ s/\R//g; # remove EOL
+		if ('#' eq substr $line, 0) {next;} # skip comment
+
+		# start after packages section
+		if ($line =~ /^packages:/) {$package = 1;}
+		if (!$package) {next;}
+
+		# empty line: end of a package declaration
+		if ($line =~ /^\s*$/) {
+			next unless ($id);
+			if (exists $includes{$id}) {
+				say STDERR "include $id";
+			} elsif (exists $excludes{$id}) {
+				say STDERR "exclude $id";
+				next;
+			} elsif ($os and $os !~ /openbsd|!win32/) {
+				say STDERR "ignore (os) : $id : $os";
+				next;
+			}
+			push @pkgs, $storeid.';'.$pkg;
+			push @{$dists}, $dist;
+			undef $id;
+			next;
+		}
+	
+		# no more packages, stop reading
+		if ($line =~ /^snapshots:/) {last;}
+
+		# read package os spec
+		if ($line =~ /^\s{4}os:\s*\[(.*)\]/) {
+			$os = $1;
+			next;
+		}
+
+		# first indentation level, new package declaration
+		if ($line !~ /^\s{2}[^\s].*:$/) {next;}
+		$line =~ s/^\s+|\s+$|:$|\(.*\)|'//g;
+
+		undef $pkg;
+		undef $dist;
+		undef $os;
+		($id, $version) = split(/(?<=.)@/, $line, 2);
+		if (index($version, "https://codeload.github.com/") == 0) {
+			$storeid = $version;
+			$project = $version;
+			$project =~ s|https://codeload.github.com/||;
+			$version = $project;
+			$version =~ s|.*/tar.gz/||;
+			$project =~ s|/tar.gz/.*||;
+			$type = "codeload";
+			$dists = \@dists_github;
+		} else {
+			$storeid = $id;
+			$storeid .= '@'.$version;
+			$project = $id;
+			$type = "pnpm";
+			$dists = \@dists_pnpm;
+		}
+
+		if (not $project) {
+			say STDERR "invalid resolved : " . $line;
+			next;
+		}
+
+		if ($type eq "pnpm") {
+			$dist = "\${MODPNPM_DIST}/";
+			$pkg = "";
+			if (scalar $project =~ /\Q\//g) {
+				($scope, $project) = split '/', $id;
+				$dist .= $scope."-";
+				$pkg .= $scope."-";
+			}
+			$dist .= "{".$id."/-/}".$project."-".$version.".tgz";
+			$pkg .= $project."-".$version.".tgz";
+		} elsif ($type eq "codeload") {
+			$dist = "\${MODPNPM_DIST}/";
+			($scope, $project) = split '/', $project;
+			$dist .= $scope."-".$project."-";
+			$dist .= "{".$scope."/".$project."/archive/}".$version;
+			$dist .= "\${EXTRACT_SUFX.github}";
+			$pkg = $scope."-".$project."-".$version;
+			$pkg .= "\${EXTRACT_SUFX.github}";
+		}
+	}
+}
+
+sub uniq {
+	my %seen;
+	grep !$seen{$_}++, @_;
+}
+if (scalar @dists_pnpm) {
+	say "DISTFILES.pnpm += \\";
+	foreach my $dist (uniq sort @dists_pnpm) {
+		say $dist." \\";
+	}
+	say "";
+}
+if (scalar @dists_github) {
+	say "DISTFILES.github += \\";
+	foreach my $dist (uniq sort @dists_github) {
+		say $dist." \\";
+	}
+	say "";
+}
+if (scalar @pkgs) {
+	say "MODPNPM_PKGS += \\";
+	foreach my $pkg (uniq sort @pkgs) {
+		say $pkg." \\";
+	}
+	say "";
+}

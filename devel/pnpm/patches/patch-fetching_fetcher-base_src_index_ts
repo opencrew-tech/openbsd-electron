@@ -1,0 +1,11 @@
+Index: fetching/fetcher-base/src/index.ts
+--- fetching/fetcher-base/src/index.ts.orig
++++ fetching/fetcher-base/src/index.ts
+@@ -62,6 +62,7 @@ export interface Fetchers {
+   localTarball: FetchFunction
+   remoteTarball: FetchFunction
+   gitHostedTarball: FetchFunction
++  gitMirrorTarball: FetchFunction
+   directory: DirectoryFetcher
+   git: GitFetcher
+ }

@@ -1,0 +1,20 @@
+Index: resolving/resolver-base/src/index.ts
+--- resolving/resolver-base/src/index.ts.orig
++++ resolving/resolver-base/src/index.ts
+@@ -97,10 +97,16 @@ export type WantedDependency = {
+   prevSpecifier?: string
+ } & ({
+   alias?: string
++  mirror?: string
+   bareSpecifier: string
+ } | {
+   alias: string
++  mirror?: string
+   bareSpecifier?: string
++} | {
++  alias?: string
++  mirror: string
++  bareSpecifier: string
+ })
+ 
+ export type ResolveFunction = (wantedDependency: WantedDependency, opts: ResolveOptions) => Promise<ResolveResult>

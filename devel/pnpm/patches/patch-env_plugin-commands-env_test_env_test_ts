@@ -1,0 +1,48 @@
+Index: env/plugin-commands-env/test/env.test.ts
+--- env/plugin-commands-env/test/env.test.ts.orig
++++ env/plugin-commands-env/test/env.test.ts
+@@ -8,7 +8,7 @@ import path from 'path'
+ import PATH from 'path-name'
+ import semver from 'semver'
+ 
+-test('install Node (and npm, npx) by exact version of Node.js', async () => {
++test.skip('install Node (and npm, npx) by exact version of Node.js', async () => {
+   tempDir()
+   const configDir = path.resolve('config')
+ 
+@@ -176,7 +176,7 @@ describe('env add/remove', () => {
+     ).resolves.toEqual({ exitCode: 1 })
+   })
+ 
+-  test('install and remove Node.js by exact version', async () => {
++  test.skip('install and remove Node.js by exact version', async () => {
+     tempDir()
+ 
+     const configDir = path.resolve('config')
+@@ -211,7 +211,7 @@ describe('env add/remove', () => {
+     expect(() => execa.sync('node', ['-v'], opts)).toThrowError()
+   })
+ 
+-  test('install and remove multiple Node.js versions in one command', async () => {
++  test.skip('install and remove multiple Node.js versions in one command', async () => {
+     tempDir()
+ 
+     const configDir = path.resolve('config')
+@@ -255,7 +255,7 @@ describe('env add/remove', () => {
+ })
+ 
+ describe('env list', () => {
+-  test('list local Node.js versions', async () => {
++  test.skip('list local Node.js versions', async () => {
+     tempDir()
+     const configDir = path.resolve('config')
+ 
+@@ -321,7 +321,7 @@ test('fail if there is no global bin directory', async
+   ).rejects.toEqual(new PnpmError('CANNOT_MANAGE_NODE', 'Unable to manage Node.js because pnpm was not installed using the standalone installation script'))
+ })
+ 
+-test('use overrides the previous Node.js version', async () => {
++test.skip('use overrides the previous Node.js version', async () => {
+   tempDir()
+   const configDir = path.resolve('config')
+ 

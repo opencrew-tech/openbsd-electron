@@ -1,0 +1,19 @@
+Index: packages/parse-wanted-dependency/src/index.ts
+--- packages/parse-wanted-dependency/src/index.ts.orig
++++ packages/parse-wanted-dependency/src/index.ts
+@@ -3,11 +3,14 @@ import validateNpmPackageName from 'validate-npm-packa
+ export interface ParsedWantedDependency {
+   alias: string
+   bareSpecifier: string
++  mirror: string
+ }
+ 
+ export type ParseWantedDependencyResult = Partial<ParsedWantedDependency> &
+ (
+-  Omit<ParsedWantedDependency, 'bareSpecifier'>
++  Omit<ParsedWantedDependency, 'bareSpecifier' | 'mirror'>
++  | Omit<ParsedWantedDependency, 'alias' | 'mirror'>
++  | Omit<ParsedWantedDependency, 'mirror'>
+   | Omit<ParsedWantedDependency, 'alias'>
+   | ParsedWantedDependency
+ )

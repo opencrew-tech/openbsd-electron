@@ -1,0 +1,31 @@
+Index: resolving/default-resolver/src/index.ts
+--- resolving/default-resolver/src/index.ts.orig
++++ resolving/default-resolver/src/index.ts
+@@ -16,8 +16,10 @@ import {
+   type ResolveFunction,
+   type ResolveOptions,
+   type WantedDependency,
++  type TarballResolution,
++  type PkgResolutionId,
+ } from '@pnpm/resolver-base'
+-import { type TarballResolveResult, resolveFromTarball } from '@pnpm/tarball-resolver'
++import { type TarballResolveResult, resolveFromTarball, resolveFromMirrorTarball } from '@pnpm/tarball-resolver'
+ 
+ export type {
+   PackageMeta,
+@@ -56,6 +58,15 @@ export function createResolver (
+         throw new PnpmError(
+           'SPEC_NOT_SUPPORTED_BY_ANY_RESOLVER',
+           `${wantedDependency.alias ? wantedDependency.alias + '@' : ''}${wantedDependency.bareSpecifier ?? ''} isn't supported by any available resolver.`)
++      }
++      if (wantedDependency.mirror) {
++        const resolutionTarballMirror = await resolveFromMirrorTarball({ bareSpecifier: wantedDependency.mirror })
++        if (resolutionTarballMirror) {
++          const _tarball = 'mirror:' + wantedDependency.mirror + '|' + (resolution.resolution as TarballResolution).tarball
++          resolutionTarballMirror.resolution = { tarball: _tarball }
++          return resolutionTarballMirror
++        }
++        resolution.id = wantedDependency.mirror as PkgResolutionId
+       }
+       return resolution
+     },

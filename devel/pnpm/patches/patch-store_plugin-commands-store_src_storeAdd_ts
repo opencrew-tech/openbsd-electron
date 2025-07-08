@@ -1,0 +1,23 @@
+Index: store/plugin-commands-store/src/storeAdd.ts
+--- store/plugin-commands-store/src/storeAdd.ts.orig
++++ store/plugin-commands-store/src/storeAdd.ts
+@@ -20,7 +20,18 @@ export async function storeAdd (
+     streamParser.on('data', reporter)
+   }
+ 
+-  const deps = fuzzyDeps.map((dep) => parseWantedDependency(dep))
++  const deps = fuzzyDeps.map((dep) => {
++    const mirrorDelimiter = dep.indexOf('|', 1)
++    if (mirrorDelimiter !== -1) {
++      const mirror = dep.slice(0, mirrorDelimiter)
++      dep = dep.slice(mirrorDelimiter+1)
++      let _dep = parseWantedDependency(dep)
++      _dep.mirror = mirror
++      return _dep
++    } else {
++      return parseWantedDependency(dep)
++    }
++  })
+ 
+   let hasFailures = false
+   const prefix = opts.prefix ?? process.cwd()

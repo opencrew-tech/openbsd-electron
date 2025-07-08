@@ -1,0 +1,12 @@
+Index: pnpm/artifacts/exe/setup.js
+--- pnpm/artifacts/exe/setup.js.orig
++++ pnpm/artifacts/exe/setup.js
+@@ -5,6 +5,8 @@ const platform = process.platform === 'win32'
+   ? 'win'
+   : process.platform === 'darwin'
+   ? 'macos'
++  : process.platform === 'openbsd'
++  ? 'linux'
+   : process.platform
+ const arch = platform === 'win' && process.arch === 'ia32' ? 'x86' : process.arch
+ 

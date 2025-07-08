@@ -1,0 +1,21 @@
+Index: fetching/pick-fetcher/src/index.ts
+--- fetching/pick-fetcher/src/index.ts.orig
++++ fetching/pick-fetcher/src/index.ts
+@@ -5,7 +5,16 @@ export function pickFetcher (fetcherByHostingType: Par
+   let fetcherType: keyof Fetchers | undefined = resolution.type
+ 
+   if (resolution.type == null) {
+-    if (resolution.tarball.startsWith('file:')) {
++    if (resolution.tarball.startsWith('mirror:')) {
++      const mirrorDelimiter = resolution.tarball.indexOf('|', 1)
++      const mirror = resolution.tarball.slice(0, mirrorDelimiter)
++      if (isGitHostedPkgUrl(mirror.replace('mirror:', ''))) {
++        fetcherType = 'gitMirrorTarball'
++      } else {
++        fetcherType = 'localTarball'
++      }
++      resolution.tarball = resolution.tarball.slice(mirrorDelimiter + 1)
++    } else if (resolution.tarball.startsWith('file:')) {
+       fetcherType = 'localTarball'
+     } else if (isGitHostedPkgUrl(resolution.tarball)) {
+       fetcherType = 'gitHostedTarball'

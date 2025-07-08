@@ -1,0 +1,29 @@
+Index: resolving/tarball-resolver/src/index.ts
+--- resolving/tarball-resolver/src/index.ts.orig
++++ resolving/tarball-resolver/src/index.ts
+@@ -7,6 +7,25 @@ export interface TarballResolveResult extends ResolveR
+   resolvedVia: 'url'
+ }
+ 
++export async function resolveFromMirrorTarball (
++  wantedDependency: { bareSpecifier: string }
++): Promise<TarballResolveResult | null> {
++  if (!wantedDependency.bareSpecifier.startsWith('http:') && !wantedDependency.bareSpecifier.startsWith('https:')) {
++    return null
++  }
++
++  if (isRepository(wantedDependency.bareSpecifier)) return null
++
++  return {
++    id: wantedDependency.bareSpecifier as PkgResolutionId,
++    normalizedBareSpecifier: wantedDependency.bareSpecifier,
++    resolution: {
++      tarball: wantedDependency.bareSpecifier,
++    },
++    resolvedVia: 'url',
++  }
++}
++
+ export async function resolveFromTarball (
+   fetchFromRegistry: FetchFromRegistry,
+   wantedDependency: { bareSpecifier: string }

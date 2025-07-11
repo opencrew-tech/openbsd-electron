@@ -11,7 +11,7 @@ Index: third_party/electron_node/unofficial.gni
        "$node_simdutf_path",
        "$node_v8_path:v8_libplatform",
      ]
-@@ -229,17 +228,17 @@ template("node_gn_build") {
+@@ -232,17 +231,17 @@ template("node_gn_build") {
        sources += node_inspector.node_inspector_sources +
                   node_inspector.node_inspector_generated_sources
      }

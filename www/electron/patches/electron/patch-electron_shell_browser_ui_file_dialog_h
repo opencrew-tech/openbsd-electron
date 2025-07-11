@@ -1,7 +1,7 @@
 Index: electron/shell/browser/ui/file_dialog.h
 --- electron/shell/browser/ui/file_dialog.h.orig
 +++ electron/shell/browser/ui/file_dialog.h
-@@ -77,7 +77,7 @@ bool ShowSaveDialogSync(const DialogSettings& settings
+@@ -79,7 +79,7 @@ std::optional<base::FilePath> ShowSaveDialogSync(
  void ShowSaveDialog(const DialogSettings& settings,
                      gin_helper::Promise<gin_helper::Dictionary> promise);
  

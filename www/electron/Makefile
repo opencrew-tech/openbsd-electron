@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		35.4.0
+ELECTRON_V=		35.7.0
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -32,7 +32,7 @@ PERMIT_PACKAGE=		Yes
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
 CHROMIUM_V=		134.0.6998.205
-NODE_V=			22.15.0
+NODE_V=			22.16.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76

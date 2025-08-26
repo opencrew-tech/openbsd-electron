@@ -1,5 +1,4 @@
 bin/pnpm
-bin/pnpx
 lib/node_modules/pnpm/
 lib/node_modules/pnpm/LICENSE
 lib/node_modules/pnpm/README.md
@@ -13,7 +12,7 @@ lib/node_modules/pnpm/dist/node-gyp-bin/node-gyp.cmd
 lib/node_modules/pnpm/dist/node_modules/
 lib/node_modules/pnpm/dist/node_modules/.modules.yaml
 lib/node_modules/pnpm/dist/node_modules/.pnpm/
-lib/node_modules/pnpm/dist/node_modules/.pnpm-workspace-state.json
+lib/node_modules/pnpm/dist/node_modules/.pnpm-workspace-state-v1.json
 lib/node_modules/pnpm/dist/node_modules/.pnpm/lock.yaml
 lib/node_modules/pnpm/dist/node_modules/@isaacs/
 lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/
@@ -452,12 +451,6 @@ lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.d.ts.map
 lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.js
 lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.js.map
 lib/node_modules/pnpm/dist/node_modules/jackspeak/package.json
-lib/node_modules/pnpm/dist/node_modules/jsbn/
-lib/node_modules/pnpm/dist/node_modules/jsbn/LICENSE
-lib/node_modules/pnpm/dist/node_modules/jsbn/example.html
-lib/node_modules/pnpm/dist/node_modules/jsbn/example.js
-lib/node_modules/pnpm/dist/node_modules/jsbn/index.js
-lib/node_modules/pnpm/dist/node_modules/jsbn/package.json
 lib/node_modules/pnpm/dist/node_modules/lru-cache/
 lib/node_modules/pnpm/dist/node_modules/lru-cache/LICENSE
 lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/
@@ -1157,17 +1150,6 @@ lib/node_modules/pnpm/dist/node_modules/socks/build/common/util.js.map
 lib/node_modules/pnpm/dist/node_modules/socks/build/index.js
 lib/node_modules/pnpm/dist/node_modules/socks/build/index.js.map
 lib/node_modules/pnpm/dist/node_modules/socks/package.json
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/LICENSE
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/dist/
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/dist/angular-sprintf.min.js
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/dist/angular-sprintf.min.js.map
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/dist/sprintf.min.js
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/dist/sprintf.min.js.map
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/package.json
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/src/
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/src/angular-sprintf.js
-lib/node_modules/pnpm/dist/node_modules/sprintf-js/src/sprintf.js
 lib/node_modules/pnpm/dist/node_modules/ssri/
 lib/node_modules/pnpm/dist/node_modules/ssri/lib/
 lib/node_modules/pnpm/dist/node_modules/ssri/lib/index.js

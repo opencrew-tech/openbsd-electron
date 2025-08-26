@@ -18,7 +18,7 @@
 
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.12.4
+V=		10.15.0
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel
@@ -67,10 +67,10 @@ do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/node_modules/pnpm
 	cp -Rp ${WRKDIR}/package/* ${PREFIX}/lib/node_modules/pnpm
 	cp -p ${WRKSRC}/pnpm/dist/pnpm.cjs ${PREFIX}/lib/node_modules/pnpm/dist/
-	cp -p ${WRKSRC}/pnpm/dist/pnpx.cjs ${PREFIX}/lib/node_modules/pnpm/dist/
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/lib/node_modules
 	ln -s ../lib/node_modules/pnpm/bin/pnpm.cjs ${PREFIX}/bin/pnpm
-	ln -s ../lib/node_modules/pnpm/bin/pnpx.cjs ${PREFIX}/bin/pnpx
+	rm -rf ${PREFIX}/lib/node_modules/pnpm/dist/vendor
+	rm -rf ${PREFIX}/lib/node_modules/pnpm/dist/reflink*
 
 TEST_ENV=	${MAKE_ENV} ${MODPNPM_ENV} PNPM_WORKERS=3
 

@@ -1,11 +1,11 @@
 Index: ringrtc/src/webrtc/src/modules/audio_device/audio_device_impl.h
 --- ringrtc/src/webrtc/src/modules/audio_device/audio_device_impl.h.orig
 +++ ringrtc/src/webrtc/src/modules/audio_device/audio_device_impl.h
-@@ -40,6 +40,7 @@ class AudioDeviceModuleImpl : public AudioDeviceModule
+@@ -44,6 +44,7 @@ class AudioDeviceModuleImpl : public AudioDeviceModule
      // `CreatePlatformSpecificObjects()` call will fail unless usable
      // implementation will be provided by the user.
      kPlatformFuchsia = 7,
 +    kPlatformOpenBSD = 8,
    };
  
-   int32_t CheckPlatform();
+   static absl_nullable scoped_refptr<AudioDeviceModuleImpl> Create(

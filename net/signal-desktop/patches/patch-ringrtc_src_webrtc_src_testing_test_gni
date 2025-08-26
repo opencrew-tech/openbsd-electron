@@ -7,6 +7,6 @@ Index: ringrtc/src/webrtc/src/testing/test.gni
    # And, some build configs may simply turn off generation altogether.
 -  tests_have_location_tags = generate_location_tags
 +  tests_have_location_tags = false
- }
  
- # On Fuchsia, the test executable has a suffix and is a dependency of the
+   # Build individual_fuzztest_wrapper if use_fuzztest_wrapper is set.
+   # Some projects doesn't have //base and cannot build

@@ -1,7 +1,7 @@
 Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
 --- ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs.orig
 +++ ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
-@@ -116,7 +116,7 @@ impl DeviceCollectionWrapper {
+@@ -117,7 +117,7 @@ impl DeviceCollectionWrapper {
          if self.count() == 0 {
              None
          } else if idx > 0 {
@@ -10,12 +10,18 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
              {
                  self.iter().nth(idx - 1)
              }
-@@ -146,7 +146,7 @@ impl DeviceCollectionWrapper {
+@@ -147,12 +147,12 @@ impl DeviceCollectionWrapper {
      #[cfg(not(target_os = "windows"))]
      /// Returns the number of devices, counting the default device.
      pub fn count(&self) -> usize {
 -        #[cfg(target_os = "macos")]
 +        #[cfg(any(target_os = "macos", target_os = "openbsd"))]
          let count = self.iter().count();
-         // Whether a monitor device is default or not, there will be an additional default,
-         // so no need to do anything different.
+         #[cfg(target_os = "linux")]
+         let count = self.iter_non_monitor().count();
+         if count == 0 {
+-            #[cfg(target_os = "macos")]
++            #[cfg(any(target_os = "macos", target_os = "openbsd"))]
+             return 0;
+             #[cfg(target_os = "linux")]
+             return

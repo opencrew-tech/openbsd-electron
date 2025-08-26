@@ -2,7 +2,7 @@
 
 COMMENT=		Signal Desktop links with Signal
 
-V=			7.60.0
+V=			7.66.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -23,17 +23,17 @@ WANTLIB += ${MODCARGO_WANTLIB} c++ m
 # ELECTRON_V=36.3.2
 # NODE_V=22.15.0
 # sqlcipher depends
-SQLCIPHER_V=	2.0.3
+SQLCIPHER_V=	2.2.2
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.74.1
+LIBSIGNAL_V=	0.76.7
 BORING_ID=	bb42da53b3900aea1936d41decf9403f25c4259c
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
 SPQR_ID=	d6c10734689ec5844d09c1a054a288d36cde2adc
 BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
-RINGRTC_V=	2.53.0
-WEBRTC_V=	7103d
+RINGRTC_V=	2.56.0
+WEBRTC_V=	7204a
 
 # node-sqlcipher, AGPLv3
 SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
@@ -95,14 +95,12 @@ MODULES=		devel/cargo \
 USE_GMAKE=		Yes
 USE_NINJA=		No	# disable MODCMAKE targets
 
-# pledge signal-desktop, avoid sqlcipher_mlock()
-CFLAGS+=		-DOMIT_MEMLOCK
-
 # see custom modcargo-gen-crates
 MODCARGO_CARGOS_TOML=	${SQLCEXT_TOML} \
 			${FTS5_TOML} \
 			${LIBSIGNAL_TOML} \
 			${RINGRTC_TOML}
+
 # libsignal/linkme is broken with https://github.com/dtolnay/linkme/commit
 # 64e7c63c106848481bea8f66c4885b52c26ca9ec
 # It's probably related to https://github.com/dtolnay/linkme/issues/49
@@ -125,17 +123,20 @@ MODNPM_INSTALL=		No
 MODNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
 
-MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODPNPM_BUILD=		No
 MODPNPM_INSTALL=	No
-MODPNPM_GEN_UPDATE=	esbuild@0.25.5
+MODPNPM_GEN_UPDATE=	esbuild@0.25.9
 MODPNPM_GEN_INSTALL=	@swc/wasm@1.10.16 # fallback for @swc/core
-MODPNPM_GEN_OVERRIDES=	"esbuild":"0.25.5"
+MODPNPM_GEN_OVERRIDES=	"esbuild":"0.25.9"
+MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODPNPM_TARGETS=	${WRKSRC} \
 			${WRKSRC}/sticker-creator \
 			${WRKSRC}/node-sqlcipher
 
 MODPY_RUNDEP=		No
+
+# pledge signal-desktop, avoid sqlcipher_mlock()
+CFLAGS+=		-DOMIT_MEMLOCK
 
 BUILD_DEPENDS+=		devel/gn \
 			devel/ninja \
@@ -144,7 +145,7 @@ RUN_DEPENDS+=		devel/desktop-file-utils
 
 DEBUG_PACKAGES=		${BUILD_PACKAGES}
 
-SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR
+SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR MODCLANG_VERSION
 
 # pre-define source date, no git show -s --format=%ct
 MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
@@ -155,7 +156,7 @@ MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
-# GN webrtc build
+# GN webrtc build, see chromium or electron Makefile
 # XXX Unrecognized system libraries requested: libavif, libevent
 GN_SYSTEM_LIBS=		brotli \
 			crc32c \
@@ -182,7 +183,7 @@ GN_SYSTEM_LIBS=		brotli \
 			snappy \
 			woff2 \
 			zstd
-# electron/Makefile link options
+# link options
 GN_ARGS+=		symbol_level=1 \
 			is_component_build=false
 GN_ARGS+=		use_thin_lto=false \
@@ -202,18 +203,23 @@ PKG_ARGS+=		-Dswiftshader=1
 .else
 PKG_ARGS+=		-Dswiftshader=0
 .endif
-# electron/Makefile common options
-_EXTRA_CPPFLAGS=	-idirafter ${LOCALBASE}/include \
+# common options
+EXTRA_CPPFLAGS=		-I${LOCALBASE}/include/libepoll-shim \
+			-idirafter ${LOCALBASE}/include \
 			-idirafter ${X11BASE}/include
 GN_ARGS+=		clang_use_chrome_plugins=false \
-			enable_rust=false \
-			extra_cppflags=\"${_EXTRA_CPPFLAGS}\" \
+			extra_cppflags=\"${EXTRA_CPPFLAGS}\" \
 			fatal_linker_warnings=false \
 			treat_warnings_as_errors=false \
 			use_custom_libcxx=false \
 			use_sysroot=false
-
-# see ringrtc/bin/build-electron
+# use rust
+RUSTC_VERSION!!=	rustc -V
+MAKE_ENV+=		RUSTC_BOOTSTRAP=1
+GN_ARGS+=		enable_rust=true \
+			rust_sysroot_absolute=\"${LOCALBASE}\" \
+			rustc_version=\"${RUSTC_VERSION}\"
+# see https://github.com/signalapp/ringrtc/blob/main/bin/build-desktop
 GN_ARGS+=		rtc_build_examples=false \
 			rtc_build_tools=false \
 			rtc_disable_metrics=true \
@@ -314,6 +320,8 @@ libsignal:
 	    ${LIBSIGNAL_T}/@signalapp+libsignal-client.node
 
 webrtc:
+	${SUBST_CMD} ${WEBRTC_SRC}/build/rust/rust_bindgen.gni \
+		${WEBRTC_SRC}/build/rust/rust_bindgen_generator.gni
 	# configure libwebrtc native depends for ringrtc
 	echo "# fake gclient_args" > ${WEBRTC_SRC}/build/config/gclient_args.gni
 	cd ${WEBRTC_SRC} && ${SETENV} ${MAKE_ENV} \
@@ -399,6 +407,7 @@ _SQLCIPHER_GH=	${_SIGNALAPP_GH}/node-sqlcipher/
 _SQLCIPHER_LOCK=deps/extension/Cargo.lock
 _LIBSIGNAL_GH=	${_SIGNALAPP_GH}/libsignal/
 _RINGRTC_GH=	${_SIGNALAPP_GH}/ringrtc/
+
 versions:
 	# make versions
 	@mkdir -p ${_TMP} ;						\
@@ -520,13 +529,13 @@ modcargo-gen-crates:
 chromium-patches:
 	make extract
 	@mkdir -p ${_TMP}
-	# cvs co -D 20250516 -d chromium ports/www/chromium
+	# cvs co -D 20250801 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -D 20250516 -d chromium ports/www/chromium ; \
+		cvs co -D 20250801 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches

@@ -1,6 +1,6 @@
 {
   "name": "@signalapp/sqlcipher",
-  "version": "2.0.3",
+  "version": "2.2.2",
   "description": "A fast N-API-based Node.js addon wrapping sqlcipher and FTS5 segmenting APIs",
   "homepage": "http://github.com/signalapp/node-sqlcipher.git",
   "license": "AGPL-3.0-only",
@@ -45,7 +45,7 @@
     "prebuildify": "prebuildify --strip --napi",
     "test": "vitest --coverage --pool threads",
     "format": "run-p --print-label format:c format:js",
-    "format:c": "xcrun clang-format --style=chromium -Werror --verbose -i src/*.cc",
+    "format:c": "xcrun clang-format --style=chromium -Werror --verbose -i src/*.cc src/*.h",
     "format:js": "prettier --cache --write .",
     "lint": "run-p --print-label check:eslint check:format",
     "check:eslint": "eslint --cache .",
@@ -60,7 +60,7 @@
     "@eslint/js": "^9.21.0",
     "@types/node": "^22.13.9",
     "@vitest/coverage-v8": "^3.0.8",
-    "esbuild": "0.25.5",
+    "esbuild": "0.25.9",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "node-gyp": "^11.1.0",
@@ -81,7 +81,7 @@
       "prebuildify": "patches/prebuildify.patch"
     },
     "overrides": {
-      "esbuild": "0.25.5"
+      "esbuild": "0.25.9"
     }
   }
 }

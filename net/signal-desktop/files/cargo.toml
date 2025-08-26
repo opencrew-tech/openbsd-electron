@@ -8,6 +8,14 @@ tokio-boring = { path = '${WRKSRC}/boring/tokio-boring' }
 curve25519-dalek = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek' }
 curve25519-dalek-derive = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek-derive' }
 
+[patch.'https://github.com/signalapp/libsignal']
+libsignal-account-keys = { path = '${WRKSRC}/libsignal/rust/account-keys' }
+libsignal-core = { path = '${WRKSRC}/libsignal/rust/core' }
+poksho = { path = '${WRKSRC}/libsignal/rust/poksho' }
+signal-crypto = { path = '${WRKSRC}/libsignal/rust/crypto' }
+zkcredential = { path = '${WRKSRC}/libsignal/rust/zkcredential' }
+zkgroup = { path = '${WRKSRC}/libsignal/rust/zkgroup' }
+
 [patch.'https://github.com/signalapp/Signal-FTS5-Extension']
 signal-tokenizer = { path = "${WRKSRC}/Signal-FTS5-Extension" }
 

@@ -1,7 +1,7 @@
 Index: rtc_base/network.cc
 --- rtc_base/network.cc.orig
 +++ rtc_base/network.cc
-@@ -314,7 +314,12 @@ webrtc::AdapterType GetAdapterTypeFromName(absl::strin
+@@ -306,7 +306,12 @@ AdapterType GetAdapterTypeFromName(absl::string_view n
    }
  #endif
  
@@ -9,7 +9,7 @@ Index: rtc_base/network.cc
 +  // Treat all other network interface names as ethernet on BSD
 +  return webrtc::ADAPTER_TYPE_ETHERNET;
 +#else
-   return webrtc::ADAPTER_TYPE_UNKNOWN;
+   return ADAPTER_TYPE_UNKNOWN;
 +#endif
  }
  

@@ -1,7 +1,7 @@
 Index: system_wrappers/BUILD.gn
 --- system_wrappers/BUILD.gn.orig
 +++ system_wrappers/BUILD.gn
-@@ -62,8 +62,6 @@ rtc_library("system_wrappers") {
+@@ -56,8 +56,6 @@ rtc_library("system_wrappers") {
      if (!build_with_chromium) {
        sources += [ "source/cpu_features_linux.cc" ]
      }

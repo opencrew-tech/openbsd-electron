@@ -1,7 +1,7 @@
 Index: libsignal/Cargo.toml
 --- libsignal/Cargo.toml.orig
 +++ libsignal/Cargo.toml
-@@ -210,12 +210,12 @@ webpsan = { version = "0.5.3", default-features = fals
+@@ -212,12 +212,12 @@ webpsan = { version = "0.5.3", default-features = fals
  x25519-dalek = "2.0.0"
  zerocopy = "0.8.24"
  

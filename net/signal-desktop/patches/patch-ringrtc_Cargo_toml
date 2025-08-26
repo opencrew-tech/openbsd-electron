@@ -1,11 +1,16 @@
 Index: ringrtc/Cargo.toml
 --- ringrtc/Cargo.toml.orig
 +++ ringrtc/Cargo.toml
-@@ -17,5 +17,5 @@ version = "2.53.0"
+@@ -17,5 +17,10 @@ version = "2.56.0"
  authors = ["Calling Team <callingteam@signal.org>"]
  
  [patch.crates-io]
 -# Use our fork of curve25519-dalek for zkgroup compatibility.
 -curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.1.3' }
-+zkgroup = { path = '${WRKSRC}/libsignal/rust/zkgroup' }
 +curve25519-dalek = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek' }
++libsignal-account-keys = { path = '${WRKSRC}/libsignal/rust/account-keys' }
++libsignal-core = { path = '${WRKSRC}/libsignal/rust/core' }
++poksho = { path = '${WRKSRC}/libsignal/rust/poksho' }
++signal-crypto = { path = '${WRKSRC}/libsignal/rust/crypto' }
++zkcredential = { path = '${WRKSRC}/libsignal/rust/zkcredential' }
++zkgroup = { path = '${WRKSRC}/libsignal/rust/zkgroup' }

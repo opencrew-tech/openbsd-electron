@@ -1,7 +1,7 @@
 Index: node-sqlcipher/deps/sqlcipher/sqlcipher.gyp
 --- node-sqlcipher/deps/sqlcipher/sqlcipher.gyp.orig
 +++ node-sqlcipher/deps/sqlcipher/sqlcipher.gyp
-@@ -92,7 +92,7 @@
+@@ -93,7 +93,7 @@
          }, {
            'link_settings': {
              'libraries': [

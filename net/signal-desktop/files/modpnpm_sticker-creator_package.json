@@ -82,7 +82,7 @@
       "es5-ext"
     ],
     "overrides": {
-      "esbuild": "0.25.5"
+      "esbuild": "0.25.9"
     }
   }
 }

@@ -1,7 +1,7 @@
 Index: ts/updater/index.ts
 --- ts/updater/index.ts.orig
 +++ ts/updater/index.ts
-@@ -63,5 +63,5 @@ export function onRestartCancelled(): void {
+@@ -63,5 +63,5 @@ export function onRestartCanceled(): void {
  }
  
  function autoUpdateDisabled() {

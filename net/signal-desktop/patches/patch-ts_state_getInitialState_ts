@@ -1,7 +1,7 @@
 Index: ts/state/getInitialState.ts
 --- ts/state/getInitialState.ts.orig
 +++ ts/state/getInitialState.ts
-@@ -193,7 +193,7 @@ export function generateUserState({
+@@ -195,7 +195,7 @@ export function generateUserState({
      window.ConversationController.getOurConversationId();
    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
  
@@ -10,7 +10,7 @@ Index: ts/state/getInitialState.ts
  
    if (OS.isWindows()) {
      osName = 'windows';
-@@ -201,6 +201,10 @@ export function generateUserState({
+@@ -203,6 +203,10 @@ export function generateUserState({
      osName = 'macos';
    } else if (OS.isLinux()) {
      osName = 'linux';

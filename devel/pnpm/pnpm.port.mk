@@ -7,10 +7,16 @@ MODPNPM_LOCKS?=		${MODPNPM_TARGETS:=%/pnpm-lock.yaml}
 MODPNPM_INCLUDES?= 	# include modules
 MODPNPM_EXCLUDES?= 	# exclude modules
 
-# modpnpm-gen-modules need to update package.json: no, * or package@version
+# pnpm overrides, https://pnpm.io/package_json#pnpmoverrides
+# note you likely need MODPNPM_GEN_UPDATE/INSTALL
+MODPNPM_GEN_OVERRIDES?=
+
+# modpnpm-gen-modules helpers : empty/no, * or package@version
+# run pnpm update, example esbuild@x.y.z
 MODPNPM_GEN_UPDATE?=	No
-MODPNPM_GEN_OVERRIDES?=	# update/override module@version during gen-modules
-MODPNPM_GEN_INSTALL?=	No # extra module, for example @swc/wasm fallback
+# run pnpm install, example @swc/wasm@x.y.z
+MODPNPM_GEN_INSTALL?=	No
+
 MODPNPM_LOCKFILES?=	package.json pnpm-lock.yaml
 MODPNPM_PATCHORIG?=	.orig.modpnpm
 
@@ -42,8 +48,8 @@ MODPNPM_PACKAGES?=	${WRKDIR}/packages
 
 # XXX duplicate with modnpm
 # to run node-gyp in custom build
-#NPM_NODE_MODULES=${LOCALBASE}/lib/node_modules/npm
-#NPM_GYP_BIN=${NPM_NODE_MODULES}/node_modules/node-gyp/bin/node-gyp.js
+MODPNPM_NODE_MODULES=${LOCALBASE}/lib/node_modules/npm
+MODPNPM_GYP_BIN=${MODPNPM_NODE_MODULES}/node_modules/node-gyp/bin/node-gyp.js
 
 # home needed for pnpm store, sync with modpnpm-gen-vendor
 PORTHOME?=	${WRKDIR}/vendor
@@ -180,7 +186,7 @@ MODPNPM_INSTALL_TARGET=\
 MODPNPM_TEST_TARGET=\
 	for _target in $$(echo "${MODPNPM_TARGETS}"); do \
 		echo "MODPNPM: test $${_target}" ; \
-		cd $${_target} && ${PNPM_CMD} test ; \
+		cd $${_target} && ${MODPNPM_CMD} test ; \
 	done
 
 .if !target(pre-build)

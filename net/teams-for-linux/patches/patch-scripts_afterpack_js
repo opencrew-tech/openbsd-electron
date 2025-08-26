@@ -1,0 +1,47 @@
+Disable afterPack because fuse is not supported on OpenBSD.
+But keep the script running from package.json to ease maintenance.
+
+Index: scripts/afterpack.js
+--- scripts/afterpack.js.orig
++++ scripts/afterpack.js
+@@ -22,22 +22,24 @@ function getAppFileName(context) {
+ }
+ 
+ exports.default = async function afterPack(context) {
+-  try {
+-    // Ensure release info is generated for Linux publishing
+-    if (context.electronPlatformName === "linux") {
+-      await generateReleaseInfoForLinux();
+-    }
+-
+-    const appPath = `${context.appOutDir}/${getAppFileName(context)}`;
+-    await chmod(appPath, 0o755);
+-    await flipFuses(appPath, {
+-      version: FuseVersion.V1,
+-      [FuseV1Options.EnableCookieEncryption]: true,
+-    });
+-  } catch (error) {
+-    console.error("afterPack error: ", error);
+-    process.exit(1);
+-  }
++/*
++ *  try {
++ *    // Ensure release info is generated for Linux publishing
++ *    if (context.electronPlatformName === "linux") {
++ *      await generateReleaseInfoForLinux();
++ *    }
++ *
++ *    const appPath = `${context.appOutDir}/${getAppFileName(context)}`;
++ *    await chmod(appPath, 0o755);
++ *    await flipFuses(appPath, {
++ *      version: FuseVersion.V1,
++ *      [FuseV1Options.EnableCookieEncryption]: true,
++ *    });
++ *  } catch (error) {
++ *    console.error("afterPack error: ", error);
++ *    process.exit(1);
++ *  }
++ */
+ };
+ 
+ async function generateReleaseInfoForLinux() {

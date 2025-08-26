@@ -7,25 +7,33 @@ MODYARN_LOCKS?=		${MODYARN_TARGETS:=%/yarn.lock}
 
 MODYARN_OMITOPTIONAL?=	No # omit optional depends
 
+.if ${NO_BUILD:L} == "no"
+MODYARN_BUILDDEP?=	Yes
+.else
+MODYARN_BUILDDEP?=	No
+.endif
+
 SITES.yarn?=		https://registry.yarnpkg.com/
 SITES.npm?=		https://registry.npmjs.org/
 
-BUILD_DEPENDS+=		devel/yarn
-
-# don't extract, avoid conflict with MODNPM, see post-extract
+# see post-extract
 EXTRACT_CASES+=		${MODNPM_DIST}/*.tgz) ;;
 EXTRACT_CASES+=		${MODYARN_DIST}/*) ;;
+
+.if ${MODYARN_BUILDDEP:L} == "yes"
+BUILD_DEPENDS +=	devel/yarn
+.endif
 
 # bring module in yarn cache
 EXTRACT_YARN=		${MODYARN_DIST}/*|${MODNPM_DIST}/*.tgz) \
 	_filename=$$(echo $${archive\#\#*/} | \
 		sed -e '/%/s/${EXTRACT_SUFX.github}//' \
 		-e '/%/s/.*%//' -e 's/\.-//') ; \
-	ln -fs ${FULLDISTDIR}/$$archive \
-		${MODYARN_CACHE}/$$_filename \
+	ln -fs ${FULLDISTDIR}/$$archive ${MODYARN_CACHE}/$$_filename \
 	;;
 
 # re-tarball to match Yarn's expectation
+# XXX no consummer atm
 EXTRACT_GITHUB=		${MODYARN_DIST}/*.git-*) \
 	_filename=$$(echo $${archive\#\#*/} | \
 		sed -e '/%/s/${EXTRACT_SUFX.github}//' \

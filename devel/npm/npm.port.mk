@@ -13,7 +13,8 @@ MODNPM_BUILDDEP?=	Yes
 .else
 MODNPM_BUILDDEP?=	No
 .endif
-MODNPM_RUNDEP?=	Yes
+
+MODNPM_RUNDEP?=		Yes
 .if ${NO_TEST:L} == "no"
 MODNPM_TESTDEP?=	Yes
 .else
@@ -26,18 +27,18 @@ MODNPM_INSTALL_TARGET?=	${WRKSRC}
 MODNPM_INSTALL_DIR?=	lib/node_modules
 
 # to run node-gyp in custom build
-NPM_NODE_MODULES=${LOCALBASE}/lib/node_modules/npm
-NPM_GYP_BIN=${NPM_NODE_MODULES}/node_modules/node-gyp/bin/node-gyp.js
+MODNPM_NODE_MODULES=${LOCALBASE}/lib/node_modules/npm
+MODNPM_GYP_BIN=${MODNPM_NODE_MODULES}/node_modules/node-gyp/bin/node-gyp.js
 
 # to run npm rebuild
-NPM_CMD?=	${SETENV} ${MAKE_ENV} ${NPM_REBUILD_ENV} HOME=${WRKDIR} npm
-NPM_ARGS?=	--offline --verbose --foreground-scripts
+MODNPM_CMD?=	${SETENV} ${MAKE_ENV} ${MODNPM_REBUILD_ENV} HOME=${WRKDIR} npm
+MODNPM_ARGS?=	--offline --verbose --foreground-scripts
 
-NPM_REBUILD_ENV?=	npm_config_nodedir=${LOCALBASE}
+MODNPM_REBUILD_ENV?=	npm_config_nodedir=${LOCALBASE}
 
 SITES.npm?=		https://registry.npmjs.org/
 
-# don't extract, avoid conflict with MODYARN, see post-extract
+# see post-extract
 EXTRACT_CASES+=		${MODNPM_DIST}/*.tgz) ;;
 
 .if ${MODNPM_BUILDDEP:L} == "yes"
@@ -67,7 +68,7 @@ MODNPM_post-extract+= \
 do-build:
 	@for _target in $$(echo "${MODNPM_TARGETS}"); do \
 		echo "MODNPM: build $${_target}" ; \
-		cd $${_target} && ${NPM_CMD} rebuild ${NPM_ARGS} ; \
+		cd $${_target} && ${MODNPM_CMD} rebuild ${MODNPM_ARGS} ; \
 	done
 .endif
 
@@ -112,6 +113,7 @@ do-install:
 
 .if !target(modnpm-gen-modules)
 modnpm-gen-modules:
+	# make -D _GEN_MODULES extract
 	@make -D _GEN_MODULES extract >/dev/null 2>&1
 	# make modnpm-gen-modules > modules.inc
 	# MODNPM_OMITDEV=${MODNPM_OMITDEV}

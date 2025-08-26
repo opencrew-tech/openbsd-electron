@@ -122,6 +122,7 @@ MODELECTRON_WRAPPER_ENV=NODE_ENV=production
 
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
+MODNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
 
 MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
@@ -135,8 +136,6 @@ MODPNPM_TARGETS=	${WRKSRC} \
 			${WRKSRC}/node-sqlcipher
 
 MODPY_RUNDEP=		No
-
-NPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 
 BUILD_DEPENDS+=		devel/gn \
 			devel/ninja \
@@ -298,7 +297,7 @@ node-sqlcipher:sqlcipher-extension
 	# build node-sqlcipher native depends
 	${SUBST_CMD} ${SQLCIPHER_SRC}/deps/sqlcipher/sqlcipher.gyp
 	cd ${SQLCIPHER_SRC} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-		node ${NPM_GYP_BIN} rebuild --verbose
+		node ${MODNPM_GYP_BIN} rebuild --verbose
 	# install node-sqlcipher prebuild
 	mkdir -p ${SQLCIPHER_T}/openbsd-${NODE_ARCH}
 	cp ${SQLCIPHER_SRC}/build/Release/node_sqlcipher.node \
@@ -351,10 +350,10 @@ test-libsignal:
 		cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
 			${LIBSIGNAL_PREB}/@signalapp+libsignal-client.node
 	# setup required bin
-	cd ${LIBSIGNAL_NODE} && ${NPM_CMD} rebuild ${NPM_ARGS} mocha
+	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} rebuild ${MODNPM_ARGS} mocha
 	# build libsignal tests
-	cd ${LIBSIGNAL_NODE} && ${NPM_CMD} run tsc || true
-	cd ${LIBSIGNAL_NODE} && ${NPM_CMD} run test || true
+	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} run tsc || true
+	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} run test || true
 
 test-sticker-creator:
 	# run sticker-creator test
@@ -564,7 +563,7 @@ chromium-patches:
 dns-fallback:
 	@make configure >/dev/null 2>&1
 	@cd ${WRKSRC} && \
-		${_PBUILD} ${NPM_CMD} run build:dns-fallback && \
+		${_PBUILD} ${MODNPM_CMD} run build:dns-fallback && \
 		cat ${WRKSRC}/build/dns-fallback.json
 
 _gn_args-list:

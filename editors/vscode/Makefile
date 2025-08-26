@@ -122,14 +122,14 @@ pre-build:
 			continue; \
 		echo "rebuild $${subdir}"; \
 		cd $${subdir} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-			node ${NPM_GYP_BIN} rebuild ${NPM_ARGS} ; \
+			node ${MODNPM_GYP_BIN} rebuild ${MODNPM_ARGS} ; \
 		touch $${subdir}/.build_done; \
 	done
 	cd ${WRKSRC}/extensions && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV}
-		npm rebuild ${NPM_ARGS}
+		npm rebuild ${MODNPM_ARGS}
 	# rebuild native node modules for node
 .for dir in build remote
-	cd ${WRKSRC}/${dir} && ${NPM_CMD} rebuild ${NPM_ARGS}
+	cd ${WRKSRC}/${dir} && ${MODNPM_CMD} rebuild ${MODNPM_ARGS}
 .endfor
 	# copy rg binary files to vscode-ripgrep module directory
 	mkdir -p ${WRKSRC}/node_modules/@vscode/ripgrep/bin

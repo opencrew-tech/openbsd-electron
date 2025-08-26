@@ -9,7 +9,7 @@ Index: src/vs/base/common/platform.ts
 +	_isLinux = (['freebsd', 'linux', 'openbsd'].includes(nodeProcess.platform));
  	_isLinuxSnap = _isLinux && !!nodeProcess.env['SNAP'] && !!nodeProcess.env['SNAP_REVISION'];
  	_isElectron = isElectronProcess;
- 	_isCI = !!nodeProcess.env['CI'] || !!nodeProcess.env['BUILD_ARTIFACTSTAGINGDIRECTORY'];
+ 	_isCI = !!nodeProcess.env['CI'] || !!nodeProcess.env['BUILD_ARTIFACTSTAGINGDIRECTORY'] || !!nodeProcess.env['GITHUB_WORKSPACE'];
 @@ -100,7 +100,7 @@ else if (typeof navigator === 'object' && !isElectronR
  	_isWindows = _userAgent.indexOf('Windows') >= 0;
  	_isMacintosh = _userAgent.indexOf('Macintosh') >= 0;

@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		35.7.0
+ELECTRON_V=		35.7.5
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes

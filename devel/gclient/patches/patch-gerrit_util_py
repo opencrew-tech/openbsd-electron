@@ -1,0 +1,67 @@
+ModuleNotFoundError: No module named 'httplib2.socks'
+
+Index: gerrit_util.py
+--- gerrit_util.py.orig
++++ gerrit_util.py
+@@ -35,7 +35,6 @@ from typing import NamedTuple, List, Optional
+ from typing import Tuple, TypedDict, cast
+ 
+ import httplib2
+-import httplib2.socks
+ 
+ import auth
+ import gclient_utils
+@@ -44,53 +43,6 @@ import metrics_utils
+ import newauth
+ import scm
+ import subprocess2
+-
+-
+-# HACK: httplib2 has significant bugs with its proxy support in
+-# python3. All httplib2 code should be rewritten to just use python
+-# stdlib which does not have these bugs.
+-#
+-# Prior to that, however, we will directly patch the buggy
+-# implementation of httplib2.socks.socksocket.__rewriteproxy which does
+-# not properly expect bytes as its argument instead of str.
+-#
+-# Note that __rewriteproxy is inherently buggy, as it relies on the
+-# python stdlib client to send the entire request header in a single
+-# call to socket.sendall, which is not explicitly guaranteed.
+-#
+-# Changes:
+-#   * all string literals changed to bytes literals.
+-#   * added more http methods to recognize.
+-#   * all __symbols changed to _socksocket__symbols (Python __ munging).
+-#   * Type annotations added to function signature.
+-def __fixed_rewrite_proxy(self: httplib2.socks.socksocket, header: bytes):
+-    """ rewrite HTTP request headers to support non-tunneling proxies
+-    (i.e. those which do not support the CONNECT method).
+-    This only works for HTTP (not HTTPS) since HTTPS requires tunneling.
+-    """
+-    host, endpt = None, None
+-    hdrs = header.split(b"\r\n")
+-    for hdr in hdrs:
+-        if hdr.lower().startswith(b"host:"):
+-            host = hdr
+-        elif hdr.lower().split(b" ")[0] in (b"get", b"head", b"post", b"put",
+-                                            b"patch"):
+-            endpt = hdr
+-    if host and endpt:
+-        hdrs.remove(host)
+-        hdrs.remove(endpt)
+-        host = host.split(b" ")[1]
+-        endpt = endpt.split(b" ")
+-        if self._socksocket__proxy[4] != None \
+-           and self._socksocket__proxy[5] != None:
+-            hdrs.insert(0, self._socksocket__getauthheader())
+-        hdrs.insert(0, b"Host: %s" % host)
+-        hdrs.insert(0,
+-                    b"%s http://%s%s %s" % (endpt[0], host, endpt[1], endpt[2]))
+-    return b"\r\n".join(hdrs)
+-
+-
+-httplib2.socks.socksocket._socksocket__rewriteproxy = __fixed_rewrite_proxy
+ 
+ # TODO: Should fix these warnings.
+ # pylint: disable=line-too-long

@@ -1,7 +1,7 @@
 Index: content/browser/interest_group/interest_group_storage.cc
 --- content/browser/interest_group/interest_group_storage.cc.orig
 +++ content/browser/interest_group/interest_group_storage.cc
-@@ -60,6 +60,38 @@
+@@ -68,6 +68,38 @@
  #include "third_party/sqlite/sqlite3.h"
  #include "url/origin.h"
  
@@ -40,7 +40,7 @@ Index: content/browser/interest_group/interest_group_storage.cc
  namespace content {
  
  namespace {
-@@ -472,7 +504,7 @@ std::string Serialize(
+@@ -438,7 +470,7 @@ std::string Serialize(
  
    std::string compressed;
    base::TimeTicks start = base::TimeTicks::Now();
@@ -49,8 +49,8 @@ Index: content/browser/interest_group/interest_group_storage.cc
    base::UmaHistogramTimes("Storage.InterestGroup.AdProtoCompressionTime",
                            base::TimeTicks::Now() - start);
    if (serialized_ads.size() > 0u) {
-@@ -591,7 +623,7 @@ DecompressAndDeserializeInterestGroupAdVectorProto(
-     const std::string& compressed) {
+@@ -557,7 +589,7 @@ DecompressAndDeserializeInterestGroupAdVectorProto(
+     std::string_view compressed) {
    std::string serialized_ads;
    base::TimeTicks start = base::TimeTicks::Now();
 -  if (!snappy::Uncompress(compressed.data(), compressed.size(),
@@ -58,7 +58,7 @@ Index: content/browser/interest_group/interest_group_storage.cc
                            &serialized_ads)) {
      base::UmaHistogramEnumeration(
          "Storage.InterestGroup.AdProtoDecompressionOutcome",
-@@ -1251,7 +1283,7 @@ bool UpgradeV29SchemaToV30(sql::Database& db, sql::Met
+@@ -1478,7 +1510,7 @@ bool UpgradeV29SchemaToV30(sql::Database& db, sql::Met
      std::string compressed_ads_pb;
      base::span<const uint8_t> ads_pb = select_prev_groups.ColumnBlob(2);
      base::TimeTicks start_ads = base::TimeTicks::Now();
@@ -67,7 +67,7 @@ Index: content/browser/interest_group/interest_group_storage.cc
                       ads_pb.size(), &compressed_ads_pb);
      UMA_HISTOGRAM_TIMES("Storage.InterestGroup.AdProtoCompressionTime",
                          base::TimeTicks::Now() - start_ads);
-@@ -1270,7 +1302,7 @@ bool UpgradeV29SchemaToV30(sql::Database& db, sql::Met
+@@ -1497,7 +1529,7 @@ bool UpgradeV29SchemaToV30(sql::Database& db, sql::Met
      base::span<const uint8_t> ad_components_pb =
          select_prev_groups.ColumnBlob(3);
      base::TimeTicks start_ad_components = base::TimeTicks::Now();

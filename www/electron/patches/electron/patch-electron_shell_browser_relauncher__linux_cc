@@ -23,7 +23,7 @@ Index: electron/shell/browser/relauncher_linux.cc
    // send signum to current process when parent process ends.
    if (HANDLE_EINTR(prctl(PR_SET_PDEATHSIG, signum)) != 0) {
      PLOG(ERROR) << "prctl";
-@@ -48,6 +54,7 @@ void RelauncherSynchronizeWithParent() {
+@@ -47,6 +53,7 @@ void RelauncherSynchronizeWithParent() {
  
    // Wait for the parent to exit
    parentWaiter.Wait();

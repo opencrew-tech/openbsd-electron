@@ -1,7 +1,7 @@
 Index: build/linux/unbundle/replace_gn_files.py
 --- build/linux/unbundle/replace_gn_files.py.orig
 +++ build/linux/unbundle/replace_gn_files.py
-@@ -92,6 +92,8 @@ def DoMain(argv):
+@@ -93,6 +93,8 @@ def DoMain(argv):
    source_tree_root = os.path.abspath(
      os.path.join(my_dirname, '..', '..', '..'))
  
@@ -10,7 +10,7 @@ Index: build/linux/unbundle/replace_gn_files.py
    parser = argparse.ArgumentParser()
    parser.add_argument('--system-libraries', nargs='*', default=[])
    parser.add_argument('--undo', action='store_true')
-@@ -107,12 +109,13 @@ def DoMain(argv):
+@@ -108,12 +110,13 @@ def DoMain(argv):
      if args.undo:
        # Restore original file, and also remove the backup.
        # This is meant to restore the source tree to its original state.

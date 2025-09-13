@@ -7,6 +7,6 @@ Index: electron/shell/browser/ui/views/submenu_button.cc
        background_color_(background_color) {
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
-   // Dont' use native style border.
+   // Don't use native style border.
    SetBorder(CreateDefaultBorder());
  #endif

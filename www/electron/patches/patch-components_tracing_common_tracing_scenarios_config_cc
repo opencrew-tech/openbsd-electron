@@ -1,0 +1,48 @@
+Index: components/tracing/common/tracing_scenarios_config.cc
+--- components/tracing/common/tracing_scenarios_config.cc.orig
++++ components/tracing/common/tracing_scenarios_config.cc
+@@ -60,6 +60,26 @@ const base::FeatureParam<std::string> kPresetTracingCo
+ 
+ }  // namespace
+ 
++// bundle Compress()/Uncompress() from snappy
++// snappy::Raw* to avoid std:string symbol (libcxx may differ)
++
++// ld.lld: error: undefined symbol: snappy::Uncompress(...)
++bool inline _Uncompress(const char* compressed, size_t compressed_length,
++                std::string* uncompressed) {
++  size_t ulength;
++  if (!snappy::GetUncompressedLength(compressed, compressed_length, &ulength)) {
++    return false;
++  }
++  // On 32-bit builds: max_size() < kuint32max.  Check for that instead
++  // of crashing (e.g., consider externally specified compressed data).
++  if (ulength > uncompressed->max_size()) {
++    return false;
++  }
++  uncompressed->resize(ulength);
++  return snappy::RawUncompress(compressed, compressed_length,
++                               &(*uncompressed)[0]);
++}
++
+ std::optional<perfetto::protos::gen::ChromeFieldTracingConfig>
+ GetPresetTracingScenariosConfig() {
+   if (!base::FeatureList::IsEnabled(kPresetTracing)) {
+@@ -89,7 +109,7 @@ GetTracingTriggerRulesConfig() {
+ 
+   // `serialized_config` may optionally be compressed.
+   std::string decompressed_config;
+-  if (snappy::Uncompress(serialized_config.data(), serialized_config.size(),
++  if (_Uncompress(serialized_config.data(), serialized_config.size(),
+                          &decompressed_config)) {
+     serialized_config = std::move(decompressed_config);
+   }
+@@ -123,7 +143,7 @@ ParseEncodedTracingScenariosConfig(const std::string& 
+ 
+   // `serialized_config` may optionally be compressed.
+   std::string decompressed_config;
+-  if (!snappy::Uncompress(serialized_config.data(), serialized_config.size(),
++  if (!_Uncompress(serialized_config.data(), serialized_config.size(),
+                           &decompressed_config)) {
+     return ParseSerializedTracingScenariosConfig(
+         base::as_byte_span(serialized_config));

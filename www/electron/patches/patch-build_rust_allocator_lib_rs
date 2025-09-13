@@ -1,7 +1,7 @@
 Index: build/rust/allocator/lib.rs
 --- build/rust/allocator/lib.rs.orig
 +++ build/rust/allocator/lib.rs
-@@ -89,11 +89,18 @@ mod both_allocators {
+@@ -86,11 +86,18 @@ mod both_allocators {
      /// As part of rustc's contract for using `#[global_allocator]` without
      /// rustc-generated shims we must define this symbol, since we are opting in
      /// to unstable functionality. See https://github.com/rust-lang/rust/issues/123015

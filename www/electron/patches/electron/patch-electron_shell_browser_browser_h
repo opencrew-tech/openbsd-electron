@@ -1,7 +1,7 @@
 Index: electron/shell/browser/browser.h
 --- electron/shell/browser/browser.h.orig
 +++ electron/shell/browser/browser.h
-@@ -144,7 +144,7 @@ class Browser : private WindowListObserver {
+@@ -147,7 +147,7 @@ class Browser : private WindowListObserver {
  
    std::u16string GetApplicationNameForProtocol(const GURL& url);
  
@@ -10,7 +10,7 @@ Index: electron/shell/browser/browser.h
    // get the name, icon and path for an application
    v8::Local<v8::Promise> GetApplicationInfoForProtocol(v8::Isolate* isolate,
                                                         const GURL& url);
-@@ -272,10 +272,10 @@ class Browser : private WindowListObserver {
+@@ -275,10 +275,10 @@ class Browser : private WindowListObserver {
    PCWSTR GetAppUserModelID();
  #endif  // BUILDFLAG(IS_WIN)
  

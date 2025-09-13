@@ -3,7 +3,7 @@ XXX openbsd use a wrapper, skip bin/electron check
 Index: electron/spec/api-app-spec.ts
 --- electron/spec/api-app-spec.ts.orig
 +++ electron/spec/api-app-spec.ts
-@@ -126,11 +126,11 @@ describe('app module', () => {
+@@ -129,11 +129,11 @@ describe('app module', () => {
    });
  
    describe('app.getPreferredSystemLanguages()', () => {
@@ -17,7 +17,7 @@ Index: electron/spec/api-app-spec.ts
        const languages = app.getPreferredSystemLanguages();
        if (languages.length) {
          expect(languages).to.not.include('C');
-@@ -193,7 +193,7 @@ describe('app module', () => {
+@@ -196,7 +196,7 @@ describe('app module', () => {
        expect(code).to.equal(123, 'exit code should be 123, if you see this please tag @MarshallOfSound');
      });
  
@@ -26,7 +26,7 @@ Index: electron/spec/api-app-spec.ts
        const electronPath = process.execPath;
        const appPath = path.join(fixturesPath, 'api', 'singleton');
        appProcess = cp.spawn(electronPath, [appPath]);
-@@ -272,6 +272,9 @@ describe('app module', () => {
+@@ -275,6 +275,9 @@ describe('app module', () => {
  
        // Ensure secondInstanceArgs is a subset of secondInstanceArgsReceived
        for (const arg of secondInstanceArgs) {
@@ -36,7 +36,7 @@ Index: electron/spec/api-app-spec.ts
          expect(secondInstanceArgsReceived).to.include(arg,
            `argument ${arg} is missing from received second args`);
        }
-@@ -447,7 +450,7 @@ describe('app module', () => {
+@@ -488,7 +491,7 @@ describe('app module', () => {
    //   let w = null
  
    //   before(function () {
@@ -45,16 +45,16 @@ Index: electron/spec/api-app-spec.ts
    //       this.skip()
    //     }
    //   })
-@@ -554,7 +557,7 @@ describe('app module', () => {
+@@ -595,7 +598,7 @@ describe('app module', () => {
    describe('app.badgeCount', () => {
      const platformIsNotSupported =
-         (process.platform === 'win32') ||
--        (process.platform === 'linux' && !app.isUnityRunning());
-+        (['freebsd', 'linux', 'openbsd'].includes(process.platform) && !app.isUnityRunning());
+       (process.platform === 'win32') ||
+-      (process.platform === 'linux' && !app.isUnityRunning());
++      (['freebsd', 'linux', 'openbsd'].includes(process.platform) && !app.isUnityRunning());
  
      const expectedBadgeCount = 42;
  
-@@ -598,7 +601,7 @@ describe('app module', () => {
+@@ -639,7 +642,7 @@ describe('app module', () => {
      });
    });
  
@@ -63,16 +63,16 @@ Index: electron/spec/api-app-spec.ts
      const isMac = process.platform === 'darwin';
      const isWin = process.platform === 'win32';
  
-@@ -978,7 +981,7 @@ describe('app module', () => {
+@@ -1019,7 +1022,7 @@ describe('app module', () => {
      });
    });
  
 -  ifdescribe(process.platform !== 'linux')('accessibilitySupportEnabled property', () => {
 +  ifdescribe(!(['freebsd', 'linux', 'openbsd'].includes(process.platform)))('accessibilitySupportEnabled property', () => {
-     it('with properties', () => {
-       it('can set accessibility support enabled', () => {
-         expect(app.accessibilitySupportEnabled).to.eql(false);
-@@ -1154,7 +1157,9 @@ describe('app module', () => {
+     it('is mutable', () => {
+       const values = [false, true, false];
+       const setters: Array<(arg: boolean) => void> = [
+@@ -1209,7 +1212,9 @@ describe('app module', () => {
  
        it('can be changed', () => {
          expect(hasSessionFiles(userDataPath)).to.equal(false);
@@ -82,7 +82,7 @@ Index: electron/spec/api-app-spec.ts
          expect(hasSessionFiles(userDataPath)).to.equal(false);
          expect(hasSessionFiles(tempBrowserDataPath)).to.equal(true);
        });
-@@ -1178,7 +1183,7 @@ describe('app module', () => {
+@@ -1233,7 +1238,7 @@ describe('app module', () => {
      });
    });
  
@@ -91,7 +91,7 @@ Index: electron/spec/api-app-spec.ts
      let w: BrowserWindow;
  
      before(function () {
-@@ -1313,7 +1318,7 @@ describe('app module', () => {
+@@ -1368,7 +1373,7 @@ describe('app module', () => {
  
    describe('getApplicationNameForProtocol()', () => {
      // TODO: Linux CI doesn't have registered http & https handlers
@@ -100,7 +100,7 @@ Index: electron/spec/api-app-spec.ts
        // We can't expect particular app names here, but these protocols should
        // at least have _something_ registered. Except on our Linux CI
        // environment apparently.
-@@ -1331,7 +1336,7 @@ describe('app module', () => {
+@@ -1386,7 +1391,7 @@ describe('app module', () => {
      });
    });
  
@@ -109,7 +109,7 @@ Index: electron/spec/api-app-spec.ts
      it('returns promise rejection for a bogus protocol', async function () {
        await expect(
          app.getApplicationInfoForProtocol('bogus-protocol://')
-@@ -1381,7 +1386,7 @@ describe('app module', () => {
+@@ -1436,7 +1441,7 @@ describe('app module', () => {
    });
  
    // FIXME Get these specs running on Linux CI
@@ -118,7 +118,7 @@ Index: electron/spec/api-app-spec.ts
      const iconPath = path.join(__dirname, 'fixtures/assets/icon.ico');
      const sizes = {
        small: 16,
-@@ -1463,7 +1468,7 @@ describe('app module', () => {
+@@ -1518,7 +1523,7 @@ describe('app module', () => {
            expect(entry.memory).to.have.property('privateBytes').that.is.greaterThan(0);
          }
  
@@ -127,7 +127,7 @@ Index: electron/spec/api-app-spec.ts
            expect(entry.sandboxed).to.be.a('boolean');
          }
  
-@@ -1537,7 +1542,7 @@ describe('app module', () => {
+@@ -1592,7 +1597,7 @@ describe('app module', () => {
  
      it('succeeds with complete GPUInfo', async () => {
        const completeInfo = await getGPUInfo('complete');
@@ -136,7 +136,7 @@ Index: electron/spec/api-app-spec.ts
          // For linux and macOS complete info is same as basic info
          await verifyBasicGPUInfo(completeInfo);
          const basicInfo = await getGPUInfo('basic');
-@@ -1561,7 +1566,7 @@ describe('app module', () => {
+@@ -1616,7 +1621,7 @@ describe('app module', () => {
      });
    });
  

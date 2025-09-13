@@ -143,7 +143,6 @@ electron/${ELECTRON_V}/node_headers/include/node/cppgc/common.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/cross-thread-persistent.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/custom-space.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/default-platform.h
-electron/${ELECTRON_V}/node_headers/include/node/cppgc/ephemeron-pair.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/explicit-management.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/garbage-collected.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/heap-consistency.h
@@ -158,6 +157,7 @@ electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/base-page-handle
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/caged-heap-local-data.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/caged-heap.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/compiler-specific.h
+electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/conditional-stack-allocated.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/finalizer-trait.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/gc-info.h
 electron/${ELECTRON_V}/node_headers/include/node/cppgc/internal/logging.h

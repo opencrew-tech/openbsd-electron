@@ -1,24 +1,23 @@
-gin/converter.h:363:24: error: no member named 'FromV8' in 'gin::Converter<unsigned long>'
-
 Index: gin/converter.cc
 --- gin/converter.cc.orig
 +++ gin/converter.cc
-@@ -124,18 +124,6 @@ bool Converter<unsigned long>::FromV8(Isolate* isolate
+@@ -112,6 +112,19 @@ bool Converter<uint64_t>::FromV8(Isolate* isolate,
    return FromMaybe(val->IntegerValue(isolate->GetCurrentContext()), out);
  }
  
--Local<Value> Converter<unsigned long>::ToV8(Isolate* isolate, unsigned long val) {
--  return Number::New(isolate, static_cast<unsigned long>(val)).As<Value>();
--}
--
--bool Converter<unsigned long>::FromV8(Isolate* isolate,
--                                 Local<Value> val,
--                                 unsigned long* out) {
--  if (!val->IsNumber())
--    return false;
--  return FromMaybe(val->IntegerValue(isolate->GetCurrentContext()), out);
--}
--
++Local<Value> Converter<unsigned long>::ToV8(Isolate* isolate,
++                                            unsigned long val) {
++  return Number::New(isolate, static_cast<double>(val)).As<Value>();
++}
++
++bool Converter<unsigned long>::FromV8(Isolate* isolate,
++                                 Local<Value> val,
++                                 unsigned long* out) {
++  if (!val->IsNumber())
++    return false;
++  return FromMaybe(val->IntegerValue(isolate->GetCurrentContext()), out);
++}
++
  Local<Value> Converter<float>::ToV8(Isolate* isolate, float val) {
    return Number::New(isolate, val).As<Value>();
  }

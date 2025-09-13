@@ -1,7 +1,7 @@
 Index: electron/shell/browser/api/electron_api_base_window.cc
 --- electron/shell/browser/api/electron_api_base_window.cc.orig
 +++ electron/shell/browser/api/electron_api_base_window.cc
-@@ -41,7 +41,7 @@
+@@ -42,7 +42,7 @@
  #include "shell/browser/ui/views/win_frame_view.h"
  #include "shell/browser/ui/win/taskbar_host.h"
  #include "ui/base/win/shell.h"
@@ -10,7 +10,7 @@ Index: electron/shell/browser/api/electron_api_base_window.cc
  #include "shell/browser/ui/views/opaque_frame_view.h"
  #endif
  
-@@ -1024,7 +1024,7 @@ void BaseWindow::SetIconImpl(v8::Isolate* isolate,
+@@ -1030,7 +1030,7 @@ void BaseWindow::SetIconImpl(v8::Isolate* isolate,
    static_cast<NativeWindowViews*>(window_.get())
        ->SetIcon(native_image->GetHICON(GetSystemMetrics(SM_CXSMICON)),
                  native_image->GetHICON(GetSystemMetrics(SM_CXICON)));
@@ -19,7 +19,7 @@ Index: electron/shell/browser/api/electron_api_base_window.cc
    static_cast<NativeWindowViews*>(window_.get())
        ->SetIcon(native_image->image().AsImageSkia());
  #endif
-@@ -1081,7 +1081,7 @@ void BaseWindow::SetAppDetails(const gin_helper::Dicti
+@@ -1118,7 +1118,7 @@ v8::Local<v8::Value> BaseWindow::GetAccentColor() cons
  }
  #endif
  
@@ -28,7 +28,7 @@ Index: electron/shell/browser/api/electron_api_base_window.cc
  void BaseWindow::SetTitleBarOverlay(const gin_helper::Dictionary& options,
                                      gin_helper::Arguments* args) {
    // Ensure WCO is already enabled on this window
-@@ -1334,7 +1334,7 @@ void BaseWindow::BuildPrototype(v8::Isolate* isolate,
+@@ -1371,7 +1371,7 @@ void BaseWindow::BuildPrototype(v8::Isolate* isolate,
        .SetMethod("setThumbnailToolTip", &BaseWindow::SetThumbnailToolTip)
        .SetMethod("setAppDetails", &BaseWindow::SetAppDetails)
  #endif

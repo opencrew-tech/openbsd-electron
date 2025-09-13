@@ -1,7 +1,7 @@
 Index: media/video/gpu_memory_buffer_video_frame_pool.cc
 --- media/video/gpu_memory_buffer_video_frame_pool.cc.orig
 +++ media/video/gpu_memory_buffer_video_frame_pool.cc
-@@ -644,7 +644,7 @@ void GpuMemoryBufferVideoFramePool::PoolImpl::CreateHa
+@@ -647,7 +647,7 @@ void GpuMemoryBufferVideoFramePool::PoolImpl::CreateHa
    }
  
    bool is_software_backed_video_frame = !video_frame->HasSharedImage();
@@ -17,9 +17,9 @@ Index: media/video/gpu_memory_buffer_video_frame_pool.cc
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
    is_webgpu_compatible =
-       handle.native_pixmap_handle.supports_zero_copy_webgpu_import;
- #endif
-@@ -1225,7 +1225,7 @@ GpuMemoryBufferVideoFramePool::PoolImpl::GetOrCreateFr
+       handle.type == gfx::NATIVE_PIXMAP &&
+       handle.native_pixmap_handle().supports_zero_copy_webgpu_import;
+@@ -1226,7 +1226,7 @@ GpuMemoryBufferVideoFramePool::PoolImpl::GetOrCreateFr
        si_usage |= gpu::SHARED_IMAGE_USAGE_SCANOUT;
      }
  

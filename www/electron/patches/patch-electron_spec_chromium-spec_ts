@@ -30,7 +30,7 @@ Index: electron/spec/chromium-spec.ts
        expect(fonts[0].familyName).to.equal('Helvetica');
 -    } else if (process.platform === 'linux') {
 +    } else if (['freebsd', 'linux', 'openbsd'].includes(process.platform)) {
-       expect(fonts[0].familyName).to.equal('DejaVu Sans');
+       expect(fonts[0].familyName).to.equal('DejaVu Sans (Fontations)');
      } // I think this depends on the distro? We don't specify a default.
    });
  
@@ -47,7 +47,7 @@ Index: electron/spec/chromium-spec.ts
  describe('navigator.serial', () => {
    let w: BrowserWindow;
    before(async () => {
-@@ -3215,6 +3216,7 @@ describe('navigator.serial', () => {
+@@ -3216,6 +3217,7 @@ describe('navigator.serial', () => {
      }
    });
  });
@@ -55,7 +55,7 @@ Index: electron/spec/chromium-spec.ts
  
  describe('window.getScreenDetails', () => {
    let w: BrowserWindow;
-@@ -3507,7 +3509,7 @@ describe('paste execCommand', () => {
+@@ -3516,7 +3518,7 @@ describe('paste execCommand', () => {
    });
  });
  

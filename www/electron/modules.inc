@@ -1,3 +1,4 @@
+# make -D _GEN_MODULES extract
 # make modyarn-gen-modules > modules.inc
 DISTFILES.yarn += \
 ${MODNPM_DIST}/@azure-{@azure/abort-controller/-/}abort-controller-1.0.4.tgz \
@@ -34,7 +35,7 @@ ${MODNPM_DIST}/@electron-{@electron/lint-roller/-/}lint-roller-3.1.1.tgz \
 ${MODNPM_DIST}/@electron-{@electron/notarize/-/}notarize-2.3.0.tgz \
 ${MODNPM_DIST}/@electron-{@electron/osx-sign/-/}osx-sign-1.2.0.tgz \
 ${MODNPM_DIST}/@electron-{@electron/packager/-/}packager-18.3.2.tgz \
-${MODNPM_DIST}/@electron-{@electron/typescript-definitions/-/}typescript-definitions-9.0.0.tgz \
+${MODNPM_DIST}/@electron-{@electron/typescript-definitions/-/}typescript-definitions-9.1.2.tgz \
 ${MODNPM_DIST}/@electron-{@electron/universal/-/}universal-2.0.1.tgz \
 ${MODNPM_DIST}/@electron-{@electron/windows-sign/-/}windows-sign-1.1.2.tgz \
 ${MODNPM_DIST}/@eslint-community-{@eslint-community/eslint-utils/-/}eslint-utils-4.4.0.tgz \
@@ -56,7 +57,6 @@ ${MODNPM_DIST}/@kwsites-{@kwsites/file-exists/-/}file-exists-1.1.1.tgz \
 ${MODNPM_DIST}/@kwsites-{@kwsites/promise-deferred/-/}promise-deferred-1.1.1.tgz \
 ${MODNPM_DIST}/@malept-{@malept/cross-spawn-promise/-/}cross-spawn-promise-2.0.0.tgz \
 ${MODNPM_DIST}/@mapbox-{@mapbox/node-pre-gyp/-/}node-pre-gyp-1.0.11.tgz \
-${MODNPM_DIST}/@marshallofsound-{@marshallofsound/mocha-appveyor-reporter/-/}mocha-appveyor-reporter-0.4.3.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.scandir/-/}fs.scandir-2.1.5.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.stat/-/}fs.stat-2.0.3.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.stat/-/}fs.stat-2.0.5.tgz \
@@ -179,7 +179,6 @@ ${MODNPM_DIST}/@types-{@types/unist/-/}unist-2.0.6.tgz \
 ${MODNPM_DIST}/@types-{@types/unist/-/}unist-3.0.2.tgz \
 ${MODNPM_DIST}/@types-{@types/uuid/-/}uuid-3.4.13.tgz \
 ${MODNPM_DIST}/@types-{@types/w3c-web-serial/-/}w3c-web-serial-1.0.7.tgz \
-${MODNPM_DIST}/@types-{@types/webpack-env/-/}webpack-env-1.18.5.tgz \
 ${MODNPM_DIST}/@types-{@types/ws/-/}ws-7.4.7.tgz \
 ${MODNPM_DIST}/@types-{@types/yauzl/-/}yauzl-2.10.0.tgz \
 ${MODNPM_DIST}/@types-{@types/yauzl/-/}yauzl-2.10.3.tgz \
@@ -318,7 +317,7 @@ ${MODNPM_DIST}/{chalk/-/}chalk-4.1.2.tgz \
 ${MODNPM_DIST}/{chalk/-/}chalk-5.3.0.tgz \
 ${MODNPM_DIST}/{character-entities-legacy/-/}character-entities-legacy-3.0.0.tgz \
 ${MODNPM_DIST}/{character-entities/-/}character-entities-2.0.0.tgz \
-${MODNPM_DIST}/{character-reference-invalid/-/}character-reference-invalid-2.0.1.tgz \
+${MODNPM_DIST}/{character-reference-invalid/-/}character-reference-invalid-2.0.0.tgz \
 ${MODNPM_DIST}/{charenc/-/}charenc-0.0.2.tgz \
 ${MODNPM_DIST}/{check-error/-/}check-error-1.0.3.tgz \
 ${MODNPM_DIST}/{check-error/-/}check-error-2.1.1.tgz \
@@ -632,8 +631,8 @@ ${MODNPM_DIST}/{internal-slot/-/}internal-slot-1.1.0.tgz \
 ${MODNPM_DIST}/{interpret/-/}interpret-1.4.0.tgz \
 ${MODNPM_DIST}/{interpret/-/}interpret-3.1.1.tgz \
 ${MODNPM_DIST}/{ipaddr.js/-/}ipaddr.js-1.9.1.tgz \
-${MODNPM_DIST}/{is-alphabetical/-/}is-alphabetical-2.0.1.tgz \
-${MODNPM_DIST}/{is-alphanumerical/-/}is-alphanumerical-2.0.1.tgz \
+${MODNPM_DIST}/{is-alphabetical/-/}is-alphabetical-2.0.0.tgz \
+${MODNPM_DIST}/{is-alphanumerical/-/}is-alphanumerical-2.0.0.tgz \
 ${MODNPM_DIST}/{is-array-buffer/-/}is-array-buffer-3.0.2.tgz \
 ${MODNPM_DIST}/{is-array-buffer/-/}is-array-buffer-3.0.4.tgz \
 ${MODNPM_DIST}/{is-array-buffer/-/}is-array-buffer-3.0.5.tgz \
@@ -657,7 +656,7 @@ ${MODNPM_DIST}/{is-data-view/-/}is-data-view-1.0.1.tgz \
 ${MODNPM_DIST}/{is-data-view/-/}is-data-view-1.0.2.tgz \
 ${MODNPM_DIST}/{is-date-object/-/}is-date-object-1.0.5.tgz \
 ${MODNPM_DIST}/{is-date-object/-/}is-date-object-1.1.0.tgz \
-${MODNPM_DIST}/{is-decimal/-/}is-decimal-2.0.1.tgz \
+${MODNPM_DIST}/{is-decimal/-/}is-decimal-2.0.0.tgz \
 ${MODNPM_DIST}/{is-empty/-/}is-empty-1.2.0.tgz \
 ${MODNPM_DIST}/{is-extglob/-/}is-extglob-2.1.1.tgz \
 ${MODNPM_DIST}/{is-finalizationregistry/-/}is-finalizationregistry-1.1.1.tgz \
@@ -665,7 +664,7 @@ ${MODNPM_DIST}/{is-fullwidth-code-point/-/}is-fullwidth-code-point-3.0.0.tgz \
 ${MODNPM_DIST}/{is-generator-function/-/}is-generator-function-1.1.0.tgz \
 ${MODNPM_DIST}/{is-glob/-/}is-glob-3.1.0.tgz \
 ${MODNPM_DIST}/{is-glob/-/}is-glob-4.0.3.tgz \
-${MODNPM_DIST}/{is-hexadecimal/-/}is-hexadecimal-2.0.1.tgz \
+${MODNPM_DIST}/{is-hexadecimal/-/}is-hexadecimal-2.0.0.tgz \
 ${MODNPM_DIST}/{is-interactive/-/}is-interactive-2.0.0.tgz \
 ${MODNPM_DIST}/{is-map/-/}is-map-2.0.3.tgz \
 ${MODNPM_DIST}/{is-negative-zero/-/}is-negative-zero-2.0.2.tgz \

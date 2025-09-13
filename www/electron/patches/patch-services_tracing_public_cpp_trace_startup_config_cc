@@ -1,0 +1,39 @@
+Index: services/tracing/public/cpp/trace_startup_config.cc
+--- services/tracing/public/cpp/trace_startup_config.cc.orig
++++ services/tracing/public/cpp/trace_startup_config.cc
+@@ -79,6 +79,26 @@ constexpr std::string_view kDefaultStartupCategories[]
+ 
+ }  // namespace
+ 
++// bundle Compress()/Uncompress() from snappy
++// snappy::Raw* to avoid std:string symbol (libcxx may differ)
++
++// ld.lld: error: undefined symbol: snappy::Uncompress(...)
++bool inline _Uncompress(const char* compressed, size_t compressed_length,
++                std::string* uncompressed) {
++  size_t ulength;
++  if (!snappy::GetUncompressedLength(compressed, compressed_length, &ulength)) {
++    return false;
++  }
++  // On 32-bit builds: max_size() < kuint32max.  Check for that instead
++  // of crashing (e.g., consider externally specified compressed data).
++  if (ulength > uncompressed->max_size()) {
++    return false;
++  }
++  uncompressed->resize(ulength);
++  return snappy::RawUncompress(compressed, compressed_length,
++                               &(*uncompressed)[0]);
++}
++
+ // static
+ TraceStartupConfig& TraceStartupConfig::GetInstance() {
+   static base::NoDestructor<TraceStartupConfig> g_instance;
+@@ -464,7 +484,7 @@ TraceStartupConfig::ParseEncodedPerfettoConfig(
+ 
+   // `serialized_config` may optionally be compressed.
+   std::string decompressed_config;
+-  if (!snappy::Uncompress(serialized_config.data(), serialized_config.size(),
++  if (!_Uncompress(serialized_config.data(), serialized_config.size(),
+                           &decompressed_config)) {
+     return ParseSerializedPerfettoConfig(base::as_byte_span(serialized_config));
+   }

@@ -1,7 +1,7 @@
 Index: third_party/perfetto/src/base/utils.cc
 --- third_party/perfetto/src/base/utils.cc.orig
 +++ third_party/perfetto/src/base/utils.cc
-@@ -290,8 +290,8 @@ std::string GetCurExecutablePath() {
+@@ -291,8 +291,8 @@ std::string GetCurExecutablePath() {
    self_path = std::string(buf, static_cast<size_t>(size));
  #elif PERFETTO_BUILDFLAG(PERFETTO_OS_BSD)
    char *buf;

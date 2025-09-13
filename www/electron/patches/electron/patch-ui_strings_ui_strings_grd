@@ -1,7 +1,7 @@
 Index: ui/strings/ui_strings.grd
 --- ui/strings/ui_strings.grd.orig
 +++ ui/strings/ui_strings.grd
-@@ -767,7 +767,7 @@ need to be translated for each locale.-->
+@@ -784,7 +784,7 @@ need to be translated for each locale.-->
            Win
          </message>
        </if>

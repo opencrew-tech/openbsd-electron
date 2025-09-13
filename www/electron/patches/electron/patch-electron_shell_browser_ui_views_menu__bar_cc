@@ -10,7 +10,7 @@ Index: electron/shell/browser/ui/views/menu_bar.cc
  #include "ui/gtk/gtk_util.h"  // nogncheck
  #endif
  
-@@ -214,7 +214,7 @@ void MenuBar::ViewHierarchyChanged(
+@@ -213,7 +213,7 @@ void MenuBar::ViewHierarchyChanged(
  
  void MenuBar::RefreshColorCache(const ui::NativeTheme* theme) {
    if (theme) {

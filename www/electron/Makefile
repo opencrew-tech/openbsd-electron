@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		35.7.5
+ELECTRON_V=		37.3.1
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -31,15 +31,15 @@ PERMIT_PACKAGE=		Yes
 
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		134.0.6998.205
-NODE_V=			22.16.0
+CHROMIUM_V=		138.0.7204.235
+NODE_V=			22.18.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
 MANTLE_V=		78d3966b3c331292ea29ec38661b25df0a245948
 ENGFLOW_V=		955335c30a752e9ef7bff375baab5e0819b6c00d
 # See chromium/third_party/node/node_modules.tar.gz.sha1
-NODE_MODULES_HASH=	59332695e189485e2e2b06e60e4d49d3d54b8e92
+NODE_MODULES_HASH=	13eea9a3163f9e91f343e6a3197079986d7276b2
 
 DIST_TUPLE+=		github nodejs node v${NODE_V} .
 DIST_TUPLE+=		github nodejs nan ${NAN_V} .
@@ -97,12 +97,12 @@ PATCH_LIST=
 
 COMPILER=	ports-clang
 
-MODULES=	devel/yarn lang/clang lang/python x11/qt5
+MODULES=	devel/yarn lang/clang lang/python
 
 MODCLANG_VERSION=	19
 MODPY_RUNDEP=		No
-MODQT5_DEPS=		No
-MODYARN_TARGETS=	${WRKSRC}/electron ${WRKSRC}/electron/spec
+MODYARN_TARGETS=	${WRKSRC}/electron \
+			${WRKSRC}/electron/spec
 
 RUN_DEPENDS+=	devel/desktop-file-utils \
 		devel/libnotify \
@@ -126,7 +126,6 @@ BUILD_DEPENDS+=	archivers/bzip2 \
 		sysutils/flock \
 		sysutils/pciutils \
 		x11/py-xcbgen \
-		x11/qt5/qtbase,-main \
 		${MODGCC4_CPPDEP} \
 		${RUN_DEPENDS}
 
@@ -173,9 +172,6 @@ USE_GMAKE=	Yes
 
 # needed in early stage, for porters only ?
 DEBUG_PACKAGES=	${BUILD_PACKAGES}
-
-# comment only to test
-#NO_TEST=manual test only, see do-test
 
 .include <bsd.own.mk>
 
@@ -253,6 +249,7 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		use_pulseaudio=true \
 		use_sndio=true \
 		use_sysroot=false \
+		use_system_libdrm=true \
 		v8_enable_cet_ibt=true
 
 # rust
@@ -288,9 +285,11 @@ FFMPEG_TARGET=	ia32
 PKG_ARGS+=	-Dswiftshader=0
 .endif
 
-FFMPEG_BRAND=Chrome
-FFMPEG_BDIR=${WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.openbsd/${FFMPEG_BRAND}
-FFMPEG_CDIR=${WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/openbsd/${FFMPEG_TARGET}
+FFMPEG_BRAND=	Chrome
+FFMPEG_SRC=	${WRKSRC}/third_party/ffmpeg
+FFMPEG_CONFIG=	${FFMPEG_SRC}/chromium/config
+FFMPEG_BDIR=	${FFMPEG_SRC}/build.${FFMPEG_TARGET}.openbsd/${FFMPEG_BRAND}
+FFMPEG_CDIR=	${FFMPEG_CONFIG}/${FFMPEG_BRAND}/openbsd/${FFMPEG_TARGET}
 
 GN_ARGS+=	ffmpeg_branding=\"${FFMPEG_BRAND}\" \
 		proprietary_codecs=true
@@ -581,12 +580,13 @@ tarball:
 _TMP = /tmp/electron-${ELECTRON_V}
 chromium-patches:
 	make -D _GEN_PATCHES patch
+	# cvs co -D 20250801 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D '2025/03/23' -d chromium ports/www/chromium ; \
+		cvs co -D 20250801 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches on top of electron patch (pre-patch)
 	rm -rf ${_TMP}/patches/chromium*
@@ -615,8 +615,9 @@ _gn_args-electron-list:
 	# ${WRKDIR}/gn_args-electron.list
 	@if [ ! -e "${WRKDIR}/gn_args-electron.list" ] ; then \
 		cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
-			gn args out/${BUILDTYPE} \
-			--list > ${WRKDIR}/gn_args-electron.list ; \
+			gn args out/${BUILDTYPE} --list \
+			| sed -E '/^[[:space:]]+From/s/\:[[:digit:]]+$$//' \
+			> ${WRKDIR}/gn_args-electron.list ; \
 	fi
 
 _gn_args-chromium-list:
@@ -625,9 +626,11 @@ _gn_args-chromium-list:
 	@if [ ! -e "${WRKDIR}/gn_args-chromium.list" ] ; then \
 		cd ${PORTSDIR}/www/chromium ; \
 		_wrksrc=$$(make show=WRKSRC) ; \
+		_gn=$$_wrksrc/out/${BUILDTYPE}/gn ; \
 		cd $$_wrksrc && ${SETENV} ${CONFIGURE_ENV} \
-			$$_wrksrc/out/${BUILDTYPE}/gn args out/${BUILDTYPE} \
-			--list > ${WRKDIR}/gn_args-chromium.list ; \
+			$$_gn args out/${BUILDTYPE} --list \
+			| sed -E '/^[[:space:]]+From/s/\:[[:digit:]]+$$//' \
+			> ${WRKDIR}/gn_args-chromium.list ; \
 	fi
 
 gn_args-diff:
@@ -638,8 +641,8 @@ gn_args-diff:
 	${_PBUILD} make _gn_args-chromium-list
 	# ${WRKDIR}/gn_args.diff
 	@${_PBUILD} sh -c \
-	"diff -uN ${WRKDIR}/gn_args{-chromium,}.list > ${WRKDIR}/gn_args.diff" \
-		|| wc -l ${WRKDIR}/gn_args.diff
+	"diff -uN ${WRKDIR}/gn_args{-chromium,-electron}.list > \
+		${WRKDIR}/gn_args.diff" || wc -l ${WRKDIR}/gn_args.diff
 
 gn_args-check:
 	make configure
@@ -658,24 +661,33 @@ gn_args-check:
 		    "\nInstead of $$_arg = $$_value"; \
 	done
 
-gn_args-system:
+gn-system:
 	make configure
 	${_PBUILD} make _gn_args-electron-list
-	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_system_.*' \
+	@_pkgs=$$(grep -C0 -e '^[^[:space:]]*use_system_.*' \
 		${WRKDIR}/gn_args-electron.list) ; \
-	for _system in $$_systems; do \
-		grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list | \
+	echo "# use_system* !true\n" $$_pkgs | fmt ; \
+	for _pkg in $$_pkgs; do \
+		grep -A1 "^$$_pkg" ${WRKDIR}/gn_args-electron.list | \
 			grep -q true || echo $$( \
-			grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list) \
+			grep -A1 "^$$_pkg" ${WRKDIR}/gn_args-electron.list) \
 		; \
 	done
-	@_systems=$$(grep -C0 -e '^[^[:space:]]*use_bundled_.*' \
+	@_pkgs=$$(grep -C0 -e '^[^[:space:]]*bundle_.*' \
 		${WRKDIR}/gn_args-electron.list) ; \
-	for _system in $$_systems; do \
-		grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list | \
+	echo "# *bundle* !false\n" $$_pkgs | fmt ; \
+	for _pkg in $$_pkgs; do \
+		grep -A1 "^$$_pkg" ${WRKDIR}/gn_args-electron.list | \
 			grep -q false || echo $$( \
-			grep -A1 "^$$_system" ${WRKDIR}/gn_args-electron.list) \
+			grep -A1 "^$$_pkg" ${WRKDIR}/gn_args-electron.list) \
 		; \
+	done
+	@_pkgs=$$(ls ${WRKSRC}/build/linux/unbundle/ \
+		| sed -n /\.gn$$/s/\.gn$$//p) ; \
+	echo "# build/linux/unbundle !set\n" $$_pkgs | fmt ; \
+	for _pkg in $$_pkgs; do \
+		echo "${GN_SYSTEM_LIBS}" | \
+			grep -q "$$_pkg" || echo $$_pkg ; \
 	done
 
 .include "modules.inc"

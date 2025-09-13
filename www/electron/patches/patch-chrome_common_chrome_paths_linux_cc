@@ -3,7 +3,7 @@ belt and suspenders : don't mess up with chromium, use .config/electron
 Index: chrome/common/chrome_paths_linux.cc
 --- chrome/common/chrome_paths_linux.cc.orig
 +++ chrome/common/chrome_paths_linux.cc
-@@ -89,13 +89,7 @@ bool GetDefaultUserDataDirectory(base::FilePath* resul
+@@ -90,13 +90,7 @@ bool GetDefaultUserDataDirectory(base::FilePath* resul
          GetXDGDirectory(env.get(), kXdgConfigHomeEnvVar, kDotConfigDir);
    }
  

@@ -1,7 +1,7 @@
 Index: src/main.ts
 --- src/main.ts.orig
 +++ src/main.ts
-@@ -141,7 +141,7 @@ if (userLocale) {
+@@ -138,7 +138,7 @@ if (userLocale) {
  // Pseudo Language Language Pack is being used.
  // In that case, use `en` as the Electron locale.
  
@@ -10,8 +10,8 @@ Index: src/main.ts
  	const electronLocale = (!userLocale || userLocale === 'qps-ploc') ? 'en' : userLocale;
  	app.commandLine.appendSwitch('lang', electronLocale);
  }
-@@ -231,7 +231,7 @@ function configureCommandlineSwitchesSync(cliArgs: Nat
- 		'proxy-bypass-list'
+@@ -230,7 +230,7 @@ function configureCommandlineSwitchesSync(cliArgs: Nat
+ 		'remote-debugging-port'
  	];
  
 -	if (process.platform === 'linux') {

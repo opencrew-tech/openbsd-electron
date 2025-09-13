@@ -4,8 +4,8 @@ ONLY_FOR_ARCHS=		amd64
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.103.1
-COMMIT=			e3550cfac4b63ca4eafca7b601f0d2885817fd1f
+V=			1.104.0
+COMMIT=			f220831ea2d946c0dcb0f3eaa480eb435a2c1260
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -21,7 +21,7 @@ PERMIT_PACKAGE=		Yes
 
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
-			js-debug js-debug 1.102.0 \
+			js-debug js-debug 1.104.0 \
 			js-profile-visualizer vscode-js-profile-table 1.0.10
 SITES.exts=		https://github.com/microsoft/
 

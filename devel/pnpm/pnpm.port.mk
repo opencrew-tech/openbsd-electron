@@ -237,7 +237,7 @@ MODPNPM_gen-lockfiles += \
 # Setup overrides customisation before modpnpm-gen-lockfiles (w/patches), ex:
 # MODPNPM_GEN_OVERRIDES =	"foo":"npm:foo@x.y.z" "bar":"npm:@cutom/bar"
 .for _modpnpm_override in ${MODPNPM_GEN_OVERRIDES}
-_MODPNPM_OVERRIDES:=${_modpnpm_override:%=%, }${_modpnpm_override}
+_MODPNPM_OVERRIDES:=${_MODPNPM_OVERRIDES:%=%, }${_modpnpm_override}
 .endfor
 .if !empty(_MODPNPM_OVERRIDES)
 MODPNPM_gen-lockfiles += \

@@ -150,7 +150,7 @@ MODPNPM_post-extract += \
 		echo "MODPNPM: install $${_target}" ; \
 		cd $${_target} && ${MODPNPM_CMD} install ${MODPNPM_ARGS} \
 			--frozen-lockfile --ignore-scripts \
-			${MODPNPM_OMITOPTIONAL:L:S/yes/--no-optional/:S/no//} \
+			${MODPNPM_OMITOPTIONAL:L:S/no//:S/yes/--no-optional/} \
 			${MODPNPM_OMITDEV:L:S/yes/--prod/:S/no//} ; \
 		cd - >/dev/null ; \
 	done ;

@@ -11,7 +11,7 @@ Index: cipd
    cygwin*)
      OS=windows
      CYGWIN=true
-@@ -121,6 +124,8 @@ function calc_sha256() {
+@@ -118,6 +121,8 @@ function calc_sha256() {
      sha256sum "$1" | cut -d' ' -f1
    elif hash shasum 2> /dev/null ; then
      shasum -a 256 "$1" | cut -d' ' -f1
@@ -20,7 +20,7 @@ Index: cipd
    else
      >&2 echo -n "[31;1m"
      >&2 echo -n "Don't know how to calculate SHA256 on your platform. "
-@@ -231,6 +236,8 @@ function clean_bootstrap() {
+@@ -228,6 +233,8 @@ function clean_bootstrap() {
  #
  # It is more efficient that redownloading the binary all the time.
  function self_update() {
@@ -29,7 +29,7 @@ Index: cipd
    "${CLIENT}" selfupdate -version-file "${VERSION_FILE}" -service-url "${CIPD_BACKEND}"
  }
  
-@@ -239,15 +246,16 @@ function self_update() {
+@@ -236,15 +243,16 @@ function self_update() {
  # crudely search for a CIPD client package name in the .cipd_version JSON file.
  # It has only "instance_id" as the other field (looking like a base64 string),
  # so mismatches are very unlikely.

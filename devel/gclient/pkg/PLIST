@@ -17,6 +17,8 @@ libexec/gclient/${MODPY_PYCACHE}breakpad.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENS
 libexec/gclient/${MODPY_PYCACHE}breakpad.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}build_telemetry.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}build_telemetry.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}caffeinate.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}caffeinate.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}clang_format.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}clang_format.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}compile_single_file.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -25,6 +27,8 @@ libexec/gclient/${MODPY_PYCACHE}cpplint.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSI
 libexec/gclient/${MODPY_PYCACHE}cpplint.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}cpplint_chromium.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}cpplint_chromium.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}create_temp_file.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}create_temp_file.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}detect_host_arch.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}detect_host_arch.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}download_from_google_storage.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -101,6 +105,8 @@ libexec/gclient/${MODPY_PYCACHE}gsutil.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSIO
 libexec/gclient/${MODPY_PYCACHE}gsutil.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}luci_auth_fido2_plugin.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}luci_auth_fido2_plugin.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}metrics.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}metrics.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}metrics_utils.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -175,11 +181,13 @@ libexec/gclient/autoninja.py
 libexec/gclient/bazel.py
 libexec/gclient/breakpad.py
 libexec/gclient/build_telemetry.py
+libexec/gclient/caffeinate.py
 libexec/gclient/cipd
 libexec/gclient/clang_format.py
 libexec/gclient/compile_single_file.py
 libexec/gclient/cpplint.py
 libexec/gclient/cpplint_chromium.py
+libexec/gclient/create_temp_file.py
 libexec/gclient/detect_host_arch.py
 libexec/gclient/download_from_google_storage.py
 libexec/gclient/fetch.py
@@ -218,6 +226,7 @@ libexec/gclient/gn_helper.py
 libexec/gclient/google_java_format.py
 libexec/gclient/gsutil.py
 libexec/gclient/lockfile.py
+libexec/gclient/luci_auth_fido2_plugin.py
 libexec/gclient/metrics.py
 libexec/gclient/metrics_utils.py
 libexec/gclient/metrics_xml_format.py

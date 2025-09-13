@@ -7,9 +7,9 @@ Index: download_from_google_storage.py
      'linux2': 'linux',  # Python < 3.3 uses "linux2" / "linux3".
 +    'openbsd7': 'linux', # fake openbsd as linux
      'win32': 'win',
-     'aix6': 'aix',
-     'aix7': 'aix',
-@@ -100,7 +101,7 @@ class Gsutil(object):
+     'aix': 'aix',  # Python 3.8+
+     'zos': 'zos',
+@@ -99,7 +100,7 @@ class Gsutil(object):
      RETRY_BASE_DELAY = 5.0
      RETRY_DELAY_MULTIPLE = 1.3
      VPYTHON3 = ('vpython3.bat'

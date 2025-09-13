@@ -1,7 +1,7 @@
 COMMENT =	google's tool to sync repository (DEPS)
 
-COMMIT =	58625e82c685426d441be5b422c9ad88e4867d20
-V =		0.20241220
+COMMIT =	077e02a7696bccafcdd169992524830fa65b738e
+V =		0.20250912
 DISTNAME =	depot_tools-${COMMIT}
 PKGNAME =	gclient-${V}
 
@@ -18,10 +18,10 @@ MAINTAINER=	Fabien Romano <fabien@openbsd.org>
 # BSD-like & Apache 2.0
 PERMIT_PACKAGE=	Yes
 
-# googlesource.com does not provide stable snapshots
+# googlesource.com does not provide stable snapshots, see make tarball
 SITES =		http://distfiles.opencrew.tech/depot_tools/
 
-# XXX devel/cipd port
+# XXX devel/cipd port ?
 SITES.cipd =	https://chrome-infra-packages.appspot.com/
 DISTFILES.cipd=cipd-${CIPD_PLATFORM}-${CIPD_COMMIT}{client?platform=${CIPD_PLATFORM}&version=git_revision:${CIPD_COMMIT}}
 
@@ -59,13 +59,13 @@ do-install:
 ### targets for port maintainer(s)
 
 _SRC?=	${WRKDIR}/gn
-_FETCH?=https://chromium.googlesource.com/chromium/tools/depot_tools.git \
+_FETCH_GS?=https://chromium.googlesource.com/chromium/tools/depot_tools.git \
 	${COMMIT}
 tarball:
 	mkdir -p ${_SRC}/${DISTNAME}
 	cd ${_SRC}/${DISTNAME} && [ -d ".git" ] || ( \
 	HOME=${_SRC} git init && \
-	HOME=${_SRC} git fetch ${_FETCH} --depth 1 && \
+	HOME=${_SRC} git fetch ${_FETCH_GS} --depth 1 && \
 	HOME=${_SRC} git checkout FETCH_HEAD \
 	)
 	cd ${_SRC} && \

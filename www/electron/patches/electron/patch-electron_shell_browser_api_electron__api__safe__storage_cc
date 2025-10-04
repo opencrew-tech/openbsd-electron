@@ -1,7 +1,7 @@
 Index: electron/shell/browser/api/electron_api_safe_storage.cc
 --- electron/shell/browser/api/electron_api_safe_storage.cc.orig
 +++ electron/shell/browser/api/electron_api_safe_storage.cc
-@@ -20,7 +20,7 @@ const char* kEncryptionVersionPrefixV11 = "v11";
+@@ -21,7 +21,7 @@ const char* kEncryptionVersionPrefixV11 = "v11";
  bool use_password_v10 = false;
  
  bool IsEncryptionAvailable() {
@@ -10,7 +10,7 @@ Index: electron/shell/browser/api/electron_api_safe_storage.cc
    // Calling IsEncryptionAvailable() before the app is ready results in a crash
    // on Linux.
    // Refs: https://github.com/electron/electron/issues/32206.
-@@ -39,7 +39,7 @@ void SetUsePasswordV10(bool use) {
+@@ -40,7 +40,7 @@ void SetUsePasswordV10(bool use) {
    use_password_v10 = use;
  }
  
@@ -19,7 +19,7 @@ Index: electron/shell/browser/api/electron_api_safe_storage.cc
  std::string GetSelectedLinuxBackend() {
    if (!electron::Browser::Get()->is_ready())
      return "unknown";
-@@ -135,7 +135,7 @@ void Initialize(v8::Local<v8::Object> exports,
+@@ -136,7 +136,7 @@ void Initialize(v8::Local<v8::Object> exports,
    gin_helper::Dictionary dict(isolate, exports);
    dict.SetMethod("decryptString", &DecryptString);
    dict.SetMethod("encryptString", &EncryptString);

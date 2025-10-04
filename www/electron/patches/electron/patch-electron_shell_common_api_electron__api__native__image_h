@@ -1,10 +1,10 @@
 Index: electron/shell/common/api/electron_api_native_image.h
 --- electron/shell/common/api/electron_api_native_image.h.orig
 +++ electron/shell/common/api/electron_api_native_image.h
-@@ -80,7 +80,7 @@ class NativeImage final : public gin::Wrappable<Native
-                                                     const GURL& url);
-   static gin::Handle<NativeImage> CreateFromNamedImage(gin::Arguments* args,
-                                                        std::string name);
+@@ -82,7 +82,7 @@ class NativeImage final : public gin_helper::Deprecate
+   static gin_helper::Handle<NativeImage> CreateFromNamedImage(
+       gin::Arguments* args,
+       std::string name);
 -#if !BUILDFLAG(IS_LINUX)
 +#if !BUILDFLAG(IS_LINUX) && !BUILDFLAG(IS_BSD)
    static v8::Local<v8::Promise> CreateThumbnailFromPath(

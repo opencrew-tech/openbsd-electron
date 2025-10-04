@@ -28,7 +28,7 @@ Index: services/tracing/public/cpp/trace_startup_config.cc
  // static
  TraceStartupConfig& TraceStartupConfig::GetInstance() {
    static base::NoDestructor<TraceStartupConfig> g_instance;
-@@ -464,7 +484,7 @@ TraceStartupConfig::ParseEncodedPerfettoConfig(
+@@ -477,7 +497,7 @@ TraceStartupConfig::ParseEncodedPerfettoConfig(
  
    // `serialized_config` may optionally be compressed.
    std::string decompressed_config;

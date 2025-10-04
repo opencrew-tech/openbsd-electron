@@ -1,7 +1,16 @@
 Index: electron/shell/common/gin_converters/osr_converter.cc
 --- electron/shell/common/gin_converters/osr_converter.cc.orig
 +++ electron/shell/common/gin_converters/osr_converter.cc
-@@ -115,7 +115,7 @@ v8::Local<v8::Value> Converter<electron::OffscreenShar
+@@ -12,7 +12,7 @@
+ #include <string>
+ 
+ #include "base/containers/to_vector.h"
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ #include "base/strings/string_number_conversions.h"
+ #endif
+ #include "shell/common/gin_converters/gfx_converter.h"
+@@ -118,7 +118,7 @@ v8::Local<v8::Value> Converter<electron::OffscreenShar
             electron::Buffer::Copy(
                 isolate, base::byte_span_from_ref(val.shared_texture_handle))
                 .ToLocalChecked());

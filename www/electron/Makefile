@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		37.3.1
+ELECTRON_V=		38.1.2
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -31,15 +31,15 @@ PERMIT_PACKAGE=		Yes
 
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		138.0.7204.235
-NODE_V=			22.18.0
+CHROMIUM_V=		140.0.7339.133
+NODE_V=			22.19.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
 MANTLE_V=		78d3966b3c331292ea29ec38661b25df0a245948
 ENGFLOW_V=		955335c30a752e9ef7bff375baab5e0819b6c00d
 # See chromium/third_party/node/node_modules.tar.gz.sha1
-NODE_MODULES_HASH=	13eea9a3163f9e91f343e6a3197079986d7276b2
+NODE_MODULES_HASH=	c2085eeb07e1db47d75633a23311b7d2b7b5d1ee
 
 DIST_TUPLE+=		github nodejs node v${NODE_V} .
 DIST_TUPLE+=		github nodejs nan ${NAN_V} .
@@ -77,7 +77,7 @@ WANTLIB += xshmfence xslt z zstd
 # Electron depends on Chromium and Node which are bundled&patched all together :
 # 1. (optionnal) patches/pre-patch, ensure electron patches apply correctly
 # 2. pre-patch walk over electron/patches/config.json, apply all .patches files
-# 3. apply www/chromium/patches from patches/chromium, see make chromium-patches
+# 3. apply www/chromium/patches from patches/chromium, make chromium-patches
 # 4. solve any conflicts with electron, apply custom patches in patches/conflict
 # 5. apply common *BSD patches from patches/electron
 # 6. apply OpenBSD electron's port specific patches
@@ -318,7 +318,8 @@ BUILDTYPE=	Release
 BUILDDIR=	${WRKSRC}/out/${BUILDTYPE}
 ELECTRON_GN=	//electron/build/args/release.gn
 MAKE_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
-TEST_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
+TEST_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE} \
+		ELECTRON_EXE_PATH=${WRKSRC}/out/${BUILDTYPE}/electron
 
 post-extract:
 	# setup distfiles into src
@@ -401,6 +402,10 @@ do-configure:
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		build/linux/unbundle/replace_gn_files.py \
 		--system-libraries ${GN_SYSTEM_LIBS}
+# fix vpx includes
+	mkdir -p ${WRKSRC}/third_party/libvpx/source/libvpx/ && \
+		cp -r ${TRUEPREFIX}/include/vpx \
+		    ${WRKSRC}/third_party/libvpx/source/libvpx/
 # XXX how chromium bundle its gn ? see make tarball
 #	cd ${WRKSRC}/tools/gn && ${SETENV} ${MAKE_ENV} \
 #		LDFLAGS=-L${LOCALBASE}/lib ${MODPY_BIN} \
@@ -415,7 +420,7 @@ do-build:
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/${DIST_TARGET}
-.for f in electron mksnapshot v8_context_snapshot_generator
+.for f in electron mksnapshot v8_context_snapshot_generator chromedriver
 	${INSTALL_PROGRAM} ${BUILDDIR}/${f} ${PREFIX}/${DIST_TARGET}
 .endfor
 	${SUBST_PROGRAM} ${FILESDIR}/electron \
@@ -424,8 +429,6 @@ do-install:
 		${PREFIX}/${DIST_TARGET}/electron_nosandbox.sh
 	ln -s ${TRUEPREFIX}/${DIST_TARGET}/electron.sh \
 		${PREFIX}/bin/electron
-	${INSTALL_PROGRAM} ${BUILDDIR}/chromedriver.unstripped \
-		${PREFIX}/${DIST_TARGET}/chromedriver
 	# copy .pak
 	${INSTALL_DATA} ${BUILDDIR}/*.pak ${PREFIX}/${DIST_TARGET}
 	# copy locales & ressources
@@ -469,21 +472,21 @@ do-install:
 	${INSTALL_DATA} ${BUILDDIR}/gen/v8/embedded.S \
 		${PREFIX}/${DIST_TARGET}/gen/v8/embedded.S
 
-# Tests requirements :
-# ? --no-sandbox (hard to setup, not tested)
-# * needs /etc/electron for pledge/unveil :
-# -> unveil "/	rwcx" (/etc/electron/unveil.main)
-# -> unveil "/	rwcx" (/etc/electron/unveil.utility_network)
-# * env DISPLAY=:1
-# -> Xvfb :1 &
-# * openfiles max 1024 isn't enouch
-# -> adjust _pbuild to :openfiles-max=2048: (/etc/login.conf)
+# Tests requires custom pledge/unveil configurations
+# mkdir -p /etc/electron
+# cp files/unveil* files/pledge* /etc/electron
+# echo "/\trwcx" >> /etc/electron/unveil.main
+# echo "/\trwcx" >> /etc/electron/unveil.utility_network
 
-# some note about tests :
-# * openbsd use a wrapper, skip bin/electron check
-# -> electron/spec/api-app-spec.ts
-# * test crashReporter, check if its actually disabled from source ?
-# -> electron/spec/disabled-tests.json
+# Fake display, env DISPLAY=:1
+# Xvfb :1 &
+
+# Limit openfiles max 1024 isn't enouch
+# adjust _pbuild to :openfiles-max=2048: (/etc/login.conf)
+
+# Notes :
+# use a wrapper swript, skip bin/electron check, electron/spec/api-app-spec.ts
+# no crashReporter, electron/spec/disabled-tests.json
 
 do-test:
 	rm -rf ${WRKDIR}/.config
@@ -580,13 +583,13 @@ tarball:
 _TMP = /tmp/electron-${ELECTRON_V}
 chromium-patches:
 	make -D _GEN_PATCHES patch
-	# cvs co -D 20250801 -d chromium ports/www/chromium
+	# cvs co -D 20250920 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D 20250801 -d chromium ports/www/chromium ; \
+		cvs co -D 20250920 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches on top of electron patch (pre-patch)
 	rm -rf ${_TMP}/patches/chromium*

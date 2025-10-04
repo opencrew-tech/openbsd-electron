@@ -1,7 +1,21 @@
 Index: electron/BUILD.gn
 --- electron/BUILD.gn.orig
 +++ electron/BUILD.gn
-@@ -547,7 +547,7 @@ source_set("electron_lib") {
+@@ -44,9 +44,12 @@ if (is_mac) {
+ 
+ if (is_linux) {
+   import("//build/config/linux/pkg_config.gni")
+-  import("//electron/build/linux/strip_binary.gni")
+   import("//tools/generate_stubs/rules.gni")
+ 
++  if(!is_bsd) {
++    import("//electron/build/linux/strip_binary.gni")
++  }
++
+   pkg_config("gio_unix") {
+     packages = [ "gio-unix-2.0" ]
+   }
+@@ -548,7 +551,7 @@ source_set("electron_lib") {
      defines += [ "GDK_DISABLE_DEPRECATION_WARNINGS" ]
    }
  
@@ -10,7 +24,7 @@ Index: electron/BUILD.gn
      deps += [
        "//components/crash/core/app",
        "//components/crash/core/browser",
-@@ -640,6 +640,12 @@ source_set("electron_lib") {
+@@ -641,6 +644,12 @@ source_set("electron_lib") {
        cflags_objcc = [ "-fobjc-weak" ]
      }
    }
@@ -23,7 +37,7 @@ Index: electron/BUILD.gn
    if (is_linux) {
      libs = [ "xshmfence" ]
      deps += [
-@@ -1218,7 +1224,7 @@ if (is_mac) {
+@@ -1220,7 +1229,7 @@ if (is_mac) {
        ":electron_lib",
        ":electron_win32_resources",
        ":packed_resources",
@@ -32,8 +46,8 @@ Index: electron/BUILD.gn
        "//content:sandbox_helper_win",
        "//electron/buildflags",
        "//third_party/electron_node:libnode",
-@@ -1245,7 +1251,7 @@ if (is_mac) {
-       public_deps = [ "//tools/v8_context_snapshot:v8_context_snapshot" ]
+@@ -1247,7 +1256,7 @@ if (is_mac) {
+       public_deps = [ "//tools/v8_context_snapshot" ]
      }
  
 -    if (is_linux) {
@@ -41,7 +55,7 @@ Index: electron/BUILD.gn
        data_deps += [ "//components/crash/core/app:chrome_crashpad_handler" ]
      }
  
-@@ -1312,7 +1318,7 @@ if (is_mac) {
+@@ -1314,7 +1323,7 @@ if (is_mac) {
          configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
        }
  
@@ -50,12 +64,73 @@ Index: electron/BUILD.gn
          deps += [ "//sandbox/linux:chrome_sandbox" ]
        }
      }
-@@ -1420,7 +1426,7 @@ dist_zip("electron_dist_zip") {
+@@ -1422,7 +1431,7 @@ dist_zip("electron_dist_zip") {
      ":electron_version_file",
      ":licenses",
    ]
 -  if (is_linux) {
 +  if (is_linux && !is_bsd) {
+     if (is_official_build) {
+       data_deps += [
+         ":strip_chrome_crashpad_handler",
+@@ -1430,9 +1439,11 @@ dist_zip("electron_dist_zip") {
+         ":strip_electron_binary",
+         ":strip_libEGL_shlib",
+         ":strip_libGLESv2_shlib",
+-        ":strip_libffmpeg_shlib",
+         ":strip_libvk_swiftshader_shlib",
+       ]
++      if (is_component_ffmpeg) {
++        data_deps += [":strip_libffmpeg_shlib",]
++      }
+     }
+ 
      data_deps += [ "//sandbox/linux:chrome_sandbox" ]
+@@ -1480,15 +1491,17 @@ group("electron_mksnapshot") {
+ 
+ dist_zip("electron_mksnapshot_zip") {
+   data_deps = mksnapshot_deps
+-  if (is_linux && is_official_build) {
++  if (is_linux && is_official_build && !is_bsd) {
+     data_deps += [
+       ":strip_libEGL_shlib",
+       ":strip_libGLESv2_shlib",
+-      ":strip_libffmpeg_shlib",
+       ":strip_libvk_swiftshader_shlib",
+       ":strip_mksnapshot_binary",
+       ":strip_v8_context_snapshot_generator_binary",
+     ]
++    if (is_component_ffmpeg) {
++      data_deps += [":strip_libffmpeg_shlib",]
++    }
    }
    deps = data_deps
+   outputs = [ "$root_build_dir/mksnapshot.zip" ]
+@@ -1615,7 +1628,7 @@ group("node_headers") {
+   public_deps = [ ":tar_node_headers" ]
+ }
+ 
+-if (is_linux && is_official_build) {
++if (is_linux && is_official_build && !is_bsd) {
+   strip_binary("strip_electron_binary") {
+     binary_input = "$root_out_dir/$electron_project_name"
+     symbol_output = "$root_out_dir/debug/$electron_project_name.debug"
+@@ -1651,11 +1664,13 @@ if (is_linux && is_official_build) {
+     deps = [ "//third_party/angle:libGLESv2" ]
+   }
+ 
+-  strip_binary("strip_libffmpeg_shlib") {
+-    binary_input = "$root_out_dir/libffmpeg.so"
+-    symbol_output = "$root_out_dir/debug/libffmpeg.so.debug"
+-    compress_debug_sections = true
+-    deps = [ "//third_party/ffmpeg" ]
++  if (is_component_ffmpeg) {
++    strip_binary("strip_libffmpeg_shlib") {
++      binary_input = "$root_out_dir/libffmpeg.so"
++      symbol_output = "$root_out_dir/debug/libffmpeg.so.debug"
++      compress_debug_sections = true
++      deps = [ "//third_party/ffmpeg" ]
++    }
+   }
+ 
+   strip_binary("strip_libvk_swiftshader_shlib") {

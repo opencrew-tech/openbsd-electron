@@ -1,0 +1,12 @@
+Index: chrome/BUILD.gn
+--- chrome/BUILD.gn.orig
++++ chrome/BUILD.gn
+@@ -37,6 +37,8 @@ assert(!is_fuchsia, "Fuchsia shouldn't use anything in
+ 
+ if (is_android) {
+   import("//build/config/android/rules.gni")
++} else if (is_bsd) {
++  import("//build/linux/extract_symbols.gni")
+ } else if (is_linux || is_chromeos) {
+   import("//build/linux/extract_symbols.gni")
+   import("//build/linux/strip_binary.gni")

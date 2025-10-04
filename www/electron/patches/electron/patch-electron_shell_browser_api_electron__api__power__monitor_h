@@ -1,7 +1,7 @@
 Index: electron/shell/browser/api/electron_api_power_monitor.h
 --- electron/shell/browser/api/electron_api_power_monitor.h.orig
 +++ electron/shell/browser/api/electron_api_power_monitor.h
-@@ -40,7 +40,7 @@ class PowerMonitor final : public gin::Wrappable<Power
+@@ -40,7 +40,7 @@ class PowerMonitor final : public gin_helper::Deprecat
    explicit PowerMonitor(v8::Isolate* isolate);
    ~PowerMonitor() override;
  

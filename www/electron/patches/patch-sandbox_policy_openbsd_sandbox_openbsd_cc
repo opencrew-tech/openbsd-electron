@@ -16,7 +16,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
  
  #include <limits>
  #include <memory>
-@@ -48,7 +49,7 @@
+@@ -47,7 +48,7 @@
  #include "sandbox/policy/sandbox_type.h"
  #include "sandbox/policy/mojom/sandbox.mojom.h"
  #include "sandbox/policy/switches.h"
@@ -50,9 +50,9 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
    CHECK(!pre_initialized_);
  #if BUILDFLAG(USING_SANITIZER)
    // Sanitizers need to open some resources before the sandbox is enabled.
-@@ -125,12 +127,28 @@ void SandboxLinux::PreinitializeSandbox(sandbox::mojom
- #endif
-       CRYPTO_pre_sandbox_init();
+@@ -127,12 +129,28 @@ void SandboxLinux::PreinitializeSandbox(sandbox::mojom
+ 
+       rust_png::initialize_cpudetect();
  
 -      base::FilePath cache_directory, local_directory;
 +      base::FilePath cache_directory, config_directory, local_directory;
@@ -82,7 +82,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        local_directory = local_directory.AppendASCII(".local").AppendASCII("share").AppendASCII("applications");
  
        if (!base::CreateDirectory(cache_directory)) {
-@@ -188,36 +206,13 @@ err:
+@@ -190,36 +208,13 @@ err:
    return false;
  }
  
@@ -120,7 +120,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
    fp = fopen(ufile, "r");
    if (fp != NULL) {
      while (!feof(fp)) {
-@@ -225,10 +220,10 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -227,10 +222,10 @@ bool SandboxLinux::SetUnveil(const std::string process
            FPARSELN_UNESCCOMM | FPARSELN_UNESCCONT)) == NULL) {
          if (ferror(fp)) {
            LOG(ERROR) << "ferror(), errno: " << errno;
@@ -135,7 +135,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        }
        cp = s;
        cp += strspn(cp, " \t\n"); /* eat whitespace */
-@@ -236,7 +231,7 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -238,7 +233,7 @@ bool SandboxLinux::SetUnveil(const std::string process
          continue;
  
        for (ap = tokens; ap < &tokens[MAXTOKENS - 1] &&
@@ -144,7 +144,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
          if (**ap != '\0')
            ap++;
        }
-@@ -250,8 +245,8 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -252,8 +247,8 @@ bool SandboxLinux::SetUnveil(const std::string process
        if (tokens[0][0] == '~') {
          if ((home = getenv("HOME")) == NULL || *home == '\0') {
            LOG(ERROR) << "failed to get home";
@@ -155,7 +155,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
          memmove(tokens[0], tokens[0] + 1, strlen(tokens[0]));
          strncpy(path, home, sizeof(path) - 1);
          path[sizeof(path) - 1] = '\0';
-@@ -270,7 +265,6 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -272,7 +267,6 @@ bool SandboxLinux::SetUnveil(const std::string process
  
        if (unveil(path, tokens[1]) == -1) {
          LOG(ERROR) << "failed unveiling " << path << " with permissions " << tokens[1];
@@ -163,7 +163,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        } else {
          VLOG(5) << "unveiling " << path << " with permissions " << tokens[1];
        }
-@@ -280,7 +274,66 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -282,7 +276,66 @@ bool SandboxLinux::SetUnveil(const std::string process
          LOG(ERROR) << "failed to open " << ufile << " errno: " << errno;
          _exit(1);
    }
@@ -230,7 +230,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
  done:
    unveil_initialized_ = true;
  
-@@ -329,7 +382,7 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
+@@ -331,7 +384,7 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
  
    switch(sandbox_type) {
      case sandbox::mojom::Sandbox::kNoSandbox:
@@ -239,9 +239,9 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        break;
      case sandbox::mojom::Sandbox::kRenderer:
        // prot_exec needed by v8
-@@ -347,13 +400,13 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
+@@ -343,13 +396,13 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
+       SetPledge("stdio drm inet rpath flock cpath wpath prot_exec recvfd sendfd tmppath unix", NULL);
        break;
- #endif
      case sandbox::mojom::Sandbox::kAudio:
 -      SetPledge(NULL, "/etc/chromium/pledge.utility_audio");
 +      SetPledge(NULL, "/etc/electron/pledge.utility_audio");

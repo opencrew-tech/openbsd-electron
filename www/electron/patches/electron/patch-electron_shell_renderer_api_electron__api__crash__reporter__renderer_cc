@@ -1,4 +1,5 @@
---- electron/shell/renderer/api/electron_api_crash_reporter_renderer.cc.orig	2023-02-06 19:29:11 UTC
+Index: electron/shell/renderer/api/electron_api_crash_reporter_renderer.cc
+--- electron/shell/renderer/api/electron_api_crash_reporter_renderer.cc.orig
 +++ electron/shell/renderer/api/electron_api_crash_reporter_renderer.cc
 @@ -6,7 +6,7 @@
  #include "shell/common/gin_helper/dictionary.h"
@@ -25,10 +26,10 @@
  void SetCrashKeyStub(const std::string& key, const std::string& value) {}
  void ClearCrashKeyStub(const std::string& key) {}
  #endif
-@@ -30,7 +30,7 @@ void Initialize(v8::Local<v8::Object> exports,
-                 v8::Local<v8::Context> context,
+@@ -31,7 +31,7 @@ void Initialize(v8::Local<v8::Object> exports,
                  void* priv) {
-   gin_helper::Dictionary dict(context->GetIsolate(), exports);
+   v8::Isolate* const isolate = v8::Isolate::GetCurrent();
+   gin_helper::Dictionary dict{isolate, exports};
 -#if IS_MAS_BUILD()
 +#if IS_MAS_BUILD() || BUILDFLAG(IS_BSD)
    dict.SetMethod("addExtraParameter", &SetCrashKeyStub);

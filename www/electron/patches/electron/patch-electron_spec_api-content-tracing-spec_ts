@@ -10,3 +10,12 @@ Index: electron/spec/api-content-tracing-spec.ts
    const record = async (options: TraceConfig | TraceCategoriesAndOptions, outputFilePath: string | undefined, recordTimeInMilliseconds = 1e1) => {
      await app.whenReady();
  
+@@ -91,7 +91,7 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)) 
+     });
+   });
+ 
+-  ifdescribe(process.platform !== 'linux')('stopRecording', function () {
++  ifdescribe(!(['freebsd', 'linux', 'openbsd'].includes(process.platform)))('stopRecording', function () {
+     if (process.platform === 'win32' && process.arch === 'arm64') {
+       // WOA needs more time
+       this.timeout(10e3);

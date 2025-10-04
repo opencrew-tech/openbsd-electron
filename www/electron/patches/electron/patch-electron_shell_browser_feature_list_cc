@@ -1,0 +1,12 @@
+Index: electron/shell/browser/feature_list.cc
+--- electron/shell/browser/feature_list.cc.orig
++++ electron/shell/browser/feature_list.cc
+@@ -29,7 +29,7 @@
+ #include "pdf/pdf_features.h"
+ #endif
+ 
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ #include "printing/printing_features.h"
+ #endif
+ 

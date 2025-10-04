@@ -1,7 +1,7 @@
 Index: BUILD.gn
 --- BUILD.gn.orig
 +++ BUILD.gn
-@@ -114,7 +114,6 @@ group("gn_all") {
+@@ -112,7 +112,6 @@ group("gn_all") {
        "//third_party/angle/src/tests:angle_unittests",
        "//third_party/angle/src/tests:angle_white_box_tests",
        "//third_party/flatbuffers:flatbuffers_unittests",

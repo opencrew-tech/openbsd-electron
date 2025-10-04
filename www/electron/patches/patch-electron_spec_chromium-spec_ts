@@ -24,7 +24,7 @@ Index: electron/spec/chromium-spec.ts
    });
  
    describe('--remote-debugging-pipe switch', () => {
-@@ -2958,12 +2958,12 @@ describe('font fallback', () => {
+@@ -2965,12 +2965,12 @@ describe('font fallback', () => {
        expect(fonts[0].familyName).to.equal('Arial');
      } else if (process.platform === 'darwin') {
        expect(fonts[0].familyName).to.equal('Helvetica');
@@ -39,15 +39,15 @@ Index: electron/spec/chromium-spec.ts
      const html = `
      <html lang="ja-JP">
        <head>
-@@ -3089,6 +3089,7 @@ describe('iframe using HTML fullscreen API while windo
+@@ -3096,6 +3096,7 @@ describe('iframe using HTML fullscreen API while windo
    });
  });
  
 +/*
- describe('navigator.serial', () => {
+ ifdescribe(process.platform !== 'darwin' || process.arch !== 'arm64')('navigator.serial', () => {
    let w: BrowserWindow;
    before(async () => {
-@@ -3216,6 +3217,7 @@ describe('navigator.serial', () => {
+@@ -3222,6 +3223,7 @@ ifdescribe(process.platform !== 'darwin' || process.ar
      }
    });
  });
@@ -55,7 +55,7 @@ Index: electron/spec/chromium-spec.ts
  
  describe('window.getScreenDetails', () => {
    let w: BrowserWindow;
-@@ -3516,7 +3518,7 @@ describe('paste execCommand', () => {
+@@ -3522,7 +3524,7 @@ describe('paste execCommand', () => {
    });
  });
  

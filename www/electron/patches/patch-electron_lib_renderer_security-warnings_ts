@@ -1,0 +1,11 @@
+Index: electron/lib/renderer/security-warnings.ts
+--- electron/lib/renderer/security-warnings.ts.orig
++++ electron/lib/renderer/security-warnings.ts
+@@ -27,6 +27,7 @@ const shouldLogSecurityWarnings = function (): boolean
+       break;
+     case 'freebsd':
+     case 'linux':
++    case 'openbsd': /* XXX will always log ? (wrapper run .../electron) */
+       shouldLog = execPath.endsWith('/electron');
+       break;
+     case 'win32':

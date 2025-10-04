@@ -1,7 +1,7 @@
 Index: electron/shell/browser/ui/inspectable_web_contents_view.cc
 --- electron/shell/browser/ui/inspectable_web_contents_view.cc.orig
 +++ electron/shell/browser/ui/inspectable_web_contents_view.cc
-@@ -180,7 +180,7 @@ void InspectableWebContentsView::SetIsDocked(bool dock
+@@ -181,7 +181,7 @@ void InspectableWebContentsView::SetIsDocked(bool dock
      params.delegate = devtools_window_delegate_;
      params.bounds = inspectable_web_contents()->dev_tools_bounds();
  

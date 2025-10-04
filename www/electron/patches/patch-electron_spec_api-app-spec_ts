@@ -1,4 +1,4 @@
-XXX openbsd use a wrapper, skip bin/electron check
+openbsd use a wrapper, skip bin/electron check
 
 Index: electron/spec/api-app-spec.ts
 --- electron/spec/api-app-spec.ts.orig
@@ -36,6 +36,15 @@ Index: electron/spec/api-app-spec.ts
          expect(secondInstanceArgsReceived).to.include(arg,
            `argument ${arg} is missing from received second args`);
        }
+@@ -360,7 +363,7 @@ describe('app module', () => {
+   });
+ 
+   // GitHub Actions macOS-13 runners used for x64 seem to have a problem with this test.
+-  ifdescribe(process.platform !== 'linux' && !isMacOSx64)('app.{add|get|clear}RecentDocument(s)', () => {
++  ifdescribe(!(['freebsd', 'linux', 'openbsd'].includes(process.platform)) && !isMacOSx64)('app.{add|get|clear}RecentDocument(s)', () => {
+     const tempFiles = [
+       path.join(fixturesPath, 'foo.txt'),
+       path.join(fixturesPath, 'bar.txt'),
 @@ -488,7 +491,7 @@ describe('app module', () => {
    //   let w = null
  

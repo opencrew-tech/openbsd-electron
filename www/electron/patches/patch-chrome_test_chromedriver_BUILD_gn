@@ -1,0 +1,39 @@
+strip_binary depends on bundle llvm which is not build neither packaged in src.
+Do not strip and let ports infra handle it.
+
+Index: chrome/test/chromedriver/BUILD.gn
+--- chrome/test/chromedriver/BUILD.gn.orig
++++ chrome/test/chromedriver/BUILD.gn
+@@ -5,7 +5,7 @@
+ import("//build/buildflag_header.gni")
+ import("//build/config/python.gni")
+ import("//build/config/ui.gni")
+-if (is_linux) {
++if (is_linux && !is_bsd) {
+   import("//build/linux/strip_binary.gni")
+ }
+ import("//build/util/lastchange.gni")
+@@ -416,7 +416,22 @@ source_set("lib") {
+   configs += [ "//build/config/compiler:no_exit_time_destructors" ]
+ }
+ 
+-if (is_linux) {
++if (is_bsd) {
++  executable("chromedriver_server") {
++    testonly = true
++    sources = [ "server/chromedriver_server.cc" ]
++    output_name = "chromedriver"
++
++    deps = [
++      ":automation_client_lib",
++      ":lib",
++      "//mojo/core/embedder",
++      "//net",
++      "//net/traffic_annotation:test_support",
++      "//services/network/public/mojom",
++    ]
++  }
++} else if (is_linux) {
+   # Linux
+   executable("chromedriver_server.unstripped") {
+     testonly = true

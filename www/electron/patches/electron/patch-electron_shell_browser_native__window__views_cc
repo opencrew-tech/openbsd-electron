@@ -1,25 +1,25 @@
 Index: electron/shell/browser/native_window_views.cc
 --- electron/shell/browser/native_window_views.cc.orig
 +++ electron/shell/browser/native_window_views.cc
-@@ -52,7 +52,7 @@
+@@ -53,7 +53,7 @@
  #include "ui/wm/core/shadow_types.h"
  #include "ui/wm/core/window_util.h"
  
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
- #include "base/strings/string_util.h"
+ #include "base/notimplemented.h"
  #include "shell/browser/browser.h"
  #include "shell/browser/linux/unity_service.h"
-@@ -286,7 +286,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
+@@ -284,7 +284,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
      params.parent = parent->GetNativeWindow();
  
-   params.native_widget = new ElectronDesktopNativeWidgetAura(this);
+   params.native_widget = new ElectronDesktopNativeWidgetAura{this, widget()};
 -#elif BUILDFLAG(IS_LINUX)
 +#elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
    std::string name = Browser::Get()->GetName();
    // Set WM_WINDOW_ROLE.
    params.wm_role_name = "browser-window";
-@@ -311,7 +311,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
+@@ -309,7 +309,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
    std::string window_type;
    options.Get(options::kType, &window_type);
  
@@ -28,7 +28,7 @@ Index: electron/shell/browser/native_window_views.cc
    // Set _GTK_THEME_VARIANT to dark if we have "dark-theme" option set.
    if (options.ValueOrDefault(options::kDarkTheme, false))
      SetGTKDarkThemeEnabled(true);
-@@ -432,7 +432,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
+@@ -430,7 +430,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper:
    if (window)
      window->AddPreTargetHandler(this);
  
@@ -37,7 +37,7 @@ Index: electron/shell/browser/native_window_views.cc
    // On linux after the widget is initialized we might have to force set the
    // bounds if the bounds are smaller than the current display
    SetBounds(gfx::Rect(GetPosition(), bounds.size()), false);
-@@ -453,7 +453,7 @@ NativeWindowViews::~NativeWindowViews() {
+@@ -504,7 +504,7 @@ void NativeWindowViews::SetTitleBarOverlay(
  }
  
  void NativeWindowViews::SetGTKDarkThemeEnabled(bool use_dark_theme) {
@@ -46,7 +46,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (x11_util::IsX11()) {
      const std::string color = use_dark_theme ? "dark" : "light";
      auto* connection = x11::Connection::Get();
-@@ -514,7 +514,7 @@ void NativeWindowViews::Show() {
+@@ -565,7 +565,7 @@ void NativeWindowViews::Show() {
  
    NotifyWindowShow();
  
@@ -55,7 +55,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (global_menu_bar_)
      global_menu_bar_->OnWindowMapped();
  
-@@ -530,7 +530,7 @@ void NativeWindowViews::ShowInactive() {
+@@ -581,7 +581,7 @@ void NativeWindowViews::ShowInactive() {
  
    NotifyWindowShow();
  
@@ -64,7 +64,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (global_menu_bar_)
      global_menu_bar_->OnWindowMapped();
  
-@@ -549,7 +549,7 @@ void NativeWindowViews::Hide() {
+@@ -600,7 +600,7 @@ void NativeWindowViews::Hide() {
  
    NotifyWindowHide();
  
@@ -73,7 +73,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (global_menu_bar_)
      global_menu_bar_->OnWindowUnmapped();
  #endif
-@@ -580,7 +580,7 @@ bool NativeWindowViews::IsVisible() const {
+@@ -631,7 +631,7 @@ bool NativeWindowViews::IsVisible() const {
  bool NativeWindowViews::IsEnabled() const {
  #if BUILDFLAG(IS_WIN)
    return ::IsWindowEnabled(GetAcceleratedWidget());
@@ -82,7 +82,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (x11_util::IsX11())
      return !event_disabler_.get();
    NOTIMPLEMENTED();
-@@ -814,7 +814,7 @@ void NativeWindowViews::SetBounds(const gfx::Rect& bou
+@@ -865,7 +865,7 @@ void NativeWindowViews::SetBounds(const gfx::Rect& bou
    }
  #endif
  
@@ -91,7 +91,7 @@ Index: electron/shell/browser/native_window_views.cc
    // On Linux and Windows the minimum and maximum size should be updated with
    // window size when window is not resizable.
    if (!resizable_) {
-@@ -1071,7 +1071,7 @@ bool NativeWindowViews::IsClosable() const {
+@@ -1122,7 +1122,7 @@ bool NativeWindowViews::IsClosable() const {
      return false;
    }
    return !(info.fState & MFS_DISABLED);
@@ -100,7 +100,7 @@ Index: electron/shell/browser/native_window_views.cc
    return true;
  #endif
  }
-@@ -1111,7 +1111,7 @@ ui::ZOrderLevel NativeWindowViews::GetZOrderLevel() co
+@@ -1162,7 +1162,7 @@ ui::ZOrderLevel NativeWindowViews::GetZOrderLevel() co
  // for now to avoid breaking API contract, but should consider the long
  // term plan for this aligning with upstream.
  void NativeWindowViews::Center() {
@@ -109,7 +109,7 @@ Index: electron/shell/browser/native_window_views.cc
    auto display =
        display::Screen::GetScreen()->GetDisplayNearestWindow(GetNativeWindow());
    gfx::Rect window_bounds_in_screen = display.work_area();
-@@ -1336,7 +1336,7 @@ bool NativeWindowViews::IsFocusable() const {
+@@ -1378,7 +1378,7 @@ bool NativeWindowViews::IsFocusable() const {
  }
  
  void NativeWindowViews::SetMenu(ElectronMenuModel* menu_model) {
@@ -118,7 +118,7 @@ Index: electron/shell/browser/native_window_views.cc
    // Remove global menu bar.
    if (global_menu_bar_ && menu_model == nullptr) {
      global_menu_bar_.reset();
-@@ -1392,7 +1392,7 @@ void NativeWindowViews::SetMenu(ElectronMenuModel* men
+@@ -1434,7 +1434,7 @@ void NativeWindowViews::SetMenu(ElectronMenuModel* men
  void NativeWindowViews::SetParentWindow(NativeWindow* parent) {
    NativeWindow::SetParentWindow(parent);
  
@@ -127,7 +127,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (x11_util::IsX11()) {
      auto* connection = x11::Connection::Get();
      connection->SetProperty(
-@@ -1438,7 +1438,7 @@ void NativeWindowViews::SetProgressBar(double progress
+@@ -1480,7 +1480,7 @@ void NativeWindowViews::SetProgressBar(double progress
                                         NativeWindow::ProgressState state) {
  #if BUILDFLAG(IS_WIN)
    taskbar_host_.SetProgressBar(GetAcceleratedWidget(), progress, state);
@@ -136,7 +136,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (unity::IsRunning()) {
      unity::SetProgressFraction(progress);
    }
-@@ -1564,7 +1564,7 @@ content::DesktopMediaID NativeWindowViews::GetDesktopM
+@@ -1606,7 +1606,7 @@ content::DesktopMediaID NativeWindowViews::GetDesktopM
  #if BUILDFLAG(IS_WIN)
    window_handle =
        reinterpret_cast<content::DesktopMediaID::Id>(accelerated_widget);
@@ -145,7 +145,7 @@ Index: electron/shell/browser/native_window_views.cc
    window_handle = static_cast<uint32_t>(accelerated_widget);
  #endif
    aura::WindowTreeHost* const host =
-@@ -1662,7 +1662,7 @@ void NativeWindowViews::SetIcon(HICON window_icon, HIC
+@@ -1704,7 +1704,7 @@ void NativeWindowViews::SetIcon(HICON window_icon, HIC
    SendMessage(hwnd, WM_SETICON, ICON_BIG,
                reinterpret_cast<LPARAM>(app_icon_.get()));
  }
@@ -154,7 +154,7 @@ Index: electron/shell/browser/native_window_views.cc
  void NativeWindowViews::SetIcon(const gfx::ImageSkia& icon) {
    auto* tree_host = views::DesktopWindowTreeHostLinux::GetHostForWidget(
        GetAcceleratedWidget());
-@@ -1783,7 +1783,7 @@ bool NativeWindowViews::CanMaximize() const {
+@@ -1825,7 +1825,7 @@ bool NativeWindowViews::CanMaximize() const {
  bool NativeWindowViews::CanMinimize() const {
  #if BUILDFLAG(IS_WIN)
    return minimizable_;
@@ -163,7 +163,16 @@ Index: electron/shell/browser/native_window_views.cc
    return true;
  #endif
  }
-@@ -1839,7 +1839,7 @@ void NativeWindowViews::HandleKeyboardEvent(
+@@ -1867,7 +1867,7 @@ NativeWindowViews::CreateNonClientFrameView(views::Wid
+ #endif
+ }
+ 
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ electron::ClientFrameViewLinux* NativeWindowViews::GetClientFrameViewLinux() {
+   // Check to make sure this window's non-client frame view is a
+   // ClientFrameViewLinux.  If either has_frame() or has_client_frame()
+@@ -1890,7 +1890,7 @@ void NativeWindowViews::HandleKeyboardEvent(
    if (widget_destroyed_)
      return;
  
@@ -172,7 +181,7 @@ Index: electron/shell/browser/native_window_views.cc
    if (event.windows_key_code == ui::VKEY_BROWSER_BACK)
      NotifyWindowExecuteAppCommand(kBrowserBackward);
    else if (event.windows_key_code == ui::VKEY_BROWSER_FORWARD)
-@@ -1858,7 +1858,7 @@ void NativeWindowViews::OnMouseEvent(ui::MouseEvent* e
+@@ -1909,7 +1909,7 @@ void NativeWindowViews::OnMouseEvent(ui::MouseEvent* e
    // Alt+Click should not toggle menu bar.
    root_view_.ResetAltState();
  

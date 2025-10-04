@@ -1,66 +1,66 @@
 Index: electron/script/spec-runner.js
 --- electron/script/spec-runner.js.orig
 +++ electron/script/spec-runner.js
-@@ -34,10 +34,12 @@ for (const flag of unknownFlags) {
+@@ -34,10 +34,8 @@ for (const flag of unknownFlags) {
  }
  
  const utils = require('./lib/utils');
 -const { YARN_VERSION } = require('./yarn');
-+// already setup by MODYARN
-+//const { YARN_VERSION } = require('./yarn');
  
  const BASE = path.resolve(__dirname, '../..');
 -const NPX_CMD = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-+// already setup by MODYARN
-+//const NPX_CMD = process.platform === 'win32' ? 'npx.cmd' : 'npx';
  
  const runners = new Map([
    ['main', { description: 'Main process specs', run: runMainProcessElectronTests }]
-@@ -89,14 +91,19 @@ async function main () {
+@@ -89,14 +87,18 @@ async function main () {
      console.log(`Running against Electron ${versionString.green}`);
    }
  
-+  /*
-+  XXX const { hashElement } = require('folder-hash');
-+  XXX folder-hash looks broken on openbsd
-   const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
-   const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
-   const somethingChanged = (currentSpecHash !== lastSpecHash) ||
-       (lastSpecInstallHash !== currentSpecInstallHash);
-+  */
-+  const somethingChanged = true
+-  const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
+-  const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
+-  const somethingChanged = (currentSpecHash !== lastSpecHash) ||
+-      (lastSpecInstallHash !== currentSpecInstallHash);
++  /* XXX folder-hash looks broken on openbsd
++   * const { hashElement } = require('folder-hash');
++   * const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
++   * const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
++   * const somethingChanged = (currentSpecHash !== lastSpecHash) ||
++   *     (lastSpecInstallHash !== currentSpecInstallHash);
++   */
++  const somethingChanged = true;
  
    if (somethingChanged) {
      await installSpecModules(path.resolve(__dirname, '..', 'spec'));
 -    await getSpecHash().then(saveSpecHash);
-+    //await getSpecHash().then(saveSpecHash);
++    // await getSpecHash().then(saveSpecHash);
    }
  
    if (!fs.existsSync(path.resolve(__dirname, '../electron.d.ts'))) {
-@@ -204,6 +211,14 @@ async function runTestUsingElectron (specDir, testName
+@@ -200,10 +202,15 @@ async function runTestUsingElectron (specDir, testName
+     exe = path.resolve(BASE, utils.getElectronExec());
+   }
+   const runnerArgs = [`electron/${specDir}`, ...unknownArgs.slice(2)];
+-  if (process.platform === 'linux') {
++  if (['freebsd', 'linux', 'openbsd'].includes(process.platform)) {
++    /* XXX use --no-sandbox ?
++     * runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'),
++     *   exe, "--no-sandbox");
++     */
      runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'), exe);
      exe = 'python3';
    }
-+  if (['freebsd', 'linux', 'openbsd'].includes(process.platform)) {
-+    /*// XXX use --no-sandbox ?
-+    runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'),
-+      exe, "--no-sandbox");*/
-+    runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'), exe);
-+    exe = 'python3';
-+  }
-+  console.log(exe, runnerArgs)
++  console.log(exe, runnerArgs);
    const { status, signal } = await asyncSpawn(exe, runnerArgs);
    if (status !== 0) {
      if (status) {
-@@ -250,7 +265,10 @@ async function installSpecModules (dir) {
+@@ -250,7 +257,9 @@ async function installSpecModules (dir) {
    if (fs.existsSync(path.resolve(dir, 'node_modules'))) {
      await fs.promises.rm(path.resolve(dir, 'node_modules'), { force: true, recursive: true });
    }
 -  const { status } = childProcess.spawnSync(NPX_CMD, [`yarn@${YARN_VERSION}`, 'install', '--frozen-lockfile'], {
 +
-+/* already setup by MODYARN */
-+const { status } = childProcess.spawnSync('yarn', ['install', '--frozen-lockfile --offline --ignore-scripts --ignore-engines'], {
-+// const { status } = childProcess.spawnSync(NPX_CMD, [`yarn@${YARN_VERSION}`, 'install', '--frozen-lockfile'], {
++  /* already setup by MODYARN */
++  const { status } = childProcess.spawnSync('yarn', ['install', '--frozen-lockfile --offline --ignore-scripts --ignore-engines'], {
      env,
      cwd: dir,
      stdio: 'inherit',

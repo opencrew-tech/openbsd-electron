@@ -1,6 +1,6 @@
 COMMENT=		break time reminder app
 
-DIST_TUPLE=		github hovancik stretchly v1.17.2 .
+DIST_TUPLE=		github hovancik stretchly v1.18.0 .
 
 CATEGORIES=		productivity
 

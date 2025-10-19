@@ -18,7 +18,7 @@
 
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.15.0
+V=		10.18.3
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel
@@ -40,12 +40,13 @@ DISTFILES.vendor=	${MODPNPM_VENDOR}
 MODULES=	lang/python \
 		devel/pnpm
 
-MODPNPM_BIN=	${WRKDIR}/package/bin/pnpm.cjs
-MODPNPM_UPDATE=	No
-MODPNPM_INSTALL=No
-MODPNPM_BUILDDEP=No
-MODPNPM_RUNDEP=	No
-MODPNPM_TESTDEP=No
+MODPNPM_BIN=		${WRKDIR}/package/bin/pnpm.cjs
+MODPNPM_UPDATE=		No
+MODPNPM_INSTALL=	No
+MODPNPM_BUILDDEP=	No
+MODPNPM_RUNDEP=		No
+MODPNPM_TESTDEP=	No
+MODPNPM_GEN_FORCE=	Yes
 
 NO_TEST=	Yes # need internet access
 
@@ -59,9 +60,10 @@ pre-configure:
 do-build:
 	cd ${WRKSRC} && ${MODPNPM_CMD} compile
 
-# XXX modpnpm hoisted+package/npm does not works
-# XXX pnpm deploy not tested
+# XXX modpnpm hoisted+bundle+pack / npm install
+# XXX pnpm deploy does not work
 # XXX publish-packed incompatibility with node v22.x (assertion failed in esm)
+# copy official pakcage then override pnpm.cjs with custom build
 do-install:
 	${MODPY_COMPILEALL} ${WRKDIR}/package/dist/node_modules/node-gyp/gyp
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/node_modules/pnpm

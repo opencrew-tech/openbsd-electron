@@ -1,7 +1,7 @@
 Index: fetching/tarball-fetcher/src/index.ts
 --- fetching/tarball-fetcher/src/index.ts.orig
 +++ fetching/tarball-fetcher/src/index.ts
-@@ -26,6 +26,7 @@ export interface TarballFetchers {
+@@ -27,6 +27,7 @@ export interface TarballFetchers {
    localTarball: FetchFunction
    remoteTarball: FetchFunction
    gitHostedTarball: FetchFunction
@@ -9,7 +9,7 @@ Index: fetching/tarball-fetcher/src/index.ts
  }
  
  export function createTarballFetcher (
-@@ -55,6 +56,7 @@ export function createTarballFetcher (
+@@ -57,6 +58,7 @@ export function createTarballFetcher (
      localTarball: createLocalTarballFetcher(),
      remoteTarball: remoteTarballFetcher,
      gitHostedTarball: createGitHostedTarballFetcher(remoteTarballFetcher, opts),

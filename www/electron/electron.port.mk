@@ -1,5 +1,5 @@
 # sync with Makefile
-ELECTRON_V=		38.1.2
+ELECTRON_V=		38.4.0
 
 ELECTRON_DIST_APPS=	electron/resources
 ELECTRON_WRAPPER=	electron/${ELECTRON_V}/electron.sh

@@ -215,6 +215,7 @@ ${MODNPM_DIST}/@webpack-cli-{@webpack-cli/configtest/-/}configtest-2.1.1.tgz \
 ${MODNPM_DIST}/@webpack-cli-{@webpack-cli/info/-/}info-2.0.2.tgz \
 ${MODNPM_DIST}/@webpack-cli-{@webpack-cli/serve/-/}serve-2.0.5.tgz \
 ${MODNPM_DIST}/@xmldom-{@xmldom/xmldom/-/}xmldom-0.8.10.tgz \
+${MODNPM_DIST}/@xmldom-{@xmldom/xmldom/-/}xmldom-0.8.11.tgz \
 ${MODNPM_DIST}/@xtuc-{@xtuc/ieee754/-/}ieee754-1.2.0.tgz \
 ${MODNPM_DIST}/@xtuc-{@xtuc/long/-/}long-4.2.2.tgz \
 ${MODNPM_DIST}/{abbrev/-/}abbrev-1.1.1.tgz \

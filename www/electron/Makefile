@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		38.1.2
+ELECTRON_V=		38.4.0
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -31,8 +31,8 @@ PERMIT_PACKAGE=		Yes
 
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		140.0.7339.133
-NODE_V=			22.19.0
+CHROMIUM_V=		140.0.7339.240
+NODE_V=			22.20.0
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
@@ -583,13 +583,13 @@ tarball:
 _TMP = /tmp/electron-${ELECTRON_V}
 chromium-patches:
 	make -D _GEN_PATCHES patch
-	# cvs co -D 20250920 -d chromium ports/www/chromium
+	# cvs co -D 20250925 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D 20250920 -d chromium ports/www/chromium ; \
+		cvs co -D 20250925 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches on top of electron patch (pre-patch)
 	rm -rf ${_TMP}/patches/chromium*

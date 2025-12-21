@@ -1,0 +1,12 @@
+Index: lib/npm/node-platform.ts
+--- lib/npm/node-platform.ts.orig
++++ lib/npm/node-platform.ts
+@@ -7,7 +7,7 @@ declare const ESBUILD_VERSION: string
+ // This feature was added to give external code a way to modify the binary
+ // path without modifying the code itself. Do not remove this because
+ // external code relies on this.
+-export var ESBUILD_BINARY_PATH: string | undefined = process.env.ESBUILD_BINARY_PATH || ESBUILD_BINARY_PATH
++export var ESBUILD_BINARY_PATH: string | undefined = process.env.ESBUILD_BINARY_PATH || "${LOCALBASE}/bin/esbuild"
+ 
+ // Someone made an unofficial "esbuild" package for Linux that sets the
+ // environment variable "ESBUILD_BINARY_PATH" to "/usr/bin/esbuild". This

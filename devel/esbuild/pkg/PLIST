@@ -1,0 +1,13 @@
+@bin bin/esbuild
+lib/node/
+lib/node/esbuild/
+lib/node/esbuild/node_modules/
+lib/node/esbuild/node_modules/esbuild/
+lib/node/esbuild/node_modules/esbuild/LICENSE.md
+lib/node/esbuild/node_modules/esbuild/README.md
+lib/node/esbuild/node_modules/esbuild/bin/
+lib/node/esbuild/node_modules/esbuild/bin/esbuild
+lib/node/esbuild/node_modules/esbuild/lib/
+lib/node/esbuild/node_modules/esbuild/lib/main.d.ts
+lib/node/esbuild/node_modules/esbuild/lib/main.js
+lib/node/esbuild/node_modules/esbuild/package.json

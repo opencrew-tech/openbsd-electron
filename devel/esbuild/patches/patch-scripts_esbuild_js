@@ -1,0 +1,30 @@
+Index: scripts/esbuild.js
+--- scripts/esbuild.js.orig
++++ scripts/esbuild.js
+@@ -278,8 +278,7 @@ exports.writeFileAtomic = (where, contents) => {
+ }
+ 
+ exports.buildBinary = () => {
+-  childProcess.execFileSync('go', ['build', '-ldflags=-s -w', '-trimpath', './cmd/esbuild'], { cwd: repoDir, stdio: 'ignore' })
+-  return path.join(repoDir, process.platform === 'win32' ? 'esbuild.exe' : 'esbuild')
++  return path.join(repoDir, 'esbuild')
+ }
+ 
+ exports.removeRecursiveSync = path => {
+@@ -311,16 +310,7 @@ const updateVersionPackageJSON = pathToPackageJSON => 
+ exports.installForTests = () => {
+   // Build the "esbuild" binary and library
+   const esbuildPath = exports.buildBinary()
+-  buildNeutralLib(esbuildPath)
+ 
+-  // Install the "esbuild" package to a temporary directory. On Windows, it's
+-  // sometimes randomly impossible to delete this installation directory. My
+-  // best guess is that this is because the esbuild process is kept alive until
+-  // the process exits for "buildSync" and "transformSync", and that sometimes
+-  // prevents Windows from deleting the directory it's in. The call in tests to
+-  // "rimraf.sync()" appears to hang when this happens. Other operating systems
+-  // don't have a problem with this. This has only been a problem on the Windows
+-  // VM in GitHub CI. I cannot reproduce this issue myself.
+   const installDir = path.join(os.tmpdir(), 'esbuild-' + Math.random().toString(36).slice(2))
+   const env = { ...process.env, ESBUILD_BINARY_PATH: esbuildPath }
+   fs.mkdirSync(installDir)

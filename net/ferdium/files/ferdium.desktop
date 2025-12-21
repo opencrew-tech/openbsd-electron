@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Ferdium
+Comment=All your services in one place built by the community
+Icon=ferdium
+Exec=ferdium -- %u
+Terminal=false
+Categories=Network;InstantMessaging;
+StartupWMClass=Ferdium
+MimeType=x-scheme-handler/ferdium;
+X-GNOME-UsesNotifications=true

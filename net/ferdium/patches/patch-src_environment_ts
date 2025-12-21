@@ -1,0 +1,13 @@
+Index: src/environment.ts
+--- src/environment.ts.orig
++++ src/environment.ts
+@@ -4,7 +4,8 @@ import { arch, release } from 'node:os';
+ 
+ export const isMac = process.platform === 'darwin';
+ export const isWindows = process.platform === 'win32';
+-export const isLinux = process.platform === 'linux';
++export const isLinux =
++  ['linux', 'freebsd', 'openbsd'].includes(process.platform);
+ export const isWinPortable = process.env.PORTABLE_EXECUTABLE_FILE != null;
+ 
+ export const isWayland = isLinux && process.env.XDG_SESSION_TYPE === 'wayland';

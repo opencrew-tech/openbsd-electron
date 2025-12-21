@@ -1,4 +1,5 @@
      SUBDIR =
+     SUBDIR += ferdium
      SUBDIR += signal-desktop
      SUBDIR += teams-for-linux
 

@@ -1,0 +1,20 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -18,7 +18,6 @@
+     "pnpm": "10.14.0"
+   },
+   "scripts": {
+-    "prepare": "is-ci || husky",
+     "start": "electron ./build",
+     "start:local": "cross-env USE_LOCAL_API=1 pnpm start",
+     "start:live": "cross-env USE_LIVE_API=1 pnpm start",
+@@ -34,7 +33,7 @@
+     "extract": "formatjs extract \"src/**/*.{js,jsx,mjs,ts,tsx}\" --ignore=\"**/*.d.ts\" --out-file temp.json --flatten --id-interpolation-pattern '[sha512:contenthash:base64:6]' --preserve-whitespace",
+     "compile": "formatjs compile \"temp.json\" --out-file src/i18n/locales/en-US.json",
+     "manage-translations": "pnpm extract && pnpm compile && rimraf temp.json",
+-    "build": "preval-build-info-cli && node esbuild.mjs && electron-builder",
++    "build": "node esbuild.mjs",
+     "contributors": "all-contributors",
+     "reformat-files": "prettier --ignore-path .eslintignore --write --cache \"**/*.{js,jsx,mjs,ts,tsx,scss}\"",
+     "prepare-code": "pnpm typecheck && pnpm lint:fix && pnpm biome:check:fix && pnpm reformat-files && pnpm manage-translations",

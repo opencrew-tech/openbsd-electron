@@ -1,0 +1,16 @@
+Invalid configuration object.
+electron-builder 26.0.12, configuration object does not match the API schema.
+configuration.win has an unknown property 'publisherName'.
+
+Index: electron-builder.yml
+--- electron-builder.yml.orig
++++ electron-builder.yml
+@@ -90,8 +90,6 @@ win:
+       arch: [x64, ia32, arm64]
+     - target: portable
+       arch: [x64, ia32, arm64]
+-  # The name of the CN appearing in the certificate must be present in the publisherName list below
+-  publisherName: ["Ferdium Contributors", "Ambroise Grau"]
+   # Remove the verification for a signature to allow auto-update without signed certificate
+   verifyUpdateCodeSignature: false
+ 

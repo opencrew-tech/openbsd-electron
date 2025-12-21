@@ -1,0 +1,12 @@
+Index: src/lib/Tray.ts
+--- src/lib/Tray.ts.orig
++++ src/lib/Tray.ts
+@@ -260,7 +260,7 @@ export default class TrayIcon {
+ 
+   _getAsset(type, asset): NativeImage {
+     const { platform } = process;
+-    let platformPath: string = platform;
++    let platformPath: string = (platform === "openbsd") ? "linux": platform;
+ 
+     if (isMac && macosVersion.isGreaterThanOrEqualTo('11')) {
+       platformPath = `${platform}-20`;

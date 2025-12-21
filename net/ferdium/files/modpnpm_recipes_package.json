@@ -1,0 +1,56 @@
+{
+  "name": "ferdium-recipes",
+  "version": "1.0.1",
+  "directories": {
+    "doc": "docs"
+  },
+  "volta": {
+    "node": "22.18.0",
+    "pnpm": "10.14.0"
+  },
+  "engine-strict": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "is-ci || husky install",
+    "validate": "pnpm lint:fix && pnpm reformat-files && pnpm package",
+    "package": "node scripts/package.js",
+    "create": "node scripts/create.mjs",
+    "lint": "eslint \"{recipes,scripts}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "pnpm lint --fix",
+    "reformat-files": "prettier --ignore-path .eslintignore --write \"**/*.{js,json,scss}\"",
+    "contributors": "all-contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ferdium/ferdium-recipes.git"
+  },
+  "keywords": [
+    "ferdium",
+    "recipes"
+  ],
+  "author": "Ferdium Contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ferdium/ferdium-recipes/issues"
+  },
+  "homepage": "https://github.com/ferdium/ferdium-recipes",
+  "devDependencies": {
+    "@types/targz": "1.0.4",
+    "all-contributors-cli": "6.26.1",
+    "eslint": "8.57.0",
+    "eslint-plugin-unicorn": "51.0.1",
+    "fs-extra": "11.2.0",
+    "husky": "9.1.6",
+    "image-size": "1.0.2",
+    "is-ci": "3.0.1",
+    "open": "10.1.0",
+    "prettier": "3.3.3",
+    "simple-git": "3.27.0",
+    "targz": "1.0.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "link:../../node/esbuild/node_modules/esbuild"
+    }
+  }
+}

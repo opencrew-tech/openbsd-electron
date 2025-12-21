@@ -1,0 +1,80 @@
+Index: esbuild.mjs
+--- esbuild.mjs.orig
++++ esbuild.mjs
+@@ -8,7 +8,6 @@ import { sassPlugin } from 'esbuild-sass-plugin';
+ import fsPkg from 'fs-extra';
+ import livereload from 'gulp-livereload';
+ import moment from 'moment';
+-import * as buildInfo from 'preval-build-info';
+ import glob from 'tiny-glob';
+ 
+ const { log } = console;
+@@ -68,9 +67,9 @@ const copyManualAssets = () => {
+   fs.copyFileSync('electron-builder.npmrc', `${outDir}/.npmrc`);
+ 
+   const buildInfoData = {
+-    timestamp: buildInfo.timestamp,
+-    gitHashShort: buildInfo.gitHashShort,
+-    gitBranch: buildInfo.gitBranch,
++    timestamp: '${BUILD_TIMESTAMP}',
++    gitHashShort: '${BUILD_SHORTHASH}',
++    gitBranch: 'release',
+   };
+   fsPkg.outputJsonSync(`${outDir}/buildInfo.json`, buildInfoData);
+ };
+@@ -99,7 +98,7 @@ const runEsbuild = async () => {
+   );
+ 
+   // Run build
+-  await esbuild.build({
++  const context = await esbuild.context({
+     entryPoints,
+     format: 'cjs',
+     minify: false,
+@@ -107,37 +106,18 @@ const runEsbuild = async () => {
+     minifyIdentifiers: true,
+     keepNames: true,
+     outdir: outDir,
+-    watch: isDev && {
+-      onRebuild(error, result) {
+-        if (error) {
+-          log(chalk.red(`watch build failed: ${error}`));
+-        } else {
+-          log(chalk.blue('watch build success:'), result);
+-          livereload.reload();
+-        }
+-      },
+-    },
+-    incremental: isDev,
+     plugins: [sassPlugin(), ...staticAssets()],
+   });
+ 
+-  if (isDev) {
+-    const serveResult = await esbuild.serve(
+-      {
+-        servedir: outDir,
+-        port: 8080,
+-      },
+-      {},
+-    );
+-    log(chalk.green(`Listening on ${serveResult.host}:${serveResult.port}`));
+-    livereload.listen();
+-  } else {
+-    const endTime = performance.now();
+-    const duration = endTime - startTime;
+-    log(
+-      chalk.green(`Completed build in ${moment(duration).format('ss.m')}sec`),
+-    );
+-  }
++  await context.rebuild();
++
++  const endTime = performance.now();
++  const duration = endTime - startTime;
++  log(
++    chalk.green(`Completed build in ${moment(duration).format('ss.m')}sec`),
++  );
++
++  await context.dispose(); // To free resources
+ };
+ 
+ await runEsbuild();

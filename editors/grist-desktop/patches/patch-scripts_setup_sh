@@ -1,0 +1,17 @@
+Index: scripts/setup.sh
+--- scripts/setup.sh.orig
++++ scripts/setup.sh
+@@ -180,13 +180,3 @@ done
+ if [[ ! -e tsconfig.json ]]; then
+   ln -s core/tsconfig-ext.json tsconfig.json
+ fi
+-
+-echo ""
+-echo "======================================================================="
+-echo "Get Pyodide ready"
+-
+-cd core/sandbox/pyodide
+-# work around an awkward bug with sh + make + windows + runners
+-#   https://github.com/actions/runner-images/issues/7253
+-bash ./setup.sh
+-make fetch_packages

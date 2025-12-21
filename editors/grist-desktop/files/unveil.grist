@@ -1,0 +1,4 @@
+# XXX needed for app.getPath(documents)
+~/			rwc
+~/.grist		rwc
+~/.config/landing.db	rwc

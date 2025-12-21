@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Grist
+Comment=Grist is the evolution of spreadsheets.
+Icon=grist
+Exec=grist %u
+Terminal=false
+Categories=Office;Spreadsheet;
+StartupWMClass=Grist
+X-GNOME-UsesNotifications=true

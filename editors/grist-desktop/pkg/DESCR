@@ -1,0 +1,17 @@
+Grist Desktop is an Electron build of Grist. Use it to easily open
+and edit Grist spreadsheets on your computer. It does not need the
+internet, and will work fine on a desert island (assuming you can
+find a power outlet). It is not tied to any online account or
+service.
+
+This build is handy for all sorts of things, like editing splits
+for ML training runs, analyzing some CSV or JSON data, or preparing
+some structured lists for a batch job.
+
+It is also the quickest way to demonstrate to the skeptical that a
+Grist spreadsheet on a hosted service really is fully self-contained,
+and that you could download it and work with it on your own hardware
+if you needed to.
+
+For hosting Grist spreadsheets on a server for use by a team, better
+options are grist-core and grist-omnibus.

@@ -1,0 +1,21 @@
+Index: crates/node/package.json
+--- crates/node/package.json.orig
++++ crates/node/package.json
+@@ -39,14 +39,15 @@
+   },
+   "files": [
+     "index.js",
+-    "index.d.ts"
++    "index.d.ts",
++    "tailwindcss-oxide.node"
+   ],
+   "publishConfig": {
+     "provenance": true,
+     "access": "public"
+   },
+   "scripts": {
+-    "build": "pnpm run build:platform && pnpm run build:wasm",
++    "build": "pnpm run build:platform",
+     "build:platform": "napi build --platform --release",
+     "postbuild:platform": "node ./scripts/move-artifacts.mjs",
+     "build:wasm": "napi build --release --target wasm32-wasip1-threads",

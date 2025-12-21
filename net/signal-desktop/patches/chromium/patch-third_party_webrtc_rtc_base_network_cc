@@ -1,7 +1,7 @@
 Index: rtc_base/network.cc
 --- rtc_base/network.cc.orig
 +++ rtc_base/network.cc
-@@ -306,7 +306,12 @@ AdapterType GetAdapterTypeFromName(absl::string_view n
+@@ -303,7 +303,12 @@ AdapterType GetAdapterTypeFromName(absl::string_view n
    }
  #endif
  

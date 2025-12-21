@@ -1,0 +1,10 @@
+Index: ts/updater/index.main.ts
+--- ts/updater/index.main.ts.orig
++++ ts/updater/index.main.ts
+@@ -63,5 +63,5 @@ export function onRestartCanceled(): void {
+ }
+ 
+ function autoUpdateDisabled() {
+-  return !app.isPackaged || process.mas || !config.get('updatesEnabled');
++  return true;
+ }

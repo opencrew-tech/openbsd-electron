@@ -1,0 +1,58 @@
+Index: ts/util/os/shared.std.ts
+--- ts/util/os/shared.std.ts.orig
++++ ts/util/os/shared.std.ts
+@@ -25,12 +25,19 @@ export type OSType = {
+   isLinux: (minVersion?: string) => boolean;
+   isMacOS: (minVersion?: string) => boolean;
+   isWindows: (minVersion?: string) => boolean;
++  isFreeBSD: (minVersion?: string) => boolean;
++  isOpenBSD: (minVersion?: string) => boolean;
++  isBSD: (minVersion?: string) => boolean;
+ };
+ 
+ export function getOSFunctions(osRelease: string): OSType {
+   const isMacOS = createIsPlatform('darwin', osRelease);
+   const isLinux = createIsPlatform('linux', osRelease);
+   const isWindows = createIsPlatform('win32', osRelease);
++  const isFreeBSD = createIsPlatform('freebsd', osRelease);
++  const isOpenBSD = createIsPlatform('openbsd', osRelease);
++  const isBSD = function () {
++    return isOpenBSD() ? 1 : isFreeBSD() ? 1 : 0; }
+ 
+   const getName = (): string => {
+     if (isMacOS()) {
+@@ -39,6 +46,12 @@ export function getOSFunctions(osRelease: string): OST
+     if (isWindows()) {
+       return 'Windows';
+     }
++    if (isFreeBSD()) {
++      return 'FreeBSD';
++    }
++    if (isOpenBSD()) {
++      return 'OpenBSD';
++    }
+     return 'Linux';
+   };
+ 
+@@ -49,6 +62,12 @@ export function getOSFunctions(osRelease: string): OST
+     if (isWindows()) {
+       return 'os-windows';
+     }
++    if (isFreeBSD()) {
++      return 'os-freebsd';
++    }
++    if (isOpenBSD()) {
++      return 'os-openbsd';
++    }
+     return 'os-linux';
+   };
+ 
+@@ -58,5 +77,8 @@ export function getOSFunctions(osRelease: string): OST
+     isLinux,
+     isMacOS,
+     isWindows,
++    isFreeBSD,
++    isOpenBSD,
++    isBSD,
+   };
+ }

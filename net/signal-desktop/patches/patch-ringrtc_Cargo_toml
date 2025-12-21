@@ -1,7 +1,7 @@
 Index: ringrtc/Cargo.toml
 --- ringrtc/Cargo.toml.orig
 +++ ringrtc/Cargo.toml
-@@ -17,5 +17,10 @@ version = "2.56.0"
+@@ -17,5 +17,10 @@ version = "2.59.4"
  authors = ["Calling Team <callingteam@signal.org>"]
  
  [patch.crates-io]

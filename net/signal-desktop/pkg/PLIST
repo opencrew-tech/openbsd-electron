@@ -7,15 +7,15 @@ ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/libsignal-client/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/libsignal-client/prebuilds/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/libsignal-client/prebuilds/openbsd-x64/
-@bin ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/libsignal-client/prebuilds/openbsd-x64/@signalapp+libsignal-client.node
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/libsignal-client/prebuilds/openbsd-x64/@signalapp+libsignal-client.node
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/ringrtc/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/ringrtc/build/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/ringrtc/build/openbsd/
-@bin ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/ringrtc/build/openbsd/libringrtc-x64.node
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/ringrtc/build/openbsd/libringrtc-x64.node
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/sqlcipher/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/sqlcipher/prebuilds/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/sqlcipher/prebuilds/openbsd-x64/
-@bin ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/sqlcipher/prebuilds/openbsd-x64/@signalapp+sqlcipher.node
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@signalapp/sqlcipher/prebuilds/openbsd-x64/@signalapp+sqlcipher.node
 share/applications/${MODELECTRON_TARGET}.desktop
 share/pixmaps/
 share/pixmaps/${MODELECTRON_TARGET}.png

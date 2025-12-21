@@ -1,7 +1,7 @@
 Index: modules/audio_device/BUILD.gn
 --- modules/audio_device/BUILD.gn.orig
 +++ modules/audio_device/BUILD.gn
-@@ -337,7 +337,7 @@ rtc_library("audio_device_impl") {
+@@ -329,7 +329,7 @@ rtc_library("audio_device_impl") {
      if (rtc_use_dummy_audio_file_devices) {
        defines += [ "WEBRTC_DUMMY_FILE_DEVICES" ]
      } else {

@@ -1,0 +1,21 @@
+Index: ts/test-node/util/getUserAgent_test.node.ts
+--- ts/test-node/util/getUserAgent_test.node.ts.orig
++++ ts/test-node/util/getUserAgent_test.node.ts
+@@ -39,8 +39,16 @@ describe('getUserAgent', () => {
+     );
+   });
+ 
++  it('returns the right User-Agent on OpenBSD', function (this: Mocha.Context) {
++    this.sandbox.stub(process, 'platform').get(() => 'openbsd');
++    assert.strictEqual(
++      getUserAgent('1.2.3', '7.5'),
++      'Signal-Desktop/1.2.3 OpenBSD 7.5'
++    );
++  });
++
+   it('omits the platform on unsupported platforms', function (this: Mocha.Context) {
+-    this.sandbox.stub(process, 'platform').get(() => 'freebsd');
++    this.sandbox.stub(process, 'platform').get(() => 'unsupported');
+     assert.strictEqual(getUserAgent('1.2.3', '13.1'), 'Signal-Desktop/1.2.3');
+   });
+ });

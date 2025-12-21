@@ -1,0 +1,42 @@
+Index: ringrtc/src/rust/src/webrtc/audio_device_module.rs
+--- ringrtc/src/rust/src/webrtc/audio_device_module.rs.orig
++++ ringrtc/src/rust/src/webrtc/audio_device_module.rs
+@@ -245,9 +245,12 @@ impl Worker {
+         self.input_device_names = Arc::new(Mutex::new(Vec::new()));
+         self.output_device_names = Arc::new(Mutex::new(Vec::new()));
+ 
++        // Backend may not support register_device_collection_changed
++        #[cfg(not(target_os = "openbsd"))]
+         if let Err(e) = self.deregister_device_collection_changed(DeviceType::INPUT) {
+             warn!("failed to clear input callback: {}", e);
+         }
++        #[cfg(not(target_os = "openbsd"))]
+         if let Err(e) = self.deregister_device_collection_changed(DeviceType::OUTPUT) {
+             warn!("failed to clear output callback: {}", e);
+         }
+@@ -753,6 +756,8 @@ impl Worker {
+                 })),
+                 audio_device_observer: None,
+             };
++            // Backend may not support register_device_collection_changed
++            #[cfg(not(target_os = "openbsd"))]
+             if let Err(e) = worker.register_device_collection_changed(DeviceType::INPUT) {
+                 error!("Failed to register input device callback: {}", e);
+                 if let Err(e) = started_signal.send(None) {
+@@ -760,6 +765,7 @@ impl Worker {
+                 }
+                 return;
+             }
++            #[cfg(not(target_os = "openbsd"))]
+             if let Err(e) = worker.register_device_collection_changed(DeviceType::OUTPUT) {
+                 error!("Failed to register output device callback: {}", e);
+                 if let Err(e) = started_signal.send(None) {
+@@ -1577,6 +1583,8 @@ mod audio_device_module_tests {
+         let expected_backend = "audiounit-rust";
+         #[cfg(target_os = "linux")]
+         let expected_backend = "pulse-rust";
++        #[cfg(target_os = "openbsd")]
++        let expected_backend = "sndio";
+ 
+         cubeb_core::set_logging(
+             cubeb_core::LogLevel::Normal,

@@ -1,27 +1,117 @@
 Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
 --- ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs.orig
 +++ ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
-@@ -117,7 +117,7 @@ impl DeviceCollectionWrapper {
-         if self.count() == 0 {
-             None
-         } else if idx > 0 {
--            #[cfg(target_os = "macos")]
-+            #[cfg(any(target_os = "macos", target_os = "openbsd"))]
+@@ -10,7 +10,7 @@ use std::ffi::{CString, c_uchar};
+ 
+ use anyhow::anyhow;
+ use cubeb::{DeviceCollection, DeviceState};
+-#[cfg(target_os = "linux")]
++#[cfg(any(target_os = "openbsd", target_os = "linux"))]
+ use cubeb_core::DeviceType;
+ use cubeb_core::{DeviceId, DevicePref};
+ use regex::Regex;
+@@ -22,7 +22,7 @@ pub struct MinimalDeviceInfo {
+     pub devid: DeviceId,
+     pub device_id: Option<String>,
+     pub friendly_name: String,
+-    #[cfg(target_os = "linux")]
++    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+     device_type: DeviceType,
+     preferred: DevicePref,
+     state: DeviceState,
+@@ -40,7 +40,7 @@ pub struct DeviceCollectionWrapper {
+     device_collection: Vec<MinimalDeviceInfo>,
+ }
+ 
+-#[cfg(target_os = "linux")]
++#[cfg(any(target_os = "openbsd", target_os = "linux"))]
+ fn device_is_monitor(device: &MinimalDeviceInfo) -> bool {
+     device.device_type == DeviceType::INPUT
+         && device
+@@ -58,7 +58,7 @@ impl DeviceCollectionWrapper {
+                     devid: device.devid(),
+                     device_id: device.device_id().as_ref().map(|s| s.to_string()),
+                     friendly_name: friendly.to_string(),
+-                    #[cfg(target_os = "linux")]
++                    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+                     device_type: device.device_type(),
+                     preferred: device.preferred(),
+                     state: device.state(),
+@@ -83,7 +83,7 @@ impl DeviceCollectionWrapper {
+     }
+ 
+     // For linux only, a method that will ignore "monitor" devices.
+-    #[cfg(target_os = "linux")]
++    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+     pub fn iter_non_monitor(
+         &self,
+     ) -> std::iter::Filter<std::slice::Iter<'_, MinimalDeviceInfo>, fn(&&MinimalDeviceInfo) -> bool>
+@@ -125,7 +125,7 @@ impl DeviceCollectionWrapper {
              {
                  self.iter().nth(idx - 1)
              }
-@@ -147,12 +147,12 @@ impl DeviceCollectionWrapper {
-     #[cfg(not(target_os = "windows"))]
-     /// Returns the number of devices, counting the default device.
+-            #[cfg(target_os = "linux")]
++            #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+             {
+                 // filter out "monitor" devices.
+                 self.iter_non_monitor().nth(idx - 1)
+@@ -153,12 +153,12 @@ impl DeviceCollectionWrapper {
      pub fn count(&self) -> usize {
--        #[cfg(target_os = "macos")]
-+        #[cfg(any(target_os = "macos", target_os = "openbsd"))]
+         #[cfg(target_os = "macos")]
          let count = self.iter().count();
-         #[cfg(target_os = "linux")]
+-        #[cfg(target_os = "linux")]
++        #[cfg(any(target_os = "openbsd", target_os = "linux"))]
          let count = self.iter_non_monitor().count();
          if count == 0 {
--            #[cfg(target_os = "macos")]
-+            #[cfg(any(target_os = "macos", target_os = "openbsd"))]
+             #[cfg(target_os = "macos")]
              return 0;
-             #[cfg(target_os = "linux")]
+-            #[cfg(target_os = "linux")]
++            #[cfg(any(target_os = "openbsd", target_os = "linux"))]
              return
+                 // edge case: if there are only monitor devices, and one is the default,
+                 // allow it.
+@@ -291,7 +291,7 @@ pub fn redact_by_regex(re: &Regex, s: &str) -> Option<
+ 
+ #[cfg(test)]
+ mod audio_device_module_tests {
+-    #[cfg(target_os = "linux")]
++    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+     use cubeb_core::DeviceType;
+     use lazy_static::lazy_static;
+ 
+@@ -430,7 +430,7 @@ mod audio_device_module_tests {
+                     devid: std::ptr::null(),
+                     device_id: Some("devid1".to_string()),
+                     friendly_name: "Device 1".to_string(),
+-                    #[cfg(target_os = "linux")]
++                    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+                     device_type: DeviceType::INPUT,
+                     preferred: DevicePref::all(),
+                     state: DeviceState::Enabled,
+@@ -439,7 +439,7 @@ mod audio_device_module_tests {
+                     devid: std::ptr::null(),
+                     device_id: Some("devid2".to_string()),
+                     friendly_name: "Device 2".to_string(),
+-                    #[cfg(target_os = "linux")]
++                    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+                     device_type: DeviceType::INPUT,
+                     preferred: DevicePref::empty(),
+                     state: DeviceState::Enabled,
+@@ -506,7 +506,7 @@ mod audio_device_module_tests {
+                     devid: std::ptr::null(),
+                     device_id: Some("devid1".to_string()),
+                     friendly_name: "Device 1".to_string(),
+-                    #[cfg(target_os = "linux")]
++                    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+                     device_type: DeviceType::INPUT,
+                     preferred: DevicePref::empty(),
+                     state: DeviceState::Enabled,
+@@ -515,7 +515,7 @@ mod audio_device_module_tests {
+                     devid: std::ptr::null(),
+                     device_id: Some("devid2".to_string()),
+                     friendly_name: "Device 2".to_string(),
+-                    #[cfg(target_os = "linux")]
++                    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
+                     device_type: DeviceType::INPUT,
+                     preferred: DevicePref::empty(),
+                     state: DeviceState::Enabled,

@@ -1,0 +1,23 @@
+Index: ts/state/getInitialState.preload.ts
+--- ts/state/getInitialState.preload.ts.orig
++++ ts/state/getInitialState.preload.ts
+@@ -208,7 +208,7 @@ export function generateUserState({
+     window.ConversationController.getOurConversationId();
+   const ourDeviceId = itemStorage.user.getDeviceId();
+ 
+-  let osName: 'windows' | 'macos' | 'linux' | undefined;
++  let osName: 'windows' | 'macos' | 'linux' | 'freebsd' | 'openbsd' | undefined;
+ 
+   if (OS.isWindows()) {
+     osName = 'windows';
+@@ -216,6 +216,10 @@ export function generateUserState({
+     osName = 'macos';
+   } else if (OS.isLinux()) {
+     osName = 'linux';
++  } else if (OS.isFreeBSD()) {
++    osName = 'freebsd';
++  } else if (OS.isOpenBSD()) {
++    osName = 'openbsd';
+   }
+ 
+   return {

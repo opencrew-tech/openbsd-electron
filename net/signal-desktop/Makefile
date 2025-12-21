@@ -2,7 +2,7 @@
 
 COMMENT=		Signal Desktop links with Signal
 
-V=			7.66.0
+V=			7.79.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -20,20 +20,22 @@ PERMIT_PACKAGE=		Yes
 WANTLIB += ${MODCARGO_WANTLIB} c++ m
 
 # make versions
-# ELECTRON_V=36.3.2
-# NODE_V=22.15.0
+# ELECTRON_V=38.4.0
+# NODE_V=22.20.0
+# NODE_V=22.20.0
 # sqlcipher depends
-SQLCIPHER_V=	2.2.2
+SQLCIPHER_V=	2.4.4
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.76.7
-BORING_ID=	bb42da53b3900aea1936d41decf9403f25c4259c
+LIBSIGNAL_V=	0.83.0
+BORING_ID=	81d4aa19ac6c5af99238ff0bf9328b381ccebcdd
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
-SPQR_ID=	d6c10734689ec5844d09c1a054a288d36cde2adc
+SPQR_ID=	99a759a3fd40cd9304459fb007fcf177db9ed207
+TUNGSTENITE_ID=	d9409e3622ff867e7cf77e864be95487113ae499
 BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
-RINGRTC_V=	2.56.0
-WEBRTC_V=	7204a
+RINGRTC_V=	2.59.4
+WEBRTC_V=	7339d
 
 # node-sqlcipher, AGPLv3
 SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
@@ -59,6 +61,8 @@ DIST_TUPLE+=	github signalapp boring ${BORING_ID} boring
 DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
 # SparsePostQuantumRatchet, AGPLv3
 DIST_TUPLE+=	github signalapp SparsePostQuantumRatchet ${SPQR_ID} spqr
+# tungstenite-rs (signalapp fork), Apache-2.0
+DIST_TUPLE+=	github signalapp tungstenite-rs ${TUNGSTENITE_ID} tungstenite
 # boring -> boringssl, OpenSSL/ISC
 BORINGSSL_T=	${WRKDIR}/boring-${BORING_ID}/boring-sys/deps
 DIST_TUPLE+=	github google boringssl ${BORINGSSL_ID} .
@@ -116,19 +120,29 @@ MODELECTRON_TARGET=	signal-desktop
 MODELECTRON_APP_NAME=	Signal
 MODELECTRON_BUILDER=	Yes
 MODELECTRON_WRAPPER=	Yes
-MODELECTRON_WRAPPER_ENV=NODE_ENV=production
 
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 MODNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
 
+MODPNPM_MODS+=lightningcss
+MODPNPM_MODS+=rollup
+MODPNPM_MODS+=@parcel/watcher
+MODPNPM_MODS+=esbuild
+MODPNPM_MODS+=tailwindcss
+MODPNPM_MODS+=@tailwindcss/cli
+MODPNPM_MODS+=@tailwindcss/node
+MODPNPM_MODS+=@tailwindcss/oxide
+MODPNPM_MODS+=@tailwindcss/postcss
+MODPNPM_MODS+=@swc/core
+
 MODPNPM_BUILD=		No
 MODPNPM_INSTALL=	No
-MODPNPM_GEN_UPDATE=	esbuild@0.25.9
-MODPNPM_GEN_INSTALL=	@swc/wasm@1.10.16 # fallback for @swc/core
-MODPNPM_GEN_OVERRIDES=	"esbuild":"0.25.9"
+
+MODPNPM_NO_OPTIONAL=	Yes
 MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
+# note node-sqlcipher needs modpnpm-pre-gen-modules tweeks
 MODPNPM_TARGETS=	${WRKSRC} \
 			${WRKSRC}/sticker-creator \
 			${WRKSRC}/node-sqlcipher
@@ -138,9 +152,12 @@ MODPY_RUNDEP=		No
 # pledge signal-desktop, avoid sqlcipher_mlock()
 CFLAGS+=		-DOMIT_MEMLOCK
 
-BUILD_DEPENDS+=		devel/gn \
+BUILD_DEPENDS+=		devel/esbuild \
+			devel/gn \
+			devel/libinotify \
 			devel/ninja \
-			devel/protobuf
+			devel/protobuf \
+			www/tailwindcss
 RUN_DEPENDS+=		devel/desktop-file-utils
 
 DEBUG_PACKAGES=		${BUILD_PACKAGES}
@@ -149,15 +166,18 @@ SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR MODCLANG_VERSION
 
 # pre-define source date, no git show -s --format=%ct
 MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
+
 # signal's appbuilder config
 MAKE_ENV+=		SIGNAL_ENV=production
-# override esbuild & use system bin
-MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
+
+# XXX build @parcel/watcher with inotify instead of kqueue
+CXXFLAGS+=		-I${LOCALBASE}/include/inotify
+LDFLAGS+=		-L${LOCALBASE}/lib
+MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
 # GN webrtc build, see chromium or electron Makefile
-# XXX Unrecognized system libraries requested: libavif, libevent
 GN_SYSTEM_LIBS=		brotli \
 			crc32c \
 			dav1d \
@@ -254,6 +274,7 @@ pre-patch:
 	mv ${RINGRTC_SRC} ${WRKSRC}/ringrtc
 	ln -s ${WRKSRC}/ringrtc ${RINGRTC_SRC}
 
+# XXX pre-configure or post-patches (like www/chromium)
 pre-configure:
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/python
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/vpython3
@@ -267,15 +288,17 @@ do-configure:
 		${WRKDIR}/cargo.toml
 	cat ${WRKDIR}/cargo.toml >>${WRKDIR}/.cargo/config
 
+# node-sqlcipher libsignal ringrtc sticker-creator
 pre-build: node-sqlcipher libsignal ringrtc sticker-creator
+	# rebuild native node modules
+	cd ${WRKSRC} && ${MODPNPM_CMD_BUILD} rebuild -dd
 	# setup build dir with dns-fallback.json
 	mkdir -p ${WRKSRC}/build
 	cp ${FILESDIR}/dns-fallback.json ${WRKSRC}/build/dns-fallback.json
 	# build signal
-	cd ${WRKSRC} && ${MODPNPM_CMD} rebuild -dd
-	cd ${WRKSRC} && ${MODPNPM_CMD} run build:acknowledgments
-	cd ${WRKSRC} && ${MODPNPM_CMD} run generate
-	cd ${WRKSRC} && ${MODPNPM_CMD} run build:esbuild:prod
+	cd ${WRKSRC} && ${MODPNPM_CMD_BUILD} run build:acknowledgments
+	cd ${WRKSRC} && ${MODPNPM_CMD_BUILD} run generate
+	cd ${WRKSRC} && ${MODPNPM_CMD_BUILD} run build:esbuild:prod
 
 post-install:
 	# menu
@@ -302,8 +325,9 @@ sqlcipher-extension:
 node-sqlcipher:sqlcipher-extension
 	# build node-sqlcipher native depends
 	${SUBST_CMD} ${SQLCIPHER_SRC}/deps/sqlcipher/sqlcipher.gyp
-	cd ${SQLCIPHER_SRC} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-		node ${MODNPM_GYP_BIN} rebuild --verbose
+#	cd ${SQLCIPHER_SRC} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
+#		node ${MODNPM_GYP_BIN} rebuild --verbose
+	cd ${SQLCIPHER_SRC} && ${MODPNPM_CMD_BUILD} run install
 	# install node-sqlcipher prebuild
 	mkdir -p ${SQLCIPHER_T}/openbsd-${NODE_ARCH}
 	cp ${SQLCIPHER_SRC}/build/Release/node_sqlcipher.node \
@@ -348,8 +372,8 @@ ringrtc: webrtc
 sticker-creator:
 	# build sticker-creator
 	cd ${WRKSRC}/sticker-creator && \
-		${MODPNPM_CMD} rebuild -dd && \
-		${MODPNPM_CMD} build
+		${MODPNPM_CMD_BUILD} rebuild -dd && \
+		${MODPNPM_CMD_BUILD} build
 
 test-libsignal:
 	# install libsignal prebuild for tests
@@ -381,6 +405,10 @@ test-signal-desktop:
 		npm run test || true
 
 ### targets for port maintainer(s)
+
+modpnpm-pre-gen-modules:
+	# use an empty workspace to force pnpm install otherwise its too smart
+	touch ${SQLCIPHER_SRC}/${MODPNPM_WORKSPACE}
 
 _webrtc-compile_commands:
 # run under _pbuild
@@ -447,9 +475,13 @@ versions:
 	_spqr_v=$$(grep "signalapp/SparsePostQuantumRatchet"		\
 		${_TMP}/libsignal.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
+	_tungstenite_v=$$(grep "signalapp/tungstenite-rs"		\
+		${_TMP}/libsignal.Cargo.lock |				\
+		uniq | awk -F '#|"' '{print $$3}') ;			\
 	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
 	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
 	printf "SPQR_ID=\t%s\n" $$_spqr_v ;				\
+	printf "TUNGSTENITE_ID=\t%s\n" $$_tungstenite_v ;		\
 	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
 		git init >/dev/null 2>&1 && git fetch --depth 1		\
 		    ${_BORING_GIT} $$_boring_v >/dev/null 2>&1 &&	\
@@ -529,13 +561,13 @@ modcargo-gen-crates:
 chromium-patches:
 	make extract
 	@mkdir -p ${_TMP}
-	# cvs co -D 20250801 -d chromium ports/www/chromium
+	# cvs co -D 20250925 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -D 20250801 -d chromium ports/www/chromium ; \
+		cvs co -D 20250925 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches
@@ -603,7 +635,10 @@ gn_args-system:
 		; \
 	done
 
-.include "modules.inc"
+.include "modules.pnpm.inc"
+
+.include "modules.npm.inc"
+
 .include "crates.inc"
 
 .include <bsd.port.mk>

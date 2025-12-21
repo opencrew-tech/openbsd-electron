@@ -1,16 +1,17 @@
 Index: libsignal/Cargo.toml
 --- libsignal/Cargo.toml.orig
 +++ libsignal/Cargo.toml
-@@ -212,12 +212,12 @@ webpsan = { version = "0.5.3", default-features = fals
+@@ -218,13 +218,13 @@ webpsan = { version = "0.5.3", default-features = fals
  x25519-dalek = "2.0.0"
  zerocopy = "0.8.24"
  
 -[patch.crates-io]
 -# When building libsignal, just use our forks so we don't end up with two different versions of the libraries.
 -
--boring = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.15.0' }
--boring-sys = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.15.0' }
+-boring = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.18.0' }
+-boring-sys = { git = 'https://github.com/signalapp/boring', tag = 'signal-v4.18.0' }
 -curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.1.3' }
+-tungstenite = { git = 'https://github.com/signalapp/tungstenite-rs', tag = 'signal-v0.27.0' }
 -
  [profile.dev.package.argon2]
  opt-level = 2 # libsignal-account-keys unit tests are too slow with an unoptimized argon2
@@ -21,3 +22,4 @@ Index: libsignal/Cargo.toml
 +curve25519-dalek-signal = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek', package = "curve25519-dalek" }
 +tokio-boring-signal = { path = '${WRKSRC}/boring/tokio-boring', package = "tokio-boring" }
 +spqr = { path = '${WRKSRC}/spqr', package = "spqr" }
++tungstenite = { path = '${WRKSRC}/tungstenite', package = "tungstenite" }

@@ -1,0 +1,12 @@
+Index: ts/scripts/ensure-linux-file-permissions.node.ts
+--- ts/scripts/ensure-linux-file-permissions.node.ts.orig
++++ ts/scripts/ensure-linux-file-permissions.node.ts
+@@ -14,7 +14,7 @@ export async function afterPack({
+   appOutDir,
+   electronPlatformName,
+ }: AfterPackContext): Promise<void> {
+-  if (electronPlatformName !== 'linux') {
++  if (electronPlatformName !== 'linux' && electronPlatformName !== 'openbsd') {
+     return;
+   }
+ 

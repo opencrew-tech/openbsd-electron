@@ -1,0 +1,23 @@
+Index: ts/test-electron/models/messages_test.preload.ts
+--- ts/test-electron/models/messages_test.preload.ts.orig
++++ ts/test-electron/models/messages_test.preload.ts
+@@ -669,6 +669,9 @@ describe('Message', () => {
+         isLinux() {
+           return false;
+         },
++        isBSD() {
++          return false;
++        },
+       });
+       const message = createMessage({
+         conversationId: (
+@@ -696,6 +699,9 @@ describe('Message', () => {
+       this.sandbox.replace(window.Signal, 'OS', {
+         ...window.Signal.OS,
+         isLinux() {
++          return true;
++        },
++        isBSD() {
+           return true;
+         },
+       });

@@ -1,0 +1,12 @@
+Index: ts/util/getUserAgent.node.ts
+--- ts/util/getUserAgent.node.ts.orig
++++ ts/util/getUserAgent.node.ts
+@@ -9,6 +9,8 @@ const PLATFORM_STRINGS: { [platform: string]: string }
+   win32: 'Windows',
+   darwin: 'macOS',
+   linux: 'Linux',
++  freebsd: 'FreeBSD',
++  openbsd: 'OpenBSD',
+ };
+ 
+ export function getUserAgent(

@@ -1,7 +1,7 @@
 Index: ringrtc/src/webrtc/src/modules/video_capture/BUILD.gn
 --- ringrtc/src/webrtc/src/modules/video_capture/BUILD.gn.orig
 +++ ringrtc/src/webrtc/src/modules/video_capture/BUILD.gn
-@@ -75,7 +75,7 @@ if (!build_with_chromium || is_linux || is_chromeos) {
+@@ -80,7 +80,7 @@ if (!build_with_chromium || is_linux || is_chromeos) {
        "video_capture_options.h",
      ]
  

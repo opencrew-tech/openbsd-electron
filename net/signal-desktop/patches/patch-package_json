@@ -1,11 +1,18 @@
 Index: package.json
 --- package.json.orig
 +++ package.json
-@@ -14,7 +14,6 @@
+@@ -14,12 +14,11 @@
    "browserslist": "last 1 chrome versions",
-   "main": "app/main.js",
+   "main": "app/main.main.js",
    "scripts": {
 -    "postinstall": "pnpm run build:acknowledgments && pnpm run electron:install-app-deps",
      "postuninstall": "pnpm run build:acknowledgments",
      "start": "electron .",
-     "generate": "npm-run-all build-protobuf build:esbuild build:icu-types build:compact-locales sass get-expire-time copy-components",
+     "generate": "run-s generate:phase-0 generate:phase-1",
+-    "generate:phase-0": "run-p build:esbuild:scripts",
+-    "generate:phase-1": "run-p --aggregate-output --print-label generate:phase-1:bundle build:icu-types build:compact-locales build:styles get-expire-time copy-components",
++    "generate:phase-0": "run-s build:esbuild:scripts",
++    "generate:phase-1": "run-s generate:phase-1:bundle build:icu-types build:compact-locales build:styles get-expire-time copy-components",
+     "generate:phase-1:bundle": "run-s build-protobuf build:esbuild:bundle",
+     "build-release": "pnpm run build",
+     "sign-release": "node ts/updater/generateSignature.js",

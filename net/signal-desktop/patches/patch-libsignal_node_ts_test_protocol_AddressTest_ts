@@ -1,0 +1,12 @@
+Index: libsignal/node/ts/test/protocol/AddressTest.ts
+--- libsignal/node/ts/test/protocol/AddressTest.ts.orig
++++ libsignal/node/ts/test/protocol/AddressTest.ts
+@@ -94,7 +94,7 @@ describe('ServiceId', () => {
+     assert.deepEqual(`PNI:${testingUuid}`, pni.getServiceIdString());
+     assert.deepEqual(
+       Buffer.concat([Buffer.of(0x01), pni.getRawUuidBytes()]),
+-      pni.getServiceIdBinary()
++      Buffer.from(pni.getServiceIdBinary())
+     );
+     assert.deepEqual(`<PNI:${testingUuid}>`, `${pni}`);
+ 

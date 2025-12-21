@@ -1,0 +1,11 @@
+Index: ringrtc/src/webrtc/src/build/linux/unbundle/libvpx.gn
+--- ringrtc/src/webrtc/src/build/linux/unbundle/libvpx.gn.orig
++++ ringrtc/src/webrtc/src/build/linux/unbundle/libvpx.gn
+@@ -20,6 +20,7 @@ shim_headers("libvpx_shim") {
+     "vpx/vpx_codec_impl_top.h",
+     "vpx/vpx_decoder.h",
+     "vpx/vpx_encoder.h",
++    "vpx/vpx_ext_ratectrl.h",
+     "vpx/vpx_frame_buffer.h",
+     "vpx/vpx_image.h",
+     "vpx/vpx_integer.h",

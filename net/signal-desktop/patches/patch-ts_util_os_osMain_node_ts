@@ -1,0 +1,21 @@
+Index: ts/util/os/osMain.node.ts
+--- ts/util/os/osMain.node.ts.orig
++++ ts/util/os/osMain.node.ts
+@@ -9,7 +9,7 @@ const { readFileSync } = fsExtra;
+ 
+ function getLinuxName(): string | undefined {
+   if (os.platform() !== 'linux') {
+-    return undefined;
++    return os.type()+" "+os.release()+" "+process.arch;
+   }
+ 
+   const etcOsRelease = readFileSync('/etc/os-release', 'utf-8');
+@@ -39,7 +39,7 @@ function isWaylandEnabled(): boolean {
+ }
+ 
+ function isLinuxUsingKDE(): boolean {
+-  return os.platform() === 'linux' && process.env.XDG_CURRENT_DESKTOP === 'KDE';
++  return ['linux', 'openbsd'].includes(os.platform()) && process.env.XDG_CURRENT_DESKTOP === 'KDE';
+ }
+ 
+ const OS = {

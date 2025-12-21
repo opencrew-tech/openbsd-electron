@@ -1,0 +1,12 @@
+Index: ts/components/SearchInput.dom.tsx
+--- ts/components/SearchInput.dom.tsx.orig
++++ ts/components/SearchInput.dom.tsx
+@@ -69,7 +69,7 @@ export const SearchInput = forwardRef<HTMLInputElement
+             const { ctrlKey, key } = event;
+ 
+             // On Linux, this key combo selects all text.
+-            if (window.platform === 'linux' && ctrlKey && key === '/') {
++            if (['linux', 'openbsd', 'freebsd'].includes(window.platform) && ctrlKey && key === '/') {
+               event.preventDefault();
+               event.stopPropagation();
+             } else if (key === 'Escape' && onClear) {

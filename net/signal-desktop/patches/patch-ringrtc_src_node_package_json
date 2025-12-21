@@ -1,9 +1,9 @@
 Index: ringrtc/src/node/package.json
 --- ringrtc/src/node/package.json.orig
 +++ ringrtc/src/node/package.json
-@@ -15,7 +15,7 @@
+@@ -19,7 +19,7 @@
    "scripts": {
-     "build": "tsc",
+     "build": "tsc && bash scripts/build-help.sh",
      "clean": "rimraf dist",
 -    "test": "electron-mocha --renderer --recursive dist/test --timeout 10000 --require source-map-support/register",
 +    "test": "electron-mocha --recursive dist/test --timeout 10000 --require source-map-support/register",

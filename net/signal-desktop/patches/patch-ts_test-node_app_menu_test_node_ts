@@ -1,0 +1,15 @@
+Index: ts/test-node/app/menu_test.node.ts
+--- ts/test-node/app/menu_test.node.ts.orig
++++ ts/test-node/app/menu_test.node.ts
+@@ -202,6 +202,11 @@ const PLATFORMS = [
+     platform: 'linux',
+     expectedDefault: EXPECTED_LINUX,
+   },
++  {
++    label: 'OpenBSD',
++    platform: 'openbsd',
++    expectedDefault: EXPECTED_LINUX,
++  },
+ ];
+ 
+ describe('createTemplate', () => {

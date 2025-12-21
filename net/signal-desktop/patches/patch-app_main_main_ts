@@ -1,0 +1,39 @@
+Index: app/main.main.ts
+--- app/main.main.ts.orig
++++ app/main.main.ts
+@@ -626,7 +626,7 @@ let windowIcon: string;
+ 
+ if (OS.isWindows()) {
+   windowIcon = join(__dirname, '../build/icons/win/icon.ico');
+-} else if (OS.isLinux()) {
++} else if (OS.isLinux() || OS.isBSD()) {
+   windowIcon = join(__dirname, '../images/signal-logo-desktop-linux.png');
+ } else {
+   windowIcon = join(__dirname, '../build/icons/png/512x512.png');
+@@ -1018,7 +1018,7 @@ async function createWindow() {
+     }
+   };
+ 
+-  if (OS.isLinux() && OS.isWaylandEnabled()) {
++  if ((OS.isLinux() || OS.isBSD()) && OS.isWaylandEnabled()) {
+     mainWindow.webContents.once('did-finish-load', async () => {
+       log.info('main window webContents did-finish-load');
+       drop(maybeShowMainWindow());
+@@ -1609,7 +1609,7 @@ function generateSQLKey(): string {
+ 
+ function getSQLKey(): string {
+   let update = false;
+-  const isLinux = OS.isLinux();
++  const isLinux = (OS.isLinux() || OS.isBSD());
+   const legacyKeyValue = userConfig.get('key');
+   const modernKeyValue = userConfig.get('encryptedKey');
+   const previousBackend = isLinux
+@@ -2623,7 +2623,7 @@ ipc.on('draw-attention', () => {
+     return;
+   }
+ 
+-  if (OS.isWindows() || OS.isLinux()) {
++  if (OS.isWindows() || OS.isLinux() || OS.isBSD()) {
+     mainWindow.flashFrame(true);
+   }
+ });

@@ -1,0 +1,12 @@
+Index: ts/test-node/logging/uploadDebugLogs_test.node.ts
+--- ts/test-node/logging/uploadDebugLogs_test.node.ts.orig
++++ ts/test-node/logging/uploadDebugLogs_test.node.ts
+@@ -20,7 +20,7 @@ describe('upload', () => {
+   beforeEach(function (this: Mocha.Context) {
+     this.sandbox = sinon.createSandbox();
+ 
+-    this.sandbox.stub(process, 'platform').get(() => 'freebsd');
++    this.sandbox.stub(process, 'platform').get(() => 'unsuported');
+ 
+     this.fakeGet = this.sandbox.stub(got, 'get');
+     this.fakePost = this.sandbox.stub(got, 'post');

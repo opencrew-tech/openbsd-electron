@@ -1,0 +1,12 @@
+Index: app/menu.std.ts
+--- app/menu.std.ts.orig
++++ app/menu.std.ts
+@@ -156,7 +156,7 @@ export const createTemplate = (
+               },
+             ]
+           : []),
+-        ...(devTools && platform !== 'linux'
++        ...(devTools && !(['linux', 'openbsd', 'freebsd'].includes(platform))
+           ? [
+               {
+                 label: i18n('icu:forceUpdate'),

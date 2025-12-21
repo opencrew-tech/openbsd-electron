@@ -1,7 +1,7 @@
 Index: libsignal/node/tsconfig.json
 --- libsignal/node/tsconfig.json.orig
 +++ libsignal/node/tsconfig.json
-@@ -6,7 +6,9 @@
+@@ -7,7 +7,9 @@
      "outDir": "./dist",
      "strict": true,
      "skipLibCheck": true,

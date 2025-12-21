@@ -1,0 +1,21 @@
+Index: ts/util/getNotificationTextForMessage.preload.ts
+--- ts/util/getNotificationTextForMessage.preload.ts.orig
++++ ts/util/getNotificationTextForMessage.preload.ts
+@@ -60,7 +60,7 @@ export function getNotificationTextForMessage(
+       });
+     }
+ 
+-    if (!window.Signal.OS.isLinux()) {
++    if (!window.Signal.OS.isLinux() && !window.Signal.OS.isBSD()) {
+       return attributes.storyReaction.emoji;
+     }
+ 
+@@ -77,7 +77,7 @@ export function getNotificationTextForMessage(
+ 
+   // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
+   //   the `text`, which can contain emoji.)
+-  const shouldIncludeEmoji = Boolean(emoji) && !window.Signal.OS.isLinux();
++  const shouldIncludeEmoji = Boolean(emoji) && !window.Signal.OS.isLinux() && !window.Signal.OS.isBSD();
+   if (shouldIncludeEmoji) {
+     return i18n('icu:message--getNotificationText--text-with-emoji', {
+       text: result.body,

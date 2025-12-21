@@ -16,4 +16,4 @@ ELECTRON_RUN_AS_NODE=1 \
 exec ${TRUEPREFIX}/${ELECTRON_WRAPPER} \
 	"${TRUEPREFIX}/${MODELECTRON_DIST_T}/out/cli.js" \
 	--app="${TRUEPREFIX}/${MODELECTRON_DIST_T}" \
-	--no-sandbox "${@}"
+	"${@}"

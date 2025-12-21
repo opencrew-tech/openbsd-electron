@@ -1,7 +1,7 @@
 Index: build/gulpfile.extensions.js
 --- build/gulpfile.extensions.js.orig
 +++ build/gulpfile.extensions.js
-@@ -228,14 +228,14 @@ exports.cleanExtensionsBuildTask = cleanExtensionsBuil
+@@ -229,14 +229,14 @@ exports.cleanExtensionsBuildTask = cleanExtensionsBuil
  /**
   * brings in the marketplace extensions for the build
   */
@@ -18,7 +18,7 @@ Index: build/gulpfile.extensions.js
  	task.define('bundle-non-native-extensions-build', () => ext.packageNonNativeLocalExtensionsStream(false, false).pipe(gulp.dest('.build')))
  ));
  gulp.task(compileNonNativeExtensionsBuildTask);
-@@ -255,7 +255,7 @@ exports.compileNativeExtensionsBuildTask = compileNati
+@@ -256,7 +256,7 @@ exports.compileNativeExtensionsBuildTask = compileNati
   */
  const compileAllExtensionsBuildTask = task.define('compile-extensions-build', task.series(
  	cleanExtensionsBuildTask,
@@ -27,7 +27,7 @@ Index: build/gulpfile.extensions.js
  	task.define('bundle-extensions-build', () => ext.packageAllLocalExtensionsStream(false, false).pipe(gulp.dest('.build'))),
  ));
  gulp.task(compileAllExtensionsBuildTask);
-@@ -267,7 +267,7 @@ gulp.task(task.define('extensions-ci', task.series(com
+@@ -268,7 +268,7 @@ gulp.task(task.define('extensions-ci', task.series(com
  
  const compileExtensionsBuildPullRequestTask = task.define('compile-extensions-build-pr', task.series(
  	cleanExtensionsBuildTask,

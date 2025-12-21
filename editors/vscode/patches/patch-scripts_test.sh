@@ -15,5 +15,5 @@ Index: scripts/test.sh
  		ELECTRON_ENABLE_LOGGING=1 \
  		"$CODE" \
 -		test/unit/electron/index.js --crash-reporter-directory=$VSCODECRASHDIR "$@"
-+		test/unit/electron/index.js --build --crash-reporter-directory=$VSCODECRASHDIR $LINUX_EXTRA_ARGS "$@"
++		test/unit/electron/index.js --build --crash-reporter-directory=$VSCODECRASHDIR "$@"
  fi

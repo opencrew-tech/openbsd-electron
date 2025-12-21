@@ -1,23 +1,31 @@
-# XXX wip
+# vscode can't easily be unveiled as there are too many use cases
+# at least preserves pledge and provides an almost generic setup
 
-# plugins
-#/bin/ksh				rx	# terminal
-#/bin/sh				rx	# python ?
-#/bin/which				rx	# needed ?
-/usr/bin/cvs				rx	# cvs
-/usr/local/bin/git			rx	# git
-#/usr/local/bin/go			rx	# go
-#/usr/local/bin/gopls			rx	# go
-#/usr/local/bin/python3			rx	# python
-/etc/gitconfig				r	# git
-~/.config/git				r	# git
-~/.cvsrc				r	# cvs
+# very few limitation
+/mnt					rwc
+~/					rwc
 
-# vscode
-~/.vscode-oss				rwc
-~/workspaces				rwc
+# allow terminal
+/dev/null				rw
+/dev/ptm				rw
+# XXX /dev/ttyp* ?
+/dev/ttypa				rw
+
+# restrict exec to trusted path
+/bin					rx
+/sbin					rx
+/usr/bin				rx
+/usr/sbin				rx
+/usr/local/bin				rx
+/usr/local/sbin				rx
+/usr/local/libexec			rx
 
 # common src trees
 /usr/ports				rwc
 /usr/src				rwc
 /usr/www				rwc
+/usr/xenocara				rwc
+
+# vscode
+~/.vscode-oss				rwc
+~/workspaces				rwc

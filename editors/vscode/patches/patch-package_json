@@ -1,0 +1,14 @@
+make npm rebuild works on root folder to ease native rebuild
+see pre-build target which replaces postinstall.js
+
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -16,7 +16,6 @@
+     "test-node": "mocha test/unit/node/index.js --delay --ui=tdd --timeout=5000 --exit",
+     "test-extension": "vscode-test",
+     "preinstall": "node build/npm/preinstall.js",
+-    "postinstall": "node build/npm/postinstall.js",
+     "compile": "node ./node_modules/gulp/bin/gulp.js compile",
+     "compile-check-ts-native": "tsgo --project ./src/tsconfig.json --noEmit --skipLibCheck",
+     "watch": "npm-run-all -lp watch-client watch-extensions",

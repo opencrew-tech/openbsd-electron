@@ -2,10 +2,13 @@
 # XXX ONLY_FOR_ARCHS, too restrictive ?
 ONLY_FOR_ARCHS=		amd64
 
+# XXX portroach should check commit id date for tags ordering ?
+PORTROACH =		skipv:1.999.0
+
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.104.0
-COMMIT=			f220831ea2d946c0dcb0f3eaa480eb435a2c1260
+V=			1.105.1
+COMMIT=			7d842fb85a0275a4a8e4d7e040d2625abbf7f084
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -21,7 +24,7 @@ PERMIT_PACKAGE=		Yes
 
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
-			js-debug js-debug 1.104.0 \
+			js-debug js-debug 1.105.0 \
 			js-profile-visualizer vscode-js-profile-table 1.0.10
 SITES.exts=		https://github.com/microsoft/
 
@@ -50,19 +53,20 @@ MODULES=		devel/npm \
 
 MODPY_RUNDEP=		No
 
-MODNPM_TARGETS=$$( \
-	grep "'," ${WRKSRC}/build/npm/dirs.js | \
-		cut -f 2 -d "'" | \
-		xargs -L1 printf '${WRKSRC}/%s\n')
-MODNPM_LOCKS=$$( \
-	grep "'," ${WRKSRC}/build/npm/dirs.js | \
-		cut -f 2 -d "'" | \
-		xargs -L1 printf '${WRKSRC}/%s/package-lock.json\n')
+MODNPM_TARGETS=		${VSCODE_TARGETS:=${WRKSRC}/%}
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 # optional depends keytar for @vscode/vsce, which is not installed
 # keytar needs x11/gnome/libsecret to build
-MODNPM_EXCLUDES=	keytar
+MODNPM_EXCLUDES+=	keytar
+# optional depends bare-* for tar-fs, which need bare-make and custom build
+# it bundles prebuild for all os/arch and generates .bare instead of .node
+# rather avoid it
+MODNPM_EXCLUDES+=	bare-events \
+			bare-fs \
+			bare-os \
+			bare-path \
+			bare-stream
 
 MODELECTRON_TARGET=	code-oss
 MODELECTRON_APP_NAME=	Code - OSS
@@ -86,11 +90,63 @@ CXXFLAGS+=		-I${LOCALBASE}/include/inotify
 LDFLAGS+=		-L${LOCALBASE}/lib
 
 MAKE_ENV+=		BUILD_SOURCEVERSION=${COMMIT}
+
 # Don't download browser binaries on playwright node_modules installation
 MAKE_ENV+=		PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
 			PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
+
+# make gen-targets
+VSCODE_TARGETS+=./
+VSCODE_TARGETS+=./build
+VSCODE_TARGETS+=./extensions
+VSCODE_TARGETS+=./extensions/configuration-editing
+VSCODE_TARGETS+=./extensions/css-language-features
+VSCODE_TARGETS+=./extensions/css-language-features/server
+VSCODE_TARGETS+=./extensions/debug-auto-launch
+VSCODE_TARGETS+=./extensions/debug-server-ready
+VSCODE_TARGETS+=./extensions/emmet
+VSCODE_TARGETS+=./extensions/extension-editing
+VSCODE_TARGETS+=./extensions/git
+VSCODE_TARGETS+=./extensions/git-base
+VSCODE_TARGETS+=./extensions/github
+VSCODE_TARGETS+=./extensions/github-authentication
+VSCODE_TARGETS+=./extensions/grunt
+VSCODE_TARGETS+=./extensions/gulp
+VSCODE_TARGETS+=./extensions/html-language-features
+VSCODE_TARGETS+=./extensions/html-language-features/server
+VSCODE_TARGETS+=./extensions/ipynb
+VSCODE_TARGETS+=./extensions/jake
+VSCODE_TARGETS+=./extensions/json-language-features
+VSCODE_TARGETS+=./extensions/json-language-features/server
+VSCODE_TARGETS+=./extensions/markdown-language-features
+VSCODE_TARGETS+=./extensions/markdown-math
+VSCODE_TARGETS+=./extensions/media-preview
+VSCODE_TARGETS+=./extensions/merge-conflict
+VSCODE_TARGETS+=./extensions/mermaid-chat-features
+VSCODE_TARGETS+=./extensions/microsoft-authentication
+VSCODE_TARGETS+=./extensions/notebook-renderers
+VSCODE_TARGETS+=./extensions/npm
+VSCODE_TARGETS+=./extensions/php-language-features
+VSCODE_TARGETS+=./extensions/references-view
+VSCODE_TARGETS+=./extensions/search-result
+VSCODE_TARGETS+=./extensions/simple-browser
+VSCODE_TARGETS+=./extensions/tunnel-forwarding
+VSCODE_TARGETS+=./extensions/typescript-language-features
+VSCODE_TARGETS+=./extensions/vscode-api-tests
+VSCODE_TARGETS+=./extensions/vscode-colorize-tests
+VSCODE_TARGETS+=./extensions/vscode-colorize-perf-tests
+VSCODE_TARGETS+=./extensions/vscode-test-resolver
+VSCODE_TARGETS+=./remote
+VSCODE_TARGETS+=./remote/web
+VSCODE_TARGETS+=./test/automation
+VSCODE_TARGETS+=./test/integration/browser
+VSCODE_TARGETS+=./test/monaco
+VSCODE_TARGETS+=./test/smoke
+VSCODE_TARGETS+=./test/mcp
+VSCODE_TARGETS+=./.vscode/extensions/vscode-selfhost-import-aid
+VSCODE_TARGETS+=./.vscode/extensions/vscode-selfhost-test-provider
 
 post-extract:
 	cp ${WRKSRC}/build/.moduleignore{.linux,.openbsd}
@@ -114,30 +170,32 @@ do-configure:
 		${WRKSRC}/resources/linux/code-url-handler.desktop
 
 pre-build:
-	# rebuild native node modules for electron
-	for subdir in `find ${WRKSRC}/node_modules -type f \
-	-name binding.gyp -exec dirname {} ';'`; do \
-		[ -f $${subdir}/.build_done ] && \
-			echo "skip $${subdir}" && \
-			continue; \
-		echo "rebuild $${subdir}"; \
-		cd $${subdir} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-			node ${MODNPM_GYP_BIN} rebuild ${MODNPM_ARGS} ; \
-		touch $${subdir}/.build_done; \
-	done
-	cd ${WRKSRC}/extensions && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV}
-		npm rebuild ${MODNPM_ARGS}
-	# rebuild native node modules for node
-.for dir in build remote
-	cd ${WRKSRC}/${dir} && ${MODNPM_CMD} rebuild ${MODNPM_ARGS}
-.endfor
 	# copy rg binary files to vscode-ripgrep module directory
 	mkdir -p ${WRKSRC}/node_modules/@vscode/ripgrep/bin
 	cp -p ${LOCALBASE}/bin/rg \
 		${WRKSRC}/node_modules/@vscode/ripgrep/bin
+	mkdir -p ${WRKSRC}/build/node_modules/@vscode/ripgrep/bin
+	cp -p ${LOCALBASE}/bin/rg \
+		${WRKSRC}/build/node_modules/@vscode/ripgrep/bin
 	mkdir -p ${WRKSRC}/remote/node_modules/@vscode/ripgrep/bin
 	cp -p ${LOCALBASE}/bin/rg \
 		${WRKSRC}/remote/node_modules/@vscode/ripgrep/bin
+	# see package.json patch, skip build/npm/postinstall.js, custom build
+	# rebuild native node modules in subdirectories
+.for _DIR in ${VSCODE_TARGETS}
+	@if [ "`echo ${_DIR} | grep -e test -e .vscode`" ]; then \
+		echo "===>  SKIP test ${_DIR}" ; \
+	elif [ "`echo ${_DIR} | grep -e build -e remote -e ./$$`" ]; then \
+		echo "===>  Rebuild native node modules in ${_DIR}" ; \
+		cd ${WRKSRC}/${_DIR} && \
+		${MODNPM_CMD} rebuild ${MODNPM_ARGS} ; \
+	else \
+		echo "===>  Rebuild native electron modules in ${_DIR}" ; \
+		cd ${WRKSRC}/${_DIR} && \
+		${SETENV} ${MAKE_ENV} \
+			${ELECTRON_REBUILD_ENV} npm rebuild ${MODNPM_ARGS} ; \
+	fi
+.endfor
 	# remove duplicate kerberos.node
 	rm -rf ${WRKSRC}/node_modules/kerberos/build/Release/obj.target
 
@@ -153,10 +211,11 @@ do-build:
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
 		ESBUILD_MAX_THREADS=1 \
 		node --max-old-space-size=8192 \
-		./node_modules/gulp/bin/gulp.js vscode-linux-x64-min
+		./node_modules/gulp/bin/gulp.js \
+		vscode-linux-${ELECTRON_ARCH}-min
 	# copy marketplace extensions
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
-	_dst='${WRKDIR}/VSCode-linux-x64/extensions' && \
+	_dst='${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}/extensions' && \
 	mkdir -p $${_dst}/ms-vscode.${_ext} && \
 	cp -Rp ${WRKDIR}/ms-vscode.${_ext}*${_v}/extension/* \
 		$${_dst}/ms-vscode.${_ext}
@@ -187,6 +246,14 @@ do-install:
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
 
 pre-test:
+	# rebuild native node modules
+.for _DIR in ${VSCODE_TARGETS}
+	@if [ "`echo ${_DIR} | grep -e test -e .vscode`" ]; then \
+		echo "===>  Rebuild native electron modules in ${_DIR}" ; \
+		cd ${WRKSRC}/${_DIR} && ${SETENV} ${MAKE_ENV} \
+			${ELECTRON_REBUILD_ENV} npm rebuild ${MODNPM_ARGS} ; \
+	fi
+.endfor
 	# setup electron dependency for unit tests
 	mkdir -p ${WRKSRC}/.build/electron
 	mkdir -p ${WRKDIR}/.config/electron
@@ -207,14 +274,22 @@ pre-test:
 # XXX nosandbox || unveil /
 do-test:
 	# unit tests
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-		./scripts/test.sh || true
+	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} \
+		DISPLAY=:1 ./scripts/test.sh || true
 #	# UI smoke tests
 # XXX Error: Unsupported platform: openbsd
 # node_modules/playwright-core/lib/server/registry/index.js
 #	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 #		ELECTRON_PATH=${LOCALBASE}/bin/electron \
 #		npm run smoketest
+
+### targets for port maintainer(s)
+
+gen-targets: extract
+	# make gen-targets
+	@grep "'," ${WRKSRC}/build/npm/dirs.js | \
+		cut -f 2 -d "'" | \
+		xargs -L1 printf 'VSCODE_TARGETS+=./%s\n'
 
 .include "modules.inc"
 

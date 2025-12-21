@@ -36,8 +36,6 @@ RUN_DEPENDS =		shells/bash \
 			sysutils/google-cloud-sdk \
 			www/py-httplib2
 
-CONFIGURE_STYLE=none # prevent python MODULE from overriding do-build
-
 NO_BUILD =		Yes
 NO_TEST =		Yes
 

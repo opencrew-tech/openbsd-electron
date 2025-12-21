@@ -58,7 +58,7 @@ sub get_json_file
 {
 	my ( $file, ) = @_;
 
-	open my $h, '<', $file or die $!;
+	open my $h, '<', $file or die "$file : $!";
 	my $data = do { local $/ = undef; <$h> };
 	return decode_json $data;
 }
@@ -259,7 +259,7 @@ foreach my $module (reverse sort @{$tree}) {
 say "";
 
 if ($bins) {
-	say "MODNPM_BIN += \\";
+	say "MODNPM_BINS += \\";
 	foreach my $l (sort @{$bins}) {
 		say $l." \\";
 	}

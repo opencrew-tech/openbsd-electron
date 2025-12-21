@@ -13,7 +13,6 @@ MODNPM_BUILDDEP?=	Yes
 .else
 MODNPM_BUILDDEP?=	No
 .endif
-
 MODNPM_RUNDEP?=		Yes
 .if ${NO_TEST:L} == "no"
 MODNPM_TESTDEP?=	Yes
@@ -24,7 +23,7 @@ MODNPM_TESTDEP?=	No
 MODNPM_BUILD?=		Yes
 MODNPM_INSTALL?=	Yes
 MODNPM_INSTALL_TARGET?=	${WRKSRC}
-MODNPM_INSTALL_DIR?=	lib/node_modules
+MODNPM_INSTALL_DIR?=	lib/node
 
 # to run node-gyp in custom build
 MODNPM_NODE_MODULES=${LOCALBASE}/lib/node_modules/npm
@@ -80,11 +79,14 @@ do-install:
 # 3. if needed, link bin
 	@echo "MODNPM: install ${MODNPM_INSTALL_TARGET}" ; \
 	_target=${MODNPM_INSTALL_TARGET} ; \
-	_distname=$${_target##*/} ; \
-	_module=$${_distname%-*} ; \
-	_dist=${PREFIX}/${MODNPM_INSTALL_DIR}/$${_module} ; \
+	_name=$$(cat ${MODNPM_INSTALL_TARGET}/package.json | \
+		grep -m1 name | awk -F\" '{ print $$4 }'); \
+	_version=$$(cat ${MODNPM_INSTALL_TARGET}/package.json | \
+		grep -m1 version | awk -F\" '{ print $$4 }'); \
+	_distname="$${_name}-$${_version}" ; \
+	_dist=${PREFIX}/${MODNPM_INSTALL_DIR}/$${_name} ; \
 	\
-	echo "MODNPM: bundle $${_module} in $${_dist}" ; \
+	echo "MODNPM: bundle $${_name} in $${_dist}" ; \
 	sed -i '1s/^{$$/{"bundledDependencies":true,/' \
 		$${_target}/package.json ; \
 	cd $${_target} && ${SETENV} HOME=${WRKDIR} npm pack \
@@ -104,9 +106,9 @@ do-install:
 		cp -p $${_node} $${_dist}/$${_dir}/ ; \
 	done ; \
 	\
-	for _bin in $$(echo "${MODNPM_BIN}"); do \
+	for _bin in $$(echo "${MODNPM_BINS}"); do \
 		echo "MODNPM: link bin/$${_bin#*;}" ; \
-		ln -s ../${MODNPM_INSTALL_DIR}/$${_module}/$${_bin%;*} \
+		ln -s ../${MODNPM_INSTALL_DIR}/$${_name}/$${_bin%;*} \
 			${PREFIX}/bin/$${_bin#*;} ; \
 	done
 .endif

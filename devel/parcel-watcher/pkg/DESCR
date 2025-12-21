@@ -1,0 +1,21 @@
+A native C++ Node module for querying and subscribing to filesystem
+events. Used by Parcel 2.
+
+Watch - subscribe to realtime recursive directory change notifications
+when files or directories are created, updated, or deleted.
+
+Query - performantly query for historical change events in a
+directory, even when your program is not running.
+
+Native - implemented in C++ for performance and low-level integration
+with the operating system.
+
+Cross platform - includes backends for macOS, Linux, Windows,
+FreeBSD, and Watchman.
+
+Performant - events are throttled in C++ so the JavaScript thread
+is not overwhelmed during large filesystem changes (e.g. git checkout
+or npm install).
+
+Scalable - tens of thousands of files can be watched or queried at
+once with good performance.

@@ -1,0 +1,12 @@
+Index: test/watcher.js
+--- test/watcher.js.orig
++++ test/watcher.js
+@@ -15,6 +15,8 @@ if (process.platform === 'darwin') {
+   backends = ['windows', 'watchman'];
+ } else if (process.platform === 'freebsd') {
+   backends = ['kqueue'];
++} else if (process.platform === 'openbsd') {
++  backends = ['kqueue'];
+ }
+ 
+ if (process.env.TEST_WASM) {

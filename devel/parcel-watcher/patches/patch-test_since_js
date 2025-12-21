@@ -1,0 +1,12 @@
+Index: test/since.js
+--- test/since.js.orig
++++ test/since.js
+@@ -19,6 +19,8 @@ if (process.platform === 'darwin') {
+   backends = ['inotify', 'watchman'];
+ } else if (process.platform === 'win32') {
+   backends = ['windows', 'watchman'];
++} else if (process.platform === 'openbsd') {
++  backends = ['kqueue'];
+ }
+ 
+ if (process.env.TEST_WASM) {

@@ -1,0 +1,22 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -24,16 +24,13 @@
+     "package.json",
+     "README.md",
+     "LICENSE",
+-    "src",
+-    "scripts/build-from-source.js",
+-    "binding.gyp"
++    "build/Release/watcher.node"
+   ],
+   "scripts": {
+     "prebuild": "prebuildify --napi --strip --tag-libc",
+     "format": "prettier --write \"./**/*.{js,json,md}\"",
+     "build": "node-gyp rebuild",
+-    "install": "node scripts/build-from-source.js",
+-    "test": "mocha"
++    "test": "mocha --timeout 5000"
+   },
+   "husky": {
+     "hooks": {

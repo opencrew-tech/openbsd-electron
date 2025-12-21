@@ -1,0 +1,45 @@
+Index: src/kqueue/KqueueBackend.cc
+--- src/kqueue/KqueueBackend.cc.orig
++++ src/kqueue/KqueueBackend.cc
+@@ -66,6 +66,13 @@ void KqueueBackend::start() {
+         // pipe was written to. break out of the loop.
+         goto done;
+       }
++#ifdef __OpenBSD__
++      struct stat fd_stat;
++      // OpenBSD notify delete on rmdir faillure, ignore if fd still valid
++      if (flags & NOTE_DELETE && fstat(fd, &fd_stat) != -1) {
++        continue;
++      }
++#endif
+ 
+       auto it = mFdToEntry.find(fd);
+       if (it == mFdToEntry.end()) {
+@@ -142,7 +149,8 @@ bool KqueueBackend::watchDir(WatcherRef watcher, std::
+   KqueueSubscription sub = {
+     .watcher = watcher,
+     .path = path,
+-    .tree = tree
++    .tree = tree,
++    .fd = 0
+   };
+ 
+   if (!entry->state) {
+@@ -191,7 +199,7 @@ std::vector<KqueueSubscription *> KqueueBackend::findS
+ bool KqueueBackend::compareDir(int fd, std::string &path, std::unordered_set<WatcherRef> &watchers) {
+   // macOS doesn't support fdclosedir, so we have to duplicate the file descriptor
+   // to ensure the closedir doesn't also stop watching.
+-  #if __APPLE__
++  #if defined(__APPLE__) || defined(__OpenBSD__)
+     fd = dup(fd);
+   #endif
+ 
+@@ -279,7 +287,7 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
+     }
+   }
+ 
+-  #if __APPLE__
++  #if defined(__APPLE__) || defined(__OpenBSD__)
+     closedir(dir);
+   #else
+     fdclosedir(dir);

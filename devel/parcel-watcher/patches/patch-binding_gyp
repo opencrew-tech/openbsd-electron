@@ -1,0 +1,21 @@
+Index: binding.gyp
+--- binding.gyp.orig
++++ binding.gyp
+@@ -81,6 +81,17 @@
+             "BRUTE_FORCE",
+             "KQUEUE"
+           ]
++        }],
++        ['OS=="openbsd"', {
++          "sources": [
++            "src/shared/BruteForceBackend.cc",
++            "src/unix/fts.cc",
++            "src/kqueue/KqueueBackend.cc"
++          ],
++          "defines": [
++            "BRUTE_FORCE",
++            "KQUEUE"
++          ]
+         }]
+       ]
+     }

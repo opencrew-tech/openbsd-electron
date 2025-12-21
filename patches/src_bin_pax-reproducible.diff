@@ -1,0 +1,595 @@
+Index: bin/pax/cpio.c
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/cpio.c,v
+diff -u -p -r1.34 cpio.c
+--- bin/pax/cpio.c	26 Jun 2023 18:00:59 -0000	1.34
++++ bin/pax/cpio.c	20 Nov 2025 18:21:00 -0000
+@@ -375,8 +375,20 @@ cpio_wr(ARCHD *arcn)
+ 	HD_CPIO *hd;
+ 	int nsz;
+ 	char hdblk[sizeof(HD_CPIO)];
++	struct stat *arcn_sb = &arcn->sb;
++#ifndef SMALL
++	struct stat sb;
+ 
+ 	/*
++	 * override file stat to create an reproducible archive
++	 */
++	if (Rflag) {
++		memcpy(&sb, &arcn->sb, sizeof(sb));
++		sb.st_uid = sb.st_gid = sb.st_mtime = 0;
++		arcn_sb = &sb;
++	}
++#endif
++	/*
+ 	 * check and repair truncated device and inode fields in the header
+ 	 */
+ 	if (map_dev(arcn, CPIO_MASK, CPIO_MASK) < 0)
+@@ -386,7 +398,7 @@ cpio_wr(ARCHD *arcn)
+ 	nsz = arcn->nlen + 1;
+ 	hd = (HD_CPIO *)hdblk;
+ 	if ((arcn->type != PAX_BLK) && (arcn->type != PAX_CHR))
+-		arcn->sb.st_rdev = 0;
++		arcn_sb->st_rdev = 0;
+ 
+ 	switch (arcn->type) {
+ 	case PAX_CTG:
+@@ -395,7 +407,7 @@ cpio_wr(ARCHD *arcn)
+ 		/*
+ 		 * set data size for file data
+ 		 */
+-		if (ull_asc(arcn->sb.st_size, hd->c_filesize,
++		if (ull_asc(arcn_sb->st_size, hd->c_filesize,
+ 		    sizeof(hd->c_filesize), OCT)) {
+ 			paxwarn(1,"File is too large for cpio format %s",
+ 			    arcn->org_name);
+@@ -423,14 +435,14 @@ cpio_wr(ARCHD *arcn)
+ 	 * copy the values to the header using octal ascii
+ 	 */
+ 	if (ul_asc(MAGIC, hd->c_magic, sizeof(hd->c_magic), OCT) ||
+-	    ul_asc(arcn->sb.st_dev, hd->c_dev, sizeof(hd->c_dev), OCT) ||
+-	    ul_asc(arcn->sb.st_ino, hd->c_ino, sizeof(hd->c_ino), OCT) ||
+-	    ul_asc(arcn->sb.st_mode, hd->c_mode, sizeof(hd->c_mode), OCT) ||
+-	    ul_asc(arcn->sb.st_uid, hd->c_uid, sizeof(hd->c_uid), OCT) ||
+-	    ul_asc(arcn->sb.st_gid, hd->c_gid, sizeof(hd->c_gid), OCT) ||
+-	    ul_asc(arcn->sb.st_nlink, hd->c_nlink, sizeof(hd->c_nlink), OCT) ||
+-	    ul_asc(arcn->sb.st_rdev, hd->c_rdev, sizeof(hd->c_rdev), OCT) ||
+-	    ull_asc(arcn->sb.st_mtime < 0 ? 0 : arcn->sb.st_mtime, hd->c_mtime,
++	    ul_asc(arcn_sb->st_dev, hd->c_dev, sizeof(hd->c_dev), OCT) ||
++	    ul_asc(arcn_sb->st_ino, hd->c_ino, sizeof(hd->c_ino), OCT) ||
++	    ul_asc(arcn_sb->st_mode, hd->c_mode, sizeof(hd->c_mode), OCT) ||
++	    ul_asc(arcn_sb->st_uid, hd->c_uid, sizeof(hd->c_uid), OCT) ||
++	    ul_asc(arcn_sb->st_gid, hd->c_gid, sizeof(hd->c_gid), OCT) ||
++	    ul_asc(arcn_sb->st_nlink, hd->c_nlink, sizeof(hd->c_nlink), OCT) ||
++	    ul_asc(arcn_sb->st_rdev, hd->c_rdev, sizeof(hd->c_rdev), OCT) ||
++	    ull_asc(arcn_sb->st_mtime < 0 ? 0 : arcn_sb->st_mtime, hd->c_mtime,
+ 		sizeof(hd->c_mtime), OCT) ||
+ 	    ul_asc(nsz, hd->c_namesize, sizeof(hd->c_namesize), OCT))
+ 		goto out;
+@@ -664,6 +676,19 @@ vcpio_wr(ARCHD *arcn)
+ 	HD_VCPIO *hd;
+ 	unsigned int nsz;
+ 	char hdblk[sizeof(HD_VCPIO)];
++	struct stat *arcn_sb = &arcn->sb;
++#ifndef SMALL
++	struct stat sb;
++
++	/*
++	 * override file stat to create an reproducible archive
++	 */
++	if (Rflag) {
++		memcpy(&sb, &arcn->sb, sizeof(sb));
++		sb.st_uid = sb.st_gid = sb.st_mtime = 0;
++		arcn_sb = &sb;
++	}
++#endif
+ 
+ 	/*
+ 	 * check and repair truncated device and inode fields in the cpio
+@@ -674,7 +699,7 @@ vcpio_wr(ARCHD *arcn)
+ 	nsz = arcn->nlen + 1;
+ 	hd = (HD_VCPIO *)hdblk;
+ 	if ((arcn->type != PAX_BLK) && (arcn->type != PAX_CHR))
+-		arcn->sb.st_rdev = 0;
++		arcn_sb->st_rdev = 0;
+ 
+ 	/*
+ 	 * add the proper magic value depending whether we were asked for
+@@ -698,8 +723,8 @@ vcpio_wr(ARCHD *arcn)
+ 		 * caller will copy file data to the archive. tell him how
+ 		 * much to pad.
+ 		 */
+-		arcn->pad = VCPIO_PAD(arcn->sb.st_size);
+-		if (ull_asc(arcn->sb.st_size, hd->c_filesize,
++		arcn->pad = VCPIO_PAD(arcn_sb->st_size);
++		if (ull_asc(arcn_sb->st_size, hd->c_filesize,
+ 		    sizeof(hd->c_filesize), HEX)) {
+ 			paxwarn(1,"File is too large for sv4cpio format %s",
+ 			    arcn->org_name);
+@@ -729,17 +754,17 @@ vcpio_wr(ARCHD *arcn)
+ 	/*
+ 	 * set the other fields in the header
+ 	 */
+-	if (ul_asc(arcn->sb.st_ino, hd->c_ino, sizeof(hd->c_ino), HEX) ||
+-	    ul_asc(arcn->sb.st_mode, hd->c_mode, sizeof(hd->c_mode), HEX) ||
+-	    ul_asc(arcn->sb.st_uid, hd->c_uid, sizeof(hd->c_uid), HEX) ||
+-	    ul_asc(arcn->sb.st_gid, hd->c_gid, sizeof(hd->c_gid), HEX) ||
+-	    ul_asc(arcn->sb.st_mtime < 0 ? 0 : arcn->sb.st_mtime, hd->c_mtime,
++	if (ul_asc(arcn_sb->st_ino, hd->c_ino, sizeof(hd->c_ino), HEX) ||
++	    ul_asc(arcn_sb->st_mode, hd->c_mode, sizeof(hd->c_mode), HEX) ||
++	    ul_asc(arcn_sb->st_uid, hd->c_uid, sizeof(hd->c_uid), HEX) ||
++	    ul_asc(arcn_sb->st_gid, hd->c_gid, sizeof(hd->c_gid), HEX) ||
++	    ul_asc(arcn_sb->st_mtime < 0 ? 0 : arcn_sb->st_mtime, hd->c_mtime,
+ 		sizeof(hd->c_mtime), HEX) ||
+-	    ul_asc(arcn->sb.st_nlink, hd->c_nlink, sizeof(hd->c_nlink), HEX) ||
+-	    ul_asc(MAJOR(arcn->sb.st_dev),hd->c_maj, sizeof(hd->c_maj), HEX) ||
+-	    ul_asc(MINOR(arcn->sb.st_dev),hd->c_min, sizeof(hd->c_min), HEX) ||
+-	    ul_asc(MAJOR(arcn->sb.st_rdev),hd->c_rmaj,sizeof(hd->c_maj), HEX) ||
+-	    ul_asc(MINOR(arcn->sb.st_rdev),hd->c_rmin,sizeof(hd->c_min), HEX) ||
++	    ul_asc(arcn_sb->st_nlink, hd->c_nlink, sizeof(hd->c_nlink), HEX) ||
++	    ul_asc(MAJOR(arcn_sb->st_dev),hd->c_maj, sizeof(hd->c_maj), HEX) ||
++	    ul_asc(MINOR(arcn_sb->st_dev),hd->c_min, sizeof(hd->c_min), HEX) ||
++	    ul_asc(MAJOR(arcn_sb->st_rdev),hd->c_rmaj,sizeof(hd->c_maj), HEX) ||
++	    ul_asc(MINOR(arcn_sb->st_rdev),hd->c_rmin,sizeof(hd->c_min), HEX) ||
+ 	    ul_asc(nsz, hd->c_namesize, sizeof(hd->c_namesize), HEX))
+ 		goto out;
+ 
+@@ -949,6 +974,19 @@ bcpio_wr(ARCHD *arcn)
+ 	off_t t_offt;
+ 	int t_int;
+ 	time_t t_timet;
++	struct stat *arcn_sb = &arcn->sb;
++#ifndef SMALL
++	struct stat sb;
++
++	/*
++	 * override file stat to create an reproducible archive
++	 */
++	if (Rflag) {
++		memcpy(&sb, &arcn->sb, sizeof(sb));
++		sb.st_uid = sb.st_gid = sb.st_mtime = 0;
++		arcn_sb = &sb;
++	}
++#endif
+ 
+ 	/*
+ 	 * check and repair truncated device and inode fields in the cpio
+@@ -956,9 +994,8 @@ bcpio_wr(ARCHD *arcn)
+ 	 */
+ 	if (map_dev(arcn, BCPIO_MASK, BCPIO_MASK) < 0)
+ 		return(-1);
+-
+ 	if ((arcn->type != PAX_BLK) && (arcn->type != PAX_CHR))
+-		arcn->sb.st_rdev = 0;
++		arcn_sb->st_rdev = 0;
+ 	hd = (HD_BCPIO *)hdblk;
+ 
+ 	switch (arcn->type) {
+@@ -969,14 +1006,14 @@ bcpio_wr(ARCHD *arcn)
+ 		 * caller will copy file data to the archive. tell him how
+ 		 * much to pad.
+ 		 */
+-		arcn->pad = BCPIO_PAD(arcn->sb.st_size);
+-		hd->h_filesize_1[0] = CHR_WR_0(arcn->sb.st_size);
+-		hd->h_filesize_1[1] = CHR_WR_1(arcn->sb.st_size);
+-		hd->h_filesize_2[0] = CHR_WR_2(arcn->sb.st_size);
+-		hd->h_filesize_2[1] = CHR_WR_3(arcn->sb.st_size);
++		arcn->pad = BCPIO_PAD(arcn_sb->st_size);
++		hd->h_filesize_1[0] = CHR_WR_0(arcn_sb->st_size);
++		hd->h_filesize_1[1] = CHR_WR_1(arcn_sb->st_size);
++		hd->h_filesize_2[0] = CHR_WR_2(arcn_sb->st_size);
++		hd->h_filesize_2[1] = CHR_WR_3(arcn_sb->st_size);
+ 		t_offt = (off_t)(SHRT_EXT(hd->h_filesize_1));
+ 		t_offt = (t_offt<<16) | ((off_t)(SHRT_EXT(hd->h_filesize_2)));
+-		if (arcn->sb.st_size != t_offt) {
++		if (arcn_sb->st_size != t_offt) {
+ 			paxwarn(1,"File is too large for bcpio format %s",
+ 			    arcn->org_name);
+ 			return(1);
+@@ -1014,42 +1051,42 @@ bcpio_wr(ARCHD *arcn)
+ 	 */
+ 	hd->h_magic[0] = CHR_WR_2(MAGIC);
+ 	hd->h_magic[1] = CHR_WR_3(MAGIC);
+-	hd->h_dev[0] = CHR_WR_2(arcn->sb.st_dev);
+-	hd->h_dev[1] = CHR_WR_3(arcn->sb.st_dev);
+-	if (arcn->sb.st_dev != (dev_t)(SHRT_EXT(hd->h_dev)))
++	hd->h_dev[0] = CHR_WR_2(arcn_sb->st_dev);
++	hd->h_dev[1] = CHR_WR_3(arcn_sb->st_dev);
++	if (arcn_sb->st_dev != (dev_t)(SHRT_EXT(hd->h_dev)))
+ 		goto out;
+-	hd->h_ino[0] = CHR_WR_2(arcn->sb.st_ino);
+-	hd->h_ino[1] = CHR_WR_3(arcn->sb.st_ino);
+-	if (arcn->sb.st_ino != (ino_t)(SHRT_EXT(hd->h_ino)))
++	hd->h_ino[0] = CHR_WR_2(arcn_sb->st_ino);
++	hd->h_ino[1] = CHR_WR_3(arcn_sb->st_ino);
++	if (arcn_sb->st_ino != (ino_t)(SHRT_EXT(hd->h_ino)))
+ 		goto out;
+-	hd->h_mode[0] = CHR_WR_2(arcn->sb.st_mode);
+-	hd->h_mode[1] = CHR_WR_3(arcn->sb.st_mode);
+-	if (arcn->sb.st_mode != (mode_t)(SHRT_EXT(hd->h_mode)))
++	hd->h_mode[0] = CHR_WR_2(arcn_sb->st_mode);
++	hd->h_mode[1] = CHR_WR_3(arcn_sb->st_mode);
++	if (arcn_sb->st_mode != (mode_t)(SHRT_EXT(hd->h_mode)))
+ 		goto out;
+-	hd->h_uid[0] = CHR_WR_2(arcn->sb.st_uid);
+-	hd->h_uid[1] = CHR_WR_3(arcn->sb.st_uid);
+-	if (arcn->sb.st_uid != (uid_t)(SHRT_EXT(hd->h_uid)))
++	hd->h_uid[0] = CHR_WR_2(arcn_sb->st_uid);
++	hd->h_uid[1] = CHR_WR_3(arcn_sb->st_uid);
++	if (arcn_sb->st_uid != (uid_t)(SHRT_EXT(hd->h_uid)))
+ 		goto out;
+-	hd->h_gid[0] = CHR_WR_2(arcn->sb.st_gid);
+-	hd->h_gid[1] = CHR_WR_3(arcn->sb.st_gid);
+-	if (arcn->sb.st_gid != (gid_t)(SHRT_EXT(hd->h_gid)))
++	hd->h_gid[0] = CHR_WR_2(arcn_sb->st_gid);
++	hd->h_gid[1] = CHR_WR_3(arcn_sb->st_gid);
++	if (arcn_sb->st_gid != (gid_t)(SHRT_EXT(hd->h_gid)))
+ 		goto out;
+-	hd->h_nlink[0] = CHR_WR_2(arcn->sb.st_nlink);
+-	hd->h_nlink[1] = CHR_WR_3(arcn->sb.st_nlink);
+-	if (arcn->sb.st_nlink != (nlink_t)(SHRT_EXT(hd->h_nlink)))
++	hd->h_nlink[0] = CHR_WR_2(arcn_sb->st_nlink);
++	hd->h_nlink[1] = CHR_WR_3(arcn_sb->st_nlink);
++	if (arcn_sb->st_nlink != (nlink_t)(SHRT_EXT(hd->h_nlink)))
+ 		goto out;
+-	hd->h_rdev[0] = CHR_WR_2(arcn->sb.st_rdev);
+-	hd->h_rdev[1] = CHR_WR_3(arcn->sb.st_rdev);
+-	if (arcn->sb.st_rdev != (dev_t)(SHRT_EXT(hd->h_rdev)))
++	hd->h_rdev[0] = CHR_WR_2(arcn_sb->st_rdev);
++	hd->h_rdev[1] = CHR_WR_3(arcn_sb->st_rdev);
++	if (arcn_sb->st_rdev != (dev_t)(SHRT_EXT(hd->h_rdev)))
+ 		goto out;
+-	if (arcn->sb.st_mtime > 0) {
+-		hd->h_mtime_1[0] = CHR_WR_0(arcn->sb.st_mtime);
+-		hd->h_mtime_1[1] = CHR_WR_1(arcn->sb.st_mtime);
+-		hd->h_mtime_2[0] = CHR_WR_2(arcn->sb.st_mtime);
+-		hd->h_mtime_2[1] = CHR_WR_3(arcn->sb.st_mtime);
++	if (arcn_sb->st_mtime > 0) {
++		hd->h_mtime_1[0] = CHR_WR_0(arcn_sb->st_mtime);
++		hd->h_mtime_1[1] = CHR_WR_1(arcn_sb->st_mtime);
++		hd->h_mtime_2[0] = CHR_WR_2(arcn_sb->st_mtime);
++		hd->h_mtime_2[1] = CHR_WR_3(arcn_sb->st_mtime);
+ 		t_timet = (time_t)SHRT_EXT(hd->h_mtime_1);
+ 		t_timet =  t_timet << 16 | (time_t)SHRT_EXT(hd->h_mtime_2);
+-		if (arcn->sb.st_mtime != t_timet)
++		if (arcn_sb->st_mtime != t_timet)
+ 			goto out;
+ 	} else {
+ 		hd->h_mtime_1[0] = hd->h_mtime_1[1] = 0;
+Index: bin/pax/extern.h
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/extern.h,v
+diff -u -p -r1.64 extern.h
+--- bin/pax/extern.h	17 Apr 2024 18:12:12 -0000	1.64
++++ bin/pax/extern.h	20 Nov 2025 18:21:00 -0000
+@@ -203,6 +203,7 @@ extern int Dflag;
+ extern int Hflag;
+ extern int Lflag;
+ extern int Nflag;
++extern int Rflag;
+ extern int Xflag;
+ extern int Yflag;
+ extern int Zflag;
+Index: bin/pax/options.c
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/options.c,v
+diff -u -p -r1.115 options.c
+--- bin/pax/options.c	10 May 2024 20:28:31 -0000	1.115
++++ bin/pax/options.c	20 Nov 2025 18:21:00 -0000
+@@ -744,8 +744,12 @@ tar_options(int argc, char **argv)
+ 	 * process option flags
+ 	 */
+ 	while ((c = getoldopt(argc, argv,
+-	    "b:cef:hjmopqruts:vwxzBC:F:HI:LNOPXZ014578")) != -1) {
++	    "b:cef:hjmopqruts:vwxzBC:F:HI:LNOPRXZ014578")) != -1) {
+ 		switch (c) {
++		case 'R':
++			Nflag = 1;
++			Rflag = 1;
++			break;
+ 		case 'b':
+ 			/*
+ 			 * specify blocksize in 512-byte blocks
+@@ -977,7 +981,7 @@ tar_options(int argc, char **argv)
+ 	 * Traditional tar behaviour: list-like output goes to stdout unless
+ 	 * writing the archive there.  (pax uses stderr unless in list mode)
+ 	 */
+-        if (act == LIST || act == EXTRACT || arcname != NULL)
++	if (act == LIST || act == EXTRACT || arcname != NULL)
+ 		listf = stdout;
+ 
+ 	/* Traditional tar behaviour (pax wants to read file list from stdin) */
+@@ -1723,12 +1727,12 @@ void
+ tar_usage(void)
+ {
+ 	(void)fputs(
+-	    "usage: tar {crtux}[014578beFfHhjLmNOoPpqsvwXZz]\n"
++	    "usage: tar {crtux}[014578beFfHhjLmNOoPpqRsvwXZz]\n"
+ 	    "           [blocking-factor | format | archive | replstr]\n"
+ 	    "           [-C directory] [-I file] [file ...]\n"
+-	    "       tar {-crtux} [-014578eHhjLmNOoPpqvwXZz] [-b blocking-factor]\n"
+-	    "           [-C directory] [-F format] [-f archive] [-I file]\n"
+-	    "           [-s replstr] [file ...]\n",
++	    "       tar {-crtux} [-014578eHhjLmNOoPpqRvwXZz]\n"
++	    "           [-b blocking-factor] [-C directory] [-F format]\n"
++	    "           [-f archive] [-I file] [-s replstr] [file ...]\n",
+ 	    stderr);
+ 	exit(1);
+ }
+Index: bin/pax/pax.c
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/pax.c,v
+diff -u -p -r1.57 pax.c
+--- bin/pax/pax.c	26 Nov 2023 16:04:17 -0000	1.57
++++ bin/pax/pax.c	20 Nov 2025 18:21:00 -0000
+@@ -77,6 +77,7 @@ int	Dflag;			/* same as uflag except ino
+ int	Hflag;			/* follow command line symlinks (write only) */
+ int	Lflag;			/* follow symlinks when writing */
+ int	Nflag;			/* only use numeric uid and gid */
++int	Rflag;			/* uid/gid/time=0, Nflag=1, no getpid() */
+ int	Xflag;			/* archive files with same device id only */
+ int	Yflag;			/* same as Dflag except after name mode */
+ int	Zflag;			/* same as uflag except after name mode */
+Index: bin/pax/tar.1
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/tar.1,v
+diff -u -p -r1.67 tar.1
+--- bin/pax/tar.1	16 Apr 2024 23:09:35 -0000	1.67
++++ bin/pax/tar.1	20 Nov 2025 18:21:00 -0000
+@@ -32,7 +32,7 @@
+ .Sh SYNOPSIS
+ .Nm tar
+ .Sm off
+-.No { Cm crtux No } Op Cm 014578beFfHhjLmNOoPpqsvwXZz
++.No { Cm crtux No } Op Cm 014578beFfHhjLmNOoPpqRsvwXZz
+ .Sm on
+ .Bk -words
+ .Op Ar blocking-factor | format | archive | replstr
+@@ -43,7 +43,7 @@
+ .Nm tar
+ .No { Ns Fl crtux Ns }
+ .Bk -words
+-.Op Fl 014578eHhjLmNOoPpqvwXZz
++.Op Fl 014578eHhjLmNOoPpqRvwXZz
+ .Op Fl b Ar blocking-factor
+ .Op Fl C Ar directory
+ .Op Fl F Ar format
+@@ -278,6 +278,19 @@ No more than one archive member is match
+ .Ar file .
+ When members of type directory are matched, the file hierarchy rooted at that
+ directory is also matched.
++.It Fl R
++Reproducible archive. Set owner and group to zero numeric id.
++Also implies the
++.Fl N
++flag.
++Replace file stat mtime with zero value and skip extended time header.
++Don't use pid with pax headers.
++Only meaningful in conjunction with the
++.Fl c ,
++.Fl r
++and
++.Fl u
++flags.
+ .It Fl s Ar replstr
+ Modify the archive member names according to the substitution expression
+ .Ar replstr ,
+@@ -482,6 +495,7 @@ command first appeared in
+ at the University of California, San Diego.
+ .Sh CAVEATS
+ The
++.Fl R ,
+ .Fl j
+ and
+ .Fl L
+Index: bin/pax/tar.c
+===================================================================
+RCS file: /mnt/ext/cvs/src/bin/pax/tar.c,v
+diff -u -p -r1.87 tar.c
+--- bin/pax/tar.c	6 Jul 2025 19:25:51 -0000	1.87
++++ bin/pax/tar.c	20 Nov 2025 18:21:00 -0000
+@@ -535,6 +535,19 @@ tar_wr(ARCHD *arcn)
+ 	HD_TAR *hd;
+ 	int len;
+ 	char hdblk[sizeof(HD_TAR)];
++	struct stat *arcn_sb = &arcn->sb;
++#ifndef SMALL
++	struct stat sb;
++
++	/*
++	 * override file stat to create an reproducible archive
++	 */
++	if (Rflag) {
++		memcpy(&sb, &arcn->sb, sizeof(sb));
++		sb.st_uid = sb.st_gid = sb.st_mtime = 0;
++		arcn_sb = &sb;
++	}
++#endif
+ 
+ 	/*
+ 	 * check for those file system types which tar cannot store
+@@ -632,22 +645,22 @@ tar_wr(ARCHD *arcn)
+ 		 * data follows this file, so set the pad
+ 		 */
+ 		hd->linkflag = AREGTYPE;
+-		if (ull_oct(arcn->sb.st_size, hd->size, sizeof(hd->size), 1)) {
++		if (ull_oct(arcn_sb->st_size, hd->size, sizeof(hd->size), 1)) {
+ 			paxwarn(1, "File is too large for tar %s",
+ 			    arcn->org_name);
+ 			return(1);
+ 		}
+-		arcn->pad = TAR_PAD(arcn->sb.st_size);
++		arcn->pad = TAR_PAD(arcn_sb->st_size);
+ 	}
+ 
+ 	/*
+ 	 * copy those fields that are independent of the type
+ 	 */
+-	if (ul_oct(arcn->sb.st_mode, hd->mode, sizeof(hd->mode), 0) ||
+-	    ull_oct(arcn->sb.st_mtime < 0 ? 0 : arcn->sb.st_mtime, hd->mtime,
++	if (ul_oct(arcn_sb->st_mode, hd->mode, sizeof(hd->mode), 0) ||
++	    ull_oct(arcn_sb->st_mtime < 0 ? 0 : arcn_sb->st_mtime, hd->mtime,
+ 		sizeof(hd->mtime), 1) ||
+-	    ul_oct(arcn->sb.st_uid, hd->uid, sizeof(hd->uid), 0) ||
+-	    ul_oct(arcn->sb.st_gid, hd->gid, sizeof(hd->gid), 0))
++	    ul_oct(arcn_sb->st_uid, hd->uid, sizeof(hd->uid), 0) ||
++	    ul_oct(arcn_sb->st_gid, hd->gid, sizeof(hd->gid), 0))
+ 		goto out;
+ 
+ 	/*
+@@ -1064,6 +1077,14 @@ wr_xheader(char *fname, HD_USTAR *fhd, s
+ 	 * with truncation if the resulting file name doesn't fit.
+ 	 * XXX dirname/basename portability (check return value?)
+ 	 */
++#ifndef SMALL
++	if (Rflag)
++		(void)snprintf(buf, sizeof(buf), "%s/PaxHeaders/%s",
++		    dirname(fname), basename(fname));
++	else
++#endif
++		(void)snprintf(buf, sizeof(buf), "%s/PaxHeaders.%ld/%s",
++		    dirname(fname), (long)getpid(), basename(fname));
+ 	(void)snprintf(buf, sizeof(buf), "%s/PaxHeaders.%ld/%s",
+ 	    dirname(fname), (long)getpid(), basename(fname));
+ 	fieldcpy(hd->name, sizeof(hd->name), buf, sizeof(buf));
+@@ -1115,10 +1136,21 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 	HD_USTAR *hd;
+ 	const char *name;
+ 	char *pt, hdblk[sizeof(HD_USTAR)];
++	int bad_mtime;
++	struct stat *arcn_sb = &arcn->sb;
+ #ifndef SMALL
+ 	struct xheader xhdr = SLIST_HEAD_INITIALIZER(xhdr);
++	struct stat sb;
++
++	/*
++	 * override file stat to create a reproducible archive
++	 */
++	if (Rflag) {
++		memcpy(&sb, &arcn->sb, sizeof(sb));
++		sb.st_uid = sb.st_gid = sb.st_mtime = 0;
++		arcn_sb = &sb;
++	}
+ #endif
+-	int bad_mtime;
+ 
+ 	/*
+ 	 * check for those file system types ustar cannot store
+@@ -1219,9 +1251,9 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 			hd->typeflag = CHRTYPE;
+ 		else
+ 			hd->typeflag = BLKTYPE;
+-		if (ul_oct(MAJOR(arcn->sb.st_rdev), hd->devmajor,
++		if (ul_oct(MAJOR(arcn_sb->st_rdev), hd->devmajor,
+ 		   sizeof(hd->devmajor), 3) ||
+-		   ul_oct(MINOR(arcn->sb.st_rdev), hd->devminor,
++		   ul_oct(MINOR(arcn_sb->st_rdev), hd->devminor,
+ 		   sizeof(hd->devminor), 3) ||
+ 		   ul_oct(0, hd->size, sizeof(hd->size), 3))
+ 			goto out;
+@@ -1253,8 +1285,8 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 			hd->typeflag = CONTTYPE;
+ 		else
+ 			hd->typeflag = REGTYPE;
+-		arcn->pad = TAR_PAD(arcn->sb.st_size);
+-		if (ull_oct(arcn->sb.st_size, hd->size, sizeof(hd->size), 3)) {
++		arcn->pad = TAR_PAD(arcn_sb->st_size);
++		if (ull_oct(arcn_sb->st_size, hd->size, sizeof(hd->size), 3)) {
+ 			if (ustar) {
+ 				paxwarn(1, "File is too long for ustar %s",
+ 				    arcn->org_name);
+@@ -1262,7 +1294,7 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 			}
+ #ifndef SMALL
+ 			else if (xheader_add_ull(&xhdr, "size",
+-			    arcn->sb.st_size) == -1) {
++			    arcn_sb->st_size) == -1) {
+ 				paxwarn(1, "File is too long for pax %s",
+ 				    arcn->org_name);
+ 				xheader_free(&xhdr);
+@@ -1280,55 +1312,55 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 	 * set the remaining fields. Some versions want all 16 bits of mode
+ 	 * we better humor them (they really do not meet spec though)....
+ 	 */
+-	if (ul_oct(arcn->sb.st_uid, hd->uid, sizeof(hd->uid), 3)) {
++	if (ul_oct(arcn_sb->st_uid, hd->uid, sizeof(hd->uid), 3)) {
+ 		if (uid_nobody == 0) {
+ 			if (uid_from_user("nobody", &uid_nobody) == -1)
+ 				goto out;
+ 		}
+-		if (uid_warn != arcn->sb.st_uid) {
+-			uid_warn = arcn->sb.st_uid;
++		if (uid_warn != arcn_sb->st_uid) {
++			uid_warn = arcn_sb->st_uid;
+ 			paxwarn(1,
+ 			    "Ustar header field is too small for uid %lu, "
+-			    "using nobody", (u_long)arcn->sb.st_uid);
++			    "using nobody", (u_long)arcn_sb->st_uid);
+ 		}
+ 		if (ul_oct(uid_nobody, hd->uid, sizeof(hd->uid), 3))
+ 			goto out;
+ 	}
+-	if (ul_oct(arcn->sb.st_gid, hd->gid, sizeof(hd->gid), 3)) {
++	if (ul_oct(arcn_sb->st_gid, hd->gid, sizeof(hd->gid), 3)) {
+ 		if (gid_nobody == 0) {
+ 			if (gid_from_group("nobody", &gid_nobody) == -1)
+ 				goto out;
+ 		}
+-		if (gid_warn != arcn->sb.st_gid) {
+-			gid_warn = arcn->sb.st_gid;
++		if (gid_warn != arcn_sb->st_gid) {
++			gid_warn = arcn_sb->st_gid;
+ 			paxwarn(1,
+ 			    "Ustar header field is too small for gid %lu, "
+-			    "using nobody", (u_long)arcn->sb.st_gid);
++			    "using nobody", (u_long)arcn_sb->st_gid);
+ 		}
+ 		if (ul_oct(gid_nobody, hd->gid, sizeof(hd->gid), 3))
+ 			goto out;
+ 	}
+-	bad_mtime = ull_oct(arcn->sb.st_mtime < 0 ? 0 : arcn->sb.st_mtime,
++	bad_mtime = ull_oct(arcn_sb->st_mtime < 0 ? 0 : arcn_sb->st_mtime,
+ 	    hd->mtime, sizeof(hd->mtime), 3);
+ 	if (bad_mtime && ustar)
+ 		goto out;
+ #ifndef SMALL
+-	if (!ustar) {
++	if (!ustar && !Rflag) {
+ 		/*
+ 		 * The pax format can preserve atime and store
+ 		 * a possibly more accurate mtime.
+ 		 *
+ 		 * ctime isn't specified by POSIX so omit it.
+ 		 */
+-		if (xheader_add_ts(&xhdr, "atime", &arcn->sb.st_atim) == -1) {
++		if (xheader_add_ts(&xhdr, "atime", &arcn_sb->st_atim) == -1) {
+ 			paxwarn(1, "Couldn't preserve %s in pax format for %s",
+ 			    "atime", arcn->org_name);
+ 			xheader_free(&xhdr);
+ 			return (1);
+ 		}
+-		if ((bad_mtime || arcn->sb.st_mtime < 0 ||
+-			arcn->sb.st_mtim.tv_nsec != 0) &&
+-		    xheader_add_ts(&xhdr, "mtime", &arcn->sb.st_mtim) == -1) {
++		if ((bad_mtime || arcn_sb->st_mtime < 0 ||
++		    arcn_sb->st_mtim.tv_nsec != 0) &&
++		    xheader_add_ts(&xhdr, "mtime", &arcn_sb->st_mtim) == -1) {
+ 			paxwarn(1, "Couldn't preserve %s in pax format for %s",
+ 			    "mtime", arcn->org_name);
+ 			xheader_free(&xhdr);
+@@ -1336,12 +1368,12 @@ wr_ustar_or_pax(ARCHD *arcn, int ustar)
+ 		}
+ 	}
+ #endif
+-	if (ul_oct(arcn->sb.st_mode, hd->mode, sizeof(hd->mode), 3))
++	if (ul_oct(arcn_sb->st_mode, hd->mode, sizeof(hd->mode), 3))
+ 		goto out;
+ 	if (!Nflag) {
+-		if ((name = user_from_uid(arcn->sb.st_uid, 1)) != NULL)
++		if ((name = user_from_uid(arcn_sb->st_uid, 1)) != NULL)
+ 			strncpy(hd->uname, name, sizeof(hd->uname));
+-		if ((name = group_from_gid(arcn->sb.st_gid, 1)) != NULL)
++		if ((name = group_from_gid(arcn_sb->st_gid, 1)) != NULL)
+ 			strncpy(hd->gname, name, sizeof(hd->gname));
+ 	}
+ 

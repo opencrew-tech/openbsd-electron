@@ -1,0 +1,24 @@
+Index: infrastructure/mk/modules.port.mk
+===================================================================
+RCS file: /mnt/ext/cvs/ports/infrastructure/mk/modules.port.mk,v
+diff -u -p -r1.17 modules.port.mk
+--- infrastructure/mk/modules.port.mk	6 Sep 2023 09:51:34 -0000	1.17
++++ infrastructure/mk/modules.port.mk	21 Dec 2025 12:53:41 -0000
+@@ -38,7 +38,8 @@ _COMPILER=compiler
+ .endif
+ 
+ .if defined(DIST_TUPLE) && empty(MODULES:Mdist-tuple)
+-MODULES += dist-tuple
++# DIST_TUPLE_post-extract come first
++MODULES := dist-tuple ${MODULES}
+ .endif
+ 
+ .for _m in ${_COMPILER} ${MODULES:L}
+@@ -61,7 +62,6 @@ ERRORS += "Fatal: Missing support for mo
+ .    endif
+ .  endif
+ .endfor
+-
+ 
+ # Tail recursion
+ .if defined(_MODULES_KEEP_GOING)

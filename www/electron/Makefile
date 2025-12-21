@@ -13,7 +13,8 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		38.4.0
+ELECTRON_V=		38.7.1
+ELECTRON_DIST=		electron/resources
 
 # make update-patches happy
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -31,8 +32,8 @@ PERMIT_PACKAGE=		Yes
 
 # XXX implement make versions to automate this task
 # See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		140.0.7339.240
-NODE_V=			22.20.0
+CHROMIUM_V=		140.0.7339.249
+NODE_V=			22.21.1
 NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
 SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
@@ -57,22 +58,20 @@ DISTFILES.nodemodule=	chromium-nodejs-{}${NODE_MODULES_HASH}
 EXTRACT_CASES+=		chromium-nodejs-${NODE_MODULES_HASH});;
 
 # uses pledge()
-WANTLIB += EGL FLAC GL Lerc X11 X11-xcb Xau Xcomposite Xcursor
-WANTLIB += Xdamage Xdmcp Xext Xfixes Xft Xi Xinerama Xrandr Xrender
-WANTLIB += Xtst Xxf86vm aom atk-1.0 atk-bridge-2.0 atspi c cairo
-WANTLIB += cairo-gobject cares cbor crc32c crypto cups dav1d dbus-1
-WANTLIB += double-conversion drm epoll-shim epoxy event execinfo
-WANTLIB += expat ffi fido2 fontconfig freetype fribidi gbm gcrypt
-WANTLIB += gdk-3 gdk_pixbuf-2.0 gio-2.0 glib-2.0 gmodule-2.0 gobject-2.0
-WANTLIB += gpg-error graphite2 gthread-2.0 gtk-3 harfbuzz harfbuzz-gobject
-WANTLIB += harfbuzz-subset icudata icui18n icuuc intl jpeg kvm
-WANTLIB += lcms2 lzma m nghttp2 nspr4 nss3 nssutil3 ogg openh264
-WANTLIB += opus pango-1.0 pangocairo-1.0 pangoft2-1.0 pcre2-8
-WANTLIB += pixman-1 plc4 plds4 png pthread secret-1 sharpyuv smime3
-WANTLIB += snappy sndio tiff udev usbhid util vpx wayland-client
-WANTLIB += wayland-cursor wayland-egl webp webpdemux webpmux xcb
-WANTLIB += xcb-dri2 xcb-glx xcb-render xcb-shm xkbcommon xml2
-WANTLIB += xshmfence xslt z zstd
+WANTLIB += FLAC GL X11 Xcomposite Xdamage Xext Xfixes
+WANTLIB += Xi Xrandr Xrender Xtst aom atk-1.0 atk-bridge-2.0
+WANTLIB += atspi c cairo cairo-gobject cbor crc32c crypto
+WANTLIB += cups dav1d dbus-1 double-conversion drm epoll-shim
+WANTLIB += execinfo expat fido2 fontconfig freetype
+WANTLIB += gbm gdk-3 gdk_pixbuf-2.0 gio-2.0 glib-2.0
+WANTLIB += gmodule-2.0 gobject-2.0 gthread-2.0 gtk-3
+WANTLIB += harfbuzz harfbuzz-subset hwy intl jpeg kvm
+WANTLIB += lcms2 m nspr4 nss3 nssutil3 openh264 openjp2
+WANTLIB += opus pango-1.0 pangocairo-1.0 plc4 plds4
+WANTLIB += png pthread secret-1 smime3 snappy sndio
+WANTLIB += tiff udev usbhid util vpx webp webpdemux
+WANTLIB += webpmux xcb xkbcommon xml2 xshmfence xslt
+WANTLIB += z zstd
 
 # Electron depends on Chromium and Node which are bundled&patched all together :
 # 1. (optionnal) patches/pre-patch, ensure electron patches apply correctly
@@ -97,13 +96,18 @@ PATCH_LIST=
 
 COMPILER=	ports-clang
 
-MODULES=	devel/yarn lang/clang lang/python
+MODULES=	devel/yarn \
+		lang/clang \
+		lang/python
 
 MODCLANG_VERSION=	19
 MODPY_RUNDEP=		No
 MODYARN_TARGETS=	${WRKSRC}/electron \
 			${WRKSRC}/electron/spec
 
+# XXX chromium ?
+# + sysutils/libudev-openbsd VS LIB_DEPENDS ?
+# - devel/libnotify
 RUN_DEPENDS+=	devel/desktop-file-utils \
 		devel/libnotify \
 		devel/xdg-utils \
@@ -129,6 +133,12 @@ BUILD_DEPENDS+=	archivers/bzip2 \
 		${MODGCC4_CPPDEP} \
 		${RUN_DEPENDS}
 
+# XXX
+# LIB_DEPENDS net/libcares not needed for www/electron ?
+# LIB_DEPENDS security/libgcrypt not needed for www/electron ?
+# LIB_DEPENDS security/libgpg-error not needed for www/electron ?
+# LIB_DEPENDS textproc/icu4c not needed for www/electron ?
+# LIB_DEPENDS www/nghttp2 not needed for www/electron ?
 LIB_DEPENDS+=	archivers/snappy \
 		audio/flac \
 		audio/opus \
@@ -203,7 +213,6 @@ GN_SYSTEM_LIBS=	crc32c \
 		freetype \
 		harfbuzz-ng \
 		highway \
-		icu \
 		libaom \
 		libdrm \
 		libjpeg \
@@ -217,6 +226,16 @@ GN_SYSTEM_LIBS=	crc32c \
 		opus \
 		snappy \
 		zstd
+
+# break with ICU 78.1
+# ld.lld: error: undefined symbol: icu::UnicodeString::doReplace(
+#	int, int, std::__Cr::basic_string_view<char16_t,
+#	std::__Cr::char_traits<char16_t>>)
+# >>> referenced by unistr.h:2024 (.../include/unicode/unistr.h:2024)
+# >>> obj/v8/v8_base_without_compiler/js-date-time-format.o:
+# (v8::internal::JSDateTimeFormat::TimeZoneId(
+#	v8::internal::Isolate*, icu::TimeZone const&)
+# GN_SYSTEM_LIBS+=icu
 
 # make gn_args-system, search ${WRKDIR}/gn_args-electron.list use_system/bundled
 GN_ARGS=	use_system_cares=true \
@@ -341,6 +360,7 @@ post-extract:
 		${WRKSRC}/third_party/engflow-reclient-configs
 	# tweek some patches to apply cleanly
 # XXX call there so we can fix yarn.lock before module's post-extract
+# maybe bundle lock files instead, see modpnpm as example
 	@if cd ${PATCHDIR}/pre-patches 2>/dev/null; then \
 		for p in ${PATCHDIR}/pre-patches/patch-*; do \
 			${ECHO_MSG} "===>   Applying pre-patch $${p}"; \
@@ -471,6 +491,8 @@ do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/${DIST_TARGET}/gen/v8
 	${INSTALL_DATA} ${BUILDDIR}/gen/v8/embedded.S \
 		${PREFIX}/${DIST_TARGET}/gen/v8/embedded.S
+	# ports' install location
+	${INSTALL_DATA_DIR} ${PREFIX}/${ELECTRON_DIST}
 
 # Tests requires custom pledge/unveil configurations
 # mkdir -p /etc/electron
@@ -693,6 +715,6 @@ gn-system:
 			grep -q "$$_pkg" || echo $$_pkg ; \
 	done
 
-.include "modules.inc"
+.include "modules.yarn.inc"
 
 .include <bsd.port.mk>

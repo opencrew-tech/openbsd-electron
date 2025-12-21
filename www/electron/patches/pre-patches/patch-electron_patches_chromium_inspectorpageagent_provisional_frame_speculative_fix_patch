@@ -1,0 +1,21 @@
+--- electron/patches/chromium/inspectorpageagent_provisional_frame_speculative_fix.patch.orig.pre-patch	Tue Dec 16 23:29:14 2025
++++ electron/patches/chromium/inspectorpageagent_provisional_frame_speculative_fix.patch	Tue Dec 16 23:30:20 2025
+@@ -31,18 +31,6 @@
+      }
+    }
+  
+-diff --git a/third_party/blink/web_tests/FlagExpectations/disable-site-isolation-trials b/third_party/blink/web_tests/FlagExpectations/disable-site-isolation-trials
+-index f462af59547e93378034b7e9301053a43f636ea4..3b829d94fa447e58a1acc57b7c7bdbd4564c9507 100644
+---- a/third_party/blink/web_tests/FlagExpectations/disable-site-isolation-trials
+-+++ b/third_party/blink/web_tests/FlagExpectations/disable-site-isolation-trials
+-@@ -63,6 +63,7 @@ http/tests/inspector-protocol/target/target-filter.js [ Skip ]
+- virtual/fenced-frame-mparch/http/tests/inspector-protocol/fenced-frame/fenced-frame-in-oopif-auto-attach.js [ Skip ]
+- http/tests/inspector-protocol/target/target-info-changed-auto-attach.js [ Skip ]
+- http/tests/inspector-protocol/page/frame-detached-oopif.js [ Skip ]
+-+http/tests/inspector-protocol/page/addScriptToEvaluateOnNewDocument-reload.js [ Skip ]
+- 
+- # Rely on OOPIF for an iframe to be a separate devtools target
+- http/tests/inspector-protocol/timeline/auction-worklet-frame.js [ Skip ]
+ diff --git a/third_party/blink/web_tests/http/tests/inspector-protocol/page/addScriptToEvaluateOnNewDocument-reload-expected.txt b/third_party/blink/web_tests/http/tests/inspector-protocol/page/addScriptToEvaluateOnNewDocument-reload-expected.txt
+ new file mode 100644
+ index 0000000000000000000000000000000000000000..0131df6c227e1803741e654d42b15f589275061a

@@ -1,7 +1,9 @@
 # sync with Makefile
-ELECTRON_V=		38.4.0
+ELECTRON_V=		38.7.1
+ELECTRON_DIST=		electron/resources
 
-ELECTRON_DIST_APPS=	electron/resources
+# XXX use per app folder and keep generic app.asar name
+ELECTRON_DIST_APPS=	${ELECTRON_DIST}/${MODELECTRON_TARGET}
 ELECTRON_WRAPPER=	electron/${ELECTRON_V}/electron.sh
 ELECTRON_NOSANDBOX=	electron/${ELECTRON_V}/electron_nosandbox.sh
 
@@ -15,7 +17,7 @@ REVISION=		${ELECTRON_REV}${REV}
 # XXX target based on pkgname ?
 # target application's name
 MODELECTRON_TARGET?=
-MODELECTRON_DIST_T=	${ELECTRON_DIST_APPS}/${MODELECTRON_TARGET}
+MODELECTRON_DIST_T=	${ELECTRON_DIST_APPS}/app
 
 # custom env, specific to OpenBSD
 # APP_NAME required to pre-create, unveil ~/.config and ~/.cache
@@ -126,12 +128,14 @@ MODELECTRON_BUILDER_INSTALL=\
 ELECTRON_WRAPPER_SCRIPT=\
 \#!/bin/sh \n\
 ${MODELECTRON_WRAPPER_ENV} \
+ELECTRON_IS_DEV=0 \
 ELECTRON_FORCE_IS_PACKAGED=1 \
+NODE_ENV=production \
 ELECTRON_APP_NAME="${MODELECTRON_APP_NAME}" \
 ELECTRON_UNVEIL="${MODELECTRON_UNVEIL_FILE}" \
 exec ${TRUEPREFIX}/${ELECTRON_WRAPPER} \
 ${MODELECTRON_WRAPPER_ARG} \
---app="${TRUEPREFIX}/${MODELECTRON_DIST_T}.asar" \
+"${TRUEPREFIX}/${MODELECTRON_DIST_T}.asar" \
 $$@ \n
 
 MODELECTRON_WRAPPER_INSTALL=\
@@ -139,6 +143,12 @@ MODELECTRON_WRAPPER_INSTALL=\
 		> ${PREFIX}/bin/${MODELECTRON_TARGET} && \
 		chmod +x ${PREFIX}/bin/${MODELECTRON_TARGET}
 
+# XXX consider moving to post-build & allow better integration with pkg manager
+# using this workflow, electron's port do-build phase doesn't need to rebuild
+# post_extract:	npm(pnpm/yarn) offline setup, install w/building
+# pre-build:	npm(pnpm/yarn) rebuild, after applying patches (in node_modules)
+# do-build:	npm(pnpm/yarn) pack, electron's port use custom scripts
+# post-build:	modelectron, prepare dist dir including .asar
 .if !target(do-build) && ${MODELECTRON_BUILD:L} == "yes"
 do-build:
 .  if ${MODELECTRON_BUILDER:L} == "yes"

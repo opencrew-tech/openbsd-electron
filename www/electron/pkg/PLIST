@@ -605,6 +605,7 @@ electron/${ELECTRON_V}/v8_context_snapshot.bin
 @bin electron/${ELECTRON_V}/v8_context_snapshot_generator
 electron/${ELECTRON_V}/version
 electron/${ELECTRON_V}/vk_swiftshader_icd.json
+electron/resources/
 share/examples/electron/
 @sample ${SYSCONFDIR}/electron/
 share/examples/electron/pledge.main

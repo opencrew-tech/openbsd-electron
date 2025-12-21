@@ -13,5 +13,5 @@
 ~/.pki			rwc
 
 # by default, unveil ELECTRON_APP_NAME (fallback on Electron)
-#~/.local/${ELECTRON_APP_NAME}
+#~/.config/${ELECTRON_APP_NAME}
 #~/.cache/${ELECTRON_APP_NAME}

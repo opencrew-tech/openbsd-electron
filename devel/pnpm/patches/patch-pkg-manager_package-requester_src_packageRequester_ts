@@ -1,0 +1,16 @@
+always look for integrity.json, fix github tarball offline use
+
+https://github.com/pnpm/pnpm/issues/10158
+
+Index: pkg-manager/package-requester/src/packageRequester.ts
+--- pkg-manager/package-requester/src/packageRequester.ts.orig
++++ pkg-manager/package-requester/src/packageRequester.ts
+@@ -377,7 +377,7 @@ function getFilesIndexFilePath (
+   } else {
+     resolution = opts.pkg.resolution
+   }
+-  const filesIndexFile = path.join(target, opts.ignoreScripts ? 'integrity-not-built.json' : 'integrity.json')
++  const filesIndexFile = path.join(target, 'integrity.json')
+   return { filesIndexFile, target, resolution }
+ }
+ 

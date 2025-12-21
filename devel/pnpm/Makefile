@@ -18,7 +18,7 @@
 
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.18.3
+V=		10.25.0
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel
@@ -37,22 +37,34 @@ DISTFILES.published=	pnpm-${V}.tgz
 SITES.vendor=		http://distfiles.opencrew.tech/pnpm/
 DISTFILES.vendor=	${MODPNPM_VENDOR}
 
-MODULES=	lang/python \
-		devel/pnpm
+MODULES=		lang/python \
+			devel/pnpm
 
 MODPNPM_BIN=		${WRKDIR}/package/bin/pnpm.cjs
-MODPNPM_UPDATE=		No
-MODPNPM_INSTALL=	No
 MODPNPM_BUILDDEP=	No
 MODPNPM_RUNDEP=		No
 MODPNPM_TESTDEP=	No
+
+# force install of all os/arch, see pnpm build instructions
 MODPNPM_GEN_FORCE=	Yes
 
-NO_TEST=	Yes # need internet access
+#NO_TEST=		Yes # need internet access
 
-BUILD_DEPENDS+=	lang/node \
-		lang/typescript
-RUN_DEPENDS+=	lang/node
+BUILD_DEPENDS+=		devel/esbuild \
+			lang/node \
+			lang/typescript
+RUN_DEPENDS+=		lang/node
+
+# to bootstrap we use official pnpm which does not support system module
+#MODPNPM_MODS+=		esbuild
+MODPNPM_SKIP_GEN_MODS=	Yes
+# XXX use system esbuild, version to keep in sync manually
+# [ERROR] Cannot start service:
+# Host version "x.y.z" does not match binary version "x.y.z"
+ESBUILD_V=		0.27.1
+MODPNPM_GEN_UPDATE=	esbuild@${ESBUILD_V}
+MODPNPM_GEN_OVERRIDES=	"esbuild":"${ESBUILD_V}"
+MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
 
 pre-configure:
 	ln -fs ${WRKDIR}/package/bin/pnpm.cjs ${WRKDIR}/bin/pnpm
@@ -66,13 +78,13 @@ do-build:
 # copy official pakcage then override pnpm.cjs with custom build
 do-install:
 	${MODPY_COMPILEALL} ${WRKDIR}/package/dist/node_modules/node-gyp/gyp
-	${INSTALL_DATA_DIR} ${PREFIX}/lib/node_modules/pnpm
-	cp -Rp ${WRKDIR}/package/* ${PREFIX}/lib/node_modules/pnpm
-	cp -p ${WRKSRC}/pnpm/dist/pnpm.cjs ${PREFIX}/lib/node_modules/pnpm/dist/
-	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/lib/node_modules
-	ln -s ../lib/node_modules/pnpm/bin/pnpm.cjs ${PREFIX}/bin/pnpm
-	rm -rf ${PREFIX}/lib/node_modules/pnpm/dist/vendor
-	rm -rf ${PREFIX}/lib/node_modules/pnpm/dist/reflink*
+	${INSTALL_DATA_DIR} ${PREFIX}/lib/node/pnpm
+	cp -Rp ${WRKDIR}/package/* ${PREFIX}/lib/node/pnpm
+	cp -p ${WRKSRC}/pnpm/dist/pnpm.cjs ${PREFIX}/lib/node/pnpm/dist/
+	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/lib/node
+	ln -s ../lib/node/pnpm/bin/pnpm.cjs ${PREFIX}/bin/pnpm
+	rm -rf ${PREFIX}/lib/node/pnpm/dist/vendor
+	rm -rf ${PREFIX}/lib/node/pnpm/dist/reflink*
 
 TEST_ENV=	${MAKE_ENV} ${MODPNPM_ENV} PNPM_WORKERS=3
 

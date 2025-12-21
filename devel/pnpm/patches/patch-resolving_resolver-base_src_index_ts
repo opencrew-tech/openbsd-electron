@@ -1,7 +1,7 @@
 Index: resolving/resolver-base/src/index.ts
 --- resolving/resolver-base/src/index.ts.orig
 +++ resolving/resolver-base/src/index.ts
-@@ -125,10 +125,16 @@ export type WantedDependency = {
+@@ -130,10 +130,16 @@ export type WantedDependency = {
    prevSpecifier?: string
  } & ({
    alias?: string

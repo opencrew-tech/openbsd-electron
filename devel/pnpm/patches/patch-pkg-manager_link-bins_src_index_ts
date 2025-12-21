@@ -1,0 +1,21 @@
+Index: pkg-manager/link-bins/src/index.ts
+--- pkg-manager/link-bins/src/index.ts.orig
++++ pkg-manager/link-bins/src/index.ts
+@@ -335,7 +335,16 @@ async function linkBin (cmd: CommandInfo, binsDir: str
+   // ensure that bin are executable and not containing
+   // windows line-endings(CRLF) on the hashbang line
+   if (EXECUTABLE_SHEBANG_SUPPORTED) {
+-    await fixBin(cmd.path, 0o755)
++    try {
++      await fixBin(cmd.path, 0o755)
++    } catch (err: any) { // eslint-disable-line
++      // link to system module throw EPERM, ignore those but warn to know
++      if (err.code !== 'EPERM') {
++        throw err
++      }
++      globalWarn(`Failed to fix bin at ${cmd.path}. ${err.message as string}`)
++      return
++    }
+   }
+ }
+ 

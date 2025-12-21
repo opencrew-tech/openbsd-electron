@@ -1,0 +1,31 @@
+Index: env/plugin-commands-env/test/node.test.ts
+--- env/plugin-commands-env/test/node.test.ts.orig
++++ env/plugin-commands-env/test/node.test.ts
+@@ -71,7 +71,8 @@ test('check API (placeholder test)', async () => {
+   expect(typeof getNodeDir).toBe('function')
+ })
+ 
+-test('install Node uses node-mirror:release option', async () => {
++
++test.skip('install Node uses node-mirror:release option', async () => {
+   tempDir()
+   const configDir = path.resolve('config')
+ 
+@@ -94,7 +95,7 @@ test('install Node uses node-mirror:release option', a
+   }
+ })
+ 
+-test('install an rc version of Node.js', async () => {
++test.skip('install an rc version of Node.js', async () => {
+   tempDir()
+   const configDir = path.resolve('config')
+ 
+@@ -123,7 +124,7 @@ test('get node version base dir', async () => {
+   expect(versionDir).toBe(path.resolve(process.cwd(), 'nodejs'))
+ })
+ 
+-test('specified an invalid Node.js via use-node-version should not cause pnpm itself to break', async () => {
++test.skip('specified an invalid Node.js via use-node-version should not cause pnpm itself to break', async () => {
+   tempDir()
+   const configDir = path.resolve('config')
+ 

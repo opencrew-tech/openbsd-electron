@@ -27,7 +27,8 @@ RUN_DEPENDS+=	archivers/p7zip \
 		devel/desktop-file-utils \
 		www/electron
 
-MODULES=	devel/npm www/electron
+MODULES=	devel/npm \
+		www/electron
 
 MODNPM_TARGETS=		${WRKSRC}/launcher
 MODNPM_OMITOPTIONAL=	Yes

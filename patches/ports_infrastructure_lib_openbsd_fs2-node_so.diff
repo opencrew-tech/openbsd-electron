@@ -1,0 +1,15 @@
+Index: infrastructure/lib/OpenBSD/FS2.pm
+===================================================================
+RCS file: /mnt/ext/cvs/ports/infrastructure/lib/OpenBSD/FS2.pm,v
+diff -u -p -r1.43 FS2.pm
+--- infrastructure/lib/OpenBSD/FS2.pm	4 Dec 2025 17:56:14 -0000	1.43
++++ infrastructure/lib/OpenBSD/FS2.pm	7 Dec 2025 05:37:01 -0000
+@@ -501,7 +501,7 @@ sub element_class($)
+ 
+ sub recognize($class, $filename, $fs, $data)
+ {
+-	return 0 unless $filename =~ m/\.so$/;
++	return 0 unless $filename =~ m/\.(so|node)$/;
+ 	$filename = $fs->resolve_link($filename);
+ 	$class->fill_objdump($filename, $fs, $data);
+ 	if ($data->{objdump} =~ m/ .note.openbsd.ident / && 

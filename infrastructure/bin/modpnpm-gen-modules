@@ -24,7 +24,8 @@ use OpenBSD::Getopt;
 
 my %includes;
 my %excludes;
-getopts('i:x:', {
+my $force = 0;
+getopts('i:x:f', {
 	'i' => sub {
 		my $pkg = shift;
 		$pkg =~ s/^\s+//;
@@ -34,6 +35,9 @@ getopts('i:x:', {
 		my $pkg = shift;
 		$pkg =~ s/^\s+//;
 		$excludes{$pkg} = 1;
+	},
+	'f' => sub {
+		$force = 1
 	},
 });
 
@@ -71,7 +75,7 @@ while (my $file = shift) {
 			} elsif (exists $excludes{$id}) {
 				say STDERR "exclude $id";
 				next;
-			} elsif ($os and $os !~ /openbsd|!win32/) {
+			} elsif (!$force and $os and $os !~ /openbsd|!win32/) {
 				say STDERR "ignore (os) : $id : $os";
 				next;
 			}
@@ -93,6 +97,8 @@ while (my $file = shift) {
 		# first indentation level, new package declaration
 		if ($line !~ /^\s{2}[^\s].*:$/) {next;}
 		$line =~ s/^\s+|\s+$|:$|\(.*\)|'//g;
+		# XXX older lockfile are not compatible, no reason to handle it
+		$line =~ s/\/@/@/;
 
 		undef $pkg;
 		undef $dist;
@@ -107,6 +113,10 @@ while (my $file = shift) {
 			$project =~ s|/tar.gz/.*||;
 			$type = "codeload";
 			$dists = \@dists_github;
+		} elsif (index($version, "file:") == 0) {
+			say STDERR "skip file type : " . $line;
+			undef $id;
+			next;
 		} else {
 			$storeid = $id;
 			$storeid .= '@'.$version;
@@ -117,6 +127,7 @@ while (my $file = shift) {
 
 		if (not $project) {
 			say STDERR "invalid resolved : " . $line;
+			undef $id;
 			next;
 		}
 

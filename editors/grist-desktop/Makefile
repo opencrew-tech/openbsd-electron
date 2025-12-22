@@ -59,6 +59,8 @@ MODYARN_TARGETS =	${WRKSRC} \
 MODYARN_BUILD =		No
 MODYARN_INSTALL =	No
 
+MODYARN_MODS+=		esbuild
+
 RUN_DEPENDS+=		devel/desktop-file-utils
 
 # needs unveil tweeks & DISPLAY

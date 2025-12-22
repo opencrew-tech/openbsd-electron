@@ -18,6 +18,8 @@ COMPILER =		base-clang ports-gcc
 
 MODULES =		devel/yarn
 
+MODYARN_MODS+=		esbuild
+
 MODYARN_INSTALL =	parcel-watcher
 
 .include "modules.yarn.inc"

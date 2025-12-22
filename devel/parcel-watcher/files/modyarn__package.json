@@ -66,5 +66,8 @@
     "napi_versions": [
       3
     ]
+  },
+  "resolutions": {
+    "esbuild": "/usr/local/lib/node/esbuild/node_modules/esbuild"
   }
 }

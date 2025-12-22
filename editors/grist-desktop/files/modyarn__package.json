@@ -38,7 +38,8 @@
   "resolutions": {
     "jquery": "3.5.0",
     "ts-interface-checker": "1.0.2",
-    "chromedriver": "110.0.0"
+    "chromedriver": "110.0.0",
+    "esbuild": "/usr/local/lib/node/esbuild/node_modules/esbuild"
   },
   "build": {
     "appId": "com.getgrist.desktop",

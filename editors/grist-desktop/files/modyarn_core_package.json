@@ -227,7 +227,8 @@
     "**/ip": "https://registry.npmjs.org/neoip/-/neoip-2.1.0.tgz",
     "jquery": "3.5.0",
     "ts-interface-checker": "1.0.2",
-    "@gristlabs/sqlite3": "5.1.4-grist.8"
+    "@gristlabs/sqlite3": "5.1.4-grist.8",
+    "esbuild": "/usr/local/lib/node/esbuild/node_modules/esbuild"
   },
   "mocha": {
     "require": [

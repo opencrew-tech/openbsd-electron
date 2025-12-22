@@ -563,12 +563,6 @@ ${MODELECTRON_DIST_T}.asar.unpacked/core/sandbox/setup.py
 ${MODELECTRON_DIST_T}.asar.unpacked/core/sandbox/supervisor.mjs
 ${MODELECTRON_DIST_T}.asar.unpacked/core/sandbox/watch.sh
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/openbsd-x64/
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/openbsd-x64/README.md
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/openbsd-x64/bin/
-@bin ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/openbsd-x64/bin/esbuild
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@esbuild/openbsd-x64/package.json
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@${MODELECTRON_TARGET}labs/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@${MODELECTRON_TARGET}labs/sqlite3/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/@${MODELECTRON_TARGET}labs/sqlite3/lib/

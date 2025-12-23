@@ -47,10 +47,5 @@
     "prettier": "3.3.3",
     "simple-git": "3.27.0",
     "targz": "1.0.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "esbuild": "link:../../node/esbuild/node_modules/esbuild"
-    }
   }
 }

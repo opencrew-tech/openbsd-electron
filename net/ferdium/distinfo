@@ -335,7 +335,6 @@ SHA256 (npm_modules/acorn-walk-7.2.0.tgz) = kcmxJs6+v7MjHJ3d4UkDeXrPJfFYdbrPBOzl
 SHA256 (npm_modules/acorn-walk-8.2.0.tgz) = AATy3Fqevl0L0rzMRoEWIhgpqtuHLXmKLftp2E2jg0o=
 SHA256 (npm_modules/agent-base-6.0.2.tgz) = vG2gbyoua8gPpYeL1yJ70DGIEpdtRfR/F+Gq/Owr6DE=
 SHA256 (npm_modules/agent-base-7.1.0.tgz) = BSipMIZjnsvoj86WyHc3PQ54sdKpdedW/hluqOS1MuQ=
-SHA256 (npm_modules/agent-base-7.1.1.tgz) = bW2yEYMn14YaWJUWQSmgZAwJN4m0Rxk6VRI3MuH/dV4=
 SHA256 (npm_modules/agent-base-7.1.4.tgz) = fdSmFmippOjU6QPxolT5TVPa/T8xbyubWXxa2MectX4=
 SHA256 (npm_modules/agentkeepalive-4.5.0.tgz) = 42+TZ5PFzfy8nbFc5U53Q5NSEn2LGqaCqLsxkQ2YOuY=
 SHA256 (npm_modules/agentkeepalive-4.6.0.tgz) = w951E/kkbPifzSugRgFAoSXFnXvlVjn7uYVXdXHRVpo=
@@ -2215,7 +2214,6 @@ SIZE (npm_modules/acorn-walk-7.2.0.tgz) = 14853
 SIZE (npm_modules/acorn-walk-8.2.0.tgz) = 8882
 SIZE (npm_modules/agent-base-6.0.2.tgz) = 9273
 SIZE (npm_modules/agent-base-7.1.0.tgz) = 6411
-SIZE (npm_modules/agent-base-7.1.1.tgz) = 7797
 SIZE (npm_modules/agent-base-7.1.4.tgz) = 7812
 SIZE (npm_modules/agentkeepalive-4.5.0.tgz) = 13172
 SIZE (npm_modules/agentkeepalive-4.6.0.tgz) = 9859

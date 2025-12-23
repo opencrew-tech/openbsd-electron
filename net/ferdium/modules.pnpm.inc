@@ -339,7 +339,6 @@ ${MODPNPM_DIST}/{acorn/-/}acorn-8.10.0.tgz \
 ${MODPNPM_DIST}/{acorn/-/}acorn-8.11.2.tgz \
 ${MODPNPM_DIST}/{agent-base/-/}agent-base-6.0.2.tgz \
 ${MODPNPM_DIST}/{agent-base/-/}agent-base-7.1.0.tgz \
-${MODPNPM_DIST}/{agent-base/-/}agent-base-7.1.1.tgz \
 ${MODPNPM_DIST}/{agent-base/-/}agent-base-7.1.4.tgz \
 ${MODPNPM_DIST}/{agentkeepalive/-/}agentkeepalive-4.5.0.tgz \
 ${MODPNPM_DIST}/{agentkeepalive/-/}agentkeepalive-4.6.0.tgz \
@@ -2221,7 +2220,6 @@ acorn@8.10.0;acorn-8.10.0.tgz \
 acorn@8.11.2;acorn-8.11.2.tgz \
 agent-base@6.0.2;agent-base-6.0.2.tgz \
 agent-base@7.1.0;agent-base-7.1.0.tgz \
-agent-base@7.1.1;agent-base-7.1.1.tgz \
 agent-base@7.1.4;agent-base-7.1.4.tgz \
 agentkeepalive@4.5.0;agentkeepalive-4.5.0.tgz \
 agentkeepalive@4.6.0;agentkeepalive-4.6.0.tgz \

@@ -49,14 +49,13 @@ post-patch:
 	${SUBST_CMD} ${WRKSRC}/esbuild.mjs
 
 pre-build:
+	${MODPNPM_PREBUILD_TARGET}
 	# Building recipes
 	cd ${WRKSRC}/recipes && \
-		${MODPNPM_CMD} rebuild && \
-		${MODPNPM_CMD} package
+		${MODPNPM_CMD_BUILD} package
 	# Building apps
 	cd ${WRKSRC} && \
-		${MODPNPM_CMD} rebuild && \
-		${MODPNPM_CMD} build
+		${MODPNPM_CMD_BUILD} build
 	ln -fs ${WRKSRC}/node_modules ${WRKSRC}/build/
 	ln -fs ${WRKSRC}/pnpm-lock.yaml ${WRKSRC}/build/
 

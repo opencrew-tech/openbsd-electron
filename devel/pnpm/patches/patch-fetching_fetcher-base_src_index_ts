@@ -1,7 +1,7 @@
 Index: fetching/fetcher-base/src/index.ts
 --- fetching/fetcher-base/src/index.ts.orig
 +++ fetching/fetcher-base/src/index.ts
-@@ -69,6 +69,7 @@ export interface Fetchers {
+@@ -72,6 +72,7 @@ export interface Fetchers {
    localTarball: FetchFunction
    remoteTarball: FetchFunction
    gitHostedTarball: FetchFunction
@@ -9,7 +9,7 @@ Index: fetching/fetcher-base/src/index.ts
    directory: DirectoryFetcher
    git: GitFetcher
    binary: BinaryFetcher
-@@ -84,6 +85,7 @@ export interface CustomFetchers {
+@@ -87,6 +88,7 @@ export interface CustomFetchers {
    localTarball?: CustomFetcherFactory<FetchFunction>
    remoteTarball?: CustomFetcherFactory<FetchFunction>
    gitHostedTarball?: CustomFetcherFactory<FetchFunction>

@@ -1,0 +1,12 @@
+Index: fetching/git-fetcher/test/index.ts
+--- fetching/git-fetcher/test/index.ts.orig
++++ fetching/git-fetcher/test/index.ts
+@@ -206,7 +206,7 @@ test('fail when preparing a git-hosted package', async
+ })
+ 
+ test('fail when preparing a git-hosted package with a partial commit', async () => {
+-  const storeDir = temporaryDirectory()
++  const storeDir = tempy.directory()
+   const fetch = createGitFetcher({
+     rawConfig: {},
+   }).git

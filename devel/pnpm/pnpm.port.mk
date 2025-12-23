@@ -134,18 +134,19 @@ MODPNPM_CMD_GEN?=\
 	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_GEN} ${MODPNPM_BIN}
 
 # common args
-MODPNPM_ARGS?=		--verbose -dd
+MODPNPM_ARGS?=		--verbose --loglevel=info
 MODPNPM_ARGS_WORKSPACE?=-r --filter '!{.}'
-MODPNPM_ARGS_OPTIONAL?=	${MODPNPM_NO_OPTIONAL:L:S/yes/--no-optional/:S/no//}
-MODPNPM_ARGS_DEV?=	${MODPNPM_NO_DEV:L:S/yes/--prod/:S/no//}
+MODPNPM_ARGS_OPTIONAL?=	${MODPNPM_NO_OPTIONAL:L:S/no//:S/yes/--no-optional/}
+MODPNPM_ARGS_DEV?=	${MODPNPM_NO_DEV:L:S/no//:S/yes/--prod/}
 # ports args
 MODPNPM_ARGS_EXTRACT?=\
 	install ${MODPNPM_ARGS} --offline --frozen-lockfile --ignore-scripts \
 	${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
 MODPNPM_ARGS_REBUILD?=	rebuild ${MODPNPM_ARGS}
-MODPNPM_ARGS_BUILD?=	pack ${MODPNPM_ARGS} --prod ${MODPNPM_ARGS_OPTIONAL}
+MODPNPM_ARGS_BUILD?=	pack ${MODPNPM_ARGS}
 MODPNPM_ARGS_FAKE?=\
-	install ${MODPNPM_ARGS} --offline --prod --dangerously-allow-all-builds
+	install ${MODPNPM_ARGS} --offline --prod ${MODPNPM_ARGS_OPTIONAL} \
+	--dangerously-allow-all-builds
 MODPNPM_ARGS_TEST?=	test ${MODPNPM_ARGS}
 # maintener args
 MODPNPM_ARGS_GEN?=	${MODPNPM_ARGS} --lockfile-only --ignore-scripts
@@ -268,12 +269,12 @@ MODPNPM_BUILD_TARGET=\
 		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \
-				${MODPNPM_ARGS_BUILD} \
-				--out ${MODPNPM_DIST_BUILD}/${prefix}/%s.tgz ; \
+				${MODPNPM_ARGS_BUILD} --out \
+				${MODPNPM_DIST_BUILD}/$${prefix}/%s.tgz ; \
 		else \
 			cd $${target} && \
-			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_BUILD} \
-				--out ${MODPNPM_DIST_BUILD}/${prefix}/%s.tgz ; \
+			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_BUILD} --out \
+				${MODPNPM_DIST_BUILD}/$${prefix}/%s.tgz ; \
 		fi ; \
 	done
 

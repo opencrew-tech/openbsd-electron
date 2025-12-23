@@ -61,7 +61,6 @@ MODYARN_TEST?=		No
 MODYARN_LOCK?=		yarn.lock
 MODYARN_PACKAGE?=	package.json
 MODYARN_SETTINGS?=	.yarnrc
-#XXX MODYARN_WORKSPACE?=
 MODYARN_CONFIGFILES?=	${MODYARN_LOCK} \
 			${MODYARN_PACKAGE} \
 			${MODYARN_SETTINGS}
@@ -138,9 +137,8 @@ MODYARN_CMD_GEN?=\
 
 # common args
 MODYARN_ARGS?=		--verbose
-# XXX MODYARN_ARGS_WORKSPACE?=-r --filter '!{.}'
-MODYARN_ARGS_OPTIONAL?=	${MODYARN_NO_OPTIONAL:L:S/yes/--ignore-optional/:S/no//}
-MODYARN_ARGS_DEV?=	${MODYARN_NO_DEV:L:S/yes/--prod/:S/no//}
+MODYARN_ARGS_OPTIONAL?=	${MODYARN_NO_OPTIONAL:L:S/no//:S/yes/--ignore-optional/}
+MODYARN_ARGS_DEV?=	${MODYARN_NO_DEV:L:S/no//:S/yes/--prod/}
 # ports args
 MODYARN_ARGS_EXTRACT?=\
 	install ${MODYARN_ARGS} --offline --frozen-lockfile --ignore-scripts \
@@ -149,7 +147,7 @@ MODYARN_ARGS_REBUILD?=	install ${MODYARN_ARGS} --offline --force
 MODYARN_ARGS_BUILD?=	pack ${MODYARN_ARGS} --offline
 MODYARN_ARGS_FAKE?=\
 	global add ${MODYARN_ARGS} --offline --frozen-lockfile --prod \
-	${MODYARN_ARGS_OPTIONAL}
+	${MODYARN_ARGS_OPTIONAL} --prefix ${PORTHOME}/.config/yarn/global/
 MODYARN_ARGS_TEST?=	test ${MODYARN_ARGS}
 # maintener args
 MODYARN_ARGS_GEN?=	${MODYARN_ARGS} --lockfile-only --ignore-scripts
@@ -305,7 +303,8 @@ MODYARN_INSTALL_TARGET=\
 	${INSTALL_DATA_DIR} ${PREFIX}/${MODYARN_INSTALL_DIR} ; \
 	for tgz in ${MODYARN_BUILD_DIST}/*.tgz ; do \
 		echo "MODYARN: global add $$tgz" ; \
-		${MODYARN_CMD} ${MODYARN_ARGS_FAKE} file:$$tgz ; \
+		${MODYARN_CMD} ${MODYARN_ARGS_FAKE} \
+		file:$$tgz ; \
 	done ; \
 	echo "MODYARN: install into ${MODYARN_INSTALL_DIR}" ; \
 	cp -Rp ${PORTHOME}/.config/yarn/global/node_modules/* \

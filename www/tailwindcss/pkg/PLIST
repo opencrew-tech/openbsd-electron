@@ -55,7 +55,7 @@ lib/node/tailwindcss/node_modules/@tailwindcss/oxide/LICENSE
 lib/node/tailwindcss/node_modules/@tailwindcss/oxide/index.d.ts
 lib/node/tailwindcss/node_modules/@tailwindcss/oxide/index.js
 lib/node/tailwindcss/node_modules/@tailwindcss/oxide/package.json
-@so lib/node/tailwindcss/node_modules/@tailwindcss/oxide/tailwindcss-oxide.node
+lib/node/tailwindcss/node_modules/@tailwindcss/oxide/tailwindcss-oxide.node
 lib/node/tailwindcss/node_modules/@tailwindcss/postcss/
 lib/node/tailwindcss/node_modules/@tailwindcss/postcss/LICENSE
 lib/node/tailwindcss/node_modules/@tailwindcss/postcss/README.md
@@ -114,6 +114,10 @@ lib/node/tailwindcss/node_modules/@tailwindcss/vite/node_modules/@tailwindcss/no
 lib/node/tailwindcss/node_modules/@tailwindcss/vite/node_modules/@tailwindcss/oxide
 lib/node/tailwindcss/node_modules/@tailwindcss/vite/node_modules/tailwindcss
 lib/node/tailwindcss/node_modules/@tailwindcss/vite/package.json
+lib/node/tailwindcss/node_modules/internal-example-plugin/
+lib/node/tailwindcss/node_modules/internal-example-plugin/LICENSE
+lib/node/tailwindcss/node_modules/internal-example-plugin/index.js
+lib/node/tailwindcss/node_modules/internal-example-plugin/package.json
 lib/node/tailwindcss/node_modules/node_modules/
 lib/node/tailwindcss/node_modules/node_modules/.modules.yaml
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/
@@ -1619,7 +1623,6 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/node-addon-api
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/node-gyp-build
-lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/LICENSE
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/README.md
@@ -1651,14 +1654,14 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/node-addon-api@8.2.2/node_modules/node-addon-api/node_addon_api_except.stamp.d
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/bindings/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/bindings/node/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/bindings/node/binding.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/src/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/src/parser.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/obj.target/tree_sitter_javascript_binding/src/scanner.o
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/tree_sitter_javascript_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/Release/tree_sitter_javascript_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/binding.Makefile
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/config.gypi
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-javascript@0.23.1_tree-sitter@0.22.4/node_modules/tree-sitter-javascript/build/tree_sitter_javascript_binding.target.mk
@@ -1715,7 +1718,6 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/node-addon-api
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/node-gyp-build
-lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-javascript
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/LICENSE
@@ -1755,7 +1757,7 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/node-addon-api@8.2.2/node_modules/node-addon-api/node_addon_api_except.stamp.d
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/bindings/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/bindings/node/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/bindings/node/binding.o
@@ -1767,7 +1769,7 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/typescript/src/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/typescript/src/parser.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/obj.target/tree_sitter_typescript_binding/typescript/src/scanner.o
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/tree_sitter_typescript_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/Release/tree_sitter_typescript_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/binding.Makefile
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/config.gypi
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter-typescript@0.23.2_tree-sitter@0.22.4/node_modules/tree-sitter-typescript/build/tree_sitter_typescript_binding.target.mk
@@ -1886,7 +1888,7 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_mod
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter/vendor/tree-sitter/lib/src/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter/vendor/tree-sitter/lib/src/lib.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/src/
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/src/binding.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/src/conversions.o
@@ -1899,7 +1901,7 @@ lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_mod
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/src/tree.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/obj.target/tree_sitter_runtime_binding/src/tree_cursor.o
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/tree_sitter.a
-@so lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/tree_sitter_runtime_binding.node
+@bin lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/Release/tree_sitter_runtime_binding.node
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/binding.Makefile
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/config.gypi
 lib/node/tailwindcss/node_modules/node_modules/.pnpm/tree-sitter@0.22.4/node_modules/tree-sitter/build/tree_sitter.target.mk

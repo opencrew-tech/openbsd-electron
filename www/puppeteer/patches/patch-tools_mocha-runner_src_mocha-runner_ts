@@ -1,0 +1,28 @@
+Index: tools/mocha-runner/src/mocha-runner.ts
+--- tools/mocha-runner/src/mocha-runner.ts.orig
++++ tools/mocha-runner/src/mocha-runner.ts
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env -S node
++#! /usr/bin/env node
+ 
+ /**
+  * @license
+@@ -121,7 +121,8 @@ async function main() {
+     statsPath = statsPath.replace(/INSERTID/gi, randomUUID());
+   }
+ 
+-  const platform = zPlatform.parse(os.platform());
++  // fake linux
++  const platform = zPlatform.parse("linux");
+ 
+   const expectations = readJSON(
+     path.join(process.cwd(), 'test', 'TestExpectations.json'),
+@@ -268,7 +269,7 @@ async function main() {
+           results,
+           applicableExpectations,
+           {
+-            platforms: [os.platform()],
++            platforms: [platform],
+             parameters,
+           },
+           ignoreUnexpectedlyPassing,

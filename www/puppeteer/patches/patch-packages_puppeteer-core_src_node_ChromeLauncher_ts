@@ -1,0 +1,15 @@
+OpenBSD doesn't support multi-channel, use system version only.
+
+Index: packages/puppeteer-core/src/node/ChromeLauncher.ts
+--- packages/puppeteer-core/src/node/ChromeLauncher.ts.orig
++++ packages/puppeteer-core/src/node/ChromeLauncher.ts
+@@ -282,6 +282,9 @@ export class ChromeLauncher extends BrowserLauncher {
+     validatePath = true,
+   ): string {
+     if (channel) {
++      if (process.platform === 'openbsd') {
++        return this.resolveExecutablePath(undefined, validatePath);
++      }
+       return computeSystemExecutablePath({
+         browser: SupportedBrowsers.CHROME,
+         channel: convertPuppeteerChannelToBrowsersChannel(channel),

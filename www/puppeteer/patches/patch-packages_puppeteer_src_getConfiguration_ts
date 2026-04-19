@@ -1,0 +1,53 @@
+Index: packages/puppeteer/src/getConfiguration.ts
+--- packages/puppeteer/src/getConfiguration.ts.orig
++++ packages/puppeteer/src/getConfiguration.ts
+@@ -4,6 +4,7 @@
+  * SPDX-License-Identifier: Apache-2.0
+  */
+ 
++import {existsSync} from 'node:fs';
+ import {homedir} from 'node:os';
+ import {join} from 'node:path';
+ 
+@@ -32,6 +33,23 @@ function getBooleanEnvVar(name: string): boolean | und
+   }
+ }
+ 
++const OPENBSD_SYSTEM_BROWSER_EXECUTABLES = {
++  chrome: ['chrome', 'chromium', 'chromium-browser', 'google-chrome'],
++  firefox: ['firefox', 'iceweasel'],
++};
++
++function resolveOpenBSDExecutablePath(
++  browser: SupportedBrowser,
++): string | undefined {
++  for (const binary of OPENBSD_SYSTEM_BROWSER_EXECUTABLES[browser]) {
++    const path = `/usr/local/bin/${binary}`;
++    if (existsSync(path)) {
++      return path;
++    }
++  }
++  return;
++}
++
+ /**
+  * @internal
+  */
+@@ -141,6 +159,17 @@ export const getConfiguration = (): Configuration => {
+   // Set skipDownload explicitly or from default
+   configuration.skipDownload =
+     getBooleanEnvVar('PUPPETEER_SKIP_DOWNLOAD') ?? configuration.skipDownload;
++
++  // OpenBSD does not have downloadable Puppeteer browsers today.
++  // Always run in system-only mode and avoid network fetch.
++  if (process.platform === 'openbsd') {
++    configuration.skipDownload = true;
++    if (!configuration.executablePath) {
++      configuration.executablePath = resolveOpenBSDExecutablePath(
++        configuration.defaultBrowser ?? 'chrome',
++      );
++    }
++  }
+ 
+   // Prepare variables used in browser downloading
+   configuration.chrome = getBrowserSetting('chrome', configuration);

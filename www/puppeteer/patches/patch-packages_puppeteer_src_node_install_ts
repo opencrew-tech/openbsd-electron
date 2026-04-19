@@ -1,0 +1,13 @@
+Index: packages/puppeteer/src/node/install.ts
+--- packages/puppeteer/src/node/install.ts.orig
++++ packages/puppeteer/src/node/install.ts
+@@ -68,6 +68,9 @@ export async function downloadBrowsers(): Promise<void
+   overrideProxy();
+ 
+   const configuration = getConfiguration();
++  if (process.platform === 'openbsd') {
++    configuration.skipDownload = true;
++  }
+   if (configuration.skipDownload) {
+     logPolitely('**INFO** Skipping downloading browsers as instructed.');
+     return;

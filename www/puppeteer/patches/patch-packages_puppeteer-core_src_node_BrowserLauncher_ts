@@ -1,0 +1,49 @@
+Index: packages/puppeteer-core/src/node/BrowserLauncher.ts
+--- packages/puppeteer-core/src/node/BrowserLauncher.ts.orig
++++ packages/puppeteer-core/src/node/BrowserLauncher.ts
+@@ -40,6 +40,23 @@ import {NodeWebSocketTransport as WebSocketTransport} 
+ import {PipeTransport} from './PipeTransport.js';
+ import type {PuppeteerNode} from './PuppeteerNode.js';
+ 
++const OPENBSD_SYSTEM_BROWSER_EXECUTABLES = {
++  chrome: ['chrome', 'chromium', 'chromium-browser', 'google-chrome'],
++  firefox: ['firefox', 'iceweasel'],
++};
++
++function resolveOpenBSDSystemExecutablePath(
++  browser: SupportedBrowser,
++): string | undefined {
++  for (const binary of OPENBSD_SYSTEM_BROWSER_EXECUTABLES[browser]) {
++    const executable = `/usr/local/bin/${binary}`;
++    if (existsSync(executable)) {
++      return executable;
++    }
++  }
++  return;
++}
++
+ /**
+  * @internal
+  */
+@@ -492,6 +509,21 @@ export abstract class BrowserLauncher {
+         );
+       }
+       return executablePath;
++    }
++
++    if (
++      this.puppeteer.configuration.skipDownload &&
++      process.platform === 'openbsd'
++    ) {
++      const openBSDExecutable = resolveOpenBSDSystemExecutablePath(this.browser);
++      if (openBSDExecutable) {
++        if (validatePath && !existsSync(openBSDExecutable)) {
++          throw new Error(
++            `Tried to find the browser at the configured path (${openBSDExecutable}), but no executable was found.`,
++          );
++        }
++        return openBSDExecutable;
++      }
+     }
+ 
+     function puppeteerBrowserToInstalledBrowser(

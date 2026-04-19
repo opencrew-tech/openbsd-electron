@@ -1,0 +1,9 @@
+Index: tools/doctest/src/doctest.ts
+--- tools/doctest/src/doctest.ts.orig
++++ tools/doctest/src/doctest.ts
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env -S node --test-reporter spec
++#! /usr/local/bin/node --test-reporter spec
+ 
+ /**
+  * @license

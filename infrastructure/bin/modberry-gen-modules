@@ -1,0 +1,157 @@
+#!/usr/bin/perl -w
+
+# $OpenBSD$
+
+# Copyright (c) 2026 Fabien Romano <fabien@openbsd.org>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+use 5.012;
+use strict;
+use warnings;
+
+die if @ARGV < 1;
+
+my @dists = ();
+my @dists_github = ();
+my @pkgs = ();
+
+while (my $file = shift) {
+
+	open my $h, '<', $file or die $!;
+
+	my $version;
+	my $id;
+	my $resolution;
+	my $account;
+	my $project;
+	my $dist;
+	my $pkg;
+	my $k;
+	my $v;
+	while(my $line = <$h>) {
+		$line =~ s/\R//g;
+		if ('#' eq substr $line, 0) {next;}
+		if ($line =~ /^\s*$/) {next;}
+		if (':' eq substr $line, -1) {next;}
+		$line =~ s/^\s+|\s+$//g;
+		($k, $v) = split " ", $line, 2;
+		$k =~ s/^\s+|\s+$//g; $k =~ s/"//g;
+		$v =~ s/^\s+|\s+$//g; $v =~ s/"//g;
+		if ($k eq "version:") {
+			$version = $v;
+			next;
+		}
+		if ($k ne "resolution:") {next;}
+		$account = "";
+		$project = "";
+		$id = $resolution = $v;
+		# "<name>@patch:<locator>::version=<version>&hash=<hash>"
+		if ($id =~ /\@patch:/) {
+			my (undef, $locator) = split /\@patch:/, $id, 2;
+			$locator =~ s/::.*$//;
+			$locator =~ s/%3A/:/g;
+			$id = $locator;
+		}
+		# "<name>@npm:<version>"
+		if ($id =~ /\@npm:/) {
+			my ($pkg, $resver) = split /\@npm:/, $id, 2;
+			$resver =~ s/::.*$//;
+			$resver =~ s/[#].*$//;
+			$project = $pkg;
+			if ($version ne $resver) {
+				say STDERR "version '" . $version . 
+				    "' missmatch : " . $id;
+				next;
+			}
+			$id = $pkg;
+		}
+		# "<name>@workspace:<path>"
+		if ($id =~ /\@workspace:/) {
+			say STDERR "skip resolution : " . $id;
+			next;
+		}
+		# "<name>@file:<path>"
+		if ($id =~ /\@file:/) {
+			say STDERR "skip resolution : " . $id;
+			next;
+		}
+		# "<name>@https://github.com/<account>/<project>
+		# .git#commit=<sha>"
+		if ($id =~ /\@https:\/\/github.com\//) {
+			my ($name, $loc) = split
+				/\@https:\/\/github.com\//, $id, 2;
+			my ($repo, $commit) = split /#/, $loc, 2;
+			$repo =~ s/\.git$//;
+			my ($account, $project) = split '/', $repo, 2;
+			$commit =~ s/^commit=//;
+			$commit =~ s/&.*$//;
+			if (!$name || !$account || !$project || !$commit) {
+				say STDERR "invalid resolution : " . $id;
+				next;
+			}
+			$dist = $account . "-" . $project . "-{" .
+				$account . "/" . $project . "/archive/}" .
+				$commit . "\${EXTRACT_SUFX.github}";
+			$pkg = $account . "-" . $project . "-" . $commit .
+				"\${EXTRACT_SUFX.github}";
+			push @dists_github, $dist;
+			$resolution =~ s/#/\\#/g;
+			push @pkgs, "$pkg;$resolution";
+			next;
+		}
+		if (not $project) {
+			say STDERR "invalid resolution : " . $id;
+			next;
+		}
+		$dist = "";
+		$pkg = "";
+		if (scalar $id =~ /\Q\//g) {
+			($account, $project) = split '/', $id;
+			$dist .= $account."-";
+			$pkg .= $account."-";
+		}
+		$dist .= "{".$id."/-/}".$project."-".$version.".tgz";
+		$pkg .= $project."-".$version.".tgz";
+
+		push @dists, $dist;
+		$resolution =~ s/#/\\#/g;
+		push @pkgs, "$pkg;$resolution"
+	}
+}
+
+sub uniq {
+	my %seen;
+	grep !$seen{$_}++, @_;
+}
+if (scalar @dists) {
+	say "DISTFILES.berry += \\";
+	foreach my $dist (uniq sort @dists) {
+		say "\${MODBERRY_DIST}/".$dist." \\";
+	}
+	say "";
+}
+if (scalar @dists_github) {
+	say "DISTFILES.github += \\";
+	foreach my $dist (uniq sort @dists_github) {
+		say "\${MODBERRY_DIST}/".$dist." \\";
+	}
+	say "";
+}
+if (scalar @pkgs) {
+	say "MODBERRY_PKGS += \\";
+	foreach my $pkg (uniq sort @pkgs) {
+		say $pkg." \\";
+	}
+	say "";
+}

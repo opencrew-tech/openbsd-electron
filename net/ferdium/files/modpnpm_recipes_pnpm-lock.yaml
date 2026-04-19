@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs
+
 importers:
 
   .:
@@ -449,14 +452,11 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   globals@13.20.0:
     resolution: {integrity: sha512-Qg5QtVkCy/kv3FUSlu4ukeZDVf9ee0iXLAUYX13gbR17bnejFTzr4iS9bY7kwCf1NztRNm1t91fjOiyx4CSwPQ==}
     engines: {node: '>=8'}
-
-  graceful-fs@4.2.11:
-    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
@@ -1451,7 +1451,7 @@ snapshots:
 
   fs-extra@11.2.0:
     dependencies:
-      graceful-fs: 4.2.11
+      graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs
       jsonfile: 6.1.0
       universalify: 2.0.0
 
@@ -1477,8 +1477,6 @@ snapshots:
   globals@13.20.0:
     dependencies:
       type-fest: 0.20.2
-
-  graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
 
@@ -1600,7 +1598,7 @@ snapshots:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.11
+      graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs
 
   levn@0.4.1:
     dependencies:

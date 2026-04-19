@@ -1,7 +1,7 @@
 Index: src/lib/Tray.ts
 --- src/lib/Tray.ts.orig
 +++ src/lib/Tray.ts
-@@ -260,7 +260,7 @@ export default class TrayIcon {
+@@ -279,7 +279,7 @@ export default class TrayIcon {
  
    _getAsset(type, asset): NativeImage {
      const { platform } = process;

@@ -1,4 +1,4 @@
-bin/ferdium
+bin/${MODELECTRON_TARGET}
 ${ELECTRON_DIST_APPS}/
 ${MODELECTRON_DIST_T}.asar
 ${MODELECTRON_DIST_T}.asar.unpacked/
@@ -144,6 +144,7 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/fleep.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/flipboard.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/flock.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/flowdock.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/fluxer-gg.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/follow-is.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/franz-custom-website.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/freshdesk.tar.gz
@@ -248,6 +249,7 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/messenger.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/meta-business-suite.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mewe.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mightytext.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/miniflux.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/miro.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mirotalk-bro.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mirotalk-c2c.tar.gz
@@ -256,6 +258,7 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mirotalk-sfu.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mirotalk-webrtc.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/misskey.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mistral.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/monarch-money.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/monday.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/monicahq.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/moodle.tar.gz
@@ -263,6 +266,7 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/ms-planner.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/msteams.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mstodo.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/mysms.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/navidrome.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/netatmo-energy.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/netlify.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/nextcloud-calendar.tar.gz
@@ -287,6 +291,7 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/onedrive.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/onenote.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/online-go.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/onmail.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/open-webui.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/oreilly-learning.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/outreach.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/package.json
@@ -369,8 +374,10 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/stackoverflow.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/standardnotes.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/statuzer.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/steamchat.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/stoat.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/strava.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/stride.tar.gz
+${MODELECTRON_DIST_T}.asar.unpacked/recipes/super-productivity.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/superhuman.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/superlist.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/sympatia.tar.gz
@@ -445,18 +452,18 @@ ${MODELECTRON_DIST_T}.asar.unpacked/recipes/zoho-projects.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/zoho.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/zoom.tar.gz
 ${MODELECTRON_DIST_T}.asar.unpacked/recipes/zulip.tar.gz
-share/applications/ferdium.desktop
+share/applications/${MODELECTRON_TARGET}.desktop
 share/icons/hicolor/1024x1024/
 share/icons/hicolor/1024x1024/apps/
-share/icons/hicolor/1024x1024/apps/ferdium.png
-share/icons/hicolor/128x128/apps/ferdium.png
-share/icons/hicolor/16x16/apps/ferdium.png
-share/icons/hicolor/24x24/apps/ferdium.png
-share/icons/hicolor/256x256/apps/ferdium.png
-share/icons/hicolor/32x32/apps/ferdium.png
-share/icons/hicolor/48x48/apps/ferdium.png
-share/icons/hicolor/512x512/apps/ferdium.png
-share/icons/hicolor/64x64/apps/ferdium.png
-share/icons/hicolor/96x96/apps/ferdium.png
+share/icons/hicolor/1024x1024/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/128x128/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/16x16/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/24x24/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/256x256/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/32x32/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/48x48/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/512x512/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/64x64/apps/${MODELECTRON_TARGET}.png
+share/icons/hicolor/96x96/apps/${MODELECTRON_TARGET}.png
 @tag update-desktop-database
 @tag gtk-update-icon-cache %D/share/icons/hicolor

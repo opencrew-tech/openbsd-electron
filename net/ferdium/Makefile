@@ -1,6 +1,6 @@
 COMMENT =	all your web-services in one place
 
-DIST_TUPLE =	github ferdium ferdium-app v7.1.1 .
+DIST_TUPLE =	github ferdium ferdium-app v7.1.2 .
 
 CATEGORIES =	net
 
@@ -14,10 +14,9 @@ PERMIT_PACKAGE =Yes
 WANTLIB += ${COMPILER_LIBCXX} m
 
 # bundle node_sqlite3.node
-# XXX base-gcc ? (to check)
-COMPILER =		base-clang ports-gcc base-gcc
+COMPILER =		base-clang ports-gcc
 
-RECIPES_ID =	3379a5b911789b02a0267902762356c8995a0c3c
+RECIPES_ID =	785591facd25563dc2354e6f97088511e9cdfac8
 DIST_TUPLE+=	github ferdium ferdium-recipes ${RECIPES_ID} recipes
 
 BUILD_TIMESTAMP =	$(now)
@@ -30,13 +29,17 @@ MODELECTRON_TARGET =	ferdium
 MODELECTRON_BUILDER =	Yes
 MODELECTRON_BUILDER_DIR=${MODELECTRON_SRC}/out/linux-unpacked/resources
 MODELECTRON_WRAPPER =	Yes
+MODELECTRON_APP_NAME =	Ferdium
 
 MODPNPM_TARGETS =	${WRKSRC} ${WRKSRC}/recipes
 MODPNPM_BUILD =		No
 MODPNPM_INSTALL =	No
 
-MODPNPM_MODS+=		esbuild
-MODPNPM_GEN_UPDATE+=	electron-builder@26.0.12
+MODPNPM_MODS+=7zip-bin
+MODPNPM_MODS+=app-builder-bin
+MODPNPM_MODS+=electron-builder
+MODPNPM_MODS+=esbuild
+MODPNPM_MODS+=graceful-fs
 
 RUN_DEPENDS+=		devel/desktop-file-utils \
 			x11/gtk+4,-guic
@@ -56,8 +59,6 @@ pre-build:
 	# Building apps
 	cd ${WRKSRC} && \
 		${MODPNPM_CMD_BUILD} build
-	ln -fs ${WRKSRC}/node_modules ${WRKSRC}/build/
-	ln -fs ${WRKSRC}/pnpm-lock.yaml ${WRKSRC}/build/
 
 post-install:
 	# remove build detritus

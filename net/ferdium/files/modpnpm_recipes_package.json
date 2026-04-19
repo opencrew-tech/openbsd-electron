@@ -47,5 +47,10 @@
     "prettier": "3.3.3",
     "simple-git": "3.27.0",
     "targz": "1.0.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "graceful-fs": "link:../../node/graceful-fs/node_modules/graceful-fs"
+    }
   }
 }

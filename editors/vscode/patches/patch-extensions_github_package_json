@@ -1,0 +1,12 @@
+Index: extensions/github/package.json
+--- extensions/github/package.json.orig
++++ extensions/github/package.json
+@@ -20,7 +20,7 @@
+     "vscode.git-base"
+   ],
+   "type": "module",
+-  "main": "./out/extension.js",
++  "main": "./out/extension.cjs",
+   "capabilities": {
+     "virtualWorkspaces": true,
+     "untrustedWorkspaces": {

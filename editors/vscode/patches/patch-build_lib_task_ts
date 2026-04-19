@@ -5,7 +5,7 @@ Fix bundle-non-native-extensions-build.
 Index: build/lib/task.ts
 --- build/lib/task.ts.orig
 +++ build/lib/task.ts
-@@ -94,7 +94,9 @@ export function series(...tasks: Task[]): PromiseTask 
+@@ -91,7 +91,9 @@ export function series(...tasks: Task[]): PromiseTask 
  
  export function parallel(...tasks: Task[]): PromiseTask {
  	const result = async () => {

@@ -1,7 +1,7 @@
 Index: build/lib/propertyInitOrderChecker.ts
 --- build/lib/propertyInitOrderChecker.ts.orig
 +++ build/lib/propertyInitOrderChecker.ts
-@@ -43,7 +43,7 @@ let errorCount = 0;
+@@ -45,7 +45,7 @@ let errorCount = 0;
  function createProgram(tsconfigPath: string): ts.Program {
  	const tsConfig = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
  

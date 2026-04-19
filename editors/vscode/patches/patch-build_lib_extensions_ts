@@ -1,0 +1,39 @@
+Serialize fromLocal() call to avoid resources exhaustion (SIGABRT).
+
+Index: build/lib/extensions.ts
+--- build/lib/extensions.ts.orig
++++ build/lib/extensions.ts
+@@ -414,13 +414,27 @@ function doPackageLocalExtensionsStream(forWeb: boolea
+ 			.filter(({ name }) => builtInExtensions.every(b => b.name !== name))
+ 			.filter(({ manifestPath }) => (forWeb ? isWebExtension(require(manifestPath)) : true))
+ 	);
++
++	const sequencedLocalExtensionsStream = es.through();
++	void (async () => {
++		try {
++			for (const extension of localExtensionsDescriptions) {
++				await new Promise<void>((resolve, reject) => {
++					fromLocal(extension.path, forWeb, disableMangle)
++						.pipe(rename(p => p.dirname = `extensions/${extension.name}/${p.dirname}`))
++						.on('error', reject)
++						.on('end', resolve)
++						.pipe(sequencedLocalExtensionsStream, { end: false });
++				});
++			}
++			sequencedLocalExtensionsStream.end();
++		} catch (error) {
++			sequencedLocalExtensionsStream.emit('error', error);
++		}
++	})();
++
+ 	const localExtensionsStream = minifyExtensionResources(
+-		es.merge(
+-			...localExtensionsDescriptions.map(extension => {
+-				return fromLocal(extension.path, forWeb, disableMangle)
+-					.pipe(rename(p => p.dirname = `extensions/${extension.name}/${p.dirname}`));
+-			})
+-		)
++		sequencedLocalExtensionsStream
+ 	);
+ 
+ 	let result: Stream;

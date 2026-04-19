@@ -1,0 +1,25 @@
+{
+  "name": "@vscode/sample-source",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vscode/component-explorer": "^0.2.1-6",
+    "@vscode/component-explorer-vite-plugin": "^0.2.1-5",
+    "@vscode/rollup-plugin-esm-url": "^1.0.1-1",
+    "rollup": "file:../../../node/rollup/node_modules/rollup",
+    "vite": "npm:rolldown-vite@latest"
+  },
+  "bundleDependencies": [],
+  "overrides": {
+    "@emmetio/css-parser": "file:../../css-parser",
+    "archiver": "npm:noop-package",
+    "rollup": "file:../../../node/rollup/node_modules/rollup",
+    "lightningcss": "npm:lightningcss-wasm"
+  }
+}

@@ -1,0 +1,12 @@
+Index: src/vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalSandboxService.ts
+--- src/vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalSandboxService.ts.orig
++++ src/vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalSandboxService.ts
+@@ -635,7 +635,7 @@ export class TerminalSandboxService extends Disposable
+ 			this._execPath = remoteEnv.execPath;
+ 		}
+ 		this._srtPath = this._pathJoin(this._appRoot, 'node_modules', '@anthropic-ai', 'sandbox-runtime', 'dist', 'cli.js');
+-		this._rgPath = this._pathJoin(this._appRoot, 'node_modules', '@vscode', 'ripgrep', 'bin', 'rg');
++		this._rgPath = this._pathJoin('${LOCALBASE}', 'bin/rg');
+ 	}
+ 
+ 	private async _createSandboxConfig(): Promise<string | undefined> {

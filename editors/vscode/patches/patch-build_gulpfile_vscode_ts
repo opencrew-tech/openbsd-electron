@@ -1,0 +1,148 @@
+Index: build/gulpfile.vscode.ts
+--- build/gulpfile.vscode.ts.orig
++++ build/gulpfile.vscode.ts
+@@ -320,6 +320,104 @@ function computeChecksum(filename: string): string {
+ 	return hash;
+ }
+ 
++function isPathInsideRoot(rootPath: string, candidatePath: string): boolean {
++	const relativePath = path.relative(rootPath, candidatePath);
++	return relativePath !== '..' && !relativePath.startsWith(`..${path.sep}`) && !path.isAbsolute(relativePath);
++}
++
++const packageNameByRoot = new Map<string, string | null>();
++function getPackageNameForRoot(packageRoot: string): string | null {
++	if (packageNameByRoot.has(packageRoot)) {
++		return packageNameByRoot.get(packageRoot)!;
++	}
++
++	let packageName: string | null = null;
++	try {
++		const packageJsonPath = path.join(packageRoot, 'package.json');
++		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as { name?: unknown };
++		if (typeof packageJson.name === 'string' && packageJson.name) {
++			packageName = packageJson.name;
++		}
++	} catch {
++		packageName = null;
++	}
++
++	packageNameByRoot.set(packageRoot, packageName);
++	return packageName;
++}
++
++function findPackageRootForFile(filePath: string): string | null {
++	let currentPath: string;
++	try {
++		currentPath = fs.statSync(filePath).isDirectory() ? path.resolve(filePath) : path.resolve(path.dirname(filePath));
++	} catch {
++		currentPath = path.resolve(path.dirname(filePath));
++	}
++
++	while (true) {
++		const packageJsonPath = path.join(currentPath, 'package.json');
++		if (fs.existsSync(packageJsonPath)) {
++			return currentPath;
++		}
++
++		const parentPath = path.dirname(currentPath);
++		if (parentPath === currentPath) {
++			return null;
++		}
++		currentPath = parentPath;
++	}
++}
++
++function remapDependencyPathForAsar(rootPath: string, sourcePath: string): string | null {
++	const resolvedPath = path.resolve(sourcePath);
++	if (isPathInsideRoot(rootPath, resolvedPath)) {
++		return path.relative(rootPath, resolvedPath);
++	}
++
++	const marker = `${path.sep}node_modules${path.sep}`;
++	const markerIndex = resolvedPath.indexOf(marker);
++	if (markerIndex >= 0) {
++		const suffix = resolvedPath.slice(markerIndex + marker.length);
++		if (suffix) {
++			return path.join('node_modules', suffix);
++		}
++	}
++
++	const packageRoot = findPackageRootForFile(resolvedPath);
++	if (!packageRoot) {
++		return null;
++	}
++
++	const packageName = getPackageNameForRoot(packageRoot);
++	if (!packageName) {
++		return null;
++	}
++
++	const packageRelativePath = path.relative(packageRoot, resolvedPath);
++	if (packageRelativePath === '..' || packageRelativePath.startsWith(`..${path.sep}`) || path.isAbsolute(packageRelativePath)) {
++		return null;
++	}
++
++	return path.join('node_modules', packageName, packageRelativePath);
++}
++
++function remapDependencyVinylDestination(rootPath: string): NodeJS.ReadWriteStream {
++	return es.mapSync((file: { relative: string; path: string; base: string }) => {
++		if (!file.relative.startsWith('..') && !path.isAbsolute(file.relative)) {
++			return file;
++		}
++
++		const remappedRelativePath = remapDependencyPathForAsar(rootPath, file.path);
++		if (!remappedRelativePath) {
++			throw new Error(`Unable to remap dependency path: ${file.path}`);
++		}
++
++		file.base = rootPath;
++		file.path = path.join(rootPath, remappedRelativePath);
++		return file;
++	});
++}
++
+ function packageTask(platform: string, arch: string, sourceFolderName: string, destinationFolderName: string, _opts?: { stats?: boolean }) {
+ 	const destination = path.join(path.dirname(root), destinationFolderName);
+ 	platform = platform || process.platform;
+@@ -428,7 +526,12 @@ function packageTask(platform: string, arch: string, s
+ 		const jsFilter = util.filter(data => !data.isDirectory() && /\.js$/.test(data.path));
+ 		const root = path.resolve(path.join(import.meta.dirname, '..'));
+ 		const productionDependencies = getProductionDependencies(root);
+-		const dependenciesSrc = productionDependencies.map(d => path.relative(root, d)).map(d => [`${d}/**`, `!${d}/**/{test,tests}/**`]).flat().concat('!**/*.mk');
++		const dependenciesSrc = productionDependencies
++			.map(d => path.relative(root, d))
++			.filter(d => !!d && d !== '.')
++			.map(d => [`${d}/**`, `!${d}/**/{test,tests}/**`])
++			.flat()
++			.concat('!**/*.mk');
+ 
+ 		const depFilterPattern = ['**', `!**/${config.version}/**`, '!**/bin/darwin-arm64-87/**', '!**/package-lock.json', '!**/yarn.lock'];
+ 		if (stripSourceMapsInPackagingTasks) {
+@@ -436,6 +539,7 @@ function packageTask(platform: string, arch: string, s
+ 		}
+ 
+ 		const deps = gulp.src(dependenciesSrc, { base: '.', dot: true })
++			.pipe(remapDependencyVinylDestination(root))
+ 			.pipe(filter(depFilterPattern))
+ 			.pipe(util.cleanNodeModules(path.join(import.meta.dirname, '.moduleignore')))
+ 			.pipe(util.cleanNodeModules(path.join(import.meta.dirname, `.moduleignore.${process.platform}`)))
+@@ -517,6 +621,8 @@ function packageTask(platform: string, arch: string, s
+ 			const policyDest = gulp.src('.build/policies/linux/**', { base: '.build/policies/linux' })
+ 				.pipe(rename(f => f.dirname = `policies/${f.dirname}`));
+ 			all = es.merge(all, gulp.src('resources/linux/code.png', { base: '.' }), policyDest);
++		} else if (platform === 'openbsd') {
++			all = es.merge(all, gulp.src('resources/linux/code.png', { base: '.' }));
+ 		} else if (platform === 'darwin') {
+ 			const shortcut = gulp.src('resources/darwin/bin/code.sh')
+ 				.pipe(replace('@@APPNAME@@', product.applicationName))
+@@ -551,7 +657,7 @@ function packageTask(platform: string, arch: string, s
+ 			.pipe(util.skipDirectories())
+ 			.pipe(util.fixWin32DirectoryPermissions())
+ 			.pipe(filter(['**', '!**/.github/**'], { dot: true })) // https://github.com/microsoft/vscode/issues/116523
+-			.pipe(electron(electronConfig))
++// 			.pipe(electron(electronConfig))
+ 			.pipe(filter([
+ 				'**',
+ 				'!LICENSE',

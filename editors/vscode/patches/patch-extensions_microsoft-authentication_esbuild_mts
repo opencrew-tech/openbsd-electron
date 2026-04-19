@@ -1,0 +1,24 @@
+Silently skip loading msal native module.
+
+XXX freebsd use platformFolder = 'freebsd'
+
+Index: extensions/microsoft-authentication/esbuild.mts
+--- extensions/microsoft-authentication/esbuild.mts.orig
++++ extensions/microsoft-authentication/esbuild.mts
+@@ -11,7 +11,7 @@ const outDir = path.join(import.meta.dirname, 'dist');
+ 
+ const isWindows = process.platform === 'win32';
+ const isMacOS = process.platform === 'darwin';
+-const isLinux = !isWindows && !isMacOS;
++const isLinux = process.platform === 'linux';
+ 
+ const windowsArches = ['x64'];
+ const linuxArches = ['x64'];
+@@ -21,6 +21,7 @@ switch (process.platform) {
+ 	case 'win32': platformFolder = 'windows'; break;
+ 	case 'darwin': platformFolder = 'macos'; break;
+ 	case 'linux': platformFolder = 'linux'; break;
++	case 'openbsd': break;
+ 	default: throw new Error(`Unsupported platform: ${process.platform}`);
+ }
+ 

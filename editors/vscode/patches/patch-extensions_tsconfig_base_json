@@ -1,0 +1,13 @@
+Build with tsc instead of tsgo.
+Typescript version change.
+
+Index: extensions/tsconfig.base.json
+--- extensions/tsconfig.base.json.orig
++++ extensions/tsconfig.base.json
+@@ -1,5 +1,6 @@
+ {
+ 	"compilerOptions": {
++		"types": ["*"],
+ 		"esModuleInterop": true,
+ 		"target": "ES2024",
+ 		"lib": [

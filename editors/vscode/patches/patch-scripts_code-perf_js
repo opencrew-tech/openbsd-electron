@@ -1,10 +1,10 @@
 Index: scripts/code-perf.js
 --- scripts/code-perf.js.orig
 +++ scripts/code-perf.js
-@@ -65,7 +65,7 @@ function getExePath(buildPath) {
- 		case 'darwin':
- 			relativeExePath = path.join('Contents', 'MacOS', 'Electron');
+@@ -71,7 +71,7 @@ function getExePath(buildPath) {
+ 			}
  			break;
+ 		}
 -		case 'linux': {
 +		case 'freebsd': case 'linux': case 'openbsd': {
  			const product = require(path.join(buildPath, 'resources', 'app', 'product.json'));

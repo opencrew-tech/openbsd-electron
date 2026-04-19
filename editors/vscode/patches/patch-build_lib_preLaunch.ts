@@ -1,7 +1,7 @@
 Index: build/lib/preLaunch.ts
 --- build/lib/preLaunch.ts.orig
 +++ build/lib/preLaunch.ts
-@@ -35,9 +35,9 @@ async function ensureNodeModules() {
+@@ -32,9 +32,9 @@ async function ensureNodeModules() {
  	}
  }
  
@@ -14,7 +14,7 @@ Index: build/lib/preLaunch.ts
  
  async function ensureCompiled() {
  	if (!(await exists('out'))) {
-@@ -47,7 +47,7 @@ async function ensureCompiled() {
+@@ -44,7 +44,7 @@ async function ensureCompiled() {
  
  async function main() {
  	await ensureNodeModules();

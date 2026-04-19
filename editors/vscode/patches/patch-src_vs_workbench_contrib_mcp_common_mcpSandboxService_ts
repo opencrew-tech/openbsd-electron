@@ -1,0 +1,12 @@
+Index: src/vs/workbench/contrib/mcp/common/mcpSandboxService.ts
+--- src/vs/workbench/contrib/mcp/common/mcpSandboxService.ts.orig
++++ src/vs/workbench/contrib/mcp/common/mcpSandboxService.ts
+@@ -263,7 +263,7 @@ export class McpSandboxService extends Disposable impl
+ 		const execPath = await this._getExecPath(os, appRoot, remoteAuthority);
+ 		const tempDir = await this._getTempDir(remoteAuthority);
+ 		const srtPath = this._pathJoin(os, appRoot, 'node_modules', '@anthropic-ai', 'sandbox-runtime', 'dist', 'cli.js');
+-		const rgPath = this._pathJoin(os, appRoot, 'node_modules', '@vscode', 'ripgrep', 'bin', 'rg');
++		const rgPath = this._pathJoin(os, '${LOCALBASE}', 'bin/rg');
+ 		const sandboxConfigPath = tempDir ? await this._updateSandboxConfig(tempDir, configTarget, sandboxConfig, launchCwd) : undefined;
+ 		this._logService.debug(`McpSandboxService: Updated sandbox config path: ${sandboxConfigPath}`);
+ 		return { execPath, srtPath, rgPath, sandboxConfigPath, tempDir };

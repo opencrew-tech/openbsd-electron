@@ -1,0 +1,24 @@
+Index: extensions/github/esbuild.mts
+--- extensions/github/esbuild.mts.orig
++++ extensions/github/esbuild.mts
+@@ -10,16 +10,16 @@ const outDir = path.join(import.meta.dirname, 'dist');
+ 
+ run({
+ 	platform: 'node',
+-	format: 'esm',
++	// Keep the Node entrypoint in CommonJS to avoid the extension-host ESM import path.
++	format: 'cjs',
+ 	entryPoints: {
+ 		'extension': path.join(srcDir, 'extension.ts'),
+ 	},
+ 	srcDir,
+ 	outdir: outDir,
+ 	additionalOptions: {
+-		banner: {
+-			// The tunnel package uses `require` and needs this shim to work in an ESM environment
+-			js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
++		outExtension: {
++			'.js': '.cjs',
+ 		},
+ 	},
+ }, process.argv);

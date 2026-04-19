@@ -1,7 +1,7 @@
 Index: src/vs/platform/environment/node/userDataPath.ts
 --- src/vs/platform/environment/node/userDataPath.ts.orig
 +++ src/vs/platform/environment/node/userDataPath.ts
-@@ -86,7 +86,7 @@ function doGetUserDataPath(cliArgs: NativeParsedArgs, 
+@@ -90,7 +90,7 @@ function doGetUserDataPath(cliArgs: NativeParsedArgs, 
  		case 'darwin':
  			appDataPath = join(homedir(), 'Library', 'Application Support');
  			break;

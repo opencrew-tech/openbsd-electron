@@ -1,0 +1,43 @@
+Index: core/app/server/lib/SandboxPyodide.ts
+--- core/app/server/lib/SandboxPyodide.ts.orig
++++ core/app/server/lib/SandboxPyodide.ts
+@@ -77,12 +77,13 @@ export function getPyodideSettings(options: ISandboxOp
+   );
+ 
+   // Pyodide maintains its own cache of packages. The pipe.js process supplies
+-  // packages, and pyodide will want to copy them into a cache. So we give
+-  // access to a directory for that purpose. We drop this access before
+-  // running user code.
+-  const writeDir = fs.realpathSync(
+-    path.resolve(base, "sandbox", "pyodide", "_build", "cache"),
+-  );
++  // packages, and pyodide will want to copy them into a cache. Prefer
++  // GRIST_USER_ROOT for a writable per-user location.
++  const writeDirPath = process.env.GRIST_USER_ROOT
++    ? path.resolve(process.env.GRIST_USER_ROOT, "pyodide-cache")
++    : path.resolve(base, "sandbox", "pyodide", "_build", "cache");
++  fs.mkdirSync(writeDirPath, { recursive: true });
++  const writeDir = fs.realpathSync(writeDirPath);
+ 
+   // The code for the data engine lives outside the sandbox/pyodide directory,
+   // in sandbox/grist. We give access to this, then drop it before running
+@@ -114,6 +115,7 @@ export function getPyodideSettings(options: ISandboxOp
+       `--allow-read=${readDir}`,
+       `--allow-read=${gristDir}`,
+       `--allow-read=${reqFile}`,
++      `--allow-read=${writeDir}`,
+       `--allow-write=${writeDir}`,
+       "--allow-env",
+       ...importAllow,
+@@ -143,6 +145,11 @@ function findDenoBinary(dir: string): string {
+  * result.
+  */
+ function findDenoBinaryUncached(dir: string): string {
++  const envDenoPath = process.env.DENO_INSTALL_BIN;
++  if (envDenoPath && fs.existsSync(envDenoPath)) {
++    return envDenoPath;
++  }
++
+   const denoPkgDir = path.join(dir, "node_modules", "deno");
+   const pkgJsonPath = path.join(denoPkgDir, "package.json");
+ 

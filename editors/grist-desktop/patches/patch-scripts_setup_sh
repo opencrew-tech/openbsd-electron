@@ -1,7 +1,7 @@
 Index: scripts/setup.sh
 --- scripts/setup.sh.orig
 +++ scripts/setup.sh
-@@ -180,13 +180,3 @@ done
+@@ -187,15 +187,3 @@ done
  if [[ ! -e tsconfig.json ]]; then
    ln -s core/tsconfig-ext.json tsconfig.json
  fi
@@ -15,3 +15,5 @@ Index: scripts/setup.sh
 -#   https://github.com/actions/runner-images/issues/7253
 -bash ./setup.sh
 -make fetch_packages
+-# need at least one file for the directory to get unpacked by pyodide
+-touch _build/cache/EMPTY

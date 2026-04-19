@@ -1,0 +1,24 @@
+Index: core/sandbox/pyodide/pipe.js
+--- core/sandbox/pyodide/pipe.js.orig
++++ core/sandbox/pyodide/pipe.js
+@@ -19,6 +19,11 @@ class GristPipe {
+ 
+   async init() {
+     const self = this;
++    const packageCacheDirPath = process.env.GRIST_USER_ROOT
++      ? path.resolve(process.env.GRIST_USER_ROOT, "pyodide-cache")
++      : path.join(__dirname, "_build", "cache");
++    fs.mkdirSync(packageCacheDirPath, { recursive: true });
++    const packageCacheDir = fs.realpathSync(packageCacheDirPath);
+     this.setAdminMode(true);
+     this.pyodide = await loadPyodide({
+       jsglobals: {
+@@ -35,7 +40,7 @@ class GristPipe {
+           return fs.writeSync(OUTGOING_FD, Buffer.from(data.toJs()));
+         }
+       },
+-      packageCacheDir: fs.realpathSync(path.join(__dirname, "_build", "cache")),
++      packageCacheDir,
+     });
+     this.setAdminMode(false);
+     this.pyodide.setStdin({

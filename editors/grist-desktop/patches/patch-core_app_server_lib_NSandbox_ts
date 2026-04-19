@@ -1,0 +1,11 @@
+Index: core/app/server/lib/NSandbox.ts
+--- core/app/server/lib/NSandbox.ts.orig
++++ core/app/server/lib/NSandbox.ts
+@@ -704,6 +704,7 @@ function pyodide(options: ISandboxOptions): SandboxPro
+     env: {
+       PYTHONPATH: paths.engine,
+       IMPORTDIR: options.importDir,
++      GRIST_USER_ROOT: process.env.GRIST_USER_ROOT,
+       // If running in electron, forces the child process to behave as plain Node.js (no Chromium or browser)
+       ELECTRON_RUN_AS_NODE: "1",
+       ...getInsertedEnv(options),

@@ -1,0 +1,129 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -45,7 +45,6 @@
+   "resolutions": {
+     "jquery": "3.5.0",
+     "ts-interface-checker": "1.0.2",
+-    "chromedriver": "110.0.0",
+     "7zip-bin": "../node/7zip-bin/node_modules/7zip-bin",
+     "app-builder-bin": "../node/app-builder-bin/node_modules/app-builder-bin",
+     "electron-builder": "../node/electron-builder/node_modules/electron-builder",
+@@ -56,7 +55,6 @@
+     "appId": "com.getgrist.grist",
+     "npmRebuild": false,
+     "compression": "normal",
+-    "includeSubNodeModules": true,
+     "icon": "core/static/icons/grist.png",
+     "win": {
+       "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
+@@ -95,78 +93,6 @@
+         "flatpak"
+       ]
+     },
+-    "flatpak": {
+-      "branch": "stable",
+-      "runtime": "org.freedesktop.Platform",
+-      "runtimeVersion": "25.08",
+-      "sdk": "org.freedesktop.Sdk",
+-      "base": "org.electronjs.Electron2.BaseApp",
+-      "baseVersion": "25.08",
+-      "finishArgs": [
+-        "--share=ipc",
+-        "--socket=x11",
+-        "--socket=wayland",
+-        "--socket=pulseaudio",
+-        "--device=dri",
+-        "--talk-name=org.freedesktop.Notifications",
+-        "--talk-name=org.freedesktop.secrets",
+-        "--filesystem=home",
+-        "--allow=multiarch",
+-        "--filesystem=xdg-cache/tmp:create",
+-        "--env=TMPDIR=/tmp",
+-        "--env=GRIST_SANDBOX_FLAVOR=pyodide"
+-      ],
+-      "desktop": {
+-        "Name": "Grist",
+-        "Comment": "Spreadsheet software to end data chaos",
+-        "Icon": "com.getgrist.grist",
+-        "Categories": [
+-          "Office"
+-        ],
+-        "MimeType": "text/csv;text/tab-separated-values;text/plain;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;"
+-      },
+-      "mimeTypes": [
+-        "text/csv",
+-        "text/tab-separated-values",
+-        "text/plain",
+-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+-        "application/vnd.ms-excel.sheet.macroEnabled.12"
+-      ],
+-      "files": [
+-        [
+-          "dist/icons/16x16.png",
+-          "/app/share/icons/hicolor/16x16/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/32x32.png",
+-          "/app/share/icons/hicolor/32x32/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/48x48.png",
+-          "/app/share/icons/hicolor/48x48/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/64x64.png",
+-          "/app/share/icons/hicolor/64x64/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/128x128.png",
+-          "/app/share/icons/hicolor/128x128/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/256x256.png",
+-          "/app/share/icons/hicolor/256x256/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/512x512.png",
+-          "/app/share/icons/hicolor/512x512/apps/com.getgrist.grist.png"
+-        ],
+-        [
+-          "dist/icons/scalable.svg",
+-          "/app/share/icons/hicolor/scalable/apps/com.getgrist.grist.svg"
+-        ]
+-      ]
+-    },
+     "afterSign": "./scripts/notarize.js",
+     "asarUnpack": [
+       "core/plugins",
+@@ -187,7 +113,6 @@
+       "core/plugins/**/*",
+       "core/python/**/*",
+       "core/node_modules/**/*",
+-      "node_modules/**/*",
+       "!**/*.map",
+       "!**/*.ts",
+       "!**/*.tar.gz",
+@@ -227,7 +152,21 @@
+       "!core/documentation",
+       "!core/sandbox/pyodide/_build/worker/node_modules/deno/deno",
+       "!core/sandbox/pyodide/_build/worker/node_modules/deno/deno.exe",
+-      "!**/test_*.py"
++      "!**/test_*.py",
++      {
++        "from": "node_modules",
++        "to": "node_modules",
++        "filter": [
++          "**/*"
++        ]
++      },
++      {
++        "from": "core/sandbox/pyodide/_build/worker/node_modules",
++        "to": "core/sandbox/pyodide/_build/worker/node_modules",
++        "filter": [
++          "**/*"
++        ]
++      }
+     ],
+     "directories": {
+       "buildResources": "."

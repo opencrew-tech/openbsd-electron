@@ -6,5 +6,5 @@ Icon=grist
 Exec=grist %u
 Terminal=false
 Categories=Office;Spreadsheet;
-StartupWMClass=Grist
+StartupWMClass=Grist Desktop
 X-GNOME-UsesNotifications=true

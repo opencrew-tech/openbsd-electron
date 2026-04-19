@@ -1,4 +1,4 @@
-# XXX needed for app.getPath(documents)
-~/			rwc
+/bin/ps			rx
+/usr/local/bin/deno	rx
+~/Documents		rwc
 ~/.grist		rwc
-~/.config/landing.db	rwc

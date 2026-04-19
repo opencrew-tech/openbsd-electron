@@ -2,7 +2,7 @@
 
 # $OpenBSD$
 
-# Copyright (c) 2024 Fabien Romano <fabien@openbsd.org>
+# Copyright (c) 2026 Fabien Romano <fabien@openbsd.org>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -43,12 +43,6 @@ getopts('doi:x:', {
 	}
 });
 
-die if @ARGV < 2;
-
-my $wrkdir = shift;
-my $target = shift;
-
-my $bins = ();
 my @dists_npm = ();
 my @dists_github = ();
 my %modules;
@@ -63,42 +57,10 @@ sub get_json_file
 	return decode_json $data;
 }
 
-sub _dir_bin
-{
-	my ( $workdir, $bin ) = @_;
-	my $dir = "$workdir/$bin";
-	opendir(D, "$dir") || die "Can't open directory $dir: $!\n";
-	my @names = readdir(D);
-	closedir(D);
-
-	$workdir =~ s/$target//;
-	foreach my $file (@names) {
-		next if ($file eq ".");
-		next if ($file eq "..");
-		push @{$bins}, "$workdir/$bin/$file;$file";
-	}
-}
-
-sub _module_bin
-{
-	my ( $workdir, $node ) = @_;
-	if (exists $node->{bin} && ref($node->{bin}) eq "HASH") {
-		$workdir =~ s/$target//;
-		foreach my $bin (keys %{$node->{bin}}) {
-			push @{$bins}, "$workdir/$node->{bin}{$bin};$bin";
-		}
-	} elsif (exists $node->{bin}) {
-		$workdir =~ s/$target//;
-		push @{$bins}, "$workdir/$node->{bin};$node->{name}";
-	} elsif (exists $node->{directories}{bin}) {
-		_dir_bin($workdir, $node->{directories}{bin});
-	}
-}
-
 sub _modules_add
 {
 	my ( $root, $path, $node ) = @_;
-	if (index($path, 'node_modules/') != 0) {
+	if ($path !~ m:(^|/)node_modules/:) {
 		say STDERR "skip local : " . $root . $path;
 		return;
 	}
@@ -165,55 +127,45 @@ sub _modules_add
 		    join(", ", @{$node->{os}});
 		return;
 	}
-	if ( not exists $modules{$id}{$version} ) {
-		$modules{$id}{$version} = ();
+	my $spec = $node->{resolved} || $id."@".$version;
+	if (not exists $modules{$id}{$version}) {
+		$modules{$id}{$version} = [];
 	}
-	push @{$modules{$id}{$version}}, $path;
-}
-
-sub _dependencies
-{
-	my ($path, $nodes) = @_;
-	if (not exists $nodes->{dependencies}) {return;}
-	foreach my $node (sort keys %{$nodes->{dependencies}}) {
-		_modules_add($path, $node, $nodes->{dependencies}{$node});
-		_dependencies($path.$node."/node_modules/",
-		    $nodes->{dependencies}{$node});
+	foreach my $known (@{$modules{$id}{$version}}) {
+		return if ($known eq $spec);
 	}
+	push @{$modules{$id}{$version}}, $spec;
 }
 
 while (my $file = shift) {
-	my $nodes;
 	my $dirname = dirname($file);
-	$nodes = get_json_file("$target/package.json");
-	_module_bin($target, $nodes);
-	$nodes = get_json_file($file);
-	$dirname =~ s/$wrkdir//;
+	my $nodes = get_json_file($file);
 	# flat package-lock.json format
-	foreach my $node (sort keys %{$nodes->{packages}}) {
-		if ($node eq "") {next;}
-		_modules_add($dirname.'/', $node, $nodes->{packages}{$node})
+	foreach my $path (sort keys %{$nodes->{packages}}) {
+		next if ($path eq "");
+		_modules_add($dirname.'/', $path, $nodes->{packages}{$path})
 	}
-	# tree package-lock.json format
-	_dependencies($dirname."/node_modules/", $nodes);
 }
 
-my $tree = ();
+my @pkgs;
 foreach my $id (keys %modules) {
 	my $dists;
 	my $account;
 	my $project;
-	my $version;
 	my $location;
+	my $pkg;
+	my $spec;
 	my $dist = "\${MODNPM_DIST}/";
 	my $sufx = ".tgz";
 	if (index($id, "github:") == 0) {
 		$dists = \@dists_github;
 		($project = $id) =~ s/github\://;
 		($account, $project) = split '/', $project;
-		$location = $account."-".$project;
-		$dist .= $location."-{".$account."/".$project."/archive/}";
+		$location = $account."-".$project."-";
+		$pkg = $location;
+		$dist .= $location."{".$account."/".$project."/archive/}";
 		$sufx = "\${EXTRACT_SUFX.github}";
+		$spec = "https://codeload.github.com/$account/$project/tar.gz/";
 	} else {
 		$dists = \@dists_npm;
 		($location = $id) =~ s/\//-/;
@@ -221,14 +173,22 @@ foreach my $id (keys %modules) {
 		if ($id =~ /\//) {
 			($account, $project) = split '/', $id;
 			$dist .= $account."-";
+			$pkg .= $account."-";
 		}
 		$dist .= "{".$id."/-/}".$project."-";
+		$pkg .= $project."-";
 	}
 	foreach my $version (keys %{$modules{$id}}) {
 		push @{$dists}, $dist.$version.$sufx;
-		foreach my $path (@{$modules{$id}{$version}}) {
-			# tree: dst;src, sort to create shorter path first
-			push @{$tree}, $path.";".$location."-".$version.$sufx;
+		if ($spec) {
+			# implicit github
+			push @pkgs,
+				"${spec}${version};${pkg}${version}${sufx}";
+			next;
+		}
+		foreach my $stored_spec (@{$modules{$id}{$version}}) {
+			push @pkgs,
+				"${stored_spec};${pkg}${version}${sufx}";
 		}
 	}
 }
@@ -252,16 +212,10 @@ if (scalar @dists_github) {
 	say "";
 }
 
-say "MODNPM_TREE += \\";
-foreach my $module (reverse sort @{$tree}) {
-	say $module." \\";
-}
-say "";
-
-if ($bins) {
-	say "MODNPM_BINS += \\";
-	foreach my $l (sort @{$bins}) {
-		say $l." \\";
+if (scalar @pkgs) {
+	say "MODNPM_PKGS += \\";
+	foreach my $module (reverse sort @pkgs) {
+		say $module." \\";
 	}
 	say "";
 }

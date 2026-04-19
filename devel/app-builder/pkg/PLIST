@@ -1,1 +1,11 @@
 @bin bin/app-builder
+node/
+node/app-builder-bin/
+node/app-builder-bin/node
+node/app-builder-bin/node_modules/
+node/app-builder-bin/node_modules/app-builder-bin/
+node/app-builder-bin/node_modules/app-builder-bin/LICENSE
+node/app-builder-bin/node_modules/app-builder-bin/index.d.ts
+node/app-builder-bin/node_modules/app-builder-bin/index.js
+node/app-builder-bin/node_modules/app-builder-bin/package.json
+node/app-builder-bin/node_modules/app-builder-bin/readme.md

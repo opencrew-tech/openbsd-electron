@@ -429,6 +429,10 @@ _MODYARN_GEN_DIR?=	$$(realpath `mktemp -d ${_MODYARN_TMP}.XXXXXXX`)
 modyarn-pre-gen-modules:
 .endif
 
+.if !target(modyarn-post-gen-modules)
+modyarn-post-gen-modules:
+.endif
+
 .if !target(_modyarn-gen-modules)
 _modyarn-gen-modules: modyarn-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
@@ -615,16 +619,8 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 .  endfor
 .endif # !target(_modyarn-gen-modules)
 
-.if !target(modyarn-pre-gen-modules)
-modyarn-pre-gen-modules:
-.endif
-
-.if !target(modyarn-post-gen-modules)
-modyarn-post-gen-modules:
-.endif
-
 .if !target(modyarn-gen-modules)
-modyarn-gen-modules:modyarn-pre-gen-modules
+modyarn-gen-modules:
 	@which jq >/dev/null
 	@which yq >/dev/null
 	@t=${_MODYARN_GEN_DIR} && \

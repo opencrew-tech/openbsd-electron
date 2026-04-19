@@ -1,0 +1,12 @@
+Index: src/main/config/app.ts
+--- src/main/config/app.ts.orig
++++ src/main/config/app.ts
+@@ -68,7 +68,7 @@ function getDefaultLocations(): { state: string; asset
+             state: path.join(appData, APP_NAME),
+         };
+     }
+-    if (process.platform === "linux") {
++    if (["linux", "openbsd"].includes(process.platform)) {
+         const xdgStateHome = process.env.XDG_STATE_HOME || path.join(homedir(), ".local/state");
+         const xdgDataHome = process.env.XDG_DATA_HOME || path.join(homedir(), ".local/share");
+         return {

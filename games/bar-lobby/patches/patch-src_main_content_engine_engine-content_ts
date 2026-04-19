@@ -1,0 +1,98 @@
+Index: src/main/content/engine/engine-content.ts
+--- src/main/content/engine/engine-content.ts.orig
++++ src/main/content/engine/engine-content.ts
+@@ -3,6 +3,7 @@
+ // SPDX-License-Identifier: MIT
+ 
+ import axios from "axios";
++import { execFileSync } from "child_process";
+ import * as fs from "fs";
+ import * as glob from "glob-promise";
+ import { removeFromArray } from "$/jaz-ts-utils/object";
+@@ -23,13 +24,46 @@ const log = logger("engine-content.ts");
+ // TODO: add support for old engine version tag naming scheme, careful it is not string sortable (!)
+ // Regex matching new engine version tags (e.g. "2025.01.3", "2025.01.3-rc1")
+ const compatibleVersionRegex = /^\d{4}\.\d{2}\.\d{1,2}(-rc\d+)?$/;
++const systemSpringBinary = process.env.BAR_SYSTEM_SPRING_BIN || "/usr/local/bin/spring";
++const springVersionRegex = /\d{4}\.\d{2}\.\d{1,2}(-rc\d+)?/;
+ 
+ export class EngineContentAPI extends AbstractContentAPI<string, EngineVersion> {
+     protected readonly engineDirs = ENGINE_PATH;
+ 
++    protected getSystemEngineVersion(): string | undefined {
++        if (path.isAbsolute(systemSpringBinary) && !fs.existsSync(systemSpringBinary)) {
++            log.warn(`System spring binary not found at ${systemSpringBinary}`);
++            return undefined;
++        }
++        try {
++            const output = execFileSync(systemSpringBinary, ["--version"], { encoding: "utf8" });
++            const version = output.match(springVersionRegex)?.[0];
++            if (!version) {
++                log.warn(`Could not parse spring version from: ${output.trim()}`);
++                return undefined;
++            }
++            return version;
++        } catch (err) {
++            log.error(`Failed to detect system spring version: ${err}`);
++            return undefined;
++        }
++    }
++
+     public override async init() {
+         try {
+             log.info("Initializing engine content API");
++            if (process.platform === "openbsd") {
++                this.availableVersions.clear();
++                const systemVersion = this.getSystemEngineVersion();
++                if (systemVersion) {
++                    this.availableVersions.set(systemVersion, { id: systemVersion, ais: [], installed: true });
++                    log.info(`Using OpenBSD system spring engine ${systemVersion} from ${systemSpringBinary}`);
++                } else {
++                    log.warn("OpenBSD system spring engine was not detected");
++                }
++                log.info(`Found ${this.availableVersions.size} engine versions total.`);
++                return this;
++            }
+             await fs.promises.mkdir(this.engineDirs, { recursive: true });
+             const files = await fs.promises.readdir(this.engineDirs, { withFileTypes: true });
+             const dirs = files
+@@ -55,6 +89,9 @@ export class EngineContentAPI extends AbstractContentA
+     }
+ 
+     public getDefaultEngine() {
++        if (process.platform === "openbsd") {
++            return this.availableVersions.values().next().value;
++        }
+         return this.availableVersions.get(DEFAULT_ENGINE_VERSION);
+     }
+ 
+@@ -70,10 +107,15 @@ export class EngineContentAPI extends AbstractContentA
+ 
+     public async downloadEngine(version?: string) {
+         const engineVersion = version || DEFAULT_ENGINE_VERSION;
++        if (this.isVersionInstalled(engineVersion)) {
++            return engineVersion;
++        }
++        if (process.platform === "openbsd") {
++            const message = `Engine downloads are disabled on OpenBSD (requested: ${engineVersion}). Install spring from packages and use the system version.`;
++            log.warn(message);
++            return message;
++        }
+         try {
+-            if (this.isVersionInstalled(engineVersion)) {
+-                return;
+-            }
+             const engineInfo = await getEngineReleaseInfo(engineVersion);
+             const downloadInfo: DownloadInfo = {
+                 type: "engine",
+@@ -116,6 +158,10 @@ export class EngineContentAPI extends AbstractContentA
+     }
+ 
+     public async uninstallVersion(version: EngineVersion | string) {
++        if (process.platform === "openbsd") {
++            log.warn("Engine uninstall is disabled on OpenBSD system-engine mode");
++            return;
++        }
+         if (typeof version === "object") {
+             version = version.id;
+         }

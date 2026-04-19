@@ -1,0 +1,6 @@
+/usr/local/bin/7za			rx
+/usr/local/bin/pr-downloader		rx
+/usr/local/bin/spring			rx
+
+~/.local/state/BeyondAllReason		rwc
+~/.local/share/BeyondAllReason		rwc

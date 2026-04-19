@@ -1,0 +1,51 @@
+bin/${MODELECTRON_TARGET}
+${ELECTRON_DIST_APPS}/
+${MODELECTRON_DIST_T}.asar
+${MODELECTRON_DIST_T}.asar.unpacked/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/LICENSE
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/build/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/build/Release/
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/build/Release/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/fallback.js
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/index.js
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/package.json
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/darwin-arm64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/darwin-arm64/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/darwin-x64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/darwin-x64/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/linux-x64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/linux-x64/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/win32-ia32/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/win32-ia32/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/win32-x64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/prebuilds/win32-x64/bufferutil.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/src/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/bufferutil/src/bufferutil.c
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/LICENSE
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/build/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/build/Release/
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/build/Release/validation.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/fallback.js
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/index.js
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/package.json
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/darwin-x64+arm64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/darwin-x64+arm64/node.napi.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/linux-x64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/linux-x64/node.napi.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/win32-ia32/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/win32-ia32/node.napi.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/win32-x64/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/prebuilds/win32-x64/node.napi.node
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/src/
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/utf-8-validate/src/validation.c
+share/applications/${MODELECTRON_TARGET}.desktop
+share/examples/electron/unveil.${MODELECTRON_TARGET}
+@sample ${MODELECTRON_UNVEIL_FILE}
+share/pixmaps/
+share/pixmaps/${MODELECTRON_TARGET}.png
+@tag update-desktop-database

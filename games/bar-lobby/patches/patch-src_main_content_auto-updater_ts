@@ -1,0 +1,14 @@
+Index: src/main/content/auto-updater.ts
+--- src/main/content/auto-updater.ts.orig
++++ src/main/content/auto-updater.ts
+@@ -23,6 +23,10 @@ export class AutoUpdaterAPI extends Downloader {
+             log.info("App is not packaged. Skipping initializaion");
+             return this;
+         }
++        if (process.platform === "openbsd") {
++            log.info("OpenBSD detected, use system bin, disable updates");
++            return this;
++        }
+         autoUpdater.autoDownload = false;
+         autoUpdater.logger = log;
+         autoUpdater.autoInstallOnAppQuit = true;

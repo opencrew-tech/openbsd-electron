@@ -1,0 +1,29 @@
+Index: vendor/7zip-min/7zip-min.ts
+--- vendor/7zip-min/7zip-min.ts.orig
++++ vendor/7zip-min/7zip-min.ts
+@@ -4,8 +4,7 @@
+ // SPDX-License-Identifier: MIT
+ // SPDX-FileAttributionText: <text>
+ // Adapted from the 7zip-min library https://github.com/onikienko/7zip-min
+-// with modifications to work with asar enabled electron apps
+-// (`.replace('app.asar', 'app.asar.unpacked');`)
++// with modifications to use a system-provided 7za binary.
+ // </text>
+ 
+ // @ts-nocheck
+@@ -13,7 +12,7 @@
+ 'use strict';
+ 
+ const spawn = require('child_process').spawn;
+-const path7za = require('7zip-bin').path7za.replace('app.asar', 'app.asar.unpacked');
++const path7za = process.env.BAR_SYSTEM_7ZA || '/usr/local/bin/7za';
+ 
+ /**
+  * Unpack archive.
+@@ -145,4 +144,4 @@ function parseListOutput(str) {
+     return res;
+ }
+ 
+-export {unpack, pack, list, cmd};
+\ No newline at end of file
++export {unpack, pack, list, cmd};

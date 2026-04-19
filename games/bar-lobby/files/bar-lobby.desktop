@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=BAR Lobby
+Exec=bar-lobby
+Terminal=false
+Type=Application
+Icon=bar-lobby
+StartupWMClass=Beyond All Reason
+Comment=lobby for Beyond All Reason
+Categories=Game;

@@ -58,18 +58,32 @@ MODPNPM_LOCK?=		pnpm-lock.yaml
 MODPNPM_PACKAGE?=	package.json
 MODPNPM_SETTINGS?=	.pnpmrc
 MODPNPM_WORKSPACE?=	pnpm-workspace.yaml
-MODPNPM_CONFIGFILES?=	${MODPNPM_LOCK} \
+MODPNPM_PATCHORIG?=	.orig.modpnpm
+
+# config files may be extended (ex: to embed sub-folders package.json tweeks)
+MODPNPM_CONFIGFILES+=	${MODPNPM_LOCK} \
 			${MODPNPM_PACKAGE} \
 			${MODPNPM_SETTINGS} \
 			${MODPNPM_WORKSPACE}
-MODPNPM_PATCHORIG?=	.orig.modpnpm
 
 # module port path : modules redirects with system ports
 MODPNPM_MODULES+=\
-	@parcel/watcher devel/parcel-watcher \
-		parcel-watcher/node_modules/@parcel/watcher \
+	7zip-bin archivers/node-7zip-bin \
+		7zip-bin/node_modules/7zip-bin \
+	app-builder-bin devel/app-builder \
+		app-builder-bin/node_modules/app-builder-bin \
+	electron-builder www/electron-builder \
+		electron-builder/node_modules/electron-builder \
 	esbuild devel/esbuild \
 		esbuild/node_modules/esbuild \
+	graceful-fs devel/node-graceful-fs \
+		graceful-fs/node_modules/graceful-fs \
+	@parcel/watcher devel/parcel-watcher \
+		parcel-watcher/node_modules/@parcel/watcher \
+	puppeteer www/puppeteer \
+		puppeteer/node_modules/puppeteer \
+	rollup devel/rollup \
+		rollup/node_modules/rollup \
 	tailwindcss www/tailwindcss \
 		tailwindcss/node_modules/tailwindcss \
 	@tailwindcss/browser www/tailwindcss \
@@ -89,10 +103,10 @@ MODPNPM_MODULES+=\
 # module . override : modules redirects without ports
 MODPNPM_MODULES+=\
 	lightningcss . npm:lightningcss-wasm \
-	rollup . npm:@rollup/wasm-node
 # module module . : modules fallback to add
 MODPNPM_MODULES+=\
-	@swc/core @swc/wasm .
+	@swc/core @swc/wasm . \
+	unrs-resolver @unrs/resolver-binding-wasm32-wasi .
 
 # bring in module depends
 # XXX BUILD_DEPENDS only ? configurable ?
@@ -103,13 +117,13 @@ BUILD_DEPENDS+=		${_port}
 .endfor
 
 # where package are saved during build
-MODPNPM_DIST_BUILD?=	${WRKDIR}/packages
+MODPNPM_BUILD_DIST?=	${WRKDIR}/packages
 
 # unpack (tar xzf) then run pnpm install
 # XXX keep in sync with other npm-like modules
 MODPNPM_INSTALL?=	no
-MODPNPM_INSTALL_DIST?=	${LOCALBASE}/lib/node
-MODPNPM_INSTALL_DIR?=	lib/node/${MODPNPM_INSTALL}/node_modules
+MODPNPM_INSTALL_DIST?=	${LOCALBASE}/node
+MODPNPM_INSTALL_DIR?=	node/${MODPNPM_INSTALL}/node_modules
 
 # home needed for pnpm cache (aka store)
 PORTHOME?=		${WRKDIR}/vendor
@@ -119,49 +133,66 @@ MODPNPM_CACHE?=		vendor/.local/share/pnpm/store
 MODPNPM_VENDOR_REV?=
 MODPNPM_VENDOR?=	${PKGNAME}${MODPNPM_VENDOR_REV:%=.%}-vendor.tgz
 
-# env & cmd
-MODPNPM_ENV?=		PATH='${PORTPATH}:./node_modules/.bin' \
+# env is required and can be extended
+MODPNPM_ENV+=		PATH='${PORTPATH}:./node_modules/.bin' \
 			TMP=${WRKDIR}/tmp \
-			HOME=${PORTHOME} \
-			CI=true
+			HOME=${PORTHOME}
+# specific build & gen env are configurable (ex: replace npm_config_nodedir)
 MODPNPM_ENV_BUILD?=	npm_config_nodedir=${LOCALBASE}
+MODPNPM_ENV_TEST?=
 MODPNPM_ENV_GEN?=
+
+# cmd
 MODPNPM_BIN?=		pnpm
-MODPNPM_CMD?=		${SETENV} ${MODPNPM_ENV} ${MODPNPM_BIN}
+MODPNPM_CMD?=\
+	${SETENV} ${MODPNPM_ENV} CI=true ${MODPNPM_BIN}
 MODPNPM_CMD_BUILD?=\
 	${SETENV} ${MAKE_ENV} ${MODPNPM_ENV} ${MODPNPM_ENV_BUILD} ${MODPNPM_BIN}
+MODPNPM_CMD_TEST?=\
+	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_TEST} ${MODPNPM_BIN}
 MODPNPM_CMD_GEN?=\
 	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_GEN} ${MODPNPM_BIN}
 
 # common args
-MODPNPM_ARGS?=		--verbose --loglevel=info
-MODPNPM_ARGS_WORKSPACE?=-r --filter '!{.}'
-MODPNPM_ARGS_OPTIONAL?=	${MODPNPM_NO_OPTIONAL:L:S/no//:S/yes/--no-optional/}
-MODPNPM_ARGS_DEV?=	${MODPNPM_NO_DEV:L:S/no//:S/yes/--prod/}
+MODPNPM_ARGS?=\
+	--verbose --loglevel=info
+MODPNPM_ARGS_WORKSPACE?=\
+	-r --filter '!{.}'
+MODPNPM_ARGS_OPTIONAL?=\
+	${MODPNPM_NO_OPTIONAL:L:S/no//:S/yes/--no-optional/}
+MODPNPM_ARGS_DEV?=\
+	${MODPNPM_NO_DEV:L:S/no//:S/yes/--prod/}
 # ports args
+# XXX fake, --dangerously-allow-all-builds
 MODPNPM_ARGS_EXTRACT?=\
 	install ${MODPNPM_ARGS} --offline --frozen-lockfile --ignore-scripts \
-	${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
-MODPNPM_ARGS_REBUILD?=	rebuild ${MODPNPM_ARGS}
-MODPNPM_ARGS_BUILD?=	pack ${MODPNPM_ARGS}
+	    ${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
+MODPNPM_ARGS_REBUILD?=\
+	rebuild ${MODPNPM_ARGS}
+MODPNPM_ARGS_BUILD?=\
+	pack ${MODPNPM_ARGS}
 MODPNPM_ARGS_FAKE?=\
-	install ${MODPNPM_ARGS} --offline --prod ${MODPNPM_ARGS_OPTIONAL} \
-	--dangerously-allow-all-builds
-MODPNPM_ARGS_TEST?=	test ${MODPNPM_ARGS}
+	install ${MODPNPM_ARGS} --offline --prod ${MODPNPM_ARGS_OPTIONAL}
+MODPNPM_ARGS_TEST?=\
+	test --verbose
 # maintener args
-MODPNPM_ARGS_GEN?=	${MODPNPM_ARGS} --lockfile-only --ignore-scripts
+# XXX add, --save-dev only ?
+MODPNPM_ARGS_GEN?=\
+	${MODPNPM_ARGS} --lockfile-only --ignore-scripts
 MODPNPM_ARGS_INSTALL?=\
 	install ${MODPNPM_ARGS_GEN} ${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
-MODPNPM_ARGS_UPDATE?=	update ${MODPNPM_ARGS_GEN}
-# XXX dev only ?
-MODPNPM_ARGS_ADD?=	add ${MODPNPM_ARGS_GEN} --save-dev
+MODPNPM_ARGS_UPDATE?=\
+	update ${MODPNPM_ARGS_GEN}
+MODPNPM_ARGS_ADD?=\
+	add ${MODPNPM_ARGS_GEN} --save-dev
 MODPNPM_ARGS_VENDOR?=\
 	install ${MODPNPM_ARGS} --frozen-lockfile --ignore-scripts \
-	${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV} \
-	${MODPNPM_GEN_FORCE:L:S/yes/--force/:S/no//}
+	    ${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV} \
+	    ${MODPNPM_GEN_FORCE:L:S/yes/--force/:S/no//}
 
 # SITES{.pnpm,.github} && EXTRACT_SUFX.github
 SITES.pnpm?=		https://registry.npmjs.org/
+# XXX few use cases, better way to avoid duplicates ?
 .include "${PORTSDIR}/infrastructure/db/dist-tuple.pattern"
 EXTRACT_SUFX.github?=	${TEMPLATE_EXTRACT_SUFX}
 
@@ -182,6 +213,7 @@ TEST_DEPENDS+=		devel/pnpm
 MODPNPM_post-extract += \
 	mkdir -p ${PORTHOME} ; \
 	mkdir -p ${WRKDIR}/tmp ; \
+	mkdir -p ${MODPNPM_BUILD_DIST} ; \
 	ln -fs ${MODPNPM_INSTALL_DIST} ${WRKDIR}/ ;
 
 .if empty(_GEN_MODULES)
@@ -212,9 +244,10 @@ MODPNPM_post-extract += \
 		cd $${target} ;
 .for _CONF in ${MODPNPM_CONFIGFILES}
 MODPNPM_post-extract += \
-		[ -f ${FILESDIR}/modpnpm_$${prefix}_${_CONF} ] && \
-			cp ${FILESDIR}/modpnpm_$${prefix}_${_CONF} ${_CONF} \
-			|| true ;
+		conf=${_CONF:S/\//_/g} ; \
+		if [ -f ${FILESDIR}/modpnpm_$${prefix}_$${conf} ] ; then \
+			cp ${FILESDIR}/modpnpm_$${prefix}_$${conf} ${_CONF} ; \
+		fi ;
 .endfor
 MODPNPM_post-extract += \
 		cd - >/dev/null ; \
@@ -242,6 +275,7 @@ MODPNPM_post-extract += \
 # Note, during fake, node_modules folders are pruned (or reinstalled) for
 # production without applying any patches.
 # Thus patches for devdepends work but not for rundepends.
+# XXX use the npm pattern with bundledependencies ?
 MODPNPM_post-extract += \
 	for target in ${MODPNPM_TARGETS} ; do \
 		echo "MODPNPM: extract $${target}" ; \
@@ -260,25 +294,32 @@ MODPNPM_PREBUILD_TARGET=\
 	done
 
 MODPNPM_BUILD_TARGET=\
-	mkdir -p ${MODPNPM_DIST_BUILD} ; \
 	for target in ${MODPNPM_TARGETS} ; do \
 		prefix=$$(echo "$${target\#\#${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix\#\#_} ; \
 		prefix=$${prefix%%_} ; \
 		echo "MODPNPM: pack $${target}" ; \
+		mkdir -p ${MODPNPM_BUILD_DIST}/$${prefix} ; \
 		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \
 				${MODPNPM_ARGS_BUILD} --out \
-				${MODPNPM_DIST_BUILD}/$${prefix}/%s.tgz ; \
+				${MODPNPM_BUILD_DIST}/$${prefix}/%s.tgz ; \
 		else \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_BUILD} --out \
-				${MODPNPM_DIST_BUILD}/$${prefix}/%s.tgz ; \
+				${MODPNPM_BUILD_DIST}/$${prefix}/%s.tgz ; \
 		fi ; \
 	done
 
 # XXX workspace install looks fragile, either drop or find more ports to test
+# Note about workspace and copy script:
+# Depending on structure, install depth may vary and relative links gets broken.
+# Copy node_modules(/.pnpm) into fake dir then link .pnpm to the copy.
+# Thus allow source with one subdirectory to install at root instead of @x/y.
+# All other source structure are not handled by this custom install.
+# Relative links to ../node/* may also be broken by workspace relocation depth,
+# scan for those links and relocate them at proper depth level.
 MODPNPM_INSTALL_TARGET=\
 	${INSTALL_DATA_DIR} ${PREFIX}/${MODPNPM_INSTALL_DIR} ; \
 	for target in ${MODPNPM_TARGETS} ; do \
@@ -289,16 +330,18 @@ MODPNPM_INSTALL_TARGET=\
 			echo "MODPNPM: prune $${target}" ; \
 			cd $${target} ; \
 			rm -rf node_modules ; \
-			delete=$$(find . -type d -name node_modules) && \
-			rm -rf $$delete ; \
+			find . -type d -name node_modules -delete ; \
 			${MODPNPM_CMD} ${MODPNPM_ARGS_FAKE} \
 				--frozen-lockfile ; \
-			mv node_modules ${PREFIX}/${MODPNPM_INSTALL_DIR}/ ; \
+			cp -pRP node_modules \
+				${PREFIX}/${MODPNPM_INSTALL_DIR}/ ; \
+			ln -fs ./node_modules/.pnpm \
+				${PREFIX}/${MODPNPM_INSTALL_DIR}/.pnpm ; \
 		fi ; \
 		ln -fs ${MODPNPM_INSTALL_DIST} \
 			${PREFIX}/${MODPNPM_INSTALL_DIR}/../ ; \
 		echo "MODPNPM: unpack & install $${target}" ; \
-		for tgz in ${MODPNPM_DIST_BUILD}/$${prefix}/*.tgz ; do \
+		for tgz in ${MODPNPM_BUILD_DIST}/$${prefix}/*.tgz ; do \
 			cd ${PREFIX}/${MODPNPM_INSTALL_DIR} ; \
 			tar -xzf $$tgz ; \
 			pkg=$$(cat package/package.json | \
@@ -308,10 +351,11 @@ MODPNPM_INSTALL_TARGET=\
 			if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
 				srcdir=$$(cd $${target} && \
 					${MODPNPM_CMD} list -r --depth -1 | \
-					grep "$${pkg}@" | awk '{print $$2}') ; \
+					grep -m1 "$${pkg}@" | \
+					awk '{print $$2}') ; \
 				echo "MODPNPM: modules from $${srcdir}" ; \
 				[ -d $${srcdir}/node_modules ] && \
-				mv $${srcdir}/node_modules $${pkg}/ ; \
+				cp -pRP $${srcdir}/node_modules $${pkg}/ ; \
 			else \
 				cd $${pkg} ; \
 				sed \
@@ -323,16 +367,37 @@ MODPNPM_INSTALL_TARGET=\
 			fi ; \
 		done ; \
 	done ; \
+	echo "MODPNPM: find system link" ; \
+	find ${PREFIX}/${MODPNPM_INSTALL_DIR} -type l | while read l ; do \
+		[ -e "$$l" ] && continue ; \
+		t=$$(readlink "$$l") ; \
+		case "$$t" in \
+			*node/*) ;; \
+			*) continue ;; \
+		esac ; \
+		suffix=$${t\#*node/} ; \
+		[ "$$suffix" = "$$t" ] && continue ; \
+		anchor=${PREFIX}/${MODPNPM_INSTALL_DIR}/../node/$$suffix ; \
+		[ -e "$$anchor" ] || continue ; \
+		from=$$(dirname "$$l") ; \
+		rel=$$(perl -MFile::Spec -e \
+			'print File::Spec->abs2rel($$ARGV[0], $$ARGV[1])' \
+			"$$anchor" "$$from") ; \
+		echo "MODPNPM: relink $$l -> $$rel" ; \
+		ln -snf "$$rel" "$$l" ; \
+	done ; \
+	echo "MODPNPM: cleanup" ; \
+	find -L ${PREFIX}/${MODPNPM_INSTALL_DIR} -type l -exec rm {} \; ; \
 	find ${PREFIX}/${MODPNPM_INSTALL_DIR} -type f -and \( \
 		-name '*${MODPNPM_PATCHORIG}' \
 		-or -name '*${PATCHORIG}' \
 		-or -name '*.core' \
-		\) -exec rm {} \; ;
+		\) -delete ;
 
 MODPNPM_TEST_TARGET=\
 	for target in ${MODPNPM_TARGETS} ; do \
 		echo "MODPNPM: test $${target}" ; \
-		cd $${target} && ${MODPNPM_CMD} ${MODPNPM_ARGS_TEST} ; \
+		cd $${target} && ${MODPNPM_CMD_TEST} ${MODPNPM_ARGS_TEST} ; \
 	done
 
 .if !target(pre-build)
@@ -363,14 +428,15 @@ modpnpm-diff:
 		prefix=$$(echo "$${target\#\#${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix\#\#_} ; \
 		prefix=$${prefix%%_} ; \
+		conf=${_CONF:S/\//_/g} ; \
 		if [[ $${target}/${_CONF} == *.json ]] ; then \
 			[ -f $${target}/${_CONF}${MODPNPM_PATCHORIG} ] && \
 			jq '.' $${target}/${_CONF}${MODPNPM_PATCHORIG} | \
-			diff -uN - modpnpm_$${prefix}_${_CONF} || true ; \
+			diff -uN - modpnpm_$${prefix}_$${conf} || true ; \
 		else \
 			[ -f $${target}/${_CONF}${MODPNPM_PATCHORIG} ] && \
 			diff -uN $${target}/${_CONF}${MODPNPM_PATCHORIG} \
-				modpnpm_$${prefix}_${_CONF} || true ; \
+				modpnpm_$${prefix}_$${conf} || true ; \
 		fi ; \
 	done
 .endfor
@@ -384,9 +450,9 @@ MODPNPM_gen-configfiles += \
 .endif
 
 # Setup overrides customisation before modpnpm-gen-configfiles (w/patches), ex:
-# MODPNPM_GEN_OVERRIDES =	"foo":"npm:foo@x.y.z" "bar":"npm:@cutom/bar"
-.for _modpnpm_override in ${MODPNPM_GEN_OVERRIDES}
-_MODPNPM_OVERRIDES:=${_MODPNPM_OVERRIDES:%=%,}${_modpnpm_override}
+# MODPNPM_GEN_OVERRIDES =	"foo" "npm:foo@x.y.z" "bar" "npm:@cutom/bar"
+.for _mod _spec in ${MODPNPM_GEN_OVERRIDES}
+_MODPNPM_OVERRIDES:=${_MODPNPM_OVERRIDES:%=%,}${_mod}:${_spec}
 .endfor
 .if !empty(_MODPNPM_OVERRIDES)
 MODPNPM_gen-configfiles += \
@@ -397,23 +463,30 @@ MODPNPM_gen-configfiles += \
 # skip generating modules.pnpm.inc, vendor store in $HOME ($WRKDIR/vendor)
 _MODPNPM_VENDOR?=	No
 # default env for generating configfiles, modules.pnpm.inc or vendor store
-_MODPNPM_TMP?=		./
+_MODPNPM_TMP?=		./modpnpm
 _MODPNPM_GEN_VAR?=	BUILD_USER=$$(whoami) WRKOBJDIR=$${t}
-_MODPNPM_GEN_DIR?=	$$(realpath `mktemp -d ${_MODPNPM_TMP}/modpnpm.XXXXXXX`)
+_MODPNPM_GEN_DIR?=	$$(realpath `mktemp -d ${_MODPNPM_TMP}.XXXXXXX`)
 
 .if !target(modpnpm-pre-gen-modules)
 modpnpm-pre-gen-modules:
+.endif
+
+.if !target(modpnpm-post-gen-modules)
+modpnpm-post-gen-modules:
 .endif
 
 .if !target(_modpnpm-gen-modules)
 _modpnpm-gen-modules: modpnpm-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
 # scan for modules to override, update or add
+	@rm -f ${WRKDIR}/newmods
+	@rm -f ${WRKDIR}/missmods
 .  for _mod _port _override in ${MODPNPM_MODULES}
 	@for target in ${MODPNPM_PACKAGES} ; do \
 		[ -f $${target}/${MODPNPM_LOCK} ] && \
 		grep -q '\s*${_mod}@' $${target}/${MODPNPM_LOCK} && \
 		echo "${MODPNPM_MODS}" | grep -vq "${_mod}" && \
+		echo "${MODPNPM_MODS_SKIP}" | grep -vq "${_mod}" && \
 		echo "MODPNPM_MODS+=${_mod}" >> ${WRKDIR}/newmods ; \
 		true ; \
 	done
@@ -429,7 +502,9 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		fi ; \
 	done ; \
 	if [ $${found} == 0 ] ; then \
+		echo "${MODPNPM_MODS_SKIP}" | grep -vq "${_mod}" && \
 		echo "${_mod} not found" >> ${WRKDIR}/missmods ; \
+		true ; \
 	fi
 .  endif
 .endfor
@@ -466,14 +541,13 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		echo "MODPNPM: fix config files $${target}" ; \
 		cd $${target} ; \
 		${MODPNPM_gen-configfiles} \
-		true ; \
 	done
 # mods triggered overrides
 .for _mod _port _override in ${MODPNPM_MODULES}
 .  if !empty(MODPNPM_MODS:M${_mod}) && "${_override}" != "."
 .    if "${_port}" != "."
 # Override modules with relative link to ${WRKDIR}/node which is a symlink
-# to system ${LOCALBASE}/lib/node.
+# to system ${LOCALBASE}/node.
 	@for target in ${MODPNPM_PACKAGES} ; do \
 		grep -q '\s*${_mod}@' $${target}/${MODPNPM_LOCK} || continue ; \
 		echo "MODPNPM: mod ${_mod} port ${_port} to $${target}" ; \
@@ -553,6 +627,9 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 	done
 .    endif
 .  endfor
+# post-gen target
+	t=${WRKOBJDIR} ; \
+	make -D _GEN_MODULES ${_MODPNPM_GEN_VAR} modpnpm-post-gen-modules
 # distfiles
 	@[ -f ${.CURDIR}/modules.pnpm.inc ] && \
 		mv ${.CURDIR}/modules.pnpm.inc{,.orig} || true
@@ -578,19 +655,20 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 .  endif
 # config & lock files
 	@mkdir -p ${FILESDIR}
+	@echo "MODPNPM: bundle configfiles"
 .  for _CONF in ${MODPNPM_CONFIGFILES}
 	@cd ${FILESDIR} ; \
-	echo "MODPNPM: bundle ${_CONF}" ; \
 	for target in ${MODPNPM_PACKAGES} ; do \
 		prefix=$$(echo "$${target##${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix##_} ; \
 		prefix=$${prefix%%_} ; \
-		[ -f modpnpm_$${prefix}_${_CONF} ] && \
-			cp modpnpm_$${prefix}_${_CONF}{,.orig} \
+		conf=${_CONF:S/\//_/g} ; \
+		[ -f modpnpm_$${prefix}_$${conf} ] && \
+			cp modpnpm_$${prefix}_$${conf}{,.orig} \
 			|| true ; \
 		[ -f $${target}/${_CONF} ] && \
-			cp $${target}/${_CONF} modpnpm_$${prefix}_${_CONF} && \
-			echo "=> ${FILESDIR}/modpnpm_$${prefix}_${_CONF}" \
+			cp $${target}/${_CONF} modpnpm_$${prefix}_$${conf} && \
+			echo "=> ${FILESDIR}/modpnpm_$${prefix}_$${conf}" \
 			|| true ; \
 	done
 .  endfor
@@ -608,7 +686,7 @@ modpnpm-gen-modules:
 	echo "MODPNPM: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
 	echo "MODPNPM: rm $${t}, done." || (\
-	echo "MODPNPM: FAIL, try again with _MODPNPM_GEN_DIR=$${t} or rm it" ; \
+	echo "MODPNPM: FAIL, try again with _MODPNPM_GEN_DIR=$${t}" ; \
 	false )
 .endif
 
@@ -638,6 +716,6 @@ modpnpm-gen-vendor:
 	echo "MODPNPM: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
 	echo "MODPNPM: rm $${t}, done." || (\
-	echo "MODPNPM: FAIL, try again with _MODPNPM_GEN_DIR=$${t} or rm it" ; \
+	echo "MODPNPM: FAIL, try again with _MODPNPM_GEN_DIR=$${t}" ; \
 	false )
 .endif

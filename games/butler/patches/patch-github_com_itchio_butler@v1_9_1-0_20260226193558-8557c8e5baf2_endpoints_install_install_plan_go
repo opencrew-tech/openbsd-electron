@@ -1,0 +1,35 @@
+Index: github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go
+--- github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go.orig
++++ github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go
+@@ -16,7 +16,6 @@ import (
+ 	"github.com/itchio/butler/cmd/operate"
+ 	"github.com/itchio/butler/database/models"
+ 	"github.com/itchio/butler/endpoints/fetch"
+-	"github.com/itchio/butler/manager"
+ 
+ 	"github.com/itchio/hades"
+ 	"github.com/itchio/httpkit/eos"
+@@ -38,8 +37,8 @@ func checkCancelled(ctx context.Context) error {
+ 	}
+ }
+ 
+-// getGameUploads fetches the game and its uploads, narrows by platform/format,
+-// and excludes already-installed or in-progress uploads.
++// getGameUploads fetches the game and its uploads, then excludes
++// already-installed or in-progress uploads.
+ func getGameUploads(rc *butlerd.RequestContext, conn *sqlite.Conn, gameID int64) (*itchio.Game, []*itchio.Upload, error) {
+ 	consumer := rc.Consumer
+ 
+@@ -53,12 +52,6 @@ func getGameUploads(rc *butlerd.RequestContext, conn *
+ 	if err := checkCancelled(rc.Ctx); err != nil {
+ 		return nil, nil, err
+ 	}
+-
+-	narrowRes, err := manager.NarrowDownUploads(consumer, game, baseUploads, rc.HostEnumerator())
+-	if err != nil {
+-		return nil, nil, err
+-	}
+-	baseUploads = narrowRes.Uploads
+ 
+ 	// exclude already-installed and currently-installing uploads
+ 	var uploadIDs []interface{}

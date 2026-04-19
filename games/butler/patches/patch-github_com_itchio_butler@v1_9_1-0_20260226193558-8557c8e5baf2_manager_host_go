@@ -1,0 +1,43 @@
+Index: github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go
+--- github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go.orig
++++ github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go
+@@ -43,8 +43,39 @@ func (dre *defaultHostEnumerator) Enumerate(consumer *
+ 	native := NativeHost()
+ 	consumer.Debugf("Native platform: %v", native)
+ 
++	consumer.Debugf("Looking for indierunner...")
++	indieRunnerPath, err := exec.LookPath("indierunner")
++	if err == nil {
++		consumer.Debugf("Found indierunner at: (%s)", indieRunnerPath)
++	} else {
++		consumer.Warnf(
++			"Could not resolve indierunner in PATH, using literal command name: %+v",
++			err,
++		)
++		indieRunnerPath = "indierunner"
++	}
++	native.Wrapper = &Wrapper{
++		WrapperBinary:        indieRunnerPath,
++		BeforeTarget:         []string{"-f"},
++		BetweenTargetAndArgs: []string{"--"},
++	}
++
+ 	rts := Hosts{
+ 		native,
++	}
++
++	if native.Runtime.Platform != ox.PlatformWindows {
++		rts = append(rts, Host{
++			Runtime: ox.Runtime{
++				Platform: ox.PlatformWindows,
++				Is64:     false, // 32-bit windows supports both
++			},
++			Wrapper: &Wrapper{
++				WrapperBinary:        indieRunnerPath,
++				BeforeTarget:         []string{"-f"},
++				BetweenTargetAndArgs: []string{"--"},
++			},
++		})
+ 	}
+ 
+ 	if native.Runtime.Platform != ox.PlatformWindows {

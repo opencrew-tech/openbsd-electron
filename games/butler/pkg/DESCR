@@ -1,0 +1,5 @@
+butler is the itch.io command-line tools - all by itself.
+
+It is used by:
+* Content creators on itch.io to push builds quickly & reliably
+* the itch app for some network, filesystem and patching operations

@@ -1,0 +1,11 @@
+Index: github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/system/statfs_unix.go
+--- github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/system/statfs_unix.go.orig
++++ github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/system/statfs_unix.go
+@@ -1,5 +1,5 @@
+-//go:build !windows
+-// +build !windows
++//go:build !windows && !openbsd
++// +build !windows,!openbsd
+ 
+ package system
+ 

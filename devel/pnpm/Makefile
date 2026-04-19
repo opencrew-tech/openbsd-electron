@@ -18,7 +18,7 @@
 
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.26.1
+V=		10.33.0
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel
@@ -30,12 +30,12 @@ MAINTAINER=	Fabien Romano <fabien@openbsd.org>
 # MIT
 PERMIT_PACKAGE=	Yes
 
-SITES.published=	https://registry.npmjs.org/pnpm/-/
 DISTFILES.published=	pnpm-${V}.tgz
+SITES.published=	https://registry.npmjs.org/pnpm/-/
 
 # on upates, comments then run make makesum && make modpnpm-gen-vendor
-SITES.vendor=		http://distfiles.opencrew.tech/pnpm/
 DISTFILES.vendor=	${MODPNPM_VENDOR}
+SITES.vendor=		http://distfiles.opencrew.tech/pnpm/
 
 MODULES=		lang/python \
 			devel/pnpm
@@ -56,15 +56,20 @@ BUILD_DEPENDS+=		devel/esbuild \
 RUN_DEPENDS+=		lang/node
 
 # to bootstrap we use official pnpm which does not support system module
-#MODPNPM_MODS+=		esbuild
 MODPNPM_SKIP_GEN_MODS=	Yes
+
 # XXX use system esbuild, version to keep in sync manually
 # [ERROR] Cannot start service:
 # Host version "x.y.z" does not match binary version "x.y.z"
-ESBUILD_V=		0.27.1
+ESBUILD_V=		0.28.0
 MODPNPM_GEN_UPDATE=	esbuild@${ESBUILD_V}
-MODPNPM_GEN_OVERRIDES=	"esbuild":"${ESBUILD_V}"
+MODPNPM_GEN_OVERRIDES=	"esbuild" "${ESBUILD_V}"
 MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
+
+post-extract:
+	cd ${WRKDIR} && \
+	ln -fs ./devel/esbuild/github.com/evanw/esbuild*/npm/esbuild \
+		esbuild
 
 pre-configure:
 	ln -fs ${WRKDIR}/package/bin/pnpm.cjs ${WRKDIR}/bin/pnpm

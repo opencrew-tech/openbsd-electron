@@ -1,7 +1,7 @@
 Index: pkg-manager/link-bins/src/index.ts
 --- pkg-manager/link-bins/src/index.ts.orig
 +++ pkg-manager/link-bins/src/index.ts
-@@ -335,7 +335,16 @@ async function linkBin (cmd: CommandInfo, binsDir: str
+@@ -348,7 +348,16 @@ async function linkBin (cmd: CommandInfo, binsDir: str
    // ensure that bin are executable and not containing
    // windows line-endings(CRLF) on the hashbang line
    if (EXECUTABLE_SHEBANG_SUPPORTED) {

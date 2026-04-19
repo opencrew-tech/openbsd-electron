@@ -13,10 +13,10 @@ Index: resolving/default-resolver/src/index.ts
  
  export type {
    PackageMeta,
-@@ -73,6 +75,15 @@ export function createResolver (
+@@ -77,6 +79,15 @@ export function createResolver (
          throw new PnpmError(
            'SPEC_NOT_SUPPORTED_BY_ANY_RESOLVER',
-           `${wantedDependency.alias ? wantedDependency.alias + '@' : ''}${wantedDependency.bareSpecifier ?? ''} isn't supported by any available resolver.`)
+           `${specifier} isn't supported by any available resolver.`)
 +      }
 +      if (wantedDependency.mirror) {
 +        const resolutionTarballMirror = await resolveFromMirrorTarball({ bareSpecifier: wantedDependency.mirror })

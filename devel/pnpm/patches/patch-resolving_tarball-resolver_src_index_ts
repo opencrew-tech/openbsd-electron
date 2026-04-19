@@ -1,7 +1,7 @@
 Index: resolving/tarball-resolver/src/index.ts
 --- resolving/tarball-resolver/src/index.ts.orig
 +++ resolving/tarball-resolver/src/index.ts
-@@ -7,6 +7,25 @@ export interface TarballResolveResult extends ResolveR
+@@ -7,6 +7,23 @@ export interface TarballResolveResult extends ResolveR
    resolvedVia: 'url'
  }
  
@@ -11,8 +11,6 @@ Index: resolving/tarball-resolver/src/index.ts
 +  if (!wantedDependency.bareSpecifier.startsWith('http:') && !wantedDependency.bareSpecifier.startsWith('https:')) {
 +    return null
 +  }
-+
-+  if (isRepository(wantedDependency.bareSpecifier)) return null
 +
 +  return {
 +    id: wantedDependency.bareSpecifier as PkgResolutionId,

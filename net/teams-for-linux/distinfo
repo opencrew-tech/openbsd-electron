@@ -13,6 +13,7 @@ SHA256 (npm_modules/@eslint-plugin-kit-0.6.1.tgz) = ys7jxEElpdDakr9O6pUX8JCOGg6F
 SHA256 (npm_modules/@homebridge-dbus-native-0.7.4.tgz) = hcMfEc2cJqzq3AFu6fTQreODDk1IgRIOS5YI/62FjC4=
 SHA256 (npm_modules/@humanfs-core-0.19.1.tgz) = RShfSsUVpRaiXLAD1cbgdceyFv5D2FKBi0RPp1SrJm8=
 SHA256 (npm_modules/@humanfs-node-0.16.7.tgz) = q/j8WWNwP2OEl7c3MpG1TCaLZVRnrimTKHmMpETbags=
+SHA256 (npm_modules/@humanfs-node-0.16.7.tgz) = q/j8WWNwP2OEl7c3MpG1TCaLZVRnrimTKHmMpETbags=
 SHA256 (npm_modules/@humanwhocodes-module-importer-1.0.1.tgz) = aRbfMMl2xQ+2evnZaTcosdk+UB+PtKRnMbTKOg0dDxo=
 SHA256 (npm_modules/@humanwhocodes-retry-0.4.3.tgz) = d3St3oATqR5VAtVQ8HGrYbEHfOXMPEkz+4U7ulWgIoA=
 SHA256 (npm_modules/@isaacs-cliui-9.0.0.tgz) = W3NCLq3NF4S60DMDgw7oGMIt62TSG5JfdntRYeUU7Xc=
@@ -105,6 +106,7 @@ SHA256 (npm_modules/estraverse-5.3.0.tgz) = Po1F2luAhaSo1RNo/+rVtVGlAsKGl4lioF1c
 SHA256 (npm_modules/esutils-2.0.3.tgz) = xa29cwpJWjxjW7rp7l9pO5XH4Ts5X3A276uCMsXwZA8=
 SHA256 (npm_modules/event-stream-4.0.1.tgz) = kAAoA8cTCtx2v0x8JjrbkWTcbLCw7KL56Ct4uSflg90=
 SHA256 (npm_modules/event-target-shim-5.0.1.tgz) = 8HF9os3lxwO5LmaQZiNySVnCOsFOlDnENrhMik9bJrw=
+SHA256 (npm_modules/event-target-shim-5.0.1.tgz) = 8HF9os3lxwO5LmaQZiNySVnCOsFOlDnENrhMik9bJrw=
 SHA256 (npm_modules/eventemitter3-4.0.7.tgz) = cDzez6aVHZrSWPYVq5aJV1Ct08stleNyeDe3hwmXXeg=
 SHA256 (npm_modules/events-3.3.0.tgz) = LDDdYwtYKZvfqshoj3Y8bzEtKXecUAseNwGh1Ps7U0s=
 SHA256 (npm_modules/extract-zip-2.0.1.tgz) = WbTgrmf6YXu2TKBobv+wIlPYIM5X+RPJURbcfLNz2rQ=
@@ -112,8 +114,10 @@ SHA256 (npm_modules/fast-deep-equal-3.1.3.tgz) = sBmgmA8nY43D+Fg2sOR48YjgDXpuWFL
 SHA256 (npm_modules/fast-json-stable-stringify-2.1.0.tgz) = Hi34IsQ+CitEjl33m/jm0+CFyG4wRWzTg6L5YhX9Foc=
 SHA256 (npm_modules/fast-levenshtein-2.0.6.tgz) = u0tQMGuLDwSEde/drhGBDiRZN9yoroVJirShcWl7vzw=
 SHA256 (npm_modules/fast-unique-numbers-9.0.25.tgz) = xHBOk4ycwTBfQaZrzGKW3bgNwN2eBfuhHrGsJlX0AXk=
+SHA256 (npm_modules/fast-unique-numbers-9.0.25.tgz) = xHBOk4ycwTBfQaZrzGKW3bgNwN2eBfuhHrGsJlX0AXk=
 SHA256 (npm_modules/fast-uri-3.1.0.tgz) = OtM8a0vYzB1fhnt0U8x4Opb/yJEBqa06i8/nkFqDWB0=
 SHA256 (npm_modules/fd-slicer-1.1.0.tgz) = zGgjrusnG+1J+D0vmkf4iRJ1VL2XBQOhf6opNRuviCM=
+SHA256 (npm_modules/fdir-6.5.0.tgz) = JB3c2fMeKh/KQFMmAX27gzPOF0GY6Ifw+WOHwp8NNl4=
 SHA256 (npm_modules/file-entry-cache-8.0.0.tgz) = Z6xabOoiaBFKH4k1yjrWD+Y0/tBN15FJOb8kzqotV7g=
 SHA256 (npm_modules/find-up-5.0.0.tgz) = 9KZO+1g3acCWONgZY/0/eqiDtjL5mSolbeP76WLKdbQ=
 SHA256 (npm_modules/flat-cache-4.0.1.tgz) = 4gha4rCEeSgSpPQQL2tJZ+k8/ahFc2G33r5hDPKu2vA=
@@ -124,6 +128,7 @@ SHA256 (npm_modules/fs-extra-10.1.0.tgz) = UKpnhS6Ga7BrNcI/g/0H/CGwbCGslig5VtBIC
 SHA256 (npm_modules/fs-extra-8.1.0.tgz) = AOxHc8xpU5pa/mF6hnyoRt/o6ezYvYg44ldaJLlesVg=
 SHA256 (npm_modules/function-bind-1.1.2.tgz) = cEQCZRsCoUVPF9RF/H3XFu/CgtBZQHEm1Y7zCkfoB6o=
 SHA256 (npm_modules/get-caller-file-2.0.5.tgz) = exPhyBlJ/0wbquSsTjSZBJLV6Khtq347kAJ7H1Emk18=
+SHA256 (npm_modules/get-east-asian-width-1.4.0.tgz) = eTeQmoodmAXvcbLL6UObyc091mTsl2GZoT2p6IDhN8s=
 SHA256 (npm_modules/get-east-asian-width-1.4.0.tgz) = eTeQmoodmAXvcbLL6UObyc091mTsl2GZoT2p6IDhN8s=
 SHA256 (npm_modules/get-intrinsic-1.3.0.tgz) = Zi4n5U4A/kb7sI+fSqywVONpXb5yzBS0NmE/vPt4BUQ=
 SHA256 (npm_modules/get-proto-1.0.1.tgz) = 6yzFKvsfH9gsX8KljCOA8PFv3NtWMVOPPGaIdDXXBoE=
@@ -152,6 +157,7 @@ SHA256 (npm_modules/ieee754-1.2.1.tgz) = jvFLmzl+M524nbl4gftxT0kxnY8OsSdZAfRVZ7K
 SHA256 (npm_modules/ignore-5.3.2.tgz) = jpZSIF9fyjbex44RZQ7ZmOY59XRGAOHb/AJM1ifu2L0=
 SHA256 (npm_modules/imurmurhash-0.1.4.tgz) = rCOgMZZqc3HRkuNceFKrMcdyt9TkaN3Yhq08AUNyy2A=
 SHA256 (npm_modules/inherits-2.0.4.tgz) = 2U28bBuzxawPsSpzreGHEI/GDeJzobdU9VBE614kr68=
+SHA256 (npm_modules/ip-address-10.1.0.tgz) = tnIFArN3m7Mr4DfjCEsJH15qU00EongCa+YyQ9bSo+Q=
 SHA256 (npm_modules/ip-address-10.1.0.tgz) = tnIFArN3m7Mr4DfjCEsJH15qU00EongCa+YyQ9bSo+Q=
 SHA256 (npm_modules/is-extglob-2.1.1.tgz) = jF1ChhRq1i/BCWmBcAzhwioWdwiSb8oB+cp0+btQvBk=
 SHA256 (npm_modules/is-glob-4.0.3.tgz) = P+RT+xk7tY9vBQXfsRUSMJNTgLW1Xh+YZCYcKq/BvsY=
@@ -192,6 +198,7 @@ SHA256 (npm_modules/ms-2.1.3.tgz) = 9mFuFeUw7VUvnaotPOcZY5R8a8fJjJtk/T5nP9AmIsY=
 SHA256 (npm_modules/natural-compare-1.4.0.tgz) = XlVp7NEgZPc2MqjBikWx0d5KJ7aZpnGGSAHxw17nee4=
 SHA256 (npm_modules/normalize-url-6.1.0.tgz) = jzS00Gm6+LaUCO5w/j5qO66srSpA/zxFzVSlbIY+Ow4=
 SHA256 (npm_modules/number-allocator-1.0.14.tgz) = PrkpksJ3zkUBEyPHPHs32gAw8/VG0cExsh/sPD4ONcY=
+SHA256 (npm_modules/number-allocator-1.0.14.tgz) = PrkpksJ3zkUBEyPHPHs32gAw8/VG0cExsh/sPD4ONcY=
 SHA256 (npm_modules/object-inspect-1.13.4.tgz) = gySWejr9ikWwQB41VK68GEP0k77EaomnzozwcuYukL8=
 SHA256 (npm_modules/object-keys-1.1.1.tgz) = lnjZBVYZdnyKE0AzcJ6IpuChlgDz0/LNpArN/XXn8hI=
 SHA256 (npm_modules/once-1.4.0.tgz) = z1FGC6Nwxpj2i5duUU0RNJczm6AYtgA+jo61acb8z88=
@@ -202,6 +209,7 @@ SHA256 (npm_modules/p-limit-3.1.0.tgz) = NuZRlzbK+qFY3BvKgTdoP1vxvBxHbUBRkCiz86l
 SHA256 (npm_modules/p-locate-5.0.0.tgz) = LsEUgKkJZadTsUG+VDLST0ypiGC4RP0bEMqwoQI0I/w=
 SHA256 (npm_modules/path-exists-4.0.0.tgz) = 27U1yTAs6bP3d+zj/wVcyNiIkKHh3t3ARTQK73b7d1w=
 SHA256 (npm_modules/path-key-3.1.1.tgz) = S4mZrLkUgw7c08W4/sYysyxrx1msPtyGM29angi6e5I=
+SHA256 (npm_modules/path-scurry-1.11.1.tgz) = /c44HNCLMHiW92/CqRXjmsu+hmnpwlJqM8BMI3kkNAk=
 SHA256 (npm_modules/pause-stream-0.0.11.tgz) = Zt8bGq2O7Yj3DPoG7VQSUiFai3Jc/K2JOli/yT9F6+Y=
 SHA256 (npm_modules/pend-1.2.0.tgz) = oS8nmyWp33ELUqmJK60Ave64Yqm10eT023cTESlDbX8=
 SHA256 (npm_modules/playwright-1.59.0.tgz) = CLnjEDSaEZ5TrqdlX5XExLl1xwDpbUxpTlY0Lx2i7vI=
@@ -243,6 +251,7 @@ SHA256 (npm_modules/smart-buffer-4.2.0.tgz) = PZgV5MvRvrlHrGvI4z631NOA54H/9pbCyb
 SHA256 (npm_modules/socks-2.8.7.tgz) = r/9FVRM+f9QwSU7D+4FHYytpbvbiuL6FBc7VDYXbblQ=
 SHA256 (npm_modules/split-1.0.1.tgz) = wOZJSoqlNY3ulwRHE/Kd4TZgT7qZWegqR/vEvtCdCrQ=
 SHA256 (npm_modules/split2-4.2.0.tgz) = 4AYefwQvxf9tzaivtmYZdX2Sqx/1FKKKWQTy694nv1Q=
+SHA256 (npm_modules/split2-4.2.0.tgz) = 4AYefwQvxf9tzaivtmYZdX2Sqx/1FKKKWQTy694nv1Q=
 SHA256 (npm_modules/sprintf-js-1.1.3.tgz) = moU3kozdLphwVfXPOK4Z20otS3HEZkilHxVpikjerrY=
 SHA256 (npm_modules/stream-combiner-0.2.2.tgz) = me/RaPs2lTZZINV9n590B85Y17NmmCTtKZ1uFls4fjM=
 SHA256 (npm_modules/string-width-7.2.0.tgz) = PpCQGpjK3vaYb+KVPm0YH0lzDYHHhVd2pjN/75O78fM=
@@ -279,6 +288,7 @@ SHA256 (npm_modules/worker-timers-worker-9.0.12.tgz) = EhvZ2SnyaxruP4Gb+CLyTRYAG
 SHA256 (npm_modules/wrap-ansi-9.0.2.tgz) = CkKlxc7gk2VEaRp1qnrvEWIJcclhmIRz+ZtaZUD3jn4=
 SHA256 (npm_modules/wrappy-1.0.2.tgz) = r/NzDZG3seFDgilW0UYI9WMWPPEbnQrmAt8f4eQw/fs=
 SHA256 (npm_modules/ws-8.19.0.tgz) = f7AtrgAKkczZ0q5RzaNnKrbBaF7NJuB8ZomWzlLiVgk=
+SHA256 (npm_modules/ws-8.19.0.tgz) = f7AtrgAKkczZ0q5RzaNnKrbBaF7NJuB8ZomWzlLiVgk=
 SHA256 (npm_modules/xml2js-0.6.2.tgz) = Y4YVTmOyjF9EEb8jSFlhBdJi42YAEE3ZWE4rclH1ahE=
 SHA256 (npm_modules/xmlbuilder-11.0.1.tgz) = ivd0S1Rbw8iINYna/VU2sGGU7bbqZn1f1/LP7kwSHJQ=
 SHA256 (npm_modules/y18n-5.0.8.tgz) = 1DdDutOnyzr107a/cP0y/jkj6obkFIEJxt0BJt6tp2k=
@@ -300,6 +310,7 @@ SIZE (npm_modules/@eslint-object-schema-3.0.3.tgz) = 12670
 SIZE (npm_modules/@eslint-plugin-kit-0.6.1.tgz) = 23855
 SIZE (npm_modules/@homebridge-dbus-native-0.7.4.tgz) = 23755
 SIZE (npm_modules/@humanfs-core-0.19.1.tgz) = 14260
+SIZE (npm_modules/@humanfs-node-0.16.7.tgz) = 9327
 SIZE (npm_modules/@humanfs-node-0.16.7.tgz) = 9327
 SIZE (npm_modules/@humanwhocodes-module-importer-1.0.1.tgz) = 7090
 SIZE (npm_modules/@humanwhocodes-retry-0.4.3.tgz) = 11398
@@ -393,6 +404,7 @@ SIZE (npm_modules/estraverse-5.3.0.tgz) = 8052
 SIZE (npm_modules/esutils-2.0.3.tgz) = 9542
 SIZE (npm_modules/event-stream-4.0.1.tgz) = 14224
 SIZE (npm_modules/event-target-shim-5.0.1.tgz) = 37216
+SIZE (npm_modules/event-target-shim-5.0.1.tgz) = 37216
 SIZE (npm_modules/eventemitter3-4.0.7.tgz) = 9657
 SIZE (npm_modules/events-3.3.0.tgz) = 16574
 SIZE (npm_modules/extract-zip-2.0.1.tgz) = 4361
@@ -400,8 +412,10 @@ SIZE (npm_modules/fast-deep-equal-3.1.3.tgz) = 3656
 SIZE (npm_modules/fast-json-stable-stringify-2.1.0.tgz) = 6318
 SIZE (npm_modules/fast-levenshtein-2.0.6.tgz) = 3699
 SIZE (npm_modules/fast-unique-numbers-9.0.25.tgz) = 6696
+SIZE (npm_modules/fast-unique-numbers-9.0.25.tgz) = 6696
 SIZE (npm_modules/fast-uri-3.1.0.tgz) = 26688
 SIZE (npm_modules/fd-slicer-1.1.0.tgz) = 7516
+SIZE (npm_modules/fdir-6.5.0.tgz) = 9742
 SIZE (npm_modules/file-entry-cache-8.0.0.tgz) = 5512
 SIZE (npm_modules/find-up-5.0.0.tgz) = 3806
 SIZE (npm_modules/flat-cache-4.0.1.tgz) = 8903
@@ -412,6 +426,7 @@ SIZE (npm_modules/fs-extra-10.1.0.tgz) = 16920
 SIZE (npm_modules/fs-extra-8.1.0.tgz) = 32529
 SIZE (npm_modules/function-bind-1.1.2.tgz) = 9799
 SIZE (npm_modules/get-caller-file-2.0.5.tgz) = 2383
+SIZE (npm_modules/get-east-asian-width-1.4.0.tgz) = 4560
 SIZE (npm_modules/get-east-asian-width-1.4.0.tgz) = 4560
 SIZE (npm_modules/get-intrinsic-1.3.0.tgz) = 13800
 SIZE (npm_modules/get-proto-1.0.1.tgz) = 4474
@@ -440,6 +455,7 @@ SIZE (npm_modules/ieee754-1.2.1.tgz) = 2886
 SIZE (npm_modules/ignore-5.3.2.tgz) = 15266
 SIZE (npm_modules/imurmurhash-0.1.4.tgz) = 4312
 SIZE (npm_modules/inherits-2.0.4.tgz) = 2030
+SIZE (npm_modules/ip-address-10.1.0.tgz) = 37185
 SIZE (npm_modules/ip-address-10.1.0.tgz) = 37185
 SIZE (npm_modules/is-extglob-2.1.1.tgz) = 2663
 SIZE (npm_modules/is-glob-4.0.3.tgz) = 4255
@@ -480,6 +496,7 @@ SIZE (npm_modules/ms-2.1.3.tgz) = 2967
 SIZE (npm_modules/natural-compare-1.4.0.tgz) = 2510
 SIZE (npm_modules/normalize-url-6.1.0.tgz) = 5596
 SIZE (npm_modules/number-allocator-1.0.14.tgz) = 7184
+SIZE (npm_modules/number-allocator-1.0.14.tgz) = 7184
 SIZE (npm_modules/object-inspect-1.13.4.tgz) = 28026
 SIZE (npm_modules/object-keys-1.1.1.tgz) = 7677
 SIZE (npm_modules/once-1.4.0.tgz) = 1979
@@ -490,6 +507,7 @@ SIZE (npm_modules/p-limit-3.1.0.tgz) = 3265
 SIZE (npm_modules/p-locate-5.0.0.tgz) = 3151
 SIZE (npm_modules/path-exists-4.0.0.tgz) = 2073
 SIZE (npm_modules/path-key-3.1.1.tgz) = 2258
+SIZE (npm_modules/path-scurry-1.11.1.tgz) = 101719
 SIZE (npm_modules/pause-stream-0.0.11.tgz) = 5843
 SIZE (npm_modules/pend-1.2.0.tgz) = 2308
 SIZE (npm_modules/playwright-1.59.0.tgz) = 764510
@@ -531,6 +549,7 @@ SIZE (npm_modules/smart-buffer-4.2.0.tgz) = 21539
 SIZE (npm_modules/socks-2.8.7.tgz) = 29891
 SIZE (npm_modules/split-1.0.1.tgz) = 4463
 SIZE (npm_modules/split2-4.2.0.tgz) = 4668
+SIZE (npm_modules/split2-4.2.0.tgz) = 4668
 SIZE (npm_modules/sprintf-js-1.1.3.tgz) = 10968
 SIZE (npm_modules/stream-combiner-0.2.2.tgz) = 2571
 SIZE (npm_modules/string-width-7.2.0.tgz) = 2989
@@ -566,6 +585,7 @@ SIZE (npm_modules/worker-timers-broker-8.0.14.tgz) = 8743
 SIZE (npm_modules/worker-timers-worker-9.0.12.tgz) = 7883
 SIZE (npm_modules/wrap-ansi-9.0.2.tgz) = 4316
 SIZE (npm_modules/wrappy-1.0.2.tgz) = 1676
+SIZE (npm_modules/ws-8.19.0.tgz) = 34331
 SIZE (npm_modules/ws-8.19.0.tgz) = 34331
 SIZE (npm_modules/xml2js-0.6.2.tgz) = 858415
 SIZE (npm_modules/xmlbuilder-11.0.1.tgz) = 28784

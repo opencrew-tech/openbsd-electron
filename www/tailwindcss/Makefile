@@ -1,6 +1,6 @@
 COMMENT =	utility-first CSS framework with npm dependencies
 
-DIST_TUPLE =		github tailwindlabs tailwindcss v4.1.16 .
+DIST_TUPLE =		github tailwindlabs tailwindcss v4.2.2 .
 
 CATEGORIES =		www
 
@@ -16,15 +16,19 @@ WANTLIB += ${MODCARGO_WANTLIB} c++ m
 # XXX base-gcc ?
 COMPILER=base-clang ports-gcc base-gcc
 
-MODULES =		devel/cargo devel/pnpm
+MODULES =		devel/cargo \
+			devel/pnpm
 
+# cargo integration
 MODCARGO_BUILD =	No
 MODCARGO_INSTALL =	No
+MAKE_ENV+=		${MODCARGO_ENV}
 
 MODPNPM_TARGETS =	${WRKSRC}
 MODPNPM_PACKAGES =	${WRKSRC} ${WRKSRC}/crates/node
 
 MODPNPM_INSTALL =	tailwindcss
+MODPNPM_MODS_SKIP+=	tailwindcss
 MODPNPM_NO_OPTIONAL =	Yes
 MODPNPM_WORKSPACE_ARGS=	-r --filter '!{.}' \
 			--filter '!{./packages/internal-example-plugin}'
@@ -32,22 +36,17 @@ MODPNPM_WORKSPACE_ARGS=	-r --filter '!{.}' \
 # drop @tailwindcss/oxide-<os>-<arch> which are missing during build
 # note @tailwindcss/oxide is overridden by a custom os/arch agnostic resolver
 # see ${FILESDIR}/index.js & post-install target
-MODPNPM_gen-configfiles += \
+MODPNPM_gen-configfiles+=\
 	jq 'del(.optionalDependencies)' ${MODPNPM_PACKAGE} \
 		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ; \
 	jq 'del(.pnpm.patchedDependencies)' ${MODPNPM_PACKAGE} \
 		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
 
-MODPNPM_MODS+=lightningcss
-MODPNPM_MODS+=rollup
-MODPNPM_MODS+=@parcel/watcher
 MODPNPM_MODS+=esbuild
-
-# detect itself, ignore tailwindcss
-MODPNPM_SKIP_GEN_MODS=Yes
-
-# needed to build oxide with pnpm
-MAKE_ENV+=		${MODCARGO_ENV}
+MODPNPM_MODS+=graceful-fs
+MODPNPM_MODS+=@parcel/watcher
+MODPNPM_MODS+=rollup
+MODPNPM_MODS+=lightningcss
 
 CONFIGURE_STYLE =	cargo
 

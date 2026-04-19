@@ -1,0 +1,147 @@
+Accept wasm32 module.
+
+Implement rebuild without reinstall (--force).
+
+Index: lib/cli.js
+--- lib/cli.js.orig
++++ lib/cli.js
+@@ -6675,6 +6675,7 @@ function normalizeFlags(config, rawFlags) {
+     ignoreScripts: !!rawFlags.ignoreScripts,
+     ignoreOptional: !!rawFlags.ignoreOptional,
+     force: !!rawFlags.force,
++    rebuild: !!rawFlags.rebuild,
+     flat: !!rawFlags.flat,
+     lockfile: rawFlags.lockfile !== false,
+     pureLockfile: !!rawFlags.pureLockfile,
+@@ -6720,6 +6721,10 @@ function normalizeFlags(config, rawFlags) {
+     flags.force = true;
+   }
+ 
++  if (config.getOption('rebuild')) {
++    flags.rebuild = true;
++  }
++
+   return flags;
+ }
+ 
+@@ -6738,7 +6743,7 @@ var Install = exports.Install = function () {
+     this.resolver = new (_packageResolver || _load_packageResolver()).default(config, lockfile, this.resolutionMap);
+     this.integrityChecker = new (_integrityChecker || _load_integrityChecker()).default(config);
+     this.linker = new (_packageLinker || _load_packageLinker()).default(config, this.resolver);
+-    this.scripts = new (_packageInstallScripts || _load_packageInstallScripts()).default(config, this.resolver, this.flags.force);
++    this.scripts = new (_packageInstallScripts || _load_packageInstallScripts()).default(config, this.resolver, this.flags.force || this.flags.rebuild);
+   }
+ 
+   /**
+@@ -7104,7 +7109,7 @@ var Install = exports.Install = function () {
+       if (this.config.plugnplayEnabled) {
+         return false;
+       }
+-      if (this.flags.skipIntegrityCheck || this.flags.force) {
++      if (this.flags.skipIntegrityCheck || this.flags.force || this.flags.rebuild) {
+         return false;
+       }
+       var lockfileCache = this.lockfile.cache;
+@@ -7355,12 +7360,15 @@ var Install = exports.Install = function () {
+       steps.push(function (curr, total) {
+         return (0, (_hooks || _load_hooks()).callThroughHook)('linkStep', (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
+           // remove integrity hash to make this operation atomic
+-          yield _this2.integrityChecker.removeIntegrityFile();
++          if (!_this2.flags.rebuild) {
++            yield _this2.integrityChecker.removeIntegrityFile();
++          }
+           _this2.reporter.step(curr, total, _this2.reporter.lang('linkingDependencies'), emoji.get('link'));
+           flattenedTopLevelPatterns = _this2.preparePatternsForLinking(flattenedTopLevelPatterns, manifest, _this2.config.lockfileFolder === _this2.config.cwd);
+           yield _this2.linker.init(flattenedTopLevelPatterns, workspaceLayout, {
+             linkDuplicates: _this2.flags.linkDuplicates,
+-            ignoreOptional: _this2.flags.ignoreOptional
++            ignoreOptional: _this2.flags.ignoreOptional,
++            rebuildOnly: _this2.flags.rebuild
+           });
+         }));
+       });
+@@ -7392,7 +7400,7 @@ var Install = exports.Install = function () {
+ 
+       steps.push(function (curr, total) {
+         return (0, (_hooks || _load_hooks()).callThroughHook)('buildStep', (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
+-          _this2.reporter.step(curr, total, _this2.flags.force ? _this2.reporter.lang('rebuildingPackages') : _this2.reporter.lang('buildingFreshPackages'), emoji.get('hammer'));
++          _this2.reporter.step(curr, total, _this2.flags.force || _this2.flags.rebuild ? _this2.reporter.lang('rebuildingPackages') : _this2.reporter.lang('buildingFreshPackages'), emoji.get('hammer'));
+ 
+           if (_this2.config.ignoreScripts) {
+             _this2.reporter.warn(_this2.reporter.lang('ignoredScripts'));
+@@ -7465,6 +7473,12 @@ var Install = exports.Install = function () {
+       if (auditFoundProblems) {
+         this.reporter.warn(this.reporter.lang('auditRunAuditForDetails'));
+       }
++      if (this.flags.rebuild) {
++        this.maybeOutputUpdate();
++        this.config.requestManager.clearCache();
++        return flattenedTopLevelPatterns;
++      }
++
+       yield this.saveLockfileAndIntegrity(topLevelPatterns, workspaceLayout);
+       yield this.persistChanges();
+       this.maybeOutputUpdate();
+@@ -47788,6 +47802,12 @@ function testEngine(name, range, versions, looseSemver
+ }
+ 
+ function isValidArch(archs) {
++  // Some packages publish wasm32 bindings with cpu=["wasm32"].
++  // On many host architectures (e.g. x64), this check is too strict and
++  // prevents installation even when the runtime can execute wasm.
++  if (Array.isArray(archs) && archs.indexOf('wasm32') !== -1) {
++    return true;
++  }
+   return isValid(archs, process.arch);
+ }
+ 
+@@ -48557,7 +48577,8 @@ var PackageLinker = function () {
+ 
+       var _ref14 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+           linkDuplicates = _ref14.linkDuplicates,
+-          ignoreOptional = _ref14.ignoreOptional;
++          ignoreOptional = _ref14.ignoreOptional,
++          rebuildOnly = _ref14.rebuildOnly;
+ 
+       var flatTree = this.getFlatHoistedTree(patterns, workspaceLayout, { ignoreOptional });
+       // sorted tree makes file creation and copying not to interfere with each other
+@@ -48731,6 +48752,10 @@ var PackageLinker = function () {
+         if (_ret2 === 'continue') continue;
+       }
+ 
++      if (rebuildOnly) {
++        return;
++      }
++
+       var possibleExtraneous = new (_set || _load_set()).default();
+       var scopedPaths = new (_set || _load_set()).default();
+ 
+@@ -49398,10 +49423,11 @@ var PackageLinker = function () {
+     var _ref48 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (patterns, workspaceLayout) {
+       var _ref49 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+           linkDuplicates = _ref49.linkDuplicates,
+-          ignoreOptional = _ref49.ignoreOptional;
++          ignoreOptional = _ref49.ignoreOptional,
++          rebuildOnly = _ref49.rebuildOnly;
+ 
+       this.resolvePeerModules();
+-      yield this.copyModules(patterns, workspaceLayout, { linkDuplicates, ignoreOptional });
++      yield this.copyModules(patterns, workspaceLayout, { linkDuplicates, ignoreOptional, rebuildOnly });
+ 
+       if (!this.config.plugnplayEnabled) {
+         yield (_fs || _load_fs()).unlink(`${this.config.lockfileFolder}/${(_constants || _load_constants()).PNP_FILENAME}`);
+@@ -88732,6 +88758,7 @@ var main = exports.main = function () {
+     (_commander || _load_commander()).default.option('--ignore-engines', 'ignore engines check');
+     (_commander || _load_commander()).default.option('--ignore-optional', 'ignore optional dependencies');
+     (_commander || _load_commander()).default.option('--force', 'install and build packages even if they were built before, overwrite lockfile');
++    (_commander || _load_commander()).default.option('--rebuild', 'run lifecycle scripts for installed packages without relinking node_modules');
+     (_commander || _load_commander()).default.option('--skip-integrity-check', 'run install without checking if node_modules is installed');
+     (_commander || _load_commander()).default.option('--check-files', 'install will verify file tree of packages for consistency');
+     (_commander || _load_commander()).default.option('--no-bin-links', "don't generate bin links when setting up packages");
+@@ -154068,4 +154095,4 @@ module.exports = require("dns");
+ module.exports = require("domain");
+ 
+ /***/ })
+-/******/ ]);
+\ No newline at end of file
++/******/ ]);

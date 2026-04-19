@@ -1,7 +1,7 @@
 COMMENT =	fast, reliable, and secure dependency management for node.js
 
 V =		v1.22.22
-REVISION =	0
+REVISION =	1
 DISTNAME =	yarn-${V}
 PKGNAME =	yarn-${V:S/v//}
 

@@ -1,17 +1,17 @@
 Index: scripts/esbuild.js
 --- scripts/esbuild.js.orig
 +++ scripts/esbuild.js
-@@ -278,8 +278,7 @@ exports.writeFileAtomic = (where, contents) => {
+@@ -326,8 +326,7 @@ exports.writeFileAtomic = (where, contents) => {
  }
  
  exports.buildBinary = () => {
--  childProcess.execFileSync('go', ['build', '-ldflags=-s -w', '-trimpath', './cmd/esbuild'], { cwd: repoDir, stdio: 'ignore' })
+-  childProcess.execFileSync('go', ['build', '-ldflags=-s -w -buildid=', '-buildvcs=false', '-trimpath', './cmd/esbuild'], { cwd: repoDir, stdio: 'ignore' })
 -  return path.join(repoDir, process.platform === 'win32' ? 'esbuild.exe' : 'esbuild')
 +  return path.join(repoDir, 'esbuild')
  }
  
  exports.removeRecursiveSync = path => {
-@@ -311,16 +310,7 @@ const updateVersionPackageJSON = pathToPackageJSON => 
+@@ -359,16 +358,7 @@ const updateVersionPackageJSON = pathToPackageJSON => 
  exports.installForTests = () => {
    // Build the "esbuild" binary and library
    const esbuildPath = exports.buildBinary()

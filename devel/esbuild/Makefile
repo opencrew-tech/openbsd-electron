@@ -1,6 +1,9 @@
 COMMENT =	fast bundler for the web
 
-V=0.27.1
+# remember to update pnpm also
+V=0.28.0
+REVISION=0
+
 MODGO_MODNAME =	github.com/evanw/esbuild
 MODGO_VERSION =	v${V}
 
@@ -20,8 +23,7 @@ MODULES =	lang/go
 
 WRKDIST =	${WRKSRC}
 
-BUILD_DEPENDS+=	lang/node \
-		lang/typescript
+BUILD_DEPENDS+=	lang/node
 
 SUBST_VARS+=	WRKSRC
 
@@ -36,7 +38,7 @@ ESBUILD_ARGS=	--bundle \
 		--external:esbuild \
 		--platform=node \
 		--log-level=warning
-ESBUILD_DIST=	lib/node/esbuild/node_modules
+ESBUILD_DIST=	node/esbuild/node_modules
 
 pre-build:
 	${SUBST_CMD} ${WRKSRC}/lib/npm/node-platform.ts

@@ -1,0 +1,20 @@
+MODPNPM removed engines from package.json on purpose, fix build.
+
+Index: index.js
+--- index.js.orig
++++ index.js
+@@ -132,14 +132,6 @@ async function start() {
+ 
+     // gc
+     {
+-        const packageJSON = (await import("./package.json", {with: {type: "json"}})).default;
+-        const version = packageJSON.engines.node;
+-        const {satisfies} = await import("semver");
+-
+-        if (!satisfies(process.version, version)) {
+-            console.log(`\t\tZigbee2MQTT requires node version ${version}, you are running ${process.version}!\n`);
+-        }
+-
+         const {onboard} = await import("./dist/util/onboarding.js");
+         const success = await onboard();
+ 

@@ -1,6 +1,6 @@
 COMMENT=		unofficial Microsoft Teams client
 
-DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.5.13 .
+DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.7.13 .
 
 CATEGORIES=		net
 
@@ -19,7 +19,15 @@ MODELECTRON_WRAPPER=	Yes
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 
+MODNPM_MODS+=7zip-bin
+MODNPM_MODS+=app-builder-bin
+MODNPM_MODS+=electron-builder
+MODNPM_MODS+=graceful-fs
+
 RUN_DEPENDS+=		devel/desktop-file-utils
+
+# node-sound needs paplay
+RUN_DEPENDS+=		audio/pulseaudio
 
 post-install:
 	# menu
@@ -30,6 +38,6 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/build/icons/1024x1024.png \
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
 
-.include "modules.inc"
+.include "modules.npm.inc"
 
 .include <bsd.port.mk>

@@ -1,0 +1,11 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -19,7 +19,6 @@
+   },
+   "license": "GPL-3.0-or-later",
+   "scripts": {
+-    "postinstall": "electron-builder install-app-deps",
+     "lint": "eslint **/*.js",
+     "test:unit": "node --test 'tests/unit/*.test.js'",
+     "test:e2e": "playwright test",

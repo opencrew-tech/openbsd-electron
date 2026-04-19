@@ -1,0 +1,64 @@
+Index: src/Debounce.cc
+--- src/Debounce.cc.orig
++++ src/Debounce.cc
+@@ -20,6 +20,7 @@ std::shared_ptr<Debounce> Debounce::getShared() {
+ 
+ Debounce::Debounce() {
+   mRunning = true;
++  mPending = false;
+   #ifndef __wasm32__
+     mThread = std::thread([this] () {
+       loop();
+@@ -46,7 +47,14 @@ void Debounce::remove(void *key) {
+ }
+ 
+ void Debounce::trigger() {
+-  std::unique_lock<std::mutex> lock(mMutex);
++  {
++    std::unique_lock<std::mutex> lock(mMutex);
++    if (!mPending) {
++      mPending = true;
++      mBatchStart = std::chrono::steady_clock::now();
++    }
++  }
++
+   #ifdef __wasm32__
+     notifyIfReady();
+   #else
+@@ -72,14 +80,20 @@ void Debounce::notifyIfReady() {
+     return;
+   }
+ 
+-  // If we haven't seen an event in more than the maximum wait time, notify callbacks immediately
+-  // to ensure that we don't wait forever. Otherwise, wait for the minimum wait time and batch
+-  // subsequent fast changes. This also means the first file change in a batch is notified immediately,
+-  // separately from the rest of the batch. This seems like an acceptable tradeoff if the common case
+-  // is that only a single file was updated at a time.
+-  auto time = std::chrono::steady_clock::now();
+-  if ((time - mLastTime) > std::chrono::milliseconds(MAX_WAIT_TIME)) {
+-    mLastTime = time;
++  auto shouldNotify = false;
++  {
++    std::unique_lock<std::mutex> lock(mMutex);
++    if (!mPending) {
++      return;
++    }
++
++    auto time = std::chrono::steady_clock::now();
++    shouldNotify = (time - mBatchStart) > std::chrono::milliseconds(MAX_WAIT_TIME);
++  }
++
++  // Wait one debounce window before the first callback in a batch so fast
++  // create/rename/update sequences can collapse into a single delivery.
++  if (shouldNotify) {
+     notify();
+   } else {
+     wait();
+@@ -101,6 +115,7 @@ void Debounce::wait() {
+ void Debounce::notify() {
+   std::unique_lock<std::mutex> lock(mMutex);
+ 
++  mPending = false;
+   mLastTime = std::chrono::steady_clock::now();
+   for (auto it = mCallbacks.begin(); it != mCallbacks.end(); it++) {
+     auto cb = it->second;

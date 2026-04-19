@@ -1,0 +1,27 @@
+Index: src/unix/fts.cc
+--- src/unix/fts.cc.orig
++++ src/unix/fts.cc
+@@ -28,11 +28,12 @@ void BruteForceBackend::readTree(WatcherRef watcher, s
+ 
+   while ((node = fts_read(fts)) != NULL) {
+     if (node->fts_errno) {
++      int err = node->fts_errno;
+       fts_close(fts);
+-      throw WatcherError(strerror(node->fts_errno), watcher);
++      throw WatcherError(strerror(err), watcher);
+     }
+ 
+-    if (isRoot && !(node->fts_info & FTS_D)) {
++    if (isRoot && node->fts_info != FTS_D) {
+       fts_close(fts);
+       throw WatcherError(strerror(ENOTDIR), watcher);
+     }
+@@ -42,7 +43,7 @@ void BruteForceBackend::readTree(WatcherRef watcher, s
+       continue;
+     }
+ 
+-    tree->add(node->fts_path, CONVERT_TIME(node->fts_statp->st_mtim), (node->fts_info & FTS_D) == FTS_D);
++    tree->add(node->fts_path, CONVERT_TIME(node->fts_statp->st_mtim), node->fts_info == FTS_D);
+     isRoot = false;
+   }
+ 

@@ -1,0 +1,19 @@
+Index: src/Debounce.hh
+--- src/Debounce.hh.orig
++++ src/Debounce.hh
+@@ -31,6 +31,7 @@ class Debounce { (public)
+ 
+ private:
+   bool mRunning;
++  bool mPending;
+   std::mutex mMutex;
+   #ifdef __wasm32__
+     int mTimeout;
+@@ -39,6 +40,7 @@ class Debounce { (public)
+     std::thread mThread;
+   #endif
+   std::unordered_map<void *, std::function<void()>> mCallbacks;
++  std::chrono::time_point<std::chrono::steady_clock> mBatchStart;
+   std::chrono::time_point<std::chrono::steady_clock> mLastTime;
+ 
+   void loop();

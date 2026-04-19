@@ -1,0 +1,66 @@
+Skip rebuild and bin-link processing for external override nodes,
+especially file: overrides pointing outside the project tree.
+Treats chmod failures during bin-link creation as non-fatal.
+
+Index: workspaces/arborist/lib/arborist/rebuild.js
+--- workspaces/arborist/lib/arborist/rebuild.js.orig
++++ workspaces/arborist/lib/arborist/rebuild.js
+@@ -16,6 +16,21 @@ const { resolve } = require('node:path')
+ const boolEnv = b => b ? '1' : ''
+ const sortNodes = (a, b) => (a.depth - b.depth) || localeCompare(a.path, b.path)
+ 
++const isBinLinksChmodError = er => er &&
++  er.syscall === 'chmod' &&
++  (er.code === 'EPERM' || er.code === 'EACCES' || er.code === 'EROFS')
++
++const isExternalOverrideNode = node => {
++  const root = node && node.root && node.root.target
++  if (!root) {
++    return false
++  }
++  if (node.isLink) {
++    return !!node.target && !node.target.isDescendantOf(root)
++  }
++  return !node.isDescendantOf(root)
++}
++
+ const _checkBins = Symbol.for('checkBins')
+ 
+ // defined by reify mixin
+@@ -225,6 +240,13 @@ module.exports = cls => class Builder extends cls {
+       return
+     }
+ 
++    // External file: overrides (eg. /usr/local/node/...) are system-provided.
++    // Do not run lifecycle/build/bin-link steps on them.
++    if (isExternalOverrideNode(node)) {
++      log.warn('overrides', `skipping rebuild for external override: ${node.path}`)
++      return
++    }
++
+     if (this.#oldMeta === null) {
+       const { root: { meta } } = node
+       this.#oldMeta = meta && meta.loadedFromDisk &&
+@@ -380,6 +402,11 @@ module.exports = cls => class Builder extends cls {
+       return
+     }
+ 
++    if (isExternalOverrideNode(node)) {
++      log.warn('overrides', `skipping bin-links for external override: ${node.path}`)
++      return
++    }
++
+     const timeEnd = time.start(`build:link:${node.location}`)
+ 
+     // On Windows, antivirus/indexer can transiently lock files, causing EPERM/EACCES/EBUSY on the rename inside write-file-atomic (used by bin-links/fix-bin.js), so, retry with backoff.
+@@ -390,6 +417,10 @@ module.exports = cls => class Builder extends cls {
+       force: this.options.force,
+       global: !!node.globalTop,
+     }).catch(/* istanbul ignore next - Windows-only transient antivirus locks */ err => {
++      if (isBinLinksChmodError(err)) {
++        log.warn('bin-links', `skipping chmod for ${err.path || node.path}: ${err.code}`)
++        return
++      }
+       if (process.platform === 'win32' &&
+           (err.code === 'EPERM' || err.code === 'EACCES' || err.code === 'EBUSY')) {
+         return retry(err)

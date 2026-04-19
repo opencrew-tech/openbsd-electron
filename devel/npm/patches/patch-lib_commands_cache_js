@@ -1,0 +1,95 @@
+Extends npm cache add to support direct local tarball injection,
+using the syntax <package-spec>|<path/to.tgz>.
+
+Resolves and validates the local tarball path, streams the tarball into cacache,
+stores both normal cache entry and a SHA-1-addressed variant for legacy compat.
+
+For https:// specs, also populates request-cache metadata,
+so the cached tarball behaves like a fetched artifact.
+
+Index: lib/commands/cache.js
+--- lib/commands/cache.js.orig
++++ lib/commands/cache.js
+@@ -1,5 +1,6 @@
+ const fs = require('node:fs/promises')
+-const { join } = require('node:path')
++const { createReadStream } = require('node:fs')
++const { join, resolve } = require('node:path')
+ const cacache = require('cacache')
+ const pacote = require('pacote')
+ const semver = require('semver')
+@@ -69,6 +70,7 @@ class Cache extends BaseCommand {
+   static params = ['cache']
+   static usage = [
+     'add <package-spec>',
++    'add <package-spec>|<path/to.tgz>',
+     'clean [<key>]',
+     'ls [<name>@<version>]',
+     'verify',
+@@ -169,6 +171,66 @@ If you're sure you want to delete the entire cache, re
+ 
+     await Promise.all(args.map(async spec => {
+       log.silly('cache add', 'spec', spec)
++      const pipeIndex = spec.lastIndexOf('|')
++      if (pipeIndex !== -1) {
++        const packageSpec = spec.slice(0, pipeIndex).trim()
++        const tarballSpec = spec.slice(pipeIndex + 1).trim()
++
++        if (!tarballSpec || !packageSpec) {
++          throw this.usageError('Invalid format for `npm cache add`: expected <package-spec>|<path/to/tgz>')
++        }
++
++        const tarballPath = resolve(tarballSpec)
++
++        let stat
++        try {
++          stat = await fs.stat(tarballPath)
++        } catch {
++          throw new Error(`Tarball not found: ${tarballPath}`)
++        }
++
++        if (!stat.isFile()) {
++          throw new Error(`Tarball is not a file: ${tarballPath}`)
++        }
++
++        const cachePath = this.npm.flatOptions.cache
++        const cachePutOpts = {
++          ...this.npm.flatOptions,
++        }
++
++        const putTarball = async (key, opts = {}) => {
++          const cstream = cacache.put.stream(cachePath, key, {
++            ...cachePutOpts,
++            ...opts,
++          })
++          const readStream = createReadStream(tarballPath)
++          readStream.on('error', err => cstream.emit('error', err))
++          readStream.pipe(cstream)
++          await cstream.promise()
++        }
++
++        if (packageSpec.startsWith('https://')) {
++          const key = `make-fetch-happen:request-cache:${packageSpec}`
++          const metadata = {
++            url: packageSpec,
++            status: 200,
++            time: Date.now(),
++            headers: {
++              'content-type': 'application/gzip',
++            },
++          }
++          await putTarball(key, { metadata })
++          // Store a sha1 addressed copy for legacy lockfiles.
++          await putTarball(`${key}:sha1`, { algorithms: ['sha1'] })
++        } else {
++          const key = `pacote:tarball:${packageSpec}`
++          await putTarball(key)
++          // Store a sha1 addressed copy for legacy lockfiles.
++          await putTarball(`${key}:sha1`, { algorithms: ['sha1'] })
++        }
++        return
++      }
++
+       // we ask pacote for the thing, and then just throw the data away so that it tee-pipes it into the cache like it does for a normal request.
+       await pacote.tarball.stream(spec, stream => {
+         stream.resume()

@@ -1,0 +1,15 @@
+Index: lib/cli/entry.js
+--- lib/cli/entry.js.orig
++++ lib/cli/entry.js
+@@ -4,7 +4,10 @@ module.exports = async (process, validateEngines) => {
+   process.title = 'npm'
+ 
+   // Patch the global fs module here at the app level
+-  require('graceful-fs').gracefulify(require('node:fs'))
++  const fs = require('node:fs')
++  const fsPromises = require('node:fs/promises')
++  require('graceful-fs').gracefulify(fs)
++  Object.assign(fsPromises, fs.promises)
+ 
+   const satisfies = require('semver/functions/satisfies')
+   const ExitHandler = require('./exit-handler.js')

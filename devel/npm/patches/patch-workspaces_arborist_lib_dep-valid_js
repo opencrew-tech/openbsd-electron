@@ -1,0 +1,17 @@
+Prevent false-positive matches when aliased to different module (different name)
+
+Index: workspaces/arborist/lib/dep-valid.js
+--- workspaces/arborist/lib/dep-valid.js.orig
++++ workspaces/arborist/lib/dep-valid.js
+@@ -59,7 +59,10 @@ const depValid = (child, requested, requestor) => {
+       return tarballValid(child, requested, requestor)
+ 
+     case 'alias':
+-      // check that the alias target is valid
++      // check that the alias target is valid and matches the real package name
++      if (requested.subSpec?.name && child.packageName && child.packageName !== requested.subSpec.name) {
++        return false
++      }
+       return depValid(child, requested.subSpec, requestor)
+ 
+     case 'tag':

@@ -1,0 +1,64 @@
+Tolerates missing target or missing target.package instead of failing.
+Normalizes both edge.spec and edge.rawSpec with npa.resolve(...),
+only raises EOVERRIDE when they resolve to different actual paths.
+
+Index: workspaces/arborist/lib/node.js
+--- workspaces/arborist/lib/node.js.orig
++++ workspaces/arborist/lib/node.js
+@@ -792,8 +792,11 @@ class Node {
+ 
+         if (this.isLink) {
+           const target = node.target
++          if (!target) {
++            continue
++          }
+           this[_target] = target
+-          this[_package] = target.package
++          this[_package] = target.package || {}
+           target.linksIn.add(this)
+           // reload edges here, because now we have a target
+           if (this.parent) {
+@@ -1391,10 +1394,42 @@ class Node {
+       return
+     }
+ 
++    const basePath =
++      this.sourceReference?.root?.realpath ||
++      this.sourceReference?.root?.path ||
++      this.root?.realpath ||
++      this.root?.path ||
++      this.realpath ||
++      this.path
++
+     for (const edge of this.edgesOut.values()) {
++      if (edge.spec === edge.rawSpec) {
++        continue
++      }
++
++      if (
++        basePath &&
++        edge.spec.startsWith('file:') &&
++        edge.rawSpec.startsWith('file:')
++      ) {
++        try {
++          const normalizedSpec = npa.resolve(edge.name, edge.spec, basePath)
++          const normalizedRawSpec = npa.resolve(edge.name, edge.rawSpec, basePath)
++          if (
++            (normalizedSpec.type === 'file' || normalizedSpec.type === 'directory') &&
++            (normalizedRawSpec.type === 'file' || normalizedRawSpec.type === 'directory') &&
++            normalizedSpec.fetchSpec === normalizedRawSpec.fetchSpec
++          ) {
++            continue
++          }
++        } catch {
++          // fall through to default conflict handling
++        }
++      }
++
+       // if these differ an override has been applied, those are not allowed
+       // for top level dependencies so throw an error
+-      if (edge.spec !== edge.rawSpec && !edge.spec.startsWith('$')) {
++      if (!edge.spec.startsWith('$')) {
+         throw Object.assign(new Error(`Override for ${edge.name}@${edge.rawSpec} conflicts with direct dependency`), { code: 'EOVERRIDE' })
+       }
+     }

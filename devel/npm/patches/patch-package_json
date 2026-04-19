@@ -1,0 +1,11 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -147,7 +147,6 @@
+     "test:nocolor": "CI=true tap -Rclassic",
+     "test-all": "node . run test --workspaces --include-workspace-root --if-present",
+     "snap": "tap",
+-    "prepack": "node . run build -w docs",
+     "posttest": "node . run lint",
+     "lint": "node . run eslint",
+     "lintfix": "node . run eslint -- --fix",

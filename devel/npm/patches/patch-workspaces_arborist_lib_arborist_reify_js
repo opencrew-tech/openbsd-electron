@@ -1,0 +1,32 @@
+Index: workspaces/arborist/lib/arborist/reify.js
+--- workspaces/arborist/lib/arborist/reify.js.orig
++++ workspaces/arborist/lib/arborist/reify.js
+@@ -723,6 +723,28 @@ module.exports = cls => class Reifier extends cls {
+         this[_addNodeToTrashList](node)
+         return
+       }
++      // Keep lockfile versions stable while backfilling missing lock metadata.
++      // For partially-hydrated lockfiles (version present, no resolved/integrity),
++      // fetch the manifest for the exact spec and enrich the node in-place.
++      if (!node.resolved || !node.integrity) {
++        try {
++          const manifest = await pacote.manifest(res, {
++            ...this.options,
++            resolved: node.resolved,
++            integrity: node.integrity,
++          })
++          node.resolved = node.resolved ||
++            manifest?._resolved ||
++            manifest?.dist?.tarball ||
++            null
++          node.integrity = node.integrity ||
++            manifest?._integrity ||
++            manifest?.dist?.integrity ||
++            null
++        } catch (er) {
++          log.silly('reify', `unable to enrich lock metadata for ${res}: ${er.code || er.message}`)
++        }
++      }
+       await debug(async () => {
+         const st = await lstat(node.path).catch(() => null)
+         if (st && !st.isDirectory()) {

@@ -1,0 +1,20 @@
+If a dependencies is overriden and bundled, return KEEP.
+Prevent infinite loop.
+
+Index: workspaces/arborist/lib/can-place-dep.js
+--- workspaces/arborist/lib/can-place-dep.js.orig
++++ workspaces/arborist/lib/can-place-dep.js
+@@ -163,6 +163,13 @@ class CanPlaceDep {
+     const { preferDedupe, explicitRequest, current, target, edge, dep } = this
+ 
+     if (dep.matches(current)) {
++      const override = edge.overrides
++      if ((current.inBundle || current.inShrinkwrap || current.hasShrinkwrap) &&
++        override?.name === edge.name &&
++        override.keySpec &&
++        dep.satisfies(edge)) {
++        return KEEP
++      }
+       if (current.satisfies(edge) || this.edgeOverride) {
+         return explicitRequest ? REPLACE : KEEP
+       }

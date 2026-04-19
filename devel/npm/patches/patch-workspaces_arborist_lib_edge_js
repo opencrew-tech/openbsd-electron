@@ -1,0 +1,64 @@
+Stops bypassing override evaluation for bundled or shrinkwrapped dependencies.
+Normalizes file: overrides against the correct workspace/root base path,
+equivalent relative paths are resolved to the same canonical spec.
+
+Index: workspaces/arborist/lib/edge.js
+--- workspaces/arborist/lib/edge.js.orig
++++ workspaces/arborist/lib/edge.js
+@@ -108,9 +108,9 @@ class Edge {
+       return false
+     }
+ 
+-    // NOTE: this condition means we explicitly do not support overriding
+-    // bundled or shrinkwrapped dependencies
+-    if (node.hasShrinkwrap || node.inShrinkwrap || node.inBundle) {
++    // For shrinkwrapped nodes we still accept the raw spec when no override
++    // applies, but we must evaluate override rules when present.
++    if ((node.hasShrinkwrap || node.inShrinkwrap) && !this.overrides?.keySpec) {
+       return depValid(node, this.rawSpec, this.#accept, this.#from)
+     }
+ 
+@@ -219,13 +219,41 @@ class Edge {
+         }
+ 
+         if (specValue) {
+-          return specValue
++          return this.#normalizeOverrideSpec(specValue)
+         }
+         throw new Error(`Unable to resolve reference ${this.overrides.value}`)
+       }
+-      return this.overrides.value
++      return this.#normalizeOverrideSpec(this.overrides.value)
+     }
+     return this.#spec
++  }
++
++  #normalizeOverrideSpec (specValue) {
++    if (typeof specValue !== 'string' || !specValue.startsWith('file:')) {
++      return specValue
++    }
++
++    const basePath =
++      this.#from?.sourceReference?.root?.realpath ||
++      this.#from?.sourceReference?.root?.path ||
++      this.#from?.root?.realpath ||
++      this.#from?.root?.path ||
++      this.#from?.path
++
++    if (!basePath) {
++      return specValue
++    }
++
++    try {
++      const normalized = npa.resolve(this.#name, specValue, basePath)
++      if (normalized.type === 'file' || normalized.type === 'directory') {
++        return `file:${normalized.fetchSpec}`
++      }
++    } catch {
++      // keep the original override spec on parse/resolve errors
++    }
++
++    return specValue
+   }
+ 
+   #calculateReferentialOverrideSpec (ref, pkg) {

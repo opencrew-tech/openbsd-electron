@@ -1,0 +1,13 @@
+Index: lib/cli/validate-engines.js
+--- lib/cli/validate-engines.js.orig
++++ lib/cli/validate-engines.js
+@@ -2,7 +2,8 @@
+ // This is a best effort to catch syntax errors to give users a good error message if they are using a node version that doesn't allow syntax we are using such as private properties, etc.
+ // This file is linted with ecmaVersion=6 so we don't use invalid syntax, which is set in the .eslintrc.local.json file
+ 
+-const { engines: { node: engines }, version } = require('../../package.json')
++const { version } = require('../../package.json')
++const engines = { node: "^20.17.0 || >=22.9.0" }
+ const npm = `v${version}`
+ 
+ module.exports = (process, getCli) => {

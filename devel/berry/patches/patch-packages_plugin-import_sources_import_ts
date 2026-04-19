@@ -1,0 +1,209 @@
+Index: packages/plugin-import/sources/import.ts
+--- packages/plugin-import/sources/import.ts.orig
++++ packages/plugin-import/sources/import.ts
+@@ -0,0 +1,205 @@
++import {BaseCommand} from '@yarnpkg/cli';
++import {Command, Option, Usage} from 'clipanion';
++import {Configuration, Cache, Project, StreamReport, formatUtils, scriptUtils, structUtils, tgzUtils} from '@yarnpkg/core';
++import {CwdFS, PortablePath, ppath, xfs} from '@yarnpkg/fslib';
++import {ZipFS} from '@yarnpkg/libzip';
++import {patchUtils} from '@yarnpkg/plugin-patch';
++import querystring from 'querystring';
++import {PassThrough} from 'stream';
++
++const githubPatterns = [
++  /^https?:\/\/(?:([^/]+?)@)?github.com\/([^/#]+)\/([^/#]+)\/tarball\/([^/#]+)(?:#(.*))?$/,
++  /^https?:\/\/(?:([^/]+?)@)?github.com\/([^/#]+)\/([^/#]+?)(?:\.git)?(?:#(.*))?$/,
++];
++
++function isGithubReference(reference: string): boolean {
++  return reference ? githubPatterns.some(pattern => !!reference.match(pattern)) : false;
++}
++
++function getGithubWorkspace(reference: string): string | null {
++  const hashIndex = reference.indexOf(`#`);
++  if (hashIndex === -1)
++    return null;
++
++  const treeish = reference.slice(hashIndex + 1);
++  if (!treeish.match(/^[a-z]+=/))
++    return null;
++
++  const {workspace} = querystring.parse(treeish) as {workspace?: string};
++
++  return typeof workspace === `string`
++    ? workspace
++    : null;
++}
++
++export class ImportCommand extends BaseCommand {
++  static paths = [
++    ['import']
++  ];
++
++  static usage: Usage = Command.Usage({
++    category: `Cache management`,
++    description: `Import a local archive into Yarn's cache with a specified npm resolution`,
++    details: `
++      The \`yarn import\` command lets you manually add a local archive into Yarn's cache.
++      It takes two arguments:
++        1. The local path to the archive (e.g. ./mypkg-1.0.0.tgz)
++        2. The corresponding npm resolution (e.g. npm:my-pkg@1.0.0)
++    `,
++    examples: [[
++      `Import a local tarball into cache`,
++      `yarn import ./mypkg-1.0.0.tgz npm:my-pkg@1.0.0`,
++    ]],
++  });
++
++  archivePath = Option.String();
++  resolution = Option.String();
++
++  async execute() {
++    const configuration = await Configuration.find(this.context.cwd, this.context.plugins);
++    const cache = await Cache.find(configuration);
++    const locator = structUtils.parseLocator(this.resolution, true);
++
++    const archiveFile = ppath.resolve(this.context.cwd as PortablePath, this.archivePath as PortablePath);
++    if (!xfs.existsSync(archiveFile))
++      throw new Error(`Archive not found at "${archiveFile}"`);
++
++    this.context.stdout.write(`Importing archive "${archiveFile}" for ${structUtils.prettyLocator(configuration, locator)}...\n`);
++
++    const buffer = await xfs.readFilePromise(archiveFile);
++    const cacheKey = structUtils.slugifyLocator(locator);
++
++    const [packageFs, releaseFs, checksum] = await cache.fetchPackageFromCache(locator, null, {
++      onHit: () => {},
++      onMiss: () => {},
++      loader: async () => {
++        const prefixPath = structUtils.getIdentVendorPath(locator);
++
++        if (!patchUtils.isPatchLocator(locator)) {
++          if (isGithubReference(locator.reference)) {
++            return await xfs.mktempPromise(async extractPath => {
++              const extractTarget = new CwdFS(extractPath);
++
++              await tgzUtils.extractArchiveTo(buffer, extractTarget, {
++                stripComponents: 1,
++              });
++
++              const packagePath = ppath.join(extractPath, `package.tgz`);
++              const report = new StreamReport({
++                configuration,
++                includeFooter: false,
++                stdout: new PassThrough(),
++              });
++
++              await scriptUtils.prepareExternalProject(extractPath, packagePath, {
++                configuration,
++                report,
++                workspace: getGithubWorkspace(locator.reference),
++                locator,
++              });
++
++              const packedBuffer = await xfs.readFilePromise(packagePath);
++
++              return await tgzUtils.convertToZip(packedBuffer, {
++                configuration,
++                prefixPath,
++                stripComponents: 1,
++              });
++            });
++          }
++
++          return await tgzUtils.convertToZip(buffer, {
++            configuration,
++            prefixPath,
++            stripComponents: 1,
++          });
++        }
++
++        const {project} = await Project.find(configuration, this.context.cwd);
++        const fetcher = configuration.makeFetcher();
++        const fetchOptions = {
++          project,
++          fetcher,
++          cache,
++          checksums: new Map(),
++        };
++
++        const {parentLocator, sourceVersion, patchPaths} = patchUtils.parseLocator(locator);
++        const patchFiles = await patchUtils.loadPatchFiles(parentLocator, patchPaths, fetchOptions);
++
++        const sourceZip = await tgzUtils.convertToZip(buffer, {
++          configuration,
++          prefixPath,
++          stripComponents: 1,
++        });
++
++        const tmpDir = await xfs.mktempPromise();
++        const currentFile = ppath.join(tmpDir, `current.zip`);
++
++        const initialCopy = new ZipFS(currentFile, {
++          create: true,
++          level: configuration.get(`compressionLevel`),
++        });
++
++        await initialCopy.copyPromise(prefixPath, prefixPath, {baseFs: sourceZip, stableSort: true});
++        initialCopy.saveAndClose();
++        sourceZip.discardAndClose();
++
++        for (const {source, optional} of patchFiles) {
++          if (source === null)
++            continue;
++
++          const patchedPackage = new ZipFS(currentFile, {
++            level: configuration.get(`compressionLevel`),
++          });
++
++          const patchFs = new CwdFS(ppath.resolve(PortablePath.root, prefixPath), {
++            baseFs: patchedPackage,
++          });
++
++          try {
++            await patchUtils.applyPatchFile(patchUtils.parsePatchFile(source), {
++              baseFs: patchFs,
++              version: sourceVersion,
++            });
++          } catch (err) {
++            const message = err instanceof Error ? err.message : String(err);
++            const isUnmatchedHunk = err instanceof Error && /\bCannot apply hunk\b/.test(err.message);
++
++            patchedPackage.discardAndClose();
++
++            if (optional && isUnmatchedHunk) {
++              continue;
++            }
++
++            throw new Error(`Failed to apply patch for ${structUtils.prettyLocator(configuration, locator)}: ${message}`);
++          }
++
++          patchedPackage.saveAndClose();
++        }
++
++        return new ZipFS(currentFile, {
++          level: configuration.get(`compressionLevel`),
++        });
++      },
++    });
++
++    releaseFs();
++    packageFs.discardAndClose?.();
++
++    const cachePath = cache.getLocatorPath(locator, checksum);
++    const mirrorPath = cache.getLocatorMirrorPath(locator);
++    const outputPath = (await xfs.existsPromise(cachePath))
++      ? cachePath
++      : (mirrorPath !== null && await xfs.existsPromise(mirrorPath))
++        ? mirrorPath
++        : cachePath;
++
++    const checksumSuffix = checksum !== null
++      ? ` (${checksum.split(`/`).slice(1).join(`/`).slice(0, 10)})`
++      : ``;
++
++    this.context.stdout.write(`✅ Imported to cache as ${cacheKey}${checksumSuffix}\n`);
++    this.context.stdout.write(`${formatUtils.pretty(configuration, outputPath, formatUtils.Type.PATH)}\n`);
++  }
++}

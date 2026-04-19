@@ -1,0 +1,19 @@
+Berry aka Yarn (modern) is a package manager split into various packages.
+Its novel architecture allows to do things currently impossible.
+
+Yarn supports plugins;
+adding a plugin is as simple as adding it into your repository.
+
+Yarn supports Node by default
+but isn't limited to it - plugins can add support for other languages.
+
+Yarn supports workspaces natively,
+and its CLI takes advantage of that.
+
+Yarn uses a bash-like portable shell
+to make package scripts portable across Windows, Linux, and macOS.
+
+Yarn is first and foremost a Node API
+that can be used programmatically (via @yarnpkg/core).
+
+Yarn is written in TypeScript and is fully type-checked.

@@ -1,0 +1,52 @@
+Index: packages/plugin-import/package.json
+--- packages/plugin-import/package.json.orig
++++ packages/plugin-import/package.json
+@@ -0,0 +1,48 @@
++{
++  "name": "@yarnpkg/plugin-import",
++  "version": "4.0.2",
++  "license": "BSD-2-Clause",
++  "main": "./sources/index.ts",
++  "exports": {
++    ".": "./sources/index.ts",
++    "./package.json": "./package.json"
++  },
++  "dependencies": {
++    "@yarnpkg/fslib": "workspace:^",
++    "@yarnpkg/libzip": "workspace:^",
++    "@yarnpkg/plugin-patch": "workspace:^",
++    "clipanion": "^4.0.0-rc.2",
++    "tslib": "^2.4.0"
++  },
++  "peerDependencies": {
++    "@yarnpkg/cli": "workspace:^",
++    "@yarnpkg/core": "workspace:^"
++  },
++  "devDependencies": {
++    "@yarnpkg/cli": "workspace:^",
++    "@yarnpkg/core": "workspace:^"
++  },
++  "repository": {
++    "type": "git",
++    "url": "git+https://github.com/yarnpkg/berry.git",
++    "directory": "packages/plugin-import"
++  },
++  "scripts": {
++    "postpack": "rm -rf lib",
++    "prepack": "run build:compile \"$(pwd)\""
++  },
++  "publishConfig": {
++    "main": "./lib/index.js",
++    "exports": {
++      ".": "./lib/index.js",
++      "./package.json": "./package.json"
++    }
++  },
++  "files": [
++    "/lib/**/*"
++  ],
++  "engines": {
++    "node": ">=18.12.0"
++  },
++  "stableVersion": "4.0.2"
++}

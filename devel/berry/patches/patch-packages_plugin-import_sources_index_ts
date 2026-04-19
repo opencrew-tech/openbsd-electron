@@ -1,0 +1,18 @@
+Index: packages/plugin-import/sources/index.ts
+--- packages/plugin-import/sources/index.ts.orig
++++ packages/plugin-import/sources/index.ts
+@@ -0,0 +1,14 @@
++import {Plugin} from '@yarnpkg/core';
++
++import {ImportCommand} from './import';
++
++export {ImportCommand};
++
++const plugin: Plugin = {
++  commands: [
++    ImportCommand,
++  ],
++};
++
++// eslint-disable-next-line arca/no-default-export
++export default plugin;

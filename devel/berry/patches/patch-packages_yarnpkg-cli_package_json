@@ -1,0 +1,19 @@
+Index: packages/yarnpkg-cli/package.json
+--- packages/yarnpkg-cli/package.json.orig
++++ packages/yarnpkg-cli/package.json
+@@ -23,6 +23,7 @@
+     "@yarnpkg/plugin-git": "workspace:^",
+     "@yarnpkg/plugin-github": "workspace:^",
+     "@yarnpkg/plugin-http": "workspace:^",
++    "@yarnpkg/plugin-import": "workspace:^",
+     "@yarnpkg/plugin-init": "workspace:^",
+     "@yarnpkg/plugin-interactive-tools": "workspace:^",
+     "@yarnpkg/plugin-jsr": "workspace:^",
+@@ -88,6 +89,7 @@
+         "@yarnpkg/plugin-git",
+         "@yarnpkg/plugin-github",
+         "@yarnpkg/plugin-http",
++        "@yarnpkg/plugin-import",
+         "@yarnpkg/plugin-init",
+         "@yarnpkg/plugin-interactive-tools",
+         "@yarnpkg/plugin-jsr",

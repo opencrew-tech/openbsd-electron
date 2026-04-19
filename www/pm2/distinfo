@@ -104,7 +104,7 @@ SHA256 (npm_modules/log-symbols-4.1.0.tgz) = MucGqsEbK6TA6WR6Omc4vNnrZhW/itnxVyg
 SHA256 (npm_modules/lru-cache-10.4.3.tgz) = DqF7UnvqqqxQTqenqquQ2wWB3JouEXv726RHifFUlu0=
 SHA256 (npm_modules/lru-cache-6.0.0.tgz) = XOQN6wMc9paPODJQKmj40mvgl2TcT4/AeVei/X6M314=
 SHA256 (npm_modules/lru-cache-7.18.3.tgz) = pRWtWNYPyf4NkEoWn05TztJITq0Nc9Tzx4JWqR6P1H0=
-SHA256 (npm_modules/minimatch-9.0.9.tgz) = fSjJo+8XzlQgk8eOwZFIFQPicR0p2xvRUiBiMDq0BHg=
+SHA256 (npm_modules/minimatch-9.0.5.tgz) = F9EHpLE+LdT0t96s8i+X35hPjXDamF/dgGQrFLEEX40=
 SHA256 (npm_modules/minipass-7.1.2.tgz) = VI9WGhlDSXElTwnyFITGv50bnQN82sYjEGFrNRxE1RY=
 SHA256 (npm_modules/mkdirp-1.0.4.tgz) = HRcHTkGvb+jxyA34P0Ouql4cKDlFHyYTyuquTwJT2Bo=
 SHA256 (npm_modules/mocha-11.7.5.tgz) = rNShb6QrbPyFB2QnCsIb3TI3amQaxNWBs9FulwW4QVw=
@@ -300,7 +300,7 @@ SIZE (npm_modules/log-symbols-4.1.0.tgz) = 2263
 SIZE (npm_modules/lru-cache-10.4.3.tgz) = 181128
 SIZE (npm_modules/lru-cache-6.0.0.tgz) = 5788
 SIZE (npm_modules/lru-cache-7.18.3.tgz) = 35235
-SIZE (npm_modules/minimatch-9.0.9.tgz) = 101396
+SIZE (npm_modules/minimatch-9.0.5.tgz) = 96471
 SIZE (npm_modules/minipass-7.1.2.tgz) = 62112
 SIZE (npm_modules/mkdirp-1.0.4.tgz) = 6665
 SIZE (npm_modules/mocha-11.7.5.tgz) = 532408

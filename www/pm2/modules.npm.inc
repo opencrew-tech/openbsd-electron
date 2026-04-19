@@ -109,7 +109,7 @@ ${MODNPM_DIST}/{log-symbols/-/}log-symbols-4.1.0.tgz \
 ${MODNPM_DIST}/{lru-cache/-/}lru-cache-10.4.3.tgz \
 ${MODNPM_DIST}/{lru-cache/-/}lru-cache-6.0.0.tgz \
 ${MODNPM_DIST}/{lru-cache/-/}lru-cache-7.18.3.tgz \
-${MODNPM_DIST}/{minimatch/-/}minimatch-9.0.9.tgz \
+${MODNPM_DIST}/{minimatch/-/}minimatch-9.0.5.tgz \
 ${MODNPM_DIST}/{minipass/-/}minipass-7.1.2.tgz \
 ${MODNPM_DIST}/{mkdirp/-/}mkdirp-1.0.4.tgz \
 ${MODNPM_DIST}/{mocha/-/}mocha-11.7.5.tgz \
@@ -288,7 +288,7 @@ https://registry.npmjs.org/module-details-from-path/-/module-details-from-path-1
 https://registry.npmjs.org/mocha/-/mocha-11.7.5.tgz;mocha-11.7.5.tgz \
 https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz;mkdirp-1.0.4.tgz \
 https://registry.npmjs.org/minipass/-/minipass-7.1.2.tgz;minipass-7.1.2.tgz \
-https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz;minimatch-9.0.9.tgz \
+https://registry.npmjs.org/minimatch/-/minimatch-9.0.5.tgz;minimatch-9.0.5.tgz \
 https://registry.npmjs.org/lru-cache/-/lru-cache-7.18.3.tgz;lru-cache-7.18.3.tgz \
 https://registry.npmjs.org/lru-cache/-/lru-cache-6.0.0.tgz;lru-cache-6.0.0.tgz \
 https://registry.npmjs.org/lru-cache/-/lru-cache-10.4.3.tgz;lru-cache-10.4.3.tgz \

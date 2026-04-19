@@ -100,7 +100,7 @@ ${MODNPM_DIST}/{asn1.js/-/}asn1.js-5.4.1.tgz \
 ${MODNPM_DIST}/{asynckit/-/}asynckit-0.4.0.tgz \
 ${MODNPM_DIST}/{await-lock/-/}await-lock-2.2.2.tgz \
 ${MODNPM_DIST}/{aws-ssl-profiles/-/}aws-ssl-profiles-1.1.2.tgz \
-${MODNPM_DIST}/{axios/-/}axios-0.30.3.tgz \
+${MODNPM_DIST}/{axios/-/}axios-0.30.2.tgz \
 ${MODNPM_DIST}/{badge-maker/-/}badge-maker-3.3.1.tgz \
 ${MODNPM_DIST}/{balanced-match/-/}balanced-match-1.0.2.tgz \
 ${MODNPM_DIST}/{barse/-/}barse-0.4.3.tgz \
@@ -247,6 +247,7 @@ ${MODNPM_DIST}/{glob/-/}glob-7.2.3.tgz \
 ${MODNPM_DIST}/{globalping/-/}globalping-0.2.0.tgz \
 ${MODNPM_DIST}/{gopd/-/}gopd-1.2.0.tgz \
 ${MODNPM_DIST}/{got/-/}got-13.0.0.tgz \
+${MODNPM_DIST}/{graceful-fs/-/}graceful-fs-4.2.11.tgz \
 ${MODNPM_DIST}/{has-symbols/-/}has-symbols-1.1.0.tgz \
 ${MODNPM_DIST}/{has-tostringtag/-/}has-tostringtag-1.0.2.tgz \
 ${MODNPM_DIST}/{has-unicode/-/}has-unicode-2.0.1.tgz \
@@ -979,7 +980,7 @@ https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz;base64-js-1.5.1.tgz \
 https://registry.npmjs.org/barse/-/barse-0.4.3.tgz;barse-0.4.3.tgz \
 https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz;balanced-match-1.0.2.tgz \
 https://registry.npmjs.org/badge-maker/-/badge-maker-3.3.1.tgz;badge-maker-3.3.1.tgz \
-https://registry.npmjs.org/axios/-/axios-0.30.3.tgz;axios-0.30.3.tgz \
+https://registry.npmjs.org/axios/-/axios-0.30.2.tgz;axios-0.30.2.tgz \
 https://registry.npmjs.org/aws-ssl-profiles/-/aws-ssl-profiles-1.1.2.tgz;aws-ssl-profiles-1.1.2.tgz \
 https://registry.npmjs.org/await-lock/-/await-lock-2.2.2.tgz;await-lock-2.2.2.tgz \
 https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz;asynckit-0.4.0.tgz \
@@ -1077,4 +1078,5 @@ https://registry.npmjs.org/@azure/core-client/-/core-client-1.10.1.tgz;@azure-co
 https://registry.npmjs.org/@azure/core-auth/-/core-auth-1.10.1.tgz;@azure-core-auth-1.10.1.tgz \
 https://registry.npmjs.org/@azure/abort-controller/-/abort-controller-2.1.2.tgz;@azure-abort-controller-2.1.2.tgz \
 https://registry.npmjs.org/@azure-rest/core-client/-/core-client-2.5.1.tgz;@azure-rest-core-client-2.5.1.tgz \
+graceful-fs@4.2.11;graceful-fs-4.2.11.tgz \
 

@@ -310,6 +310,6 @@
   "overrides": {
     "esbuild": "file:../node/esbuild/node_modules/esbuild",
     "graceful-fs": "file:../node/graceful-fs/node_modules/graceful-fs",
-    "rollup": "npm:@rollup/wasm-node"
+    "rollup": "file:../node/rollup/node_modules/rollup"
   }
 }

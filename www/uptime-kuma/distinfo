@@ -96,7 +96,7 @@ SHA256 (npm_modules/asn1.js-5.4.1.tgz) = nMWeC1FfJU7o7Mn+WE1vsC2GsqEPbebF1pI+8Nj
 SHA256 (npm_modules/asynckit-0.4.0.tgz) = jCVPMPcHkmRQQuTXH1kOxJ+OOGpHV3L3QwxzuWS1fc8=
 SHA256 (npm_modules/await-lock-2.2.2.tgz) = L8Y2ai/TStloNp9tyANDrNlEc4y8Sg/WU7XZBRCpX30=
 SHA256 (npm_modules/aws-ssl-profiles-1.1.2.tgz) = XQH/5bZDYGeKPaJSZBwsQn8QetLhzQdLqs4dGbgz84Y=
-SHA256 (npm_modules/axios-0.30.3.tgz) = 6ykR1bPWx0NhfsKY6r9oLzSSPoKqR8kDUiq9pdfGWhA=
+SHA256 (npm_modules/axios-0.30.2.tgz) = icZNtoH6C6IjnjOFi/zF5t2sbpvektdbyUGqd0qmFZQ=
 SHA256 (npm_modules/badge-maker-3.3.1.tgz) = isOY59cz7fu7AGxKY8vBiVWhmw2p4Dw8V/Hl4QcYLYw=
 SHA256 (npm_modules/balanced-match-1.0.2.tgz) = 2FT3q90MeoEgzzgeCtX5csvQJV9dmHQkvWcsjE/OvME=
 SHA256 (npm_modules/barse-0.4.3.tgz) = YMPFHd9SUE4LuBfKXvBUw7y+xiceeXaGUWoLSZe3kXg=
@@ -243,6 +243,7 @@ SHA256 (npm_modules/glob-7.2.3.tgz) = 8KOOsTGMBstV3Cjz8y0t9zeeFVzvxqHl7Meg3a0ZQ4
 SHA256 (npm_modules/globalping-0.2.0.tgz) = yAd3lxHIXhVuI8tyZsCOM7U+fyYijcJ8FjeVuAiwB50=
 SHA256 (npm_modules/gopd-1.2.0.tgz) = 1TbQ3k3ShdwUaPu385M0pH7g7snCf5tiam5xRmyf2oI=
 SHA256 (npm_modules/got-13.0.0.tgz) = 38cwOXDinaxbTH0z4jxWn+FQucZuMVg534/gzHSdASc=
+SHA256 (npm_modules/graceful-fs-4.2.11.tgz) = OWE3SqFh5v7YDW9Laq8vt+r9LJ5b406GWzdfARTdCZw=
 SHA256 (npm_modules/has-symbols-1.1.0.tgz) = RGDHUy8ouN8t3JoewXgW1Dwk1LlZHcbFk2uC9/hq58U=
 SHA256 (npm_modules/has-tostringtag-1.0.2.tgz) = 3Bx04/EXmmJx+EdH1yyJ8liqRq0+ZGT64OQXN6fw73s=
 SHA256 (npm_modules/has-unicode-2.0.1.tgz) = 0GHdnymqfgY+/muumQboERqOK5tph2z06eIze3M17Kw=
@@ -634,7 +635,7 @@ SIZE (npm_modules/asn1.js-5.4.1.tgz) = 13550
 SIZE (npm_modules/asynckit-0.4.0.tgz) = 8111
 SIZE (npm_modules/await-lock-2.2.2.tgz) = 4226
 SIZE (npm_modules/aws-ssl-profiles-1.1.2.tgz) = 89249
-SIZE (npm_modules/axios-0.30.3.tgz) = 222519
+SIZE (npm_modules/axios-0.30.2.tgz) = 221946
 SIZE (npm_modules/badge-maker-3.3.1.tgz) = 14848
 SIZE (npm_modules/balanced-match-1.0.2.tgz) = 2668
 SIZE (npm_modules/barse-0.4.3.tgz) = 4570
@@ -781,6 +782,7 @@ SIZE (npm_modules/glob-7.2.3.tgz) = 15444
 SIZE (npm_modules/globalping-0.2.0.tgz) = 64344
 SIZE (npm_modules/gopd-1.2.0.tgz) = 4584
 SIZE (npm_modules/got-13.0.0.tgz) = 58673
+SIZE (npm_modules/graceful-fs-4.2.11.tgz) = 9804
 SIZE (npm_modules/has-symbols-1.1.0.tgz) = 8059
 SIZE (npm_modules/has-tostringtag-1.0.2.tgz) = 6465
 SIZE (npm_modules/has-unicode-2.0.1.tgz) = 1965

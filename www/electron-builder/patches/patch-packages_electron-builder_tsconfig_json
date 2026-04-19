@@ -1,0 +1,13 @@
+Index: packages/electron-builder/tsconfig.json
+--- packages/electron-builder/tsconfig.json.orig
++++ packages/electron-builder/tsconfig.json
+@@ -13,9 +13,6 @@
+     },
+     {
+       "path": "../app-builder-lib"
+-    },
+-    {
+-      "path": "../dmg-builder"
+     }
+   ],
+   "jsdoc": {

@@ -1,0 +1,11 @@
+Index: packages/app-builder-lib/src/asar/asarUtil.ts
+--- packages/app-builder-lib/src/asar/asarUtil.ts.orig
++++ packages/app-builder-lib/src/asar/asarUtil.ts
+@@ -37,6 +37,7 @@ const DENYLIST = resolvePaths([
+ ])
+ 
+ const ALLOWLIST = resolvePaths([
++  "/usr/local/node", // always allow link-to system lib
+   os.tmpdir(), // always allow temp dir
+   os.homedir(), // always allow home dir
+ ])

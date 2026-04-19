@@ -1,0 +1,20 @@
+Index: test/src/helpers/packTester.ts
+--- test/src/helpers/packTester.ts.orig
++++ test/src/helpers/packTester.ts
+@@ -7,7 +7,6 @@ import { AsarIntegrity } from "app-builder-lib/out/asa
+ import { addValue, copyDir, deepAssign, exec, executeFinally, exists, FileCopier, log, USE_HARD_LINKS, walk } from "builder-util"
+ import { CancellationToken, UpdateFileInfo } from "builder-util-runtime"
+ import { Arch, ArtifactCreated, Configuration, DIR_TARGET, getArchSuffix, MacOsTargetName, Packager, PackagerOptions, Platform, Target } from "electron-builder"
+-import { convertVersion } from "electron-winstaller"
+ import { PublishPolicy } from "electron-publish"
+ import { copyFile, emptyDir, mkdir, writeJson } from "fs-extra"
+ import * as fs from "fs/promises"
+@@ -639,7 +638,7 @@ async function checkWindowsResult(expect: ExpectStatic
+ <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+   <metadata>
+     <id>TestApp</id>
+-    <version>${convertVersion(appInfo.version)}</version>
++    <version>${appInfo.version}</version>
+     <title>${appInfo.productName}</title>
+     <authors>Foo Bar</authors>
+     <owners>Foo Bar</owners>

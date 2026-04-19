@@ -1,0 +1,37 @@
+Electron-builder is a complete solution to package and build a ready
+for distribution Electron, Proton Native app for macOS, Windows and
+Linux with auto update support out of the box.
+
+See the full documentation on https://www.electron.build
+
+* NPM packages management:
+  * Native application dependencies compilation (including Yarn).
+  * Development dependencies are never included. You don't need to
+    ignore them explicitly.
+  * Two package.json structure is supported, but you are not forced
+    to use it even if you have native production dependencies.
+* Code Signing on a CI server or development machine.
+* Auto Update ready application packaging.
+* Numerous target formats:
+  * All platforms: `7z`, `zip`, `tar.xz`, `tar.7z`, `tar.lz`,
+    `tar.gz`, `tar.bz2`, `dir` (unpacked directory).
+  * macOS: `dmg`, `pkg`, `mas`.
+  * Linux: AppImage, snap, debian package (`deb`), `rpm`, `freebsd`,
+    `pacman`, `p5p`, `apk`.
+  * Windows: `nsis` (Installer), `nsis-web` (Web installer),
+    `portable` (portable app without installation), AppX (Windows
+    Store), MSI, Squirrel.Windows.
+* Publishing artifacts to GitHub Releases, Amazon S3, DigitalOcean
+  Spaces and Bintray.
+* Advanced building:
+  * Pack in a distributable format already packaged app.
+  * Separate build steps.
+  * Build and publish in parallel, using hard links on CI server
+    to reduce IO and disk space usage.
+  * electron-compile support (compile for release-time on the fly
+    on build).
+* Docker images to build Electron app for Linux or Windows on any
+  platform.
+* Proton Native support.
+* Downloads all required tools files on demand automatically (e.g.
+  to code sign windows application or make AppX), no need to setup.

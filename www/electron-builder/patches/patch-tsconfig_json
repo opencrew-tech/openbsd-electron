@@ -1,0 +1,13 @@
+Index: tsconfig.json
+--- tsconfig.json.orig
++++ tsconfig.json
+@@ -11,9 +11,6 @@
+       "path": "./packages/electron-updater"
+     },
+     {
+-      "path": "./packages/electron-builder-squirrel-windows"
+-    },
+-    {
+       "path": "./test"
+     },
+     {

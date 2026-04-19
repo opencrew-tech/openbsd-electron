@@ -1,0 +1,10 @@
+node/
+node/7zip-bin/
+node/7zip-bin/node_modules/
+node/7zip-bin/node_modules/7zip-bin/
+node/7zip-bin/node_modules/7zip-bin/7x.sh
+node/7zip-bin/node_modules/7zip-bin/LICENSE.txt
+node/7zip-bin/node_modules/7zip-bin/README.md
+node/7zip-bin/node_modules/7zip-bin/index.d.ts
+node/7zip-bin/node_modules/7zip-bin/index.js
+node/7zip-bin/node_modules/7zip-bin/package.json

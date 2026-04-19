@@ -1,0 +1,20 @@
+node/
+node/ast-grep/
+node/ast-grep/node_modules/
+node/ast-grep/node_modules/@ast-grep/
+node/ast-grep/node_modules/@ast-grep/napi/
+node/ast-grep/node_modules/@ast-grep/napi/LICENSE
+node/ast-grep/node_modules/@ast-grep/napi/README.md
+@so node/ast-grep/node_modules/@ast-grep/napi/ast-grep-napi.node
+node/ast-grep/node_modules/@ast-grep/napi/index.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/index.js
+node/ast-grep/node_modules/@ast-grep/napi/package.json
+node/ast-grep/node_modules/@ast-grep/napi/types/
+node/ast-grep/node_modules/@ast-grep/napi/types/api.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/config.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/deprecated.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/lang.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/registerDynamicLang.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/rule.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/sgnode.d.ts
+node/ast-grep/node_modules/@ast-grep/napi/types/staticTypes.d.ts

@@ -1,0 +1,19 @@
+let nativeBinding = require('./ast-grep-napi.node');
+
+module.exports = nativeBinding
+module.exports.SgNode = nativeBinding.SgNode
+module.exports.SgRoot = nativeBinding.SgRoot
+module.exports.findInFiles = nativeBinding.findInFiles
+module.exports.kind = nativeBinding.kind
+module.exports.Lang = nativeBinding.Lang
+module.exports.parse = nativeBinding.parse
+module.exports.parseAsync = nativeBinding.parseAsync
+module.exports.parseFiles = nativeBinding.parseFiles
+module.exports.pattern = nativeBinding.pattern
+module.exports.registerDynamicLanguage = nativeBinding.registerDynamicLanguage
+module.exports.css = nativeBinding.css
+module.exports.html = nativeBinding.html
+module.exports.js = nativeBinding.js
+module.exports.jsx = nativeBinding.jsx
+module.exports.ts = nativeBinding.ts
+module.exports.tsx = nativeBinding.tsx

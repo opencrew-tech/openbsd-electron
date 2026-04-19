@@ -1,0 +1,26 @@
+Uncaught exception in __test__/index.spec.ts
+
+__test__/index.spec.ts:267
+ 266:       const metavarText = n[0].getMatch('V')?.text()
+ 267:       t.is(metavarText, "'console.log(123)'")
+ 268:     },
+
+TestFailure: The test has failed
+> __test__/index.spec.ts:267:9
+> wrapped (__test__/index.spec.ts:362:19)
+X __test__/index.spec.ts exited with a non-zero exit code: 1
+
+Limit test to __test__ folder to avoid this false negative issue.
+
+Index: crates/napi/__test__/index.spec.ts
+--- crates/napi/__test__/index.spec.ts.orig
++++ crates/napi/__test__/index.spec.ts
+@@ -252,7 +252,7 @@ test('find in files with meta var', async t => {
+   const findInFiles = countedPromise(ts.findInFiles)
+   await findInFiles(
+     {
+-      paths: ['./'],
++      paths: ['./__test__/'],
+       matcher: {
+         rule: { pattern: 'parse($V)' },
+       },

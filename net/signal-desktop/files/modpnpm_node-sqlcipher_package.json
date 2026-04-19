@@ -81,7 +81,8 @@
     },
     "overrides": {
       "esbuild": "link:../../node/esbuild/node_modules/esbuild",
-      "rollup": "npm:@rollup/wasm-node"
+      "graceful-fs": "link:../../node/graceful-fs/node_modules/graceful-fs",
+      "rollup": "link:../../node/rollup/node_modules/rollup"
     }
   }
 }

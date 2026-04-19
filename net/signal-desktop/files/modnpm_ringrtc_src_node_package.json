@@ -1,0 +1,78 @@
+{
+  "name": "@signalapp/ringrtc",
+  "version": "2.64.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/signalapp/ringrtc.git",
+    "directory": "src/node"
+  },
+  "description": "Signal Messenger voice and video calling library.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "dist/ringrtc/*.js",
+    "dist/ringrtc/*.d.ts",
+    "dist/acknowledgments.md",
+    "scripts/fetch-prebuild.js"
+  ],
+  "bin": {
+    "virtual_audio": "dist/bin/virtual_audio.sh"
+  },
+  "scripts": {
+    "build": "tsc && bash scripts/build-help.sh",
+    "clean": "rimraf dist",
+    "test": "electron-mocha --renderer --recursive dist/test --timeout 10000 --require source-map-support/register",
+    "eslint": "eslint .",
+    "lint": "npm run format --list-different && npm run eslint",
+    "format": "prettier --write .",
+    "check-format": "prettier . --check",
+    "install": "node scripts/fetch-prebuild.js",
+    "prepublishOnly": "node scripts/prepublish.js"
+  },
+  "config": {
+    "prebuildUrl": "https://build-artifacts.signal.org/libraries/ringrtc-desktop-build-v${npm_package_version}.tar.gz",
+    "prebuildChecksum": ""
+  },
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "https-proxy-agent": "7.0.6",
+    "tar": "^7.5.2"
+  },
+  "devDependencies": {
+    "@types/chai": "5.2.3",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/lodash": "^4.17.21",
+    "@types/mocha": "10.0.10",
+    "@types/node": "25.0.3",
+    "@types/sinon-chai": "^4.0.0",
+    "chai": "6.2.2",
+    "chai-as-promised": "^8.0.2",
+    "electron": "39.2.4",
+    "electron-mocha": "13.1.0",
+    "eslint": "8.56.0",
+    "eslint-config-airbnb-typescript-prettier": "5.0.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-mocha": "10.2.0",
+    "eslint-plugin-more": "1.0.5",
+    "lodash": "4.17.21",
+    "long": "5.3.2",
+    "mocha": "11.7.5",
+    "prettier": "3.7.4",
+    "rimraf": "6.1.2",
+    "sinon": "^21.0.1",
+    "sinon-chai": "^4.0.1",
+    "source-map-support": "^0.5.21",
+    "typescript": "5.9.3"
+  },
+  "bundleDependencies": [
+    "https-proxy-agent",
+    "tar"
+  ],
+  "overrides": {
+    "graceful-fs": "file:../../../../node/graceful-fs/node_modules/graceful-fs"
+  }
+}

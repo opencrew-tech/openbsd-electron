@@ -1,7 +1,7 @@
 Index: ringrtc/src/rust/src/webrtc/audio_device_module.rs
 --- ringrtc/src/rust/src/webrtc/audio_device_module.rs.orig
 +++ ringrtc/src/rust/src/webrtc/audio_device_module.rs
-@@ -245,9 +245,12 @@ impl Worker {
+@@ -248,9 +248,12 @@ impl Worker {
          self.input_device_names = Arc::new(Mutex::new(Vec::new()));
          self.output_device_names = Arc::new(Mutex::new(Vec::new()));
  
@@ -14,16 +14,16 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module.rs
          if let Err(e) = self.deregister_device_collection_changed(DeviceType::OUTPUT) {
              warn!("failed to clear output callback: {}", e);
          }
-@@ -753,6 +756,8 @@ impl Worker {
-                 })),
+@@ -817,6 +820,8 @@ impl Worker {
                  audio_device_observer: None,
+                 send_to_webrtc: Arc::new(AtomicBool::new(true)),
              };
 +            // Backend may not support register_device_collection_changed
 +            #[cfg(not(target_os = "openbsd"))]
              if let Err(e) = worker.register_device_collection_changed(DeviceType::INPUT) {
                  error!("Failed to register input device callback: {}", e);
                  if let Err(e) = started_signal.send(None) {
-@@ -760,6 +765,7 @@ impl Worker {
+@@ -824,6 +829,7 @@ impl Worker {
                  }
                  return;
              }
@@ -31,7 +31,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module.rs
              if let Err(e) = worker.register_device_collection_changed(DeviceType::OUTPUT) {
                  error!("Failed to register output device callback: {}", e);
                  if let Err(e) = started_signal.send(None) {
-@@ -1577,6 +1583,8 @@ mod audio_device_module_tests {
+@@ -1691,6 +1697,8 @@ mod audio_device_module_tests {
          let expected_backend = "audiounit-rust";
          #[cfg(target_os = "linux")]
          let expected_backend = "pulse-rust";

@@ -1,8 +1,6 @@
-# XXX only for arch ports-clang ?
-
 COMMENT=		Signal Desktop links with Signal
 
-V=			7.79.0
+V=			8.1.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -17,25 +15,24 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # BSD 2-Clause
 PERMIT_PACKAGE=		Yes
 
-WANTLIB += ${MODCARGO_WANTLIB} c++ m
+WANTLIB += ${MODCARGO_WANTLIB} c++ m vpx
 
 # make versions
-# ELECTRON_V=38.4.0
-# NODE_V=22.20.0
-# NODE_V=22.20.0
+# ELECTRON_V=40.4.1
+# NODE_V=24.13.0
+# NODE_V=24.13.0
 # sqlcipher depends
 SQLCIPHER_V=	2.4.4
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.83.0
+LIBSIGNAL_V=	0.87.1
 BORING_ID=	81d4aa19ac6c5af99238ff0bf9328b381ccebcdd
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
-SPQR_ID=	99a759a3fd40cd9304459fb007fcf177db9ed207
-TUNGSTENITE_ID=	d9409e3622ff867e7cf77e864be95487113ae499
+SPQR_ID=	d310c99c57a046549be205b9ce50d80dcbe5f3e4
 BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
 # ringrtc depends
-RINGRTC_V=	2.59.4
-WEBRTC_V=	7339d
+RINGRTC_V=	2.64.1
+WEBRTC_V=	7444f
 
 # node-sqlcipher, AGPLv3
 SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
@@ -49,30 +46,28 @@ FTS5_TOML=	${FTS5_SRC}/Cargo.toml
 DIST_TUPLE+=	github signalapp Signal-FTS5-Extension ${FTS5_ID} .
 
 # libsignal, AGPLv3
-LIBSIGNAL_SRC=	${WRKDIR}/libsignal-${LIBSIGNAL_V}
+LIBSIGNAL_SRC=	${WRKSRC}/libsignal
 LIBSIGNAL_NODE=	${LIBSIGNAL_SRC}/node
 LIBSIGNAL_PREB=	@signalapp/libsignal-client/prebuilds/openbsd-${NODE_ARCH}
 LIBSIGNAL_TOML=	${LIBSIGNAL_SRC}/Cargo.toml
 LIBSIGNAL_T=	${WRKSRC}/node_modules/${LIBSIGNAL_PREB}
-DIST_TUPLE+=	github signalapp libsignal v${LIBSIGNAL_V} .
+DIST_TUPLE+=	github signalapp libsignal v${LIBSIGNAL_V} libsignal
 # boring (signalapp fork), Apache-2.0
 DIST_TUPLE+=	github signalapp boring ${BORING_ID} boring
 # curve25519-dalek (signalapp fork), BSD 3-Clause|MIT|Apache-2.0
 DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
 # SparsePostQuantumRatchet, AGPLv3
 DIST_TUPLE+=	github signalapp SparsePostQuantumRatchet ${SPQR_ID} spqr
-# tungstenite-rs (signalapp fork), Apache-2.0
-DIST_TUPLE+=	github signalapp tungstenite-rs ${TUNGSTENITE_ID} tungstenite
 # boring -> boringssl, OpenSSL/ISC
 BORINGSSL_T=	${WRKDIR}/boring-${BORING_ID}/boring-sys/deps
 DIST_TUPLE+=	github google boringssl ${BORINGSSL_ID} .
 
 # ringrtc, AGPLv3
-RINGRTC_SRC=	${WRKDIR}/ringrtc-${RINGRTC_V}
+RINGRTC_SRC=	${WRKSRC}/ringrtc
 RINGRTC_NODE=	${RINGRTC_SRC}/src/node
 RINGRTC_TOML=	${RINGRTC_SRC}/Cargo.toml
 RINGRTC_T=	${WRKSRC}/node_modules/@signalapp/ringrtc/build
-DIST_TUPLE+=	github signalapp ringrtc v${RINGRTC_V} .
+DIST_TUPLE+=	github signalapp ringrtc v${RINGRTC_V} ringrtc
 # webrtc, BSD-3-Clause
 WEBRTC_SRC=	${RINGRTC_SRC}/src/webrtc/src
 WEBRTC_T=	${WRKDIR}/ringrtc-${RINGRTC_V}/src/webrtc
@@ -99,7 +94,9 @@ MODULES=		devel/cargo \
 USE_GMAKE=		Yes
 USE_NINJA=		No	# disable MODCMAKE targets
 
-# see custom modcargo-gen-crates
+MODCLANG_VERSION=	20
+
+# custom modcargo-gen-crates
 MODCARGO_CARGOS_TOML=	${SQLCEXT_TOML} \
 			${FTS5_TOML} \
 			${LIBSIGNAL_TOML} \
@@ -121,20 +118,26 @@ MODELECTRON_APP_NAME=	Signal
 MODELECTRON_BUILDER=	Yes
 MODELECTRON_WRAPPER=	Yes
 
+MODNPM_MODS+=graceful-fs
+
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 MODNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
 
-MODPNPM_MODS+=lightningcss
-MODPNPM_MODS+=rollup
-MODPNPM_MODS+=@parcel/watcher
+MODPNPM_MODS+=7zip-bin
+MODPNPM_MODS+=app-builder-bin
+MODPNPM_MODS+=electron-builder
 MODPNPM_MODS+=esbuild
+MODPNPM_MODS+=graceful-fs
+MODPNPM_MODS+=@parcel/watcher
+MODPNPM_MODS+=rollup
 MODPNPM_MODS+=tailwindcss
 MODPNPM_MODS+=@tailwindcss/cli
 MODPNPM_MODS+=@tailwindcss/node
 MODPNPM_MODS+=@tailwindcss/oxide
 MODPNPM_MODS+=@tailwindcss/postcss
+MODPNPM_MODS+=lightningcss
 MODPNPM_MODS+=@swc/core
 
 MODPNPM_BUILD=		No
@@ -157,9 +160,12 @@ BUILD_DEPENDS+=		devel/esbuild \
 			devel/libinotify \
 			devel/ninja \
 			devel/protobuf \
+			textproc/re2 \
 			www/tailwindcss
+LIB_DEPENDS+=		multimedia/libvpx
 RUN_DEPENDS+=		devel/desktop-file-utils
 
+# XXX missing rust debug symbol (?)
 DEBUG_PACKAGES=		${BUILD_PACKAGES}
 
 SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR MODCLANG_VERSION
@@ -171,9 +177,9 @@ MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
 MAKE_ENV+=		SIGNAL_ENV=production
 
 # XXX build @parcel/watcher with inotify instead of kqueue
-CXXFLAGS+=		-I${LOCALBASE}/include/inotify
-LDFLAGS+=		-L${LOCALBASE}/lib
-MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
+#CXXFLAGS+=		-I${LOCALBASE}/include/inotify
+#LDFLAGS+=		-L${LOCALBASE}/lib
+#MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
@@ -269,12 +275,7 @@ pre-patch:
 	# link depends into ${WRKSRC} to handle patches
 	mv ${FTS5_SRC} ${WRKSRC}/Signal-FTS5-Extension
 	ln -s ${WRKSRC}/Signal-FTS5-Extension ${FTS5_SRC}
-	mv ${LIBSIGNAL_SRC} ${WRKSRC}/libsignal
-	ln -s ${WRKSRC}/libsignal ${LIBSIGNAL_SRC}
-	mv ${RINGRTC_SRC} ${WRKSRC}/ringrtc
-	ln -s ${WRKSRC}/ringrtc ${RINGRTC_SRC}
 
-# XXX pre-configure or post-patches (like www/chromium)
 pre-configure:
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/python
 	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/vpython3
@@ -406,10 +407,6 @@ test-signal-desktop:
 
 ### targets for port maintainer(s)
 
-modpnpm-pre-gen-modules:
-	# use an empty workspace to force pnpm install otherwise its too smart
-	touch ${SQLCIPHER_SRC}/${MODPNPM_WORKSPACE}
-
 _webrtc-compile_commands:
 # run under _pbuild
 	cd ${WEBRTC_SRC} && ${SETENV} ${MAKE_ENV} \
@@ -420,8 +417,9 @@ webrtc-compile_commands:
 
 # make versions : download, extract then print versions for depends
 # make tarball : gen webrtc-${WEBRTC_V}.tgz with gclient
-# make modpnpm-gen-modules : override modules.inc, see devel/pnpm
-# make modnpm-gen-modules : output >> modules.inc, see devel/npm
+# make modpnpm-gen-modules : apply overrides and gen modules, see devel/pnpm
+# * modpnpm-pre-gen-modules : drop patchedDependencies, conflicts with overrides
+# make modnpm-gen-modules : apply overrides and gen modules, see devel/npm
 # make modcargo-gen-crates : output > crates.inc, handle multiple Cargo.toml
 # make chromium-patches : check OpenBSD patches for chromium src (webrtc)
 # make dns-fallback : no net during build, pre-made files/dns-fallback.json
@@ -475,13 +473,9 @@ versions:
 	_spqr_v=$$(grep "signalapp/SparsePostQuantumRatchet"		\
 		${_TMP}/libsignal.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
-	_tungstenite_v=$$(grep "signalapp/tungstenite-rs"		\
-		${_TMP}/libsignal.Cargo.lock |				\
-		uniq | awk -F '#|"' '{print $$3}') ;			\
 	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
 	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
 	printf "SPQR_ID=\t%s\n" $$_spqr_v ;				\
-	printf "TUNGSTENITE_ID=\t%s\n" $$_tungstenite_v ;		\
 	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
 		git init >/dev/null 2>&1 && git fetch --depth 1		\
 		    ${_BORING_GIT} $$_boring_v >/dev/null 2>&1 &&	\
@@ -543,6 +537,15 @@ tarball:
 	    -s '|src/|${_PKG}-${_VER}/|' && \
 	sha256 -b ${_PKG}-${_VER}.tgz
 
+modpnpm-pre-gen-modules:
+	# use an empty workspace to force pnpm install otherwise its too smart
+	touch ${SQLCIPHER_SRC}/${MODPNPM_WORKSPACE}
+	# drop patchedDependencies app-builder-lib and dmg-builder
+	cd ${WRKSRC} && \
+	jq 'del(.pnpm.patchedDependencies["app-builder-lib"],\
+		.pnpm.patchedDependencies["dmg-builder"])' ${MODPNPM_PACKAGE} \
+		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
+
 # handle multiple cargo files
 modcargo-gen-crates:
 	@make extract >/dev/null 2>&1
@@ -561,13 +564,13 @@ modcargo-gen-crates:
 chromium-patches:
 	make extract
 	@mkdir -p ${_TMP}
-	# cvs co -D 20250925 -d chromium ports/www/chromium
+	# cvs co -D 20251120 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -D 20250925 -d chromium ports/www/chromium ; \
+		cvs co -D 20251120 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches

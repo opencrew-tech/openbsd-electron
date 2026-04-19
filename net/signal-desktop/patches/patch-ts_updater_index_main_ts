@@ -1,7 +1,36 @@
 Index: ts/updater/index.main.ts
 --- ts/updater/index.main.ts.orig
 +++ ts/updater/index.main.ts
-@@ -63,5 +63,5 @@ export function onRestartCanceled(): void {
+@@ -1,13 +1,7 @@
+ // Copyright 2019 Signal Messenger, LLC
+ // SPDX-License-Identifier: AGPL-3.0-only
+ 
+-import config from 'config';
+-import { app } from 'electron';
+ import type { Updater, UpdaterOptionsType } from './common.main.js';
+-import { MacOSUpdater } from './macos.main.js';
+-import { WindowsUpdater } from './windows.main.js';
+-import { LinuxAppImageUpdater } from './linuxAppImage.main.js';
+-import { initLinux } from './linux.main.js';
+ 
+ let initialized = false;
+ 
+@@ -35,10 +29,14 @@ export async function start(options: UpdaterOptionsTyp
+   }
+ 
+   if (platform === 'win32') {
++    const { WindowsUpdater } = await import('./windows.main.js');
+     updater = new WindowsUpdater(options);
+   } else if (platform === 'darwin') {
++    const { MacOSUpdater } = await import('./macos.main.js');
+     updater = new MacOSUpdater(options);
+   } else if (platform === 'linux') {
++    const { LinuxAppImageUpdater } = await import('./linuxAppImage.main.js');
++    const { initLinux } = await import('./linux.main.js');
+     if (process.env.APPIMAGE != null) {
+       updater = new LinuxAppImageUpdater(options);
+     } else {
+@@ -68,5 +66,5 @@ export function onRestartCanceled(): void {
  }
  
  function autoUpdateDisabled() {

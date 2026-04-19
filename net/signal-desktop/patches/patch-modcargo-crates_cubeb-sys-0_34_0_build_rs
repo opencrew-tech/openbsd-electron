@@ -1,6 +1,6 @@
-Index: modcargo-crates/cubeb-sys-0.33.0/build.rs
---- modcargo-crates/cubeb-sys-0.33.0/build.rs.orig
-+++ modcargo-crates/cubeb-sys-0.33.0/build.rs
+Index: modcargo-crates/cubeb-sys-0.34.0/build.rs
+--- modcargo-crates/cubeb-sys-0.34.0/build.rs.orig
++++ modcargo-crates/cubeb-sys-0.34.0/build.rs
 @@ -33,7 +33,7 @@ fn main() {
      }
  

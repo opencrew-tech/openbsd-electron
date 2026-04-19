@@ -10,7 +10,7 @@ Index: ts/util/os/osMain.node.ts
    }
  
    const etcOsRelease = readFileSync('/etc/os-release', 'utf-8');
-@@ -39,7 +39,7 @@ function isWaylandEnabled(): boolean {
+@@ -49,7 +49,7 @@ function isWaylandEnabled(): boolean {
  }
  
  function isLinuxUsingKDE(): boolean {

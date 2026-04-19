@@ -1,7 +1,7 @@
 Index: ringrtc/src/node/package.json
 --- ringrtc/src/node/package.json.orig
 +++ ringrtc/src/node/package.json
-@@ -19,7 +19,7 @@
+@@ -23,7 +23,7 @@
    "scripts": {
      "build": "tsc && bash scripts/build-help.sh",
      "clean": "rimraf dist",

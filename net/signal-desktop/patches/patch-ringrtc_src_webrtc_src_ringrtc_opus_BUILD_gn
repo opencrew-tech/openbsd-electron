@@ -1,7 +1,7 @@
 Index: ringrtc/src/webrtc/src/ringrtc/opus/BUILD.gn
 --- ringrtc/src/webrtc/src/ringrtc/opus/BUILD.gn.orig
 +++ ringrtc/src/webrtc/src/ringrtc/opus/BUILD.gn
-@@ -32,10 +32,11 @@ config("opus_private_config") {
+@@ -29,10 +29,11 @@ config("opus_private_config") {
      "ENABLE_HARDENING",
      "DISABLE_DEBUG_FLOAT",
  

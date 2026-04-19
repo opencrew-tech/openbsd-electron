@@ -1,0 +1,16 @@
+Index: src/main/reactors/self-update.ts
+--- src/main/reactors/self-update.ts.orig
++++ src/main/reactors/self-update.ts
+@@ -74,6 +74,12 @@ export default function (watcher: Watcher) {
+   watcher.on(actions.relaunch, async (store, action) => {
+     const rs = store.getState();
+     const pkg = rs.broth.packages["itch-setup"];
++    if (!pkg) {
++      logger.info(`itch-setup unavailable on this platform, relaunching directly`);
++      store.dispatch(actions.quit({}));
++      return;
++    }
++
+     if (pkg.stage !== "idle") {
+       logger.warn(`itch-setup: wanted pkg stage idle but got '${pkg.stage}'`);
+       return;

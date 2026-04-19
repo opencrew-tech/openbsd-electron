@@ -1,0 +1,18 @@
+Error
+The following features required to run Godot projects on the Web are missing:
+Cross Origin Isolation - Check web server configuration (send correct headers)
+SharedArrayBuffer - Check web server configuration (send correct headers)
+
+Index: src/main/reactors/launch/itch-cave-protocol.ts
+--- src/main/reactors/launch/itch-cave-protocol.ts.orig
++++ src/main/reactors/launch/itch-cave-protocol.ts
+@@ -92,6 +92,9 @@ export async function registerItchCaveProtocol(
+         server: "itch",
+         "content-type": contentType,
+         "access-control-allow-origin": "*",
++        // Required for cross-origin isolation (SharedArrayBuffer / WebAssembly threads).
++        "cross-origin-opener-policy": "same-origin",
++        "cross-origin-embedder-policy": "require-corp",
+       };
+ 
+       // Only set content-length for non-compressed files since we don't

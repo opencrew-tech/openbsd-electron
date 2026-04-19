@@ -1,0 +1,17 @@
+Index: src/main/broth/self-package.ts
+--- src/main/broth/self-package.ts.orig
++++ src/main/broth/self-package.ts
+@@ -36,6 +36,13 @@ export class SelfPackage implements PackageLike {
+   async upgrade(opts: UpgradeOpts) {
+     const logger = this.makeLogger(opts.logger);
+ 
++    if (!this.store.getState().broth.packages["itch-setup"]) {
++      logger.info(
++        `No itch-setup package for this platform, skipping self-update check`
++      );
++      return;
++    }
++
+     try {
+       await itchSetupLock.with(logger, "check for self-update", async () => {
+         const { store } = this;

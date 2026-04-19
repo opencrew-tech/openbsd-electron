@@ -1,0 +1,15 @@
+Index: src/main/broth/itch-setup.ts
+--- src/main/broth/itch-setup.ts.orig
++++ src/main/broth/itch-setup.ts
+@@ -41,6 +41,11 @@ export async function runItchSetup(
+ 
+   const rs = store.getState();
+   const pkg = rs.broth.packages["itch-setup"];
++  if (!pkg) {
++    logger.info(`itch-setup: package unavailable on this platform, skipping`);
++    return false;
++  }
++
+   if (pkg.stage !== "idle") {
+     logger.warn(`itch-setup: wanted pkg stage idle but got '${pkg.stage}'`);
+     return false;

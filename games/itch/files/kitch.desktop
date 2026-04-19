@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=kitch
+Comment=The itch.io desktop app
+Exec=kitch %U
+Icon=kitch
+Terminal=false
+Type=Application
+StartupWMClass=kitch
+Categories=Game;
+MimeType=x-scheme-handler/itchio;x-scheme-handler/itch;

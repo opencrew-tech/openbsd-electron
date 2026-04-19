@@ -1,0 +1,34 @@
+The goal of itch is to give you a desktop application that you can
+download and run games from itch.io with. Additionally you should
+be able to update games and get notified when games are updated.
+The goal is not to replace the itch.io website.
+
+The itch desktop app consists of three components working together:
+
+* itch (Electron App)
+
+An Electron app with a multi-process architecture:
+
+Main Process: Handles state management (Redux), business logic, and
+coordination with butler/itch-setup. Uses a "reactor" pattern to
+handle side effects from Redux actions.
+
+Renderer Process: React-based UI with state synchronized from the
+main process via electron-redux.
+
+* butler
+
+A Go daemon (itchio/butler) that handles all game operations:
+
+Downloads, installs, updates, and launches games Maintains a SQLite
+database for installation data Communicates with itch via TCP-based
+
+RPC Spawned as a child process, tied to itch's lifecycle
+
+* itch-setup
+
+A Go executable (itchio/itch-setup) for installation and updates:
+
+Handles initial app installation on all platforms
+
+Manages self-update checks and restarts

@@ -1,0 +1,13 @@
+Index: src/main/broth/manager.ts
+--- src/main/broth/manager.ts.orig
++++ src/main/broth/manager.ts
+@@ -12,7 +12,8 @@ import { actions } from "common/actions";
+ import { SelfPackage } from "main/broth/self-package";
+ import env from "main/env";
+ 
+-const regularPackageNames = ["butler", "itch-setup"];
++const regularPackageNames =
++  process.platform === "openbsd" ? ["butler"] : ["butler", "itch-setup"];
+ const packageNames = [env.appName, ...regularPackageNames];
+ 
+ export class Manager {

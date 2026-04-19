@@ -1,0 +1,93 @@
+{
+  "name": "spring-launcher",
+  "version": "1.0.0",
+  "description": "Electron-based SpringRTS Launcher app",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint \"./src/**/*.js\"",
+    "start": "electron .",
+    "start-dev": "electron . --dev",
+    "pack": "electron-builder --dir",
+    "build-linux": "electron-builder -l",
+    "build-win": "electron-builder -w",
+    "build-win-portable": "electron-builder -w portable",
+    "build": "electron-builder -wl"
+  },
+  "author": "BAR Team",
+  "license": "ISC",
+  "build": {
+    "appId": "com.springrts.launcher",
+    "extraFiles": [
+      "files/*"
+    ],
+    "files": [
+      "!bin/**"
+    ],
+    "artifactName": "${productName}-${version}.${ext}",
+    "linux": {
+      "target": "AppImage",
+      "category": "Game",
+      "extraFiles": [
+        "bin/pr-downloader"
+      ]
+    },
+    "win": {
+      "extraFiles": [
+        "bin/cacert.pem",
+        "bin/pr-downloader.exe",
+        "bin/*.dll"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    }
+  },
+  "dependencies": {
+    "@electron/remote": "2.1.2",
+    "7zip-bin": "file:../../node/7zip-bin/node_modules/7zip-bin",
+    "chokidar": "3.6.0",
+    "discord-rpc": "^4.0.1",
+    "electron-log": "5.1.1",
+    "electron-settings": "4.0.2",
+    "electron-updater": "6.1.8",
+    "extract-zip": "2.0.1",
+    "got": "11.8.6",
+    "json-stable-stringify": "^1.1.1",
+    "node-7z": "3.0.0",
+    "node-downloader-helper": "^2.1.9",
+    "sdfz-demo-parser": "5.11.0",
+    "spring-map-parser": "6.1.1",
+    "yargs": "17.7.2"
+  },
+  "devDependencies": {
+    "electron": "29.1.0",
+    "electron-builder": "file:../../node/electron-builder/node_modules/electron-builder",
+    "eslint": "8.57.0"
+  },
+  "bundleDependencies": [
+    "@electron/remote",
+    "7zip-bin",
+    "chokidar",
+    "discord-rpc",
+    "electron-log",
+    "electron-settings",
+    "electron-updater",
+    "extract-zip",
+    "got",
+    "json-stable-stringify",
+    "node-7z",
+    "node-downloader-helper",
+    "sdfz-demo-parser",
+    "spring-map-parser",
+    "yargs"
+  ],
+  "overrides": {
+    "7zip-bin": "file:../../node/7zip-bin/node_modules/7zip-bin",
+    "app-builder-bin": "file:../../node/app-builder-bin/node_modules/app-builder-bin",
+    "electron-builder": "file:../../node/electron-builder/node_modules/electron-builder",
+    "graceful-fs": "file:../../node/graceful-fs/node_modules/graceful-fs"
+  }
+}

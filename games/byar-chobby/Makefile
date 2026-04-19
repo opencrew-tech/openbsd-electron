@@ -3,7 +3,7 @@ COMMENT=	launcher for Beyond All Reason
 V=		1.2988.0
 DISTNAME=	BYAR-Chobby-${V}
 PKGNAME=	${DISTNAME:L}
-REVISION=	2
+REVISION=	3
 
 # EACCES: '/launcher/node_modules/pngjs/lib/*'
 FIX_EXTRACT_PERMISSIONS=Yes
@@ -24,16 +24,20 @@ PERMIT_PACKAGE=	Yes
 BUILD_DEPENDS+=	devel/app-builder
 
 RUN_DEPENDS+=	archivers/p7zip \
-		devel/desktop-file-utils \
-		www/electron
+		devel/desktop-file-utils
 
 MODULES=	devel/npm \
 		www/electron
 
 MODNPM_TARGETS=		${WRKSRC}/launcher
-MODNPM_OMITOPTIONAL=	Yes
+MODNPM_NO_OPTIONAL=	Yes
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
+
+MODNPM_MODS+=7zip-bin
+MODNPM_MODS+=app-builder-bin
+MODNPM_MODS+=electron-builder
+MODNPM_MODS+=graceful-fs
 
 MODELECTRON_TARGET=	byar_chobby_launcher
 MODELECTRON_APP_NAME=	Beyond-All-Reason
@@ -78,11 +82,7 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps
 	${INSTALL_DATA} ${WRKSRC}/dist_cfg/build/icon.png \
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
-	# remove uneded files
-	cd ${PREFIX}/${MODELECTRON_DIST_T}.asar.unpacked/ && \
-		rm -rf node_modules/7zip-bin/linux && \
-		rm -rf node_modules/7zip-bin/mac
 
-.include "modules.inc"
+.include "modules.npm.inc"
 
 .include <bsd.port.mk>

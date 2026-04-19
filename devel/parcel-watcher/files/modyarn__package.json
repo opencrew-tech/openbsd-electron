@@ -68,6 +68,7 @@
     ]
   },
   "resolutions": {
-    "esbuild": "/usr/local/lib/node/esbuild/node_modules/esbuild"
+    "esbuild": "../node/esbuild/node_modules/esbuild",
+    "graceful-fs": "../node/graceful-fs/node_modules/graceful-fs"
   }
 }

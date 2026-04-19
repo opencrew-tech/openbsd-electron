@@ -90,7 +90,6 @@ SHA256 (npm_modules/get-own-enumerable-property-symbols-3.0.2.tgz) = u+E7GDR3yG3
 SHA256 (npm_modules/get-stream-6.0.1.tgz) = kys3SHL2YmGYlj1vun+TFkvWtPEqrU680WtJcXvlFiI=
 SHA256 (npm_modules/glob-7.1.7.tgz) = BQSz3d5o0ak7S57xUM3/YeAz318Xz3hYwNn+G0Eum+4=
 SHA256 (npm_modules/glob-parent-5.1.2.tgz) = lhav69GLk1kqedSMzmqEFgRZOukFY/DsVVSge2lS1tU=
-SHA256 (npm_modules/graceful-fs-4.2.4.tgz) = KK1XLGyCmSCRRp+d3MAEVKvsdip/QP7j3zBXH+VGF1E=
 SHA256 (npm_modules/growl-1.10.5.tgz) = ugzBxpJZxgl8YqsVZAHQAwjBKfV3aGnTZfd58S5t2RI=
 SHA256 (npm_modules/has-flag-3.0.0.tgz) = 7UtxMiDcIq4C0GPCECJe4idKeQXJzX2wQbpu9RGp4Oo=
 SHA256 (npm_modules/has-flag-4.0.0.tgz) = d6frFBHZJ7uKXKcGnb4WiIbWPIj0RvC4FQCizyPdtbE=
@@ -306,7 +305,6 @@ SIZE (npm_modules/get-own-enumerable-property-symbols-3.0.2.tgz) = 2273
 SIZE (npm_modules/get-stream-6.0.1.tgz) = 4273
 SIZE (npm_modules/glob-7.1.7.tgz) = 15782
 SIZE (npm_modules/glob-parent-5.1.2.tgz) = 4853
-SIZE (npm_modules/graceful-fs-4.2.4.tgz) = 8484
 SIZE (npm_modules/growl-1.10.5.tgz) = 8372
 SIZE (npm_modules/has-flag-3.0.0.tgz) = 1751
 SIZE (npm_modules/has-flag-4.0.0.tgz) = 2206

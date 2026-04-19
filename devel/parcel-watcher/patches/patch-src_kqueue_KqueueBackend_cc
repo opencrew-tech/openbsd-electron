@@ -1,21 +1,50 @@
 Index: src/kqueue/KqueueBackend.cc
 --- src/kqueue/KqueueBackend.cc.orig
 +++ src/kqueue/KqueueBackend.cc
-@@ -66,6 +66,13 @@ void KqueueBackend::start() {
-         // pipe was written to. break out of the loop.
-         goto done;
-       }
-+#ifdef __OpenBSD__
-+      struct stat fd_stat;
-+      // OpenBSD notify delete on rmdir faillure, ignore if fd still valid
-+      if (flags & NOTE_DELETE && fstat(fd, &fd_stat) != -1) {
+@@ -52,7 +52,7 @@ void KqueueBackend::start() {
+ 
+   while (true) {
+     int event_count = kevent(mKqueue, NULL, 0, events, 128, 0);
+-    if (event_count < 0 || events[0].flags == EV_ERROR) {
++    if (event_count < 0) {
+       throw std::runtime_error(std::string("kevent error: ") + strerror(errno));
+     }
+ 
+@@ -60,6 +60,11 @@ void KqueueBackend::start() {
+     std::unordered_set<WatcherRef> watchers;
+ 
+     for (int i = 0; i < event_count; i++) {
++      if (events[i].flags & EV_ERROR) {
++        int err = (int)events[i].data;
++        throw std::runtime_error(std::string("kevent error: ") + strerror(err));
++      }
++
+       int flags = events[i].fflags;
+       int fd = events[i].ident;
+       if (fd == mPipe[0]) {
+@@ -75,6 +80,21 @@ void KqueueBackend::start() {
+ 
+       DirEntry *entry = it->second;
+ 
++      #if defined(__OpenBSD__)
++        if (flags & NOTE_DELETE) {
++          struct stat st;
++          bool pathDeleted = lstat(entry->path.c_str(), &st) != 0 && (errno == ENOENT || errno == ENOTDIR);
++          if (!pathDeleted) {
++            // OpenBSD can report NOTE_DELETE for failed removals that leave the path in place.
++            flags &= ~NOTE_DELETE;
++          }
++        }
++      #endif
++
++      if (flags == 0) {
 +        continue;
 +      }
-+#endif
- 
-       auto it = mFdToEntry.find(fd);
-       if (it == mFdToEntry.end()) {
-@@ -142,7 +149,8 @@ bool KqueueBackend::watchDir(WatcherRef watcher, std::
++
+       if (flags & NOTE_WRITE && entry && entry->isDir) {
+         // If a write occurred on a directory, we have to diff the contents of that
+         // directory to determine what file was added/deleted.
+@@ -142,12 +162,23 @@ bool KqueueBackend::watchDir(WatcherRef watcher, std::
    KqueueSubscription sub = {
      .watcher = watcher,
      .path = path,
@@ -25,16 +54,36 @@ Index: src/kqueue/KqueueBackend.cc
    };
  
    if (!entry->state) {
-@@ -191,7 +199,7 @@ std::vector<KqueueSubscription *> KqueueBackend::findS
++    struct stat st;
++    if (lstat(path.c_str(), &st) != 0) {
++      return false;
++    }
++
++    // Broken symlinks are observed through the parent directory diff.
++    if (!S_ISDIR(st.st_mode) && !S_ISREG(st.st_mode)) {
++      return true;
++    }
++
+     int fd = open(path.c_str(), O_EVTONLY);
+-    if (fd <= 0) {
++    if (fd < 0) {
+       return false;
+     }
+ 
+@@ -191,8 +222,11 @@ std::vector<KqueueSubscription *> KqueueBackend::findS
  bool KqueueBackend::compareDir(int fd, std::string &path, std::unordered_set<WatcherRef> &watchers) {
    // macOS doesn't support fdclosedir, so we have to duplicate the file descriptor
    // to ensure the closedir doesn't also stop watching.
 -  #if __APPLE__
 +  #if defined(__APPLE__) || defined(__OpenBSD__)
      fd = dup(fd);
++    if (fd < 0) {
++      return false;
++    }
    #endif
  
-@@ -279,7 +287,7 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
+   DIR *dir = fdopendir(fd);
+@@ -279,7 +313,7 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
      }
    }
  

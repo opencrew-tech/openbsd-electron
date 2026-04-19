@@ -1,6 +1,7 @@
 COMMENT =	native C++ Node module for moniroting filesystem events
 
-V=		2.5.1
+V =		2.5.1
+REVISION =	0
 PKGNAME =	parcel-watcher-${V}
 DIST_TUPLE =	github parcel-bundler watcher v${V} .
 
@@ -18,9 +19,13 @@ COMPILER =		base-clang ports-gcc
 
 MODULES =		devel/yarn
 
-MODYARN_MODS+=		esbuild
+MODYARN_MODS+=esbuild
+MODYARN_MODS+=graceful-fs
 
 MODYARN_INSTALL =	parcel-watcher
+
+# XXX ?
+#MODYARN_ENV_TEST+=	TMP=/tmp
 
 .include "modules.yarn.inc"
 

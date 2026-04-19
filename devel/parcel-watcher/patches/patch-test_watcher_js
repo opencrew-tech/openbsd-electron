@@ -10,3 +10,122 @@ Index: test/watcher.js
  }
  
  if (process.env.TEST_WASM) {
+@@ -164,6 +166,59 @@ describe('watcher', () => {
+           let res = await nextEvent();
+           assert.deepEqual(res, [{type: 'delete', path: f}]);
+         });
++
++        it('should not emit delete when a file removal is refused by permissions', async () => {
++          if (backend !== 'kqueue' || process.platform !== 'openbsd') {
++            return;
++          }
++
++          let dir = path.join(
++            fs.realpathSync(require('os').tmpdir()),
++            Math.random().toString(31).slice(2),
++          );
++          let file = path.join(dir, 'blocked.txt');
++          let events = [];
++          let error = null;
++          let sub;
++
++          await fs.mkdir(dir);
++          await fs.writeFile(file, 'hello world');
++          await new Promise((resolve) => setTimeout(resolve, 100));
++
++          try {
++            sub = await watcher.subscribe(dir, (err, res) => {
++              if (err) {
++                error = err;
++                return;
++              }
++
++              events.push(...res);
++            }, {backend});
++
++            await fs.chmod(dir, 0o555);
++            await assert.rejects(fs.unlink(file), (err) => {
++              return err && (err.code === 'EACCES' || err.code === 'EPERM');
++            });
++
++            await new Promise((resolve) => setTimeout(resolve, 250));
++
++            if (error) {
++              throw error;
++            }
++
++            assert.equal(await fs.pathExists(file), true);
++            assert.equal(
++              events.some((event) => event.type === 'delete' && event.path === file),
++              false,
++            );
++          } finally {
++            await fs.chmod(dir, 0o755);
++            if (sub) {
++              await sub.unsubscribe();
++            }
++            await fs.remove(dir);
++          }
++        });
+       });
+ 
+       describe('directories', () => {
+@@ -208,6 +263,58 @@ describe('watcher', () => {
+           let res = await nextEvent();
+ 
+           assert.deepEqual(res, [{type: 'delete', path: f}]);
++        });
++
++        it('should start watching when a broken symlink already exists', async () => {
++          if (backend !== 'kqueue') {
++            return;
++          }
++
++          let dir = path.join(
++            fs.realpathSync(require('os').tmpdir()),
++            Math.random().toString(31).slice(2),
++          );
++          let brokenLink = path.join(dir, 'broken-link');
++          let createdFile = path.join(dir, 'created.txt');
++          let timeout;
++          let sub;
++
++          fs.mkdirpSync(dir);
++          fs.symlinkSync(path.join(dir, 'missing-target'), brokenLink);
++          await new Promise((resolve) => setTimeout(resolve, 100));
++
++          try {
++            let resolveEvents;
++            let rejectEvents;
++            let eventsPromise = new Promise((resolve, reject) => {
++              resolveEvents = resolve;
++              rejectEvents = reject;
++              timeout = setTimeout(() => reject(new Error('timed out waiting for an event')), 2000);
++            });
++
++            sub = await watcher.subscribe(dir, (err, events) => {
++              if (err) {
++                clearTimeout(timeout);
++                rejectEvents(err);
++                return;
++              }
++
++              if (events.some((event) => event.path === createdFile && event.type === 'create')) {
++                clearTimeout(timeout);
++                resolveEvents(events);
++              }
++            }, {backend});
++
++            await fs.writeFile(createdFile, 'hello world');
++            let res = await eventsPromise;
++            assert.ok(res.some((event) => event.path === createdFile && event.type === 'create'));
++          } finally {
++            clearTimeout(timeout);
++            if (sub) {
++              await sub.unsubscribe();
++            }
++            await fs.remove(dir);
++          }
+         });
+ 
+         it('should handle when the directory to watch is deleted', async () => {

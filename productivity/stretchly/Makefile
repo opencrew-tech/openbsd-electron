@@ -1,6 +1,7 @@
 COMMENT=		break time reminder app
 
-DIST_TUPLE=		github hovancik stretchly v1.18.1 .
+DIST_TUPLE=		github hovancik stretchly v1.20.0 .
+REVISION=		0
 
 CATEGORIES=		productivity
 
@@ -19,9 +20,16 @@ MODELECTRON_APP_NAME=	Stretchly
 MODELECTRON_BUILDER=	Yes
 MODELECTRON_WRAPPER=	Yes
 
+MODNPM_MODS+=7zip-bin
+MODNPM_MODS+=app-builder-bin
+MODNPM_MODS+=electron-builder
+MODNPM_MODS+=esbuild
+MODNPM_MODS+=graceful-fs
+MODNPM_MODS+=rollup
+
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
-MODNPM_OMITOPTIONAL=	Yes
+MODNPM_NO_OPTIONAL=	Yes
 
 BUILD_DEPENDS+=		devel/app-builder
 
@@ -53,6 +61,6 @@ post-install:
 		${ICONS_TARGET}/${size}x${size}/apps/${MODELECTRON_TARGET}.png
 .endfor
 
-.include "modules.inc"
+.include "modules.npm.inc"
 
 .include <bsd.port.mk>

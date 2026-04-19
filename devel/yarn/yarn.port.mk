@@ -7,10 +7,9 @@ MODYARN_DIST=		npm_modules
 MODYARN_TARGETS?=	${WRKSRC}
 MODYARN_PACKAGES?=	${MODYARN_TARGETS}
 
-# XXX INCLUDES/EXCLUDES/FORCE features looks useless for now
-MODYARN_GEN_INCLUDES?= 	# include modules
-MODYARN_GEN_EXCLUDES?= 	# exclude modules
-# XXX not needed ?
+# XXX not supported and looks useless
+#MODYARN_GEN_INCLUDES?=	# include modules
+#MODYARN_GEN_EXCLUDES?=	# exclude modules
 #MODYARN_GEN_FORCE?=	# force all modules even wrong os
 
 # modyarn-gen-modules configuration
@@ -61,17 +60,33 @@ MODYARN_TEST?=		No
 MODYARN_LOCK?=		yarn.lock
 MODYARN_PACKAGE?=	package.json
 MODYARN_SETTINGS?=	.yarnrc
-MODYARN_CONFIGFILES?=	${MODYARN_LOCK} \
+MODYARN_PATCHORIG?=	.orig.modyarn
+
+# config files may be extended (ex: to embed sub-folders package.json tweeks)
+MODYARN_CONFIGFILES+=	${MODYARN_LOCK} \
 			${MODYARN_PACKAGE} \
 			${MODYARN_SETTINGS}
-MODYARN_PATCHORIG?=	.orig.modyarn
 
 # module port path : modules redirects with system ports
 MODYARN_MODULES+=\
-	@parcel/watcher devel/parcel-watcher \
-		parcel-watcher/node_modules/@parcel/watcher \
+	7zip-bin archivers/node-7zip-bin \
+		7zip-bin/node_modules/7zip-bin \
+	app-builder-bin devel/app-builder \
+		app-builder-bin/node_modules/app-builder-bin \
+	@ast-grep/napi devel/ast-grep \
+		ast-grep/node_modules/@ast-grep/napi \
+	electron-builder www/electron-builder \
+		electron-builder/node_modules/electron-builder \
 	esbuild devel/esbuild \
 		esbuild/node_modules/esbuild \
+	graceful-fs devel/node-graceful-fs \
+		graceful-fs/node_modules/graceful-fs \
+	@parcel/watcher devel/parcel-watcher \
+		parcel-watcher/node_modules/@parcel/watcher \
+	puppeteer www/puppeteer \
+		puppeteer/node_modules/puppeteer \
+	rollup devel/rollup \
+		rollup/node_modules/rollup \
 	tailwindcss www/tailwindcss \
 		tailwindcss/node_modules/tailwindcss \
 	@tailwindcss/browser www/tailwindcss \
@@ -91,10 +106,10 @@ MODYARN_MODULES+=\
 # module . override : modules redirects without ports
 MODYARN_MODULES+=\
 	lightningcss . npm:lightningcss-wasm \
-	rollup . npm:@rollup/wasm-node
 # module module . : modules fallback to add
 MODYARN_MODULES+=\
-	@swc/core @swc/wasm .
+	@swc/core @swc/wasm . \
+	unrs-resolver @unrs/resolver-binding-wasm32-wasi .
 
 # bring in module depends
 # XXX BUILD_DEPENDS only ? configurable ?
@@ -110,8 +125,8 @@ MODYARN_BUILD_DIST?=	${WRKDIR}/packages
 # unpack (tar xzf) then run yarn install
 # XXX keep in sync with other npm-like modules
 MODYARN_INSTALL?=	no
-MODYARN_INSTALL_DIST?=	${LOCALBASE}/lib/node
-MODYARN_INSTALL_DIR?=	lib/node/${MODYARN_INSTALL}/node_modules
+MODYARN_INSTALL_DIST?=	${LOCALBASE}/node
+MODYARN_INSTALL_DIR?=	node/${MODYARN_INSTALL}/node_modules
 
 # home needed for yarn cache
 PORTHOME?=		${WRKDIR}/vendor
@@ -121,48 +136,66 @@ MODYARN_CACHE?=		vendor/.yarn-cache
 MODYARN_VENDOR_REV?=
 MODYARN_VENDOR?=	${PKGNAME}${MODYARN_VENDOR_REV:%=.%}-vendor.tgz
 
-# env & cmd
-MODYARN_ENV?=		PATH='${PORTPATH}:./node_modules/.bin' \
+# env is required and can be extended
+MODYARN_ENV+=		PATH='${PORTPATH}:./node_modules/.bin' \
 			TMP=${WRKDIR}/tmp \
-			HOME=${PORTHOME} \
-			CI=true
+			HOME=${PORTHOME}
+# specific build & gen env are configurable (ex: replace npm_config_nodedir)
 MODYARN_ENV_BUILD?=	npm_config_nodedir=${LOCALBASE}
+MODYARN_ENV_TEST?=
 MODYARN_ENV_GEN?=
+
+# cmd
 MODYARN_BIN?=		yarn
-MODYARN_CMD?=		${SETENV} ${MODYARN_ENV} ${MODYARN_BIN}
+MODYARN_CMD?=\
+	${SETENV} ${MODYARN_ENV} CI=true ${MODYARN_BIN}
 MODYARN_CMD_BUILD?=\
 	${SETENV} ${MAKE_ENV} ${MODYARN_ENV} ${MODYARN_ENV_BUILD} ${MODYARN_BIN}
+MODYARN_CMD_TEST?=\
+	${SETENV} ${MAKE_ENV} ${MODYARN_ENV} ${MODYARN_ENV_TEST} ${MODYARN_BIN}
 MODYARN_CMD_GEN?=\
 	${SETENV} ${MODYARN_ENV} ${MODYARN_ENV_GEN} ${MODYARN_BIN}
 
 # common args
 MODYARN_ARGS?=		--verbose
-MODYARN_ARGS_OPTIONAL?=	${MODYARN_NO_OPTIONAL:L:S/no//:S/yes/--ignore-optional/}
-MODYARN_ARGS_DEV?=	${MODYARN_NO_DEV:L:S/no//:S/yes/--prod/}
+MODYARN_ARGS_OPTIONAL?=\
+	${MODYARN_NO_OPTIONAL:L:S/no//:S/yes/--ignore-optional/}
+MODYARN_ARGS_DEV?=\
+	${MODYARN_NO_DEV:L:S/no//:S/yes/--production/}
 # ports args
 MODYARN_ARGS_EXTRACT?=\
 	install ${MODYARN_ARGS} --offline --frozen-lockfile --ignore-scripts \
-	${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV}
-MODYARN_ARGS_REBUILD?=	install ${MODYARN_ARGS} --offline --force
-MODYARN_ARGS_BUILD?=	pack ${MODYARN_ARGS} --offline
+	    ${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV}
+MODYARN_ARGS_REBUILD?=\
+	install ${MODYARN_ARGS} --offline --rebuild
+MODYARN_ARGS_BUILD?=\
+	pack ${MODYARN_ARGS} --offline
 MODYARN_ARGS_FAKE?=\
-	global add ${MODYARN_ARGS} --offline --frozen-lockfile --prod \
-	${MODYARN_ARGS_OPTIONAL} --prefix ${PORTHOME}/.config/yarn/global/
-MODYARN_ARGS_TEST?=	test ${MODYARN_ARGS}
+	global add ${MODYARN_ARGS} --offline --frozen-lockfile --production \
+	    ${MODYARN_ARGS_OPTIONAL} --prefix ${PORTHOME}/.config/yarn/global/
+MODYARN_ARGS_TEST?=\
+	test ${MODYARN_ARGS}
 # maintener args
-MODYARN_ARGS_GEN?=	${MODYARN_ARGS} --lockfile-only --ignore-scripts
+# XXX MODYARN_ARGS_GEN --lockfile-only ?
+# XXX install/update/add : ignore-platform (wasm32) ?
+# XXX add : dev only ?
+MODYARN_ARGS_GEN?=\
+	${MODYARN_ARGS} --ignore-scripts
 MODYARN_ARGS_INSTALL?=\
-	install ${MODYARN_ARGS_GEN} ${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV}
-MODYARN_ARGS_UPDATE?=	update ${MODYARN_ARGS_GEN}
-# XXX dev only ?
-MODYARN_ARGS_ADD?=	add ${MODYARN_ARGS_GEN} --dev
+	install ${MODYARN_ARGS_GEN} --ignore-platform \
+	    ${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV}
+MODYARN_ARGS_UPDATE?=\
+	upgrade ${MODYARN_ARGS_GEN} --ignore-platform
+MODYARN_ARGS_ADD?=\
+	add ${MODYARN_ARGS_GEN} --dev --ignore-platform
 MODYARN_ARGS_VENDOR?=\
 	install ${MODYARN_ARGS} --frozen-lockfile --ignore-scripts \
-	${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV} \
-	${MODYARN_GEN_FORCE:L:S/yes/--force/:S/no//}
+	    ${MODYARN_ARGS_OPTIONAL} ${MODYARN_ARGS_DEV} \
+	    ${MODYARN_GEN_FORCE:L:S/yes/--force/:S/no//}
 
 # SITES{.yarn,.github} && EXTRACT_SUFX.github
 SITES.yarn?=		https://registry.npmjs.org/
+# XXX few use cases, better way to avoid duplicates ?
 .include "${PORTSDIR}/infrastructure/db/dist-tuple.pattern"
 EXTRACT_SUFX.github?=	${TEMPLATE_EXTRACT_SUFX}
 
@@ -182,6 +215,8 @@ TEST_DEPENDS+=		devel/yarn
 MODYARN_post-extract += \
 	mkdir -p ${PORTHOME} ; \
 	mkdir -p ${WRKDIR}/tmp ; \
+	mkdir -p ${MODYARN_BUILD_DIST} ; \
+	ln -fs ${MODYARN_INSTALL_DIST} ${WRKDIR}/ ; \
 	echo 'yarn-offline-mirror "${WRKDIR}/${MODYARN_CACHE}"' >> \
 		${PORTHOME}/${MODYARN_SETTINGS} ;
 
@@ -213,9 +248,10 @@ MODYARN_post-extract += \
 		cd $${target} ;
 .for _CONF in ${MODYARN_CONFIGFILES}
 MODYARN_post-extract += \
-		[ -f ${FILESDIR}/modyarn_$${prefix}_${_CONF} ] && \
-			cp ${FILESDIR}/modyarn_$${prefix}_${_CONF} ${_CONF} \
-			|| true ;
+		conf=${_CONF:S/\//_/g} ; \
+		if [ -f ${FILESDIR}/modyarn_$${prefix}_$${conf} ] ; then \
+			cp ${FILESDIR}/modyarn_$${prefix}_$${conf} ${_CONF} ; \
+		fi ;
 .endfor
 MODYARN_post-extract += \
 		cd - >/dev/null ; \
@@ -262,10 +298,11 @@ MODYARN_post-extract += \
 	done ;
 
 # Install node_modules files only, ignore scripts. Then run yarn install
-# --force during pre-build, after patch, which allows small customization.
+# --rebuild during pre-build, after patch, which preserves local patching.
 # Note, during fake, node_modules folders are pruned (or reinstalled) for
 # production without applying any patches.
 # Thus patches for devdepends work but not for rundepends.
+# XXX use the npm pattern with bundledependencies ?
 MODYARN_post-extract+= \
 	for target in ${MODYARN_TARGETS}; do \
 		echo "MODYARN: install $${target}" ; \
@@ -287,7 +324,6 @@ MODYARN_PREBUILD_TARGET=\
 	done
 
 MODYARN_BUILD_TARGET=\
-	mkdir -p ${MODYARN_BUILD_DIST} ; \
 	for target in ${MODYARN_TARGETS} ; do \
 		cd $${target} ; \
 		target=$$(cat package.json | grep name | \
@@ -309,6 +345,7 @@ MODYARN_INSTALL_TARGET=\
 	echo "MODYARN: install into ${MODYARN_INSTALL_DIR}" ; \
 	cp -Rp ${PORTHOME}/.config/yarn/global/node_modules/* \
 		${PREFIX}/${MODYARN_INSTALL_DIR}/ ; \
+	echo "MODYARN: cleanup" ; \
 	find ${PREFIX}/${MODYARN_INSTALL_DIR} -type f \( \
 		-name '*${MODYARN_PATCHORIG}' \
 		-or -name '*${PATCHORIG}' \
@@ -318,7 +355,7 @@ MODYARN_INSTALL_TARGET=\
 MODYARN_TEST_TARGET=\
 	for target in ${MODYARN_TARGETS} ; do \
 		echo "MODYARN: test $${target}" ; \
-		cd $${target} && ${MODYARN_CMD} ${MODYARN_ARGS_TEST} ; \
+		cd $${target} && ${MODYARN_CMD_TEST} ${MODYARN_ARGS_TEST} ; \
 	done
 
 .if !target(pre-build)
@@ -346,16 +383,18 @@ modyarn-diff:
 .for _CONF in ${MODYARN_CONFIGFILES}
 	@for target in ${MODYARN_TARGETS} ; do \
 		cd ${FILESDIR} ; \
-		target=$${target}/ ; \
-		prefix=$$(echo "$${target##"${WRKSRC}/"}" | tr '/' '_') ; \
+		prefix=$$(echo "$${target##${WRKSRC}}" | tr '/' '_') ; \
+		prefix=$${prefix##_} ; \
+		prefix=$${prefix%%_} ; \
+		conf=${_CONF:S/\//_/g} ; \
 		if [[ $${target}${_CONF} == *.json ]] ; then \
 			[ -f $${target}${_CONF}${MODYARN_PATCHORIG} ] && \
 			jq '.' $${target}${_CONF}${MODYARN_PATCHORIG} | \
-			diff -uN - modyarn_$${prefix}${_CONF} || true ; \
+			diff -uN - modyarn_$${prefix}_$${conf} || true ; \
 		else \
 			[ -f $${target}${_CONF}${MODYARN_PATCHORIG} ] && \
 			diff -uN $${target}${_CONF}${MODYARN_PATCHORIG} \
-				modyarn_$${prefix}${_CONF} || true ; \
+				modyarn_$${prefix}_$${conf} || true ; \
 		fi ; \
 	done
 .endfor
@@ -369,9 +408,9 @@ MODYARN_gen-configfiles += \
 .endif
 
 # Setup overrides customisation before modyarn-gen-configfiles (w/patches), ex:
-# MODYARN_GEN_OVERRIDES =	"foo":"npm:foo@x.y.z" "bar":"npm:@cutom/bar"
-.for _modyarn_override in ${MODYARN_GEN_OVERRIDES}
-_MODYARN_OVERRIDES:=${_MODYARN_OVERRIDES:%=%,}${_modyarn_override}
+# MODYARN_GEN_OVERRIDES =	"foo" "npm:foo@x.y.z" "bar" "npm:@cutom/bar"
+.for _mod _spec in ${MODYARN_GEN_OVERRIDES}
+_MODYARN_OVERRIDES:=${_MODYARN_OVERRIDES:%=%,}${_mod}:${_spec}
 .endfor
 .if !empty(_MODYARN_OVERRIDES)
 MODYARN_gen-configfiles += \
@@ -382,9 +421,9 @@ MODYARN_gen-configfiles += \
 # skip generating modules.yarn.inc, vendor store in $HOME ($WRKDIR/vendor)
 _MODYARN_VENDOR?=	No
 # default env for generating configfiles, modules.yarn.inc or vendor store
-_MODYARN_TMP?=		./
+_MODYARN_TMP?=		./modyarn
 _MODYARN_GEN_VAR?=	BUILD_USER=$$(whoami) WRKOBJDIR=$${t}
-_MODYARN_GEN_DIR?=	$$(realpath `mktemp -d ${_MODYARN_TMP}/modyarn.XXXXXXX`)
+_MODYARN_GEN_DIR?=	$$(realpath `mktemp -d ${_MODYARN_TMP}.XXXXXXX`)
 
 .if !target(modyarn-pre-gen-modules)
 modyarn-pre-gen-modules:
@@ -394,11 +433,14 @@ modyarn-pre-gen-modules:
 _modyarn-gen-modules: modyarn-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
 # scan for modules to override, update or add
+	@rm -f ${WRKDIR}/newmods
+	@rm -f ${WRKDIR}/missmods
 .  for _mod _port _override in ${MODYARN_MODULES}
 	@for target in ${MODYARN_PACKAGES} ; do \
 		[ -f $${target}/${MODYARN_LOCK} ] && \
 		grep -q '\s*${_mod}@' $${target}/${MODYARN_LOCK} && \
 		echo "${MODYARN_MODS}" | grep -vq "${_mod}" && \
+		echo "${MODYARN_MODS_SKIP}" | grep -vq "${_mod}" && \
 		echo "MODYARN_MODS+=${_mod}" >> ${WRKDIR}/newmods ; \
 		true ; \
 	done
@@ -414,7 +456,9 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 		fi ; \
 	done ; \
 	if [ $${found} == 0 ] ; then \
+		echo "${MODYARN_MODS_SKIP}" | grep -vq "${_mod}" && \
 		echo "${_mod} not found" >> ${WRKDIR}/missmods ; \
+		true ; \
 	fi
 .  endif
 .endfor
@@ -461,7 +505,10 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 		grep -q '\s*${_mod}@' $${target}/${MODYARN_LOCK} || continue ; \
 		echo "MODYARN: mod ${_mod} port ${_port} to $${target}" ; \
 		cd $${target} ; \
-		override='"${_mod}":"${MODYARN_INSTALL_DIST}/${_override}"' ; \
+		wrkdir=$$(echo $${target#${WRKDIR}/} | sed 's:[^/]*:..:g') ; \
+		override=$$( \
+			echo '"${_mod}":"__wrkdir__/node/${_override}"' | \
+			sed "s:__wrkdir__:$${wrkdir}:g" ) ; \
 		jq ".resolutions += {$${override}}" ${MODYARN_PACKAGE} \
 			> tmp.json && mv tmp.json ${MODYARN_PACKAGE} ; \
 		true ; \
@@ -523,10 +570,17 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 		grep -q '\s*${_mod}@' $${target}/${MODYARN_LOCK} || continue ; \
 		cd $${target} ; \
 		echo "MODYARN: mod ${_mod} add ${_port} to $${target}" ; \
-		${MODYARN_CMD_GEN} ${MODYARN_ARGS_ADD} ${_port} ; \
+		if grep -q '"workspaces":' ${MODYARN_PACKAGE} ; then \
+			${MODYARN_CMD_GEN} ${MODYARN_ARGS_ADD} -W ${_port} ; \
+		else \
+			${MODYARN_CMD_GEN} ${MODYARN_ARGS_ADD} ${_port} ; \
+		fi ; \
 	done
 .    endif
 .  endfor
+# post-gen target
+	t=${WRKOBJDIR} ; \
+	make -D _GEN_MODULES ${_MODYARN_GEN_VAR} modyarn-post-gen-modules
 # distfiles
 	@[ -f ${.CURDIR}/modules.yarn.inc ] && \
 		mv ${.CURDIR}/modules.yarn.inc{,.orig} || true
@@ -536,39 +590,41 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 		locks="$${locks} $${target}/${MODYARN_LOCK}" ; \
 	done ; \
 	echo "" >> ${.CURDIR}/modules.yarn.inc ; \
-	echo "#INCLUDES=${MODYARN_GEN_INCLUDES}" >> \
-		${.CURDIR}/modules.yarn.inc ; \
-	echo "#EXCLUDES=${MODYARN_GEN_EXCLUDES}" >> \
-		${.CURDIR}/modules.yarn.inc ; \
-	echo "" >> ${.CURDIR}/modules.yarn.inc ; \
 	${_PERLSCRIPT}/modyarn-gen-modules \
-		${MODYARN_GEN_INCLUDES:='-i %'} \
-		${MODYARN_GEN_EXCLUDES:='-x %'} \
 		$${locks} >> ${.CURDIR}/modules.yarn.inc && \
 	echo "=> ${.CURDIR}/modules.yarn.inc"
 .  endif
 # config & lock files
 	@mkdir -p ${FILESDIR}
+	@echo "MODYARN: bundle configfiles"
 .  for _CONF in ${MODYARN_CONFIGFILES}
 	@cd ${FILESDIR} ; \
-	echo "MODYARN: bundle ${_CONF}" ; \
 	for target in ${MODYARN_PACKAGES} ; do \
 		prefix=$$(echo "$${target##${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix##_} ; \
 		prefix=$${prefix%%_} ; \
-		[ -f modyarn_$${prefix}_${_CONF} ] && \
-			cp modyarn_$${prefix}_${_CONF}{,.orig} \
+		conf=${_CONF:S/\//_/g} ; \
+		[ -f modyarn_$${prefix}_$${conf} ] && \
+			cp modyarn_$${prefix}_$${conf}{,.orig} \
 			|| true ; \
 		[ -f $${target}/${_CONF} ] && \
-			cp $${target}/${_CONF} modyarn_$${prefix}_${_CONF} && \
-			echo "=> ${FILESDIR}/modyarn_$${prefix}_${_CONF}" \
+			cp $${target}/${_CONF} modyarn_$${prefix}_$${conf} && \
+			echo "=> ${FILESDIR}/modyarn_$${prefix}_$${conf}" \
 			|| true ; \
 	done
 .  endfor
 .endif # !target(_modyarn-gen-modules)
 
+.if !target(modyarn-pre-gen-modules)
+modyarn-pre-gen-modules:
+.endif
+
+.if !target(modyarn-post-gen-modules)
+modyarn-post-gen-modules:
+.endif
+
 .if !target(modyarn-gen-modules)
-modyarn-gen-modules:
+modyarn-gen-modules:modyarn-pre-gen-modules
 	@which jq >/dev/null
 	@which yq >/dev/null
 	@t=${_MODYARN_GEN_DIR} && \
@@ -579,7 +635,7 @@ modyarn-gen-modules:
 	echo "MODYARN: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
 	echo "MODYARN: rm $${t}, done." || (\
-	echo "MODYARN: FAIL, try again with _MODYARN_GEN_DIR=$${t} or rm it" ; \
+	echo "MODYARN: FAIL, try again with _MODYARN_GEN_DIR=$${t}" ; \
 	false )
 .endif
 
@@ -609,5 +665,5 @@ modyarn-gen-vendor:
 	echo "MODYARN: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
 	echo "MODYARN: rm $${t}, done." || \
-	echo "MODYARN: FAIL, rm $${t} or try again with _MODYARN_GEN_DIR=$${t}"
+	echo "MODYARN: FAIL, try again with _MODYARN_GEN_DIR=$${t}"
 .endif

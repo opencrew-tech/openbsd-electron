@@ -1,7 +1,7 @@
 Index: gclient.py
 --- gclient.py.orig
 +++ gclient.py
-@@ -784,6 +784,9 @@ class Dependency(gclient_utils.WorkItem, DependencySet
+@@ -786,6 +786,9 @@ class Dependency(gclient_utils.WorkItem, DependencySet
                      continue
                  cipd_root = self.GetCipdRoot()
                  for package in dep_value.get('packages', []):

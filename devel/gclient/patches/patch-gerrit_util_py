@@ -3,15 +3,15 @@ ModuleNotFoundError: No module named 'httplib2.socks'
 Index: gerrit_util.py
 --- gerrit_util.py.orig
 +++ gerrit_util.py
-@@ -35,7 +35,6 @@ from typing import NamedTuple, List, Optional
- from typing import Tuple, TypedDict, cast
+@@ -36,7 +36,6 @@ from typing import Tuple, TypedDict, cast
+ from typing import Generator
  
  import httplib2
 -import httplib2.socks
  
  import auth
  import gclient_utils
-@@ -44,53 +43,6 @@ import metrics_utils
+@@ -45,53 +44,6 @@ import metrics_utils
  import newauth
  import scm
  import subprocess2

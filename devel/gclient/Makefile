@@ -1,12 +1,12 @@
 COMMENT =	google's tool to sync repository (DEPS)
 
-COMMIT =	077e02a7696bccafcdd169992524830fa65b738e
-V =		0.20250912
+COMMIT =	4ce8ba39a3488397a2d1494f167020f21de502f3
+V =		0.20260305
 DISTNAME =	depot_tools-${COMMIT}
 PKGNAME =	gclient-${V}
 
 # see cipd_client_version
-CIPD_COMMIT =	b1f414539ac10cc67a0250890a38712cc06cf102
+CIPD_COMMIT =	7d251a3398c8173d9b97a5e7ec7d4d75eae910a1
 CIPD_PLATFORM =	openbsd-${MACHINE_ARCH}
 
 CATEGORIES =	devel
@@ -49,6 +49,7 @@ do-install:
 	    -exec cp "{}" ${TARGET} \;
 	${INSTALL_DATA_DIR} ${TARGET}/third_party
 	cp -Rp ${WRKSRC}/third_party/* ${TARGET}/third_party
+	cp -Rp ${WRKSRC}/jj ${TARGET}
 	${MODPY_COMPILEALL} ${TARGET}
 	# wrapper
 	${SUBST_PROGRAM} ${FILESDIR}/gclient \
@@ -56,7 +57,7 @@ do-install:
 
 ### targets for port maintainer(s)
 
-_SRC?=	${WRKDIR}/gn
+_SRC?=	${WRKDIR}/gclient
 _FETCH_GS?=https://chromium.googlesource.com/chromium/tools/depot_tools.git \
 	${COMMIT}
 tarball:

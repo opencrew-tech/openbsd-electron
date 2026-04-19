@@ -2,7 +2,7 @@ bin/gclient
 libexec/gclient/
 @bin libexec/gclient/.cipd_client
 libexec/gclient/PRESUBMIT.py
-${MODPY_COMMENT}libexec/gclient/${MODPY_PYCACHE}/
+libexec/gclient/${MODPY_PYCACHE}/
 libexec/gclient/${MODPY_PYCACHE}PRESUBMIT.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}PRESUBMIT.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}android_build_server_helper.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -11,8 +11,6 @@ libexec/gclient/${MODPY_PYCACHE}auth.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}auth.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}autoninja.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}autoninja.${MODPY_PYC_MAGIC_TAG}pyc
-libexec/gclient/${MODPY_PYCACHE}bazel.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
-libexec/gclient/${MODPY_PYCACHE}bazel.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}breakpad.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}breakpad.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}build_telemetry.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -47,6 +45,8 @@ libexec/gclient/${MODPY_PYCACHE}gclient_scm.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXT
 libexec/gclient/${MODPY_PYCACHE}gclient_scm.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gclient_utils.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}gclient_utils.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}gerrit_cache.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}gerrit_cache.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gerrit_client.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}gerrit_client.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gerrit_util.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -107,6 +107,8 @@ libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENS
 libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}luci_auth_fido2_plugin.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}luci_auth_fido2_plugin.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}markdown_format.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}markdown_format.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}metrics.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}metrics.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}metrics_utils.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -178,7 +180,6 @@ libexec/gclient/${MODPY_PYCACHE}win32imports.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/android_build_server_helper.py
 libexec/gclient/auth.py
 libexec/gclient/autoninja.py
-libexec/gclient/bazel.py
 libexec/gclient/breakpad.py
 libexec/gclient/build_telemetry.py
 libexec/gclient/caffeinate.py
@@ -197,6 +198,7 @@ libexec/gclient/gclient_eval.py
 libexec/gclient/gclient_paths.py
 libexec/gclient/gclient_scm.py
 libexec/gclient/gclient_utils.py
+libexec/gclient/gerrit_cache.py
 libexec/gclient/gerrit_client.py
 libexec/gclient/gerrit_util.py
 libexec/gclient/git_auth.py
@@ -225,8 +227,16 @@ libexec/gclient/gn.py
 libexec/gclient/gn_helper.py
 libexec/gclient/google_java_format.py
 libexec/gclient/gsutil.py
+libexec/gclient/jj/
+libexec/gclient/jj/OWNERS
+libexec/gclient/jj/README.md
+libexec/gclient/jj/${MODPY_PYCACHE}/
+libexec/gclient/jj/${MODPY_PYCACHE}scm.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/jj/${MODPY_PYCACHE}scm.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/jj/scm.py
 libexec/gclient/lockfile.py
 libexec/gclient/luci_auth_fido2_plugin.py
+libexec/gclient/markdown_format.py
 libexec/gclient/metrics.py
 libexec/gclient/metrics_utils.py
 libexec/gclient/metrics_xml_format.py
@@ -256,7 +266,7 @@ libexec/gclient/subprocess2.py
 libexec/gclient/swift_format.py
 libexec/gclient/third_party/
 libexec/gclient/third_party/__init__.py
-${MODPY_COMMENT}libexec/gclient/third_party/${MODPY_PYCACHE}/
+libexec/gclient/third_party/${MODPY_PYCACHE}/
 libexec/gclient/third_party/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/third_party/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/third_party/colorama/
@@ -264,7 +274,7 @@ libexec/gclient/third_party/colorama/LICENSE.txt
 libexec/gclient/third_party/colorama/README.chromium
 libexec/gclient/third_party/colorama/README.rst
 libexec/gclient/third_party/colorama/__init__.py
-${MODPY_COMMENT}libexec/gclient/third_party/colorama/${MODPY_PYCACHE}/
+libexec/gclient/third_party/colorama/${MODPY_PYCACHE}/
 libexec/gclient/third_party/colorama/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/third_party/colorama/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/third_party/colorama/${MODPY_PYCACHE}ansi.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -284,9 +294,9 @@ libexec/gclient/third_party/colorama/win32.py
 libexec/gclient/third_party/colorama/winterm.py
 libexec/gclient/third_party/repo/
 libexec/gclient/third_party/repo/COPYING
-libexec/gclient/third_party/repo/README.chromium
+libexec/gclient/third_party/repo/README.md
 libexec/gclient/third_party/repo/__init__.py
-${MODPY_COMMENT}libexec/gclient/third_party/repo/${MODPY_PYCACHE}/
+libexec/gclient/third_party/repo/${MODPY_PYCACHE}/
 libexec/gclient/third_party/repo/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/third_party/repo/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/third_party/repo/${MODPY_PYCACHE}progress.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -301,7 +311,7 @@ libexec/gclient/third_party/schema/MANIFEST.in
 libexec/gclient/third_party/schema/README.chromium
 libexec/gclient/third_party/schema/README.rst
 libexec/gclient/third_party/schema/__init__.py
-${MODPY_COMMENT}libexec/gclient/third_party/schema/${MODPY_PYCACHE}/
+libexec/gclient/third_party/schema/${MODPY_PYCACHE}/
 libexec/gclient/third_party/schema/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/third_party/schema/${MODPY_PYCACHE}__init__.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/third_party/schema/${MODPY_PYCACHE}schema.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}

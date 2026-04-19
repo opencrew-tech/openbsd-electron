@@ -17,7 +17,7 @@ Index: gsutil.py
  
      cmd = [
 -        'vpython3', '-vpython-spec',
--        os.path.join(THIS_DIR, 'gsutil.vpython3'), '--', gsutil_bin
+-        os.path.join(THIS_DIR, 'gsutil.py.vpython3'), '--', gsutil_bin
 +        'gsutil',
      ] + args_opt + args
  

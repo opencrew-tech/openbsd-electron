@@ -55,7 +55,7 @@ Index: electron/spec/api-browser-window-spec.ts
          const w1 = new BrowserWindow({ show: false });
          const w2 = new BrowserWindow({ show: false });
          const w3 = new BrowserWindow({ show: false });
-@@ -1840,7 +1840,7 @@ describe('BrowserWindow module', () => {
+@@ -1860,7 +1860,7 @@ describe('BrowserWindow module', () => {
          });
        });
  
@@ -64,7 +64,7 @@ Index: electron/spec/api-browser-window-spec.ts
          it('checks normal bounds when maximized', async () => {
            const bounds = w.getBounds();
            const maximize = once(w, 'maximize');
-@@ -2050,7 +2050,7 @@ describe('BrowserWindow module', () => {
+@@ -2070,7 +2070,7 @@ describe('BrowserWindow module', () => {
          });
        });
  
@@ -73,7 +73,7 @@ Index: electron/spec/api-browser-window-spec.ts
          it('checks normal bounds when minimized', async () => {
            const bounds = w.getBounds();
            const minimize = once(w, 'minimize');
-@@ -3116,7 +3116,7 @@ describe('BrowserWindow module', () => {
+@@ -3138,7 +3138,7 @@ describe('BrowserWindow module', () => {
    describe('BrowserWindow.setOpacity(opacity)', () => {
      afterEach(closeAllWindows);
  
@@ -82,7 +82,7 @@ Index: electron/spec/api-browser-window-spec.ts
        it('make window with initial opacity', () => {
          const w = new BrowserWindow({ show: false, opacity: 0.5 });
          expect(w.getOpacity()).to.equal(0.5);
-@@ -3142,7 +3142,7 @@ describe('BrowserWindow module', () => {
+@@ -3164,7 +3164,7 @@ describe('BrowserWindow module', () => {
        });
      });
  
@@ -91,7 +91,7 @@ Index: electron/spec/api-browser-window-spec.ts
        it('sets 1 regardless of parameter', () => {
          const w = new BrowserWindow({ show: false });
          w.setOpacity(0);
-@@ -3353,7 +3353,7 @@ describe('BrowserWindow module', () => {
+@@ -3375,7 +3375,7 @@ describe('BrowserWindow module', () => {
        expect(overlayRectPreMax.height).to.equal(size);
  
        // 'maximize' event is not emitted on Linux in CI.
@@ -100,7 +100,7 @@ Index: electron/spec/api-browser-window-spec.ts
          const maximize = once(w, 'maximize');
          w.show();
          w.maximize();
-@@ -3419,7 +3419,7 @@ describe('BrowserWindow module', () => {
+@@ -3441,7 +3441,7 @@ describe('BrowserWindow module', () => {
          expect(preMaxHeight).to.equal(size);
  
          // 'maximize' event is not emitted on Linux in CI.
@@ -109,7 +109,7 @@ Index: electron/spec/api-browser-window-spec.ts
            const maximize = once(w, 'maximize');
            w.show();
            w.maximize();
-@@ -4090,7 +4090,7 @@ describe('BrowserWindow module', () => {
+@@ -4134,7 +4134,7 @@ describe('BrowserWindow module', () => {
          expect(test.nodeTimers).to.equal(true);
          expect(test.nodeUrl).to.equal(true);
  
@@ -118,7 +118,7 @@ Index: electron/spec/api-browser-window-spec.ts
            expect(test.creationTime).to.be.null('creation time');
            expect(test.systemMemoryInfo).to.be.null('system memory info');
          } else {
-@@ -4595,7 +4595,7 @@ describe('BrowserWindow module', () => {
+@@ -4639,7 +4639,7 @@ describe('BrowserWindow module', () => {
      });
    });
  
@@ -127,7 +127,7 @@ Index: electron/spec/api-browser-window-spec.ts
      afterEach(closeAllWindows);
      it('emits an event when window is maximized', async () => {
        const w = new BrowserWindow({ show: false });
-@@ -4866,7 +4866,7 @@ describe('BrowserWindow module', () => {
+@@ -4910,7 +4910,7 @@ describe('BrowserWindow module', () => {
      // TODO(zcbenz):
      // This test does not run on Linux CI. See:
      // https://github.com/electron/electron/issues/28699
@@ -136,7 +136,15 @@ Index: electron/spec/api-browser-window-spec.ts
        const w = new BrowserWindow({});
        const maximize = once(w, 'maximize');
        w.maximize();
-@@ -4883,7 +4883,7 @@ describe('BrowserWindow module', () => {
+@@ -4925,6 +4925,7 @@ describe('BrowserWindow module', () => {
+       expect(w.isMaximized()).to.equal(true);
+     });
+ 
++    /* XXX what about OpenBSD ? */
+     ifit(process.platform !== 'linux')('should not break fullscreen state', async () => {
+       const w = new BrowserWindow({ show: false });
+       w.show();
+@@ -4948,7 +4949,7 @@ describe('BrowserWindow module', () => {
    });
  
    // TODO(dsanders11): Enable once maximize event works on Linux again on CI
@@ -145,7 +153,7 @@ Index: electron/spec/api-browser-window-spec.ts
      afterEach(closeAllWindows);
      it('should show the window if it is not currently shown', async () => {
        const w = new BrowserWindow({ show: false });
-@@ -4920,7 +4920,7 @@ describe('BrowserWindow module', () => {
+@@ -4985,7 +4986,7 @@ describe('BrowserWindow module', () => {
  
      // TODO(dsanders11): Enable once minimize event works on Linux again.
      //                   See https://github.com/electron/electron/issues/28699
@@ -154,7 +162,7 @@ Index: electron/spec/api-browser-window-spec.ts
        const w = new BrowserWindow();
        const minimize = once(w, 'minimize');
        w.minimize();
-@@ -5406,7 +5406,7 @@ describe('BrowserWindow module', () => {
+@@ -5471,7 +5472,7 @@ describe('BrowserWindow module', () => {
        });
  
        // On Linux there is no "resizable" property of a window.
@@ -163,7 +171,7 @@ Index: electron/spec/api-browser-window-spec.ts
          const w = new BrowserWindow({ show: false });
          expect(w.resizable).to.be.true('resizable');
  
-@@ -5646,7 +5646,7 @@ describe('BrowserWindow module', () => {
+@@ -5725,7 +5726,7 @@ describe('BrowserWindow module', () => {
      });
    });
  
@@ -172,7 +180,7 @@ Index: electron/spec/api-browser-window-spec.ts
      // Not implemented on Linux.
      afterEach(closeAllWindows);
  
-@@ -6817,7 +6817,7 @@ describe('BrowserWindow module', () => {
+@@ -6955,7 +6956,7 @@ describe('BrowserWindow module', () => {
    describe('"transparent" option', () => {
      afterEach(closeAllWindows);
  

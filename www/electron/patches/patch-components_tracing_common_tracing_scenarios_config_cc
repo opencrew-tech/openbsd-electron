@@ -1,7 +1,7 @@
 Index: components/tracing/common/tracing_scenarios_config.cc
 --- components/tracing/common/tracing_scenarios_config.cc.orig
 +++ components/tracing/common/tracing_scenarios_config.cc
-@@ -223,6 +223,26 @@ CreateDefaultPresetTracingScenariosConfig() {
+@@ -227,6 +227,26 @@ CreateDefaultPresetTracingScenariosConfig() {
  
  }  // namespace
  
@@ -28,7 +28,7 @@ Index: components/tracing/common/tracing_scenarios_config.cc
  std::optional<perfetto::protos::gen::ChromeFieldTracingConfig>
  GetPresetTracingScenariosConfig() {
    if (!base::FeatureList::IsEnabled(kPresetTracing)) {
-@@ -252,7 +272,7 @@ GetTracingTriggerRulesConfig() {
+@@ -256,7 +276,7 @@ GetTracingTriggerRulesConfig() {
  
    // `serialized_config` may optionally be compressed.
    std::string decompressed_config;
@@ -37,7 +37,7 @@ Index: components/tracing/common/tracing_scenarios_config.cc
                           &decompressed_config)) {
      serialized_config = std::move(decompressed_config);
    }
-@@ -286,7 +306,7 @@ ParseEncodedTracingScenariosConfig(const std::string& 
+@@ -290,7 +310,7 @@ ParseEncodedTracingScenariosConfig(const std::string& 
  
    // `serialized_config` may optionally be compressed.
    std::string decompressed_config;

@@ -13,6 +13,12 @@
 # needed for FIDO authentication
 /dev/fido				rw
 
+/dev/null				rw
+
+# needed for node embeded runtime of libuv and/or c-ares
+/etc/resolv.conf			r
+/etc/hosts				r
+
 # needed for electron
 /etc/electron				r
 
@@ -89,6 +95,8 @@
 ~/.local/share/mime			r
 ~/.local/share/recently-used.xbel	rwc
 ~/.local/share/themes			r
+
+XDG_RUNTIME_DIR				rwc
 
 # by default, unveil ELECTRON_APP_NAME (fallback on Electron)
 #~/.config/${ELECTRON_APP_NAME}

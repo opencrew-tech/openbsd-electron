@@ -1,7 +1,7 @@
 Index: electron/shell/common/electron_command_line.cc
 --- electron/shell/common/electron_command_line.cc.orig
 +++ electron/shell/common/electron_command_line.cc
-@@ -35,7 +35,7 @@ std::vector<std::string> ElectronCommandLine::AsUtf8()
+@@ -39,7 +39,7 @@ std::vector<std::string> ElectronCommandLine::AsUtf8()
  #endif
  }
  
@@ -9,4 +9,4 @@ Index: electron/shell/common/electron_command_line.cc
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
  // static
  void ElectronCommandLine::InitializeFromCommandLine() {
-   argv_ = base::CommandLine::ForCurrentProcess()->argv();
+   argv() = base::CommandLine::ForCurrentProcess()->argv();

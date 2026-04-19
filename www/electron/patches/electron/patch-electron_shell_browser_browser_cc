@@ -1,8 +1,8 @@
 Index: electron/shell/browser/browser.cc
 --- electron/shell/browser/browser.cc.orig
 +++ electron/shell/browser/browser.cc
-@@ -71,7 +71,7 @@ Browser* Browser::Get() {
-   return ElectronBrowserMainParts::Get()->browser();
+@@ -96,7 +96,7 @@ bool Browser::IsValidProtocolScheme(const std::string&
+   return true;
  }
  
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX)

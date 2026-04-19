@@ -9,4 +9,4 @@ Index: electron/shell/browser/ui/views/electron_views_delegate.h
 +#elif (BUILDFLAG(IS_LINUX) && !BUILDFLAG(IS_CHROMEOS)) || BUILDFLAG(IS_BSD)
    gfx::ImageSkia* GetDefaultWindowIcon() const override;
  #endif
-   std::unique_ptr<views::NonClientFrameView> CreateDefaultNonClientFrameView(
+   std::unique_ptr<views::FrameView> CreateDefaultFrameView(

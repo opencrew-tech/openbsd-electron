@@ -1,7 +1,7 @@
 Index: electron/lib/browser/api/app.ts
 --- electron/lib/browser/api/app.ts.orig
 +++ electron/lib/browser/api/app.ts
-@@ -67,7 +67,7 @@ if (process.platform === 'darwin') {
+@@ -70,7 +70,7 @@ if (process.platform === 'darwin') {
    app.dock!.getMenu = () => dockMenu;
  }
  

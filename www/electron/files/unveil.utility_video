@@ -1,3 +1,5 @@
+/dev/null	rw
+
 # needed for electron
 /etc/electron	r
 

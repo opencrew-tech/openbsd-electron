@@ -1,7 +1,7 @@
 Index: chrome/BUILD.gn
 --- chrome/BUILD.gn.orig
 +++ chrome/BUILD.gn
-@@ -37,6 +37,8 @@ assert(!is_fuchsia, "Fuchsia shouldn't use anything in
+@@ -36,6 +36,8 @@ assert(!is_fuchsia, "Fuchsia shouldn't use anything in
  
  if (is_android) {
    import("//build/config/android/rules.gni")

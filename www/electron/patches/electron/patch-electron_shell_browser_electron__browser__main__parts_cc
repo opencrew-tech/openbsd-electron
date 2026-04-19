@@ -1,7 +1,7 @@
 Index: electron/shell/browser/electron_browser_main_parts.cc
 --- electron/shell/browser/electron_browser_main_parts.cc.orig
 +++ electron/shell/browser/electron_browser_main_parts.cc
-@@ -77,7 +77,7 @@
+@@ -78,7 +78,7 @@
  #include "ui/wm/core/wm_state.h"
  #endif
  
@@ -10,7 +10,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
  #include "base/environment.h"
  #include "chrome/browser/ui/views/dark_mode_manager_linux.h"
  #include "device/bluetooth/bluetooth_adapter_factory.h"
-@@ -130,7 +130,7 @@ namespace electron {
+@@ -135,7 +135,7 @@ namespace electron {
  
  namespace {
  
@@ -19,7 +19,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
  class LinuxUiGetterImpl : public ui::LinuxUiGetter {
   public:
    LinuxUiGetterImpl() = default;
-@@ -213,7 +213,7 @@ int ElectronBrowserMainParts::PreEarlyInitialization()
+@@ -217,7 +217,7 @@ int ElectronBrowserMainParts::PreEarlyInitialization()
  #if BUILDFLAG(IS_OZONE)
    // Initialize Ozone platform and add required feature flags as per platform's
    // properties.
@@ -28,7 +28,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
    ui::SetOzonePlatformForLinuxIfNeeded(*base::CommandLine::ForCurrentProcess());
  #endif
    ui::OzonePlatform::PreEarlyInitialization();
-@@ -306,7 +306,7 @@ int ElectronBrowserMainParts::PreCreateThreads() {
+@@ -319,7 +319,7 @@ int ElectronBrowserMainParts::PreCreateThreads() {
    // happen before the ResourceBundle is loaded
    if (locale.empty())
      l10n_util::OverrideLocaleWithCocoaLocale();
@@ -37,7 +37,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
    // l10n_util::GetApplicationLocaleInternal uses g_get_language_names(),
    // which keys off of getenv("LC_ALL").
    // We must set this env first to make ui::ResourceBundle accept the custom
-@@ -335,7 +335,7 @@ int ElectronBrowserMainParts::PreCreateThreads() {
+@@ -348,7 +348,7 @@ int ElectronBrowserMainParts::PreCreateThreads() {
    ElectronBrowserClient::SetApplicationLocale(app_locale);
    fake_browser_process_->SetApplicationLocale(app_locale);
  
@@ -46,7 +46,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
    // Reset to the original LC_ALL since we should not be changing it.
    if (!locale.empty()) {
      if (lc_all)
-@@ -392,7 +392,7 @@ void ElectronBrowserMainParts::PostDestroyThreads() {
+@@ -404,7 +404,7 @@ void ElectronBrowserMainParts::PostDestroyThreads() {
  }
  
  void ElectronBrowserMainParts::ToolkitInitialized() {
@@ -55,7 +55,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
    auto* linux_ui = ui::GetDefaultLinuxUi();
    CHECK(linux_ui);
    linux_ui_getter_ = std::make_unique<LinuxUiGetterImpl>();
-@@ -499,19 +499,23 @@ void ElectronBrowserMainParts::WillRunMainMessageLoop(
+@@ -515,7 +515,7 @@ void ElectronBrowserMainParts::WillRunMainMessageLoop(
  }
  
  void ElectronBrowserMainParts::PostCreateMainMessageLoop() {
@@ -63,16 +63,12 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)
    std::string app_name = electron::Browser::Get()->GetName();
  #endif
-+// XXX not in freebsd port, || BUILDFLAG(IS_BSD)
  #if BUILDFLAG(IS_LINUX)
-   auto shutdown_cb =
-       base::BindOnce([] { LOG(FATAL) << "Failed to shutdown."; });
+@@ -524,10 +524,11 @@ void ElectronBrowserMainParts::PostCreateMainMessageLo
    ui::OzonePlatform::GetInstance()->PostCreateMainMessageLoop(
        std::move(shutdown_cb),
        content::GetUIThreadTaskRunner({content::BrowserTaskType::kUserInput}));
 -
-+#endif
-+#if BUILDFLAG(IS_LINUX)
    if (!bluez::BluezDBusManager::IsInitialized())
      bluez::DBusBluezManagerWrapperLinux::Initialize();
 +#endif
@@ -81,7 +77,7 @@ Index: electron/shell/browser/electron_browser_main_parts.cc
    // Set up crypt config. This needs to be done before anything starts the
    // network service, as the raw encryption key needs to be shared with the
    // network service for encrypted cookie storage.
-@@ -606,7 +610,7 @@ void ElectronBrowserMainParts::PostMainMessageLoopRun(
+@@ -622,7 +623,7 @@ void ElectronBrowserMainParts::PostMainMessageLoopRun(
    fake_browser_process_->PostMainMessageLoopRun();
    content::DevToolsAgentHost::StopRemoteDebuggingPipeHandler();
  

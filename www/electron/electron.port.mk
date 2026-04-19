@@ -1,5 +1,5 @@
 # sync with Makefile
-ELECTRON_V=		38.7.1
+ELECTRON_V=		41.1.1
 ELECTRON_DIST=		electron/resources
 
 # XXX use per app folder and keep generic app.asar name
@@ -68,9 +68,6 @@ SUBST_VARS+=		ELECTRON_DIST_APPS \
 
 .if ${MODELECTRON_BUILDDEP:L} == "yes"
 BUILD_DEPENDS +=	www/electron
-.  if ${MODELECTRON_BUILDER:L} == "yes"
-BUILD_DEPENDS +=	devel/app-builder
-.  endif
 .endif
 .if ${MODELECTRON_RUNDEP:L} == "yes"
 RUN_DEPENDS +=		www/electron

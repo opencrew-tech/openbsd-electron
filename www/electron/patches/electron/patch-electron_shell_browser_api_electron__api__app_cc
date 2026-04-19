@@ -1,7 +1,7 @@
 Index: electron/shell/browser/api/electron_api_app.cc
 --- electron/shell/browser/api/electron_api_app.cc.orig
 +++ electron/shell/browser/api/electron_api_app.cc
-@@ -97,7 +97,7 @@
+@@ -100,7 +100,7 @@
  #include "shell/common/process_util.h"
  #endif
  
@@ -10,7 +10,7 @@ Index: electron/shell/browser/api/electron_api_app.cc
  #include "base/nix/scoped_xdg_activation_token_injector.h"
  #include "base/nix/xdg_util.h"
  #endif
-@@ -424,7 +424,7 @@ bool NotificationCallbackWrapper(
+@@ -428,7 +428,7 @@ bool NotificationCallbackWrapper(
      base::CommandLine cmd,
      const base::FilePath& cwd,
      const std::vector<uint8_t> additional_data) {
@@ -19,16 +19,16 @@ Index: electron/shell/browser/api/electron_api_app.cc
    // Set the global activation token sent as a command line switch by another
    // electron app instance. This also removes the switch after use to prevent
    // any side effects of leaving it in the command line after this point.
-@@ -611,7 +611,7 @@ void App::OnWillFinishLaunching() {
+@@ -613,7 +613,7 @@ void App::OnWillFinishLaunching() {
  }
  
- void App::OnFinishLaunching(base::Value::Dict launch_info) {
+ void App::OnFinishLaunching(base::DictValue launch_info) {
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
    // Set the application name for audio streams shown in external
    // applications. Only affects pulseaudio currently.
    media::AudioManager::SetGlobalAppName(Browser::Get()->GetName());
-@@ -954,7 +954,7 @@ void App::SetPath(gin_helper::ErrorThrower thrower,
+@@ -962,7 +962,7 @@ void App::SetPath(gin_helper::ErrorThrower thrower,
  }
  
  void App::SetDesktopName(const std::string& desktop_name) {
@@ -37,7 +37,7 @@ Index: electron/shell/browser/api/electron_api_app.cc
    auto env = base::Environment::Create();
    env->SetVar("CHROME_DESKTOP", desktop_name);
  #endif
-@@ -1058,7 +1058,7 @@ bool App::RequestSingleInstanceLock(gin::Arguments* ar
+@@ -1066,7 +1066,7 @@ bool App::RequestSingleInstanceLock(gin::Arguments* ar
        base::BindRepeating(NotificationCallbackWrapper, cb));
  #endif
  
@@ -46,7 +46,7 @@ Index: electron/shell/browser/api/electron_api_app.cc
    // Read the xdg-activation token and set it in the command line for the
    // duration of the notification in order to ensure this is propagated to an
    // already running electron app instance if it exists.
-@@ -1446,7 +1446,7 @@ std::vector<gin_helper::Dictionary> App::GetAppMetrics
+@@ -1453,7 +1453,7 @@ std::vector<gin_helper::Dictionary> App::GetAppMetrics
        pid_dict.Set("name", process_metric.second->name);
      }
  
@@ -55,7 +55,7 @@ Index: electron/shell/browser/api/electron_api_app.cc
      auto memory_info = process_metric.second->GetMemoryInfo();
  
      auto memory_dict = gin_helper::Dictionary::CreateEmpty(isolate);
-@@ -1830,7 +1830,7 @@ gin::ObjectTemplateBuilder App::GetObjectTemplateBuild
+@@ -1855,7 +1855,7 @@ gin::ObjectTemplateBuilder App::GetObjectTemplateBuild
        .SetMethod(
            "removeAsDefaultProtocolClient",
            base::BindRepeating(&Browser::RemoveAsDefaultProtocolClient, browser))
@@ -64,7 +64,7 @@ Index: electron/shell/browser/api/electron_api_app.cc
        .SetMethod(
            "getApplicationInfoForProtocol",
            base::BindRepeating(&Browser::GetApplicationInfoForProtocol, browser))
-@@ -1888,7 +1888,7 @@ gin::ObjectTemplateBuilder App::GetObjectTemplateBuild
+@@ -1913,7 +1913,7 @@ gin::ObjectTemplateBuilder App::GetObjectTemplateBuild
        .SetMethod("getJumpListSettings", &App::GetJumpListSettings)
        .SetMethod("setJumpList", &App::SetJumpList)
  #endif

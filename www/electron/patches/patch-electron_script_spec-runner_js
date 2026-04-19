@@ -1,18 +1,7 @@
 Index: electron/script/spec-runner.js
 --- electron/script/spec-runner.js.orig
 +++ electron/script/spec-runner.js
-@@ -36,10 +36,8 @@ for (const flag of unknownFlags) {
- }
- 
- const utils = require('./lib/utils');
--const { YARN_VERSION } = require('./yarn');
- 
- const BASE = path.resolve(__dirname, '../..');
--const NPX_CMD = process.platform === 'win32' ? 'npx.cmd' : 'npx';
- 
- const runners = new Map([
-   ['main', { description: 'Main process specs', run: runMainProcessElectronTests }]
-@@ -91,14 +89,18 @@ async function main () {
+@@ -91,14 +91,16 @@ async function main () {
      console.log(`Running against Electron ${versionString.green}`);
    }
  
@@ -20,16 +9,14 @@ Index: electron/script/spec-runner.js
 -  const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
 -  const somethingChanged = (currentSpecHash !== lastSpecHash) ||
 -      (lastSpecInstallHash !== currentSpecInstallHash);
-+  /* XXX folder-hash looks broken on openbsd
-+   * const { hashElement } = require('folder-hash');
-+   * const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
-+   * const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
-+   * const somethingChanged = (currentSpecHash !== lastSpecHash) ||
-+   *     (lastSpecInstallHash !== currentSpecInstallHash);
-+   */
++  // XXX folder-hash looks broken on openbsd
++  // const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
++  // const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
++  // const somethingChanged = (currentSpecHash !== lastSpecHash) ||
++  //     (lastSpecInstallHash !== currentSpecInstallHash);
 +  const somethingChanged = true;
  
-   if (somethingChanged) {
+   if (somethingChanged && !args.skipYarnInstall) {
      await installSpecModules(path.resolve(__dirname, '..', 'spec'));
 -    await getSpecHash().then(saveSpecHash);
 +    // await getSpecHash().then(saveSpecHash);
@@ -45,14 +32,21 @@ Index: electron/script/spec-runner.js
      runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'), exe);
      exe = 'python3';
    }
-@@ -419,7 +421,9 @@ async function installSpecModules (dir) {
+@@ -419,6 +421,8 @@ async function installSpecModules (dir) {
    if (fs.existsSync(path.resolve(dir, 'node_modules'))) {
      await fs.promises.rm(path.resolve(dir, 'node_modules'), { force: true, recursive: true });
    }
--  const { status } = childProcess.spawnSync(NPX_CMD, [`yarn@${YARN_VERSION}`, 'install', '--frozen-lockfile'], {
 +
-+  /* already setup by MODYARN */
-+  const { status } = childProcess.spawnSync('yarn', ['install', '--frozen-lockfile --offline --ignore-scripts --ignore-engines'], {
++  /* XXX already setup by MODYARN */
+   const yarnArgs = [YARN_SCRIPT_PATH, 'install', '--immutable'];
+   const { status } = childProcess.spawnSync(process.execPath, yarnArgs, {
      env,
-     cwd: dir,
-     stdio: 'inherit',
+@@ -431,7 +435,7 @@ async function installSpecModules (dir) {
+     process.exit(1);
+   }
+ 
+-  if (process.platform === 'linux') {
++  if (['freebsd', 'linux', 'openbsd'].includes(process.platform)) {
+     const { status: rebuildStatus } = childProcess.spawnSync('npm', ['rebuild', 'abstract-socket'], {
+       env,
+       cwd: dir,

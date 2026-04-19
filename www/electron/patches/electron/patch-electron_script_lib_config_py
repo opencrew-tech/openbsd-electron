@@ -1,14 +1,16 @@
 Index: electron/script/lib/config.py
 --- electron/script/lib/config.py.orig
 +++ electron/script/lib/config.py
-@@ -7,6 +7,10 @@ PLATFORM = {
+@@ -7,6 +7,12 @@ PLATFORM = {
    'cygwin': 'win32',
    'msys': 'win32',
    'darwin': 'darwin',
 +  'freebsd13': 'freebsd',
 +  'freebsd14': 'freebsd',
 +  'freebsd15': 'freebsd',
++  'freebsd16': 'freebsd',
 +  'openbsd7': 'openbsd',
++  'openbsd8': 'openbsd',
    'linux': 'linux',
    'linux2': 'linux',
    'win32': 'win32',

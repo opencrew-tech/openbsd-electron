@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		38.7.1
+ELECTRON_V=		41.1.1
 ELECTRON_DIST=		electron/resources
 
 # make update-patches happy
@@ -30,48 +30,47 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # MIT
 PERMIT_PACKAGE=		Yes
 
-# XXX implement make versions to automate this task
-# See electron/DEPS for versions, post-extract & pre-patch
-CHROMIUM_V=		140.0.7339.249
-NODE_V=			22.21.1
-NAN_V=			e14bdcd1f72d62bca1d541b66da43130384ec213
-SQUIRREL_MAC_V=		0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
-REACTIVEOBJC_V=		74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
-MANTLE_V=		78d3966b3c331292ea29ec38661b25df0a245948
-ENGFLOW_V=		955335c30a752e9ef7bff375baab5e0819b6c00d
-# See chromium/third_party/node/node_modules.tar.gz.sha1
-NODE_MODULES_HASH=	c2085eeb07e1db47d75633a23311b7d2b7b5d1ee
+# make versions
+# electron/v41.1.1/DEPS
+CHROMIUM_V=	146.0.7680.166
+NODE_V=		24.14.0
+NAN_V=		675cefebca42410733da8a454c8d9391fcebfbc2
+SQUIRREL_MAC_V=	0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
+REACTIVEOBJC_V=	74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
+MANTLE_V=	78d3966b3c331292ea29ec38661b25df0a245948
+ENGFLOW_V=	955335c30a752e9ef7bff375baab5e0819b6c00d
+# chromium/146.0.7680.166/third_party/node/node_modules.tar.gz.sha1
+NODE_MODULES_H=	93c8d9925d573861d892cec96b2b6c00fcf4659a
 
-DIST_TUPLE+=		github nodejs node v${NODE_V} .
-DIST_TUPLE+=		github nodejs nan ${NAN_V} .
-DIST_TUPLE+=		github Squirrel Squirrel.Mac ${SQUIRREL_MAC_V} .
-DIST_TUPLE+=		github ReactiveCocoa ReactiveObjC ${REACTIVEOBJC_V} .
-DIST_TUPLE+=		github Mantle Mantle ${MANTLE_V} .
-DIST_TUPLE+=		github EngFlow reclient-configs ${ENGFLOW_V} .
+DIST_TUPLE+=	github nodejs node v${NODE_V} .
+DIST_TUPLE+=	github nodejs nan ${NAN_V} .
+DIST_TUPLE+=	github Squirrel Squirrel.Mac ${SQUIRREL_MAC_V} .
+DIST_TUPLE+=	github ReactiveCocoa ReactiveObjC ${REACTIVEOBJC_V} .
+DIST_TUPLE+=	github Mantle Mantle ${MANTLE_V} .
+DIST_TUPLE+=	github EngFlow reclient-configs ${ENGFLOW_V} .
 
 SITES.chromium=		http://distfiles.opencrew.tech/chromium/
 DISTFILES.chromium=	chromium-${CHROMIUM_V}.tgz
 
 SITES.nodemodule=https://commondatastorage.googleapis.com/chromium-nodejs/
-DISTFILES.nodemodule=	chromium-nodejs-{}${NODE_MODULES_HASH}
+DISTFILES.nodemodule=	chromium-nodejs-{}${NODE_MODULES_H}
 
-EXTRACT_CASES+=		chromium-nodejs-${NODE_MODULES_HASH});;
+EXTRACT_CASES+=		chromium-nodejs-${NODE_MODULES_H});;
 
 # uses pledge()
 WANTLIB += FLAC GL X11 Xcomposite Xdamage Xext Xfixes
-WANTLIB += Xi Xrandr Xrender Xtst aom atk-1.0 atk-bridge-2.0
+WANTLIB += Xi Xrandr Xrender Xtst atk-1.0 atk-bridge-2.0
 WANTLIB += atspi c cairo cairo-gobject cbor crc32c crypto
 WANTLIB += cups dav1d dbus-1 double-conversion drm epoll-shim
 WANTLIB += execinfo expat fido2 fontconfig freetype
 WANTLIB += gbm gdk-3 gdk_pixbuf-2.0 gio-2.0 glib-2.0
 WANTLIB += gmodule-2.0 gobject-2.0 gthread-2.0 gtk-3
-WANTLIB += harfbuzz harfbuzz-subset hwy intl jpeg kvm
-WANTLIB += lcms2 m nspr4 nss3 nssutil3 openh264 openjp2
-WANTLIB += opus pango-1.0 pangocairo-1.0 plc4 plds4
-WANTLIB += png pthread secret-1 smime3 snappy sndio
-WANTLIB += tiff udev usbhid util vpx webp webpdemux
-WANTLIB += webpmux xcb xkbcommon xml2 xshmfence xslt
-WANTLIB += z zstd
+WANTLIB += harfbuzz harfbuzz-subset intl jpeg kvm lcms2
+WANTLIB += m nspr4 nss3 nssutil3 openh264 openjp2 opus
+WANTLIB += pango-1.0 pangocairo-1.0 plc4 plds4 pthread
+WANTLIB += secret-1 smime3 snappy sndio tiff udev usbhid
+WANTLIB += util webp webpdemux webpmux xcb xkbcommon
+WANTLIB += xml2 xshmfence xslt z zstd
 
 # Electron depends on Chromium and Node which are bundled&patched all together :
 # 1. (optionnal) patches/pre-patch, ensure electron patches apply correctly
@@ -96,14 +95,32 @@ PATCH_LIST=
 
 COMPILER=	ports-clang
 
-MODULES=	devel/yarn \
+MODULES=	devel/berry \
 		lang/clang \
-		lang/python
+		lang/python \
+		x11/qt5 \
+		x11/qt6
 
-MODCLANG_VERSION=	19
+MODCLANG_VERSION=	21
+MODQT5_DEPS=		No
+MODQT6_DEPS=		No
 MODPY_RUNDEP=		No
-MODYARN_TARGETS=	${WRKSRC}/electron \
-			${WRKSRC}/electron/spec
+
+MODBERRY_TARGETS=	${WRKSRC}/electron
+
+MODBERRY_MODS+=graceful-fs
+
+# electron-test-main use dbus-native fork on github:nornagon/dbus-native#master.
+# cache import fails because it needs npm to rebuild (pack > cache) this one.
+# the fork is only needed to use @nornagon/put in place of put
+#https://github.com/sidorares/dbus-native/compare/master...nornagon:dbus-native:master
+#https://github.com/carsonmcdonald/node-put/compare/master...nornagon:node-put:master
+# @nornagon/put is published on npm, switch to resolution instead of making
+# a local override specific to the fork.
+# revert dbus-native to use official dbus-native (published) version
+MODBERRY_GEN_OVERRIDES = dbus-native npm:dbus-native@latest
+# fix put to use the fork @nornagon/put in place
+MODBERRY_GEN_OVERRIDES+= put npm:@nornagon/put@latest
 
 # XXX chromium ?
 # + sysutils/libudev-openbsd VS LIB_DEPENDS ?
@@ -120,16 +137,20 @@ RUN_DEPENDS+=	devel/desktop-file-utils \
 BUILD_DEPENDS+=	archivers/bzip2 \
 		audio/pulseaudio \
 		devel/bison \
+		devel/esbuild \
 		devel/gperf \
-		devel/gn \
 		devel/ninja \
+		devel/rollup \
 		devel/rust-bindgen \
 		lang/node \
 		lang/rust \
+		lang/rust,-rustfmt \
 		shells/bash \
 		sysutils/flock \
 		sysutils/pciutils \
 		x11/py-xcbgen \
+		${MODQT5_LIB_DEPENDS} \
+		${MODQT6_LIB_DEPENDS} \
 		${MODGCC4_CPPDEP} \
 		${RUN_DEPENDS}
 
@@ -181,6 +202,8 @@ TEST_DEPENDS+=	devel/py-dbusmock \
 USE_GMAKE=	Yes
 
 # needed in early stage, for porters only ?
+# XXX remember to review strip_binary in .gn files
+# (without DEBUG_PACKAGES, ports doesn't strip and the build should handle that)
 DEBUG_PACKAGES=	${BUILD_PACKAGES}
 
 .include <bsd.own.mk>
@@ -203,8 +226,8 @@ DIST_TARGET=	electron/${ELECTRON_V}
 # These libraries are used from the system and the build infrastructure
 # removes them from the bundled third_party directory and replaces them
 # with hooks to use them from the system.
-# Note, Some GN_SYSTEM_LIBS just change args, prefer GN_SYSTEM_LIBS to further
-# reduce tarball based on this list.
+# Some GN_SYSTEM_LIBS just change args, prefer GN_SYSTEM_LIBS to further reduce
+# tarball content/size based on this list.
 GN_SYSTEM_LIBS=	crc32c \
 		dav1d \
 		double-conversion \
@@ -212,13 +235,10 @@ GN_SYSTEM_LIBS=	crc32c \
 		fontconfig \
 		freetype \
 		harfbuzz-ng \
-		highway \
-		libaom \
 		libdrm \
 		libjpeg \
 		libpng \
 		libsecret \
-		libvpx \
 		libwebp \
 		libxml \
 		libxslt \
@@ -226,16 +246,6 @@ GN_SYSTEM_LIBS=	crc32c \
 		opus \
 		snappy \
 		zstd
-
-# break with ICU 78.1
-# ld.lld: error: undefined symbol: icu::UnicodeString::doReplace(
-#	int, int, std::__Cr::basic_string_view<char16_t,
-#	std::__Cr::char_traits<char16_t>>)
-# >>> referenced by unistr.h:2024 (.../include/unicode/unistr.h:2024)
-# >>> obj/v8/v8_base_without_compiler/js-date-time-format.o:
-# (v8::internal::JSDateTimeFormat::TimeZoneId(
-#	v8::internal::Isolate*, icu::TimeZone const&)
-# GN_SYSTEM_LIBS+=icu
 
 # make gn_args-system, search ${WRKDIR}/gn_args-electron.list use_system/bundled
 GN_ARGS=	use_system_cares=true \
@@ -247,9 +257,38 @@ GN_ARGS+=	use_system_lcms2=true \
 		use_system_libtiff=true \
 		use_system_zlib=true
 
+# NOTE. GN_SYSTEM_LIBS & GN_ARGS use_system_* are hard to maintain and also time
+# consuming. Some of the depends may work assuming their ports got updated but
+# going through some updates (lot of reverse deps) would take times and also
+# represent a risk of revert if something goes wrong. On the other end Electron
+# and Chromium are moving verry fast with many changes month by month so this
+# update requirement isn't possible to acheive atm.
+# XXX Ideally we need a way to move those depends just to make sure nothing
+# use it when we enable the system shim.
+# XXX make an exhaustive list to maintain
+# GN_SYSTEM_LIBS+=highway, ports update + last tag < chromium depends
+# GN_SYSTEM_LIBS+=icu, check to do (may work)
+
+# XXX drop highway on chromium 146.0.7680.166
+# highway 84379d1c73de9681b54fbe1c035a23c7bd5d272d 25/09/2025
+# highway 1.3.0 from 14/08/2025, diff to check
+# devel/highway 1.2.0, ports to update
+# third_party/blink/renderer/platform/wtf/text/string_impl.h:368:5: error:
+# unknown type name 'HWY_LANES_CONSTEXPR'
+# GN_SYSTEM_LIBS+=highway
+
+# XXX to test again on chromium 144.0.7559.236
+# break with ICU 78.1
+# ld.lld: error: undefined symbol: icu::UnicodeString::doReplace(
+#	int, int, std::__Cr::basic_string_view<char16_t,
+#	std::__Cr::char_traits<char16_t>>)
+# >>> referenced by unistr.h:2024 (.../include/unicode/unistr.h:2024)
+# >>> obj/v8/v8_base_without_compiler/js-date-time-format.o:
+# (v8::internal::JSDateTimeFormat::TimeZoneId(
+#	v8::internal::Isolate*, icu::TimeZone const&)
+# GN_SYSTEM_LIBS+=icu
+
 # make gn_args-check, check www/chromium against ${WRKDIR}/gn_args-electron.list
-# C++20 vs. system libc++, use_custom_libcxx=true (default)
-# XXX todo, test use_custom_libunwind=false (default), wasm support needed ?
 EXTRA_CPPFLAGS=	-I${LOCALBASE}/include/libepoll-shim \
 		-idirafter ${LOCALBASE}/include -idirafter ${X11BASE}/include
 GN_ARGS+=	clang_use_chrome_plugins=false \
@@ -269,21 +308,24 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		use_sndio=true \
 		use_sysroot=false \
 		use_system_libdrm=true \
-		v8_enable_cet_ibt=true
+		v8_enable_cet_ibt=true \
+		use_qt5=true \
+		use_qt6=true \
+		moc_qt5_path=\"${MODQT5_MOC}\" \
+		moc_qt6_path=\"${MODQT6_MOC}\"
+
+# XXX disable by electron
+# enable_cet_shadow_stack
 
 # rust
-RUSTC_VERSION!!=rustc -V
 MAKE_ENV+=	RUSTC_BOOTSTRAP=1
 GN_ARGS+=	enable_rust=true \
-		rust_sysroot_absolute=\"${LOCALBASE}\" \
-		rustc_version=\"${RUSTC_VERSION}\"
+		rust_sysroot_absolute=\"${LOCALBASE}\"
 
-# XXX chromium, notyet
-# Indicates if VA-API-based hardware acceleration is to be used. This
-# is typically the case on x86-based ChromeOS devices.
-# VA-API should also be compiled by default on x11/wayland linux devices
-# using x86/x64.
-GN_ARGS+=	use_vaapi=false
+# pull in our patched sources for libaom and libvpx
+GN_ARGS+=	use_vaapi=true
+BUILD_DEPENDS+=	multimedia/aom:patch \
+		multimedia/libvpx:patch
 
 _EXTRA_LDFLAGS=-L${LOCALBASE}/lib -L${X11BASE}/lib
 .if ${MACHINE_ARCH} == "aarch64"
@@ -318,6 +360,7 @@ GN_ARGS+=	ffmpeg_branding=\"${FFMPEG_BRAND}\" \
 DWZ = :
 
 # always build with symbol, bsd.port.mk will strip
+# XXX bsd.port.mk doesn't strip anymore, it does only to split debug-package
 GN_ARGS+=	symbol_level=1
 
 # always link static into bin, no component
@@ -340,12 +383,14 @@ MAKE_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
 TEST_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE} \
 		ELECTRON_EXE_PATH=${WRKSRC}/out/${BUILDTYPE}/electron
 
+DEVFRONT_T =	${WRKSRC}/third_party/devtools-frontend/src/
+
 post-extract:
 	# setup distfiles into src
 	mv ${WRKDIR}/chromium-${CHROMIUM_V} ${WRKSRC}
 	mv ${WRKDIR}/electron-${ELECTRON_V} ${WRKSRC}/electron
 	mkdir -p ${WRKSRC}/third_party/node/node_modules
-	tar -xzf ${DISTDIR}/chromium-nodejs-${NODE_MODULES_HASH} \
+	tar -xzf ${DISTDIR}/chromium-nodejs-${NODE_MODULES_H} \
 		-C ${WRKSRC}/third_party/node/node_modules
 	mv ${WRKDIR}/node-${NODE_V} ${WRKSRC}/third_party/electron_node
 	mv ${WRKDIR}/nan-${NAN_V} ${WRKSRC}/third_party/nan
@@ -358,9 +403,9 @@ post-extract:
 		${WRKSRC}/third_party/squirrel.mac/vendor/Mantle
 	mv ${WRKDIR}/reclient-configs-${ENGFLOW_V} \
 		${WRKSRC}/third_party/engflow-reclient-configs
+
+pre-patch:
 	# tweek some patches to apply cleanly
-# XXX call there so we can fix yarn.lock before module's post-extract
-# maybe bundle lock files instead, see modpnpm as example
 	@if cd ${PATCHDIR}/pre-patches 2>/dev/null; then \
 		for p in ${PATCHDIR}/pre-patches/patch-*; do \
 			${ECHO_MSG} "===>   Applying pre-patch $${p}"; \
@@ -369,8 +414,6 @@ post-extract:
 				-d ${WRKSRC}/ < $${p} ; \
 		done; \
 	fi
-
-pre-patch:
 	# apply electron patches
 	@for pair in $$(grep ':' ${ELECTRON_PATCH} | cut -f 4,8 -d '"' ); do \
 		from=${WRKDIR}/$$(echo $${pair} | cut -f 1 -d '"') ; \
@@ -384,22 +427,37 @@ pre-patch:
 				"cd $${to} && mv \$$@" mv ; \
 		done ; \
 	done
+	# bundle libaom and libvpx for vaapi (internal header needed)
+	mkdir -p ${WRKSRC}/third_party/libaom/source/libaom
+	cd ${WRKDIR}/multimedia/aom/libaom-* && \
+		pax -rw -s '/^.*${PATCHORIG}$$//' . \
+		${WRKSRC}/third_party/libaom/source/libaom
+	mkdir -p ${WRKSRC}/third_party/libvpx/source/libvpx
+	cd ${WRKDIR}/multimedia/libvpx/libvpx-* && \
+		pax -rw -s '/^.*${PATCHORIG}$$//' . \
+		${WRKSRC}/third_party/libvpx/source/libvpx
 
-pre-configure:
-	@ln -sf ${MODPY_BIN} ${WRKDIR}/bin/python
-	@ln -sf ${LOCALBASE}/bin/llvm-ar-${MODCLANG_VERSION} ${WRKDIR}/bin/ar
-	cd ${WRKSRC}/media/ffmpeg && \
-		${MODPY_BIN} scripts/build_ffmpeg.py openbsd ${FFMPEG_TARGET} \
-		--config-only --branding=${FFMPEG_BRAND}
-	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
-	${INSTALL_DATA_DIR} ${FFMPEG_CDIR}
-.for f in config.h config.asm config_components.h \
-    libavcodec libavformat libavutil
-	cp -pR ${FFMPEG_BDIR}/${f} ${FFMPEG_CDIR}
-.endfor
+post-patch:
+	# force agnostic version of system bin
+	ln -sf ${MODPY_BIN} ${WRKDIR}/bin/python
+	ln -sf ${LOCALBASE}/bin/llvm-ar-${MODCLANG_VERSION} ${WRKDIR}/bin/ar
+	# hotfix node bin into third_party/node
 	mkdir -p ${WRKSRC}/third_party/node/openbsd/node-openbsd/bin
 	ln -sf ${TRUEPREFIX}/bin/node \
 		${WRKSRC}/third_party/node/openbsd/node-openbsd/bin/node
+	# hotfix esbuild modules into third_party/devtools-frontend
+	rm -rf ${DEVFRONT_T}/node_modules/esbuild
+	ln -sf ${MODBERRY_INSTALL_DIST}/esbuild/node_modules/esbuild \
+		${DEVFRONT_T}/node_modules/esbuild
+	# hotfix esbuild bin
+	mkdir -p ${DEVFRONT_T}/third_party/esbuild
+	ln -sf ${LOCALBASE}/bin/esbuild \
+		${DEVFRONT_T}/third_party/esbuild/esbuild
+	# hotfix rollup modules into third_party/devtools-frontend
+	rm -rf ${DEVFRONT_T}/node_modules/rollup
+	ln -sf ${MODBERRY_INSTALL_DIST}/rollup/node_modules/rollup \
+		${DEVFRONT_T}/node_modules/rollup
+	# replace system path & variables in patch using SUBST_CMD
 .for f in \
     base/base_paths_posix.cc \
     base/process/process_handle_openbsd.cc \
@@ -415,23 +473,33 @@ pre-configure:
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
 
-# Configuration consists of two steps:
+pre-configure:
+	# configure ffmpeg
+	cd ${WRKSRC}/media/ffmpeg && \
+		${MODPY_BIN} scripts/build_ffmpeg.py openbsd ${FFMPEG_TARGET} \
+		--config-only --branding=${FFMPEG_BRAND}
+	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
+	${INSTALL_DATA_DIR} ${FFMPEG_CDIR}
+.for f in config.h config.asm config_components.h config_components.asm \
+    libavcodec libavformat libavutil
+	cp -pR ${FFMPEG_BDIR}/${f} ${FFMPEG_CDIR}
+.endfor
+
+# Configuration consists of three steps:
 # 1. replace the specified bundled libraries with hooks to use the system libs
-# 2. run gn with the appropriate configuration arguments
+# 2. bootstrap gn, the tool to generate ninja files
+# 3. run gn with the appropriate configuration arguments
 do-configure:
-	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+	cd ${WRKSRC} && \
+		${SETENV} ${MAKE_ENV} ${MODPY_BIN} \
 		build/linux/unbundle/replace_gn_files.py \
 		--system-libraries ${GN_SYSTEM_LIBS}
-# fix vpx includes
-	mkdir -p ${WRKSRC}/third_party/libvpx/source/libvpx/ && \
-		cp -r ${TRUEPREFIX}/include/vpx \
-		    ${WRKSRC}/third_party/libvpx/source/libvpx/
-# XXX how chromium bundle its gn ? see make tarball
-#	cd ${WRKSRC}/tools/gn && ${SETENV} ${MAKE_ENV} \
-#		LDFLAGS=-L${LOCALBASE}/lib ${MODPY_BIN} \
-#		bootstrap/bootstrap.py --no-clean -s --skip-generate-buildfiles
+	cd ${WRKSRC}/tools/gn && \
+		${SETENV} ${MAKE_ENV} LDFLAGS=-L${LOCALBASE}/lib ${MODPY_BIN} \
+		bootstrap/bootstrap.py --no-clean -s --skip-generate-buildfiles
+	ln -fs ${WRKSRC}/out/${BUILDTYPE}/gn ${WRKDIR}/bin/gn
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
-		gn gen out/${BUILDTYPE} \
+		${WRKSRC}/out/${BUILDTYPE}/gn gen out/${BUILDTYPE} \
 		--args="import(\"${ELECTRON_GN}\") ${GN_ARGS}"
 
 do-build:
@@ -470,6 +538,7 @@ do-install:
 .endif
 	# sandbox, unveil & pledge
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/electron
+	${INSTALL_DATA} ${FILESDIR}/unveil.cdm ${PREFIX}/share/examples/electron
 	${INSTALL_DATA} ${FILESDIR}/unveil.gpu ${PREFIX}/share/examples/electron
 .for f in main utility_audio utility_network utility_video
 	${INSTALL_DATA} ${FILESDIR}/{pledge,unveil}.${f} \
@@ -494,22 +563,20 @@ do-install:
 	# ports' install location
 	${INSTALL_DATA_DIR} ${PREFIX}/${ELECTRON_DIST}
 
-# Tests requires custom pledge/unveil configurations
+# Tests requires:
+# *** Custom pledge/unveil configurations
 # mkdir -p /etc/electron
 # cp files/unveil* files/pledge* /etc/electron
 # echo "/\trwcx" >> /etc/electron/unveil.main
 # echo "/\trwcx" >> /etc/electron/unveil.utility_network
-
-# Fake display, env DISPLAY=:1
+# *** Fake display, env DISPLAY=:1
 # Xvfb :1 &
-
-# Limit openfiles max 1024 isn't enouch
+# XXX *** Limit openfiles max 1024 isn't enouch
 # adjust _pbuild to :openfiles-max=2048: (/etc/login.conf)
 
 # Notes :
-# use a wrapper swript, skip bin/electron check, electron/spec/api-app-spec.ts
+# use a wrapper script, skip bin/electron check, electron/spec/api-app-spec.ts
 # no crashReporter, electron/spec/disabled-tests.json
-
 do-test:
 	rm -rf ${WRKDIR}/.config
 	mkdir -p ${WRKDIR}/.config
@@ -532,6 +599,46 @@ _compile_commands:
 compile_commands:
 	${_PBUILD} make _compile_commands
 
+# extract versions from upstream
+_TMP=		/tmp/electron-${ELECTRON_V}
+_GITHUB_RAW=	https://raw.githubusercontent.com/
+_ELECTRON_RAW=	${_GITHUB_RAW}electron/electron/v${ELECTRON_V}
+_CHROMIUM_RAW=	${_GITHUB_RAW}chromium/chromium/
+_CHROMIUM_MODH=	third_party/node/node_modules.tar.gz.sha1
+versions:
+	# make versions
+	# electron/v${ELECTRON_V}/DEPS
+	@mkdir -p ${_TMP} ;						\
+	cd ${_TMP} ;							\
+									\
+	ftp -VMo DEPS ${_ELECTRON_RAW}/DEPS ;				\
+	chromium_v=$$(cat DEPS |					\
+		grep -A1 "'chromium_version':" |			\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+	printf "CHROMIUM_V=\t%s\n" $$chromium_v ;			\
+	printf "NODE_V=\t\t%s\n" $$(cat DEPS |				\
+		grep -A1 "'node_version':" |				\
+		awk -F"'|v" '/,/{print $$3}' ) ;			\
+	printf "NAN_V=\t\t%s\n" $$(cat DEPS |				\
+		grep -A1 "'nan_version':" |				\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+	printf "SQUIRREL_MAC_V=\t%s\n" $$(cat DEPS |			\
+		grep -A1 "'squirrel.mac_version':" |			\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+	printf "REACTIVEOBJC_V=\t%s\n" $$(cat DEPS |			\
+		grep -A1 "'reactiveobjc_version':" |			\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+	printf "MANTLE_V=\t%s\n" $$(cat DEPS |				\
+		grep -A1 "'mantle_version':" |				\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+	printf "ENGFLOW_V=\t%s\n" $$(cat DEPS |				\
+		grep -A1 "'engflow_reclient_configs_version':" |	\
+		awk -F"'" '/,/{print $$2}' ) ;				\
+									\
+	printf "# chromium/$$chromium_v/${_CHROMIUM_MODH}\n" ;		\
+	ftp -VMo modh ${_CHROMIUM_RAW}/$$chromium_v/${_CHROMIUM_MODH} ;	\
+	printf "NODE_MODULES_H=\t%s\n" $$(cat modh) ;
+
 # prepare custom tarball for stable fetch
 # XXX need ~20G, usualy run with a custom _SRC
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?
@@ -540,7 +647,14 @@ _VER?=		${CHROMIUM_V}
 _PKG?=		chromium
 _FETCH?=	https://chromium.googlesource.com/chromium/src.git \
 		+refs/tags/${_VER}
+_GN_REPO?=	https://gn.googlesource.com/gn.git
+_GN_PATH?=	${_SRC}/src/tools/gn
+
 # handmade exclusion list based on manual compare with official tarball
+# XXX digging needed to further reduce tarball size
+#https://chromium.googlesource.com/chromium/tools/build/+/refs/heads/main/recipes/recipe_modules/chromium/resources/export_tarball.py
+#https://chromium.googlesource.com/chromium/tools/build/+/refs/heads/main/recipes/recipes/publish_tarball.py
+#https://raw.githubusercontent.com/chromium-linux-tarballs/chromium-tarballs/master/package_chromium.sh
 _EXCLUDE+=\
 	-path '*/.git/*' \
 	-o -path '*/out/*' \
@@ -560,28 +674,72 @@ _EXCLUDE+=\
 	-o -path '*/third_party/depot_tools/*' \
 	-o -path '*/__pycache__/*' -o -name '*.pyc' \
 	-o -path '*/v8/test*/*'
-# third parties not needed to build electron
-.for _f in ${GN_SYSTEM_LIBS}
-_EXCLUDE+=	-o -path './src/third_party/${_f}/*'
-.endfor
+
 # required files to build
 _INCLUDE+=\
 	-o -path './src/third_party/libxml/chromium/*' \
 	-o -path './src/third_party/devtools-frontend/*/out/*' \
 	-o -name '*.gn*' -o -name '*.gyp*' \
 	-o -name '*.isolate' -o -name '*.tq'
+
+# XXX remove GN_SYSTEM_LIBS not sure its worth the pain ?
+# * with	SIZE (chromium-146.0.7680.166.tgz) = 2411592711
+# * without+GN	SIZE (chromium-146.0.7680.166.tgz) = 2534731181
+
+# XXX consider moving depends into '.bak' for example, allowing proper
+# system-proof builds (making sure nothing else got used) while not being
+# such an issue when some things goes wrong (restore .bak before GN configure).
+
+# third parties not needed to build electron
+#.for _f in ${GN_SYSTEM_LIBS}
+#_EXCLUDE+=	-o -path './src/third_party/${_f}/*'
+#.endfor
+
+# XXX custom sources ? those depends may still be needed
+# .for _f in ${GN_BUNDLE_LIBS}
+# _EXCLUDE+=	-o -path './src/third_party/${_f}/*'
+# .endfor
+# _INCLUDE+=	-o -path './src/third_party/libvpx/source/config/*'
+
 tarball:
-	ulimit -d `ulimit -dH`
+	# setup
 	mkdir -p ${_SRC}/src
 	cp ${FILESDIR}/gclient ${_SRC}/.gclient
+	HOME=${_SRC} git config --global init.defaultBranch master
+	HOME=${_SRC} git config --global advice.defaultBranch false
+	HOME=${_SRC} git config --global advice.detachedHead false
+	# git fetch chromium src
 	cd ${_SRC}/src && [ -d ".git" ] || ( \
 	HOME=${_SRC} git init && \
 	HOME=${_SRC} git fetch ${_FETCH} --depth 1 && \
-	HOME=${_SRC} git checkout FETCH_HEAD && \
-	HOME=${_SRC} gclient sync --no-history --shallow \
+	HOME=${_SRC} git checkout FETCH_HEAD )
+	# gclient
+# slow down (err 429 rate limit), GIT_HTTP_MAX_REQUESTS=1 + gclient sync -j1
+# CLOUDSDK_*, prevent gsutil querry metadata.google.internal (dns/unwind stuck)
+	cd ${_SRC}/src && \
+	HOME=${_SRC} CLOUDSDK_CORE_CHECK_GCE_METADATA=0 \
+	    CLOUDSDK_CORE_PASS_CREDENTIALS_TO_GSUTIL=0 \
+	    GIT_HTTP_MAX_REQUESTS=1 \
+	    gclient sync -j1 --no-history --shallow \
 	    --force --delete_unversioned_trees --reset \
 	    --no-bootstrap --nohooks --noprehooks \
-	    --with_branch_heads --with_tags && \
+	    --with_branch_heads --with_tags
+	# fetch GN sources into tools/gn
+	_GN=$$(awk -F"'" \
+	    '/gn_version/ {sub(/^git_revision:/, "", $$4); print $$4; exit}' \
+	    ${_SRC}/src/DEPS) && \
+	rm -rf ${_SRC}/gn && \
+	HOME=${_SRC} git clone -q ${_GN_REPO} ${_SRC}/gn && \
+	cd ${_SRC}/gn && \
+		HOME=${_SRC} git checkout $${_GN} && \
+		${MODPY_BIN} build/gen.py && \
+		mv out/last_commit_position.h \
+		    ${_GN_PATH}/bootstrap/last_commit_position.h && \
+		pax -rw -s '!^\./\.git$$!!' -s '!^\./\.git/.*$$!!' \
+		    -s '!^\./out$$!!' -s '!^\./out/.*$$!!' . ${_GN_PATH}
+	# lastchange.py DEPS hooks
+# XXX on updates, grep lastchange.py from DEPS, maybe automate this check ?
+	cd ${_SRC}/src && \
 	HOME=${_SRC} ${MODPY_BIN} build/util/lastchange.py \
 	    -o build/util/LASTCHANGE && \
 	HOME=${_SRC} ${MODPY_BIN} build/util/lastchange.py \
@@ -591,10 +749,10 @@ tarball:
 	    -m SKIA_COMMIT_HASH -s third_party/skia \
 	    --header skia/ext/skia_commit_hash.h && \
 	HOME=${_SRC} ${MODPY_BIN} build/util/lastchange.py \
-	    -s third_party/dawn \
+	    -m DAWN_COMMIT_HASH -s third_party/dawn \
 	    --revision gpu/webgpu/DAWN_VERSION \
-	)
-	# how google generated its tarball in the past ?
+	    --header gpu/webgpu/dawn_commit_hash.h
+	# custom tarball
 	cd ${_SRC} && \
 	find ./src -type f -a \( ! \( ${_EXCLUDE} \) ${_INCLUDE} \) \
 	    | sort > files && \
@@ -602,25 +760,28 @@ tarball:
 	    -s '|src/|${_PKG}-${_VER}/|' && \
 	sha256 -b ${_PKG}-${_VER}.tgz
 
-_TMP = /tmp/electron-${ELECTRON_V}
 chromium-patches:
 	make -D _GEN_PATCHES patch
-	# cvs co -D 20250925 -d chromium ports/www/chromium
+	# cvs co -D 20260402 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		mkdir -p ${_TMP} && cd ${_TMP} && \
-		cvs co -D 20250925 -d chromium ports/www/chromium ; \
+		cvs co -D 20260402 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches on top of electron patch (pre-patch)
 	rm -rf ${_TMP}/patches/chromium*
-	mkdir -p ${_TMP}/patches/chromium{,.rej,.miss,.new}
+	mkdir -p ${_TMP}/patches/chromium{,.rej,.miss,.new,.ignore}
 	for p in ${_TMP}/chromium/patches/patch-*; do \
 		f=$$(grep -m1 'Index: ' $$p | sed -e 's/.*: //' ) ; \
 		if grep -q "@@ -0,0" $$p; then \
 			cp $${p} ${_TMP}/patches/chromium/ ; \
 			cp $${p} ${_TMP}/patches/chromium.new/ ; \
+		elif echo "$${p}" | grep -Eq \
+		    'third_party_lib(aom.*cpudetect.*|vpx)'; then \
+			echo "ignore ${WRKSRC}/$$f" ; \
+			cp $${p} ${_TMP}/patches/chromium.ignore/ ; \
 		elif [ -f "${WRKSRC}/$$f" ]; then \
 			${PATCH} ${PATCH_DIST_ARGS} -sfC -z .orig.chromium \
 				-d ${WRKSRC} < $${p} && \
@@ -715,6 +876,16 @@ gn-system:
 			grep -q "$$_pkg" || echo $$_pkg ; \
 	done
 
-.include "modules.yarn.inc"
+tarball-useless:
+	# look for outdated file access time which could be removed from tarball
+	# be carefull to not grep anything in src tree
+	# make && make test && make tarball-useless
+	find ${WRKSRC} -type d -print | \
+		${_PBUILD} tee ${WRKDIR}/src_tree.list >/dev/null
+	find ${WRKSRC} -anewer ${_EXTRACT_COOKIE} -type d -print | \
+		${_PBUILD} tee ${WRKDIR}/src_tree_access.list >/dev/null
+	diff -uN ${WRKDIR}/src_tree_access.list ${WRKDIR}/src_tree.list
+
+.include "modules.berry.inc"
 
 .include <bsd.port.mk>

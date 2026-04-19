@@ -1,7 +1,7 @@
 Index: electron/spec/version-bump-spec.ts
 --- electron/spec/version-bump-spec.ts.orig
 +++ electron/spec/version-bump-spec.ts
-@@ -53,7 +53,7 @@ class GitFake {
+@@ -54,7 +54,7 @@ class GitFake {
  }
  
  describe('version-bumper', () => {

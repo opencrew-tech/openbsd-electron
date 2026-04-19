@@ -1,7 +1,7 @@
 Index: ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_ozone.cc
 --- ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_ozone.cc.orig
 +++ ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_ozone.cc
-@@ -12,7 +12,7 @@
+@@ -11,7 +11,7 @@
  #include "ui/base/accelerators/accelerator.h"
  #include "ui/ozone/public/ozone_platform.h"
  
@@ -16,10 +16,10 @@ Index: ui/base/accelerators/global_accelerator_listener/global_accelerator_liste
  namespace {
 -#if BUILDFLAG(IS_LINUX) && BUILDFLAG(USE_DBUS)
 +#if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)) && BUILDFLAG(USE_DBUS)
- BASE_FEATURE(kGlobalShortcutsPortal,
-              "GlobalShortcutsPortal",
-              base::FEATURE_ENABLED_BY_DEFAULT);
-@@ -75,7 +75,7 @@ GlobalAcceleratorListener* GlobalAcceleratorListener::
+ BASE_FEATURE(kGlobalShortcutsPortal, base::FEATURE_ENABLED_BY_DEFAULT);
+ 
+ constexpr char kSessionSuffix[] = "_global_shortcuts";
+@@ -48,7 +48,7 @@ GlobalAcceleratorListener* GlobalAcceleratorListener::
      return instance->get();
    }
  

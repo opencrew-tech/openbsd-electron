@@ -1,0 +1,12 @@
+Index: chrome/test/BUILD.gn
+--- chrome/test/BUILD.gn.orig
++++ chrome/test/BUILD.gn
+@@ -6350,7 +6350,7 @@ template("performance_test_suite_template_base") {
+       "//third_party/dawn/src/tint/cmd/bench:bench_cmd",
+     ]
+ 
+-    if (!is_android) {
++    if (!is_android && !is_electron_build) {
+       data_deps += [
+         "//chrome/test:load_library_perf_tests",
+         "//components/tracing:tracing_perftests",

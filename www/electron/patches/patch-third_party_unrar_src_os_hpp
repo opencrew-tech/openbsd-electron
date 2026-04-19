@@ -3,7 +3,7 @@ sync with archivers/unrar
 Index: third_party/unrar/src/os.hpp
 --- third_party/unrar/src/os.hpp.orig
 +++ third_party/unrar/src/os.hpp
-@@ -123,6 +123,7 @@
+@@ -127,6 +127,7 @@
  
  #ifdef _UNIX
  
@@ -11,7 +11,7 @@ Index: third_party/unrar/src/os.hpp
  #include <unistd.h>
  #include <sys/types.h>
  #include <sys/stat.h>
-@@ -133,6 +134,11 @@
+@@ -137,6 +138,11 @@
  #ifdef _APPLE
    #include <sys/sysctl.h>
  #endif
@@ -23,7 +23,7 @@ Index: third_party/unrar/src/os.hpp
  #ifndef SFX_MODULE
      #include <sys/statvfs.h>
  #endif
-@@ -166,7 +172,7 @@
+@@ -171,7 +177,7 @@
  
  #if defined(__aarch64__) && (defined(__ARM_FEATURE_CRYPTO) || defined(__ARM_FEATURE_CRC32))
  #include <arm_neon.h>
@@ -32,7 +32,7 @@ Index: third_party/unrar/src/os.hpp
  #include <sys/auxv.h>
  #include <asm/hwcap.h>
  #endif
-@@ -277,7 +283,7 @@
+@@ -282,7 +288,7 @@
  // reassembling of values with shifts and ORs. Modern compilers recognize these
  // patterns and generate the unaligned load anyway.
  #if !defined(CHROMIUM_UNRAR)

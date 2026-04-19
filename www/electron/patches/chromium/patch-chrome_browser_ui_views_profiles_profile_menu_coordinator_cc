@@ -1,7 +1,7 @@
 Index: chrome/browser/ui/views/profiles/profile_menu_coordinator.cc
 --- chrome/browser/ui/views/profiles/profile_menu_coordinator.cc.orig
 +++ chrome/browser/ui/views/profiles/profile_menu_coordinator.cc
-@@ -55,7 +55,7 @@ void ProfileMenuCoordinator::Show(
+@@ -86,7 +86,7 @@ void ProfileMenuCoordinator::ShowWithPromoResults(
        ->NotifyFeaturePromoFeatureUsed(
            feature_engagement::kIPHProfileSwitchFeature,
            FeaturePromoFeatureUsedAction::kClosePromoIfPresent);

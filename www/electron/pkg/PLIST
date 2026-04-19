@@ -616,6 +616,8 @@ share/examples/electron/pledge.utility_network
 @sample ${SYSCONFDIR}/electron/pledge.utility_network
 share/examples/electron/pledge.utility_video
 @sample ${SYSCONFDIR}/electron/pledge.utility_video
+share/examples/electron/unveil.cdm
+@sample ${SYSCONFDIR}/electron/unveil.cdm
 share/examples/electron/unveil.gpu
 @sample ${SYSCONFDIR}/electron/unveil.gpu
 share/examples/electron/unveil.main

@@ -1,0 +1,11 @@
+Index: electron/spec/modules-spec.ts
+--- electron/spec/modules-spec.ts.orig
++++ electron/spec/modules-spec.ts
+@@ -52,6 +52,7 @@ describe('modules support', () => {
+ 
+     const enablePlatforms: NodeJS.Platform[] = [
+       'linux',
++      'openbsd',
+       'darwin',
+       'win32'
+     ];

@@ -1,7 +1,7 @@
 Index: ui/gtk/gtk_compat.cc
 --- ui/gtk/gtk_compat.cc.orig
 +++ ui/gtk/gtk_compat.cc
-@@ -64,22 +64,38 @@ auto DlCast(void* symbol) {
+@@ -74,22 +74,38 @@ auto DlSym(void* library, const char* name) {
  }
  
  void* GetLibGio() {
@@ -40,7 +40,7 @@ Index: ui/gtk/gtk_compat.cc
    return libgtk4;
  }
  
-@@ -161,7 +177,11 @@ gfx::Insets InsetsFromGtkBorder(const GtkBorder& borde
+@@ -171,7 +187,11 @@ gfx::Insets InsetsFromGtkBorder(const GtkBorder& borde
  }  // namespace
  
  void* GetLibGdkPixbuf() {

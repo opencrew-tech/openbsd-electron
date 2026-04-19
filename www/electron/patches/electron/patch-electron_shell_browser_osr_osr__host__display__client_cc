@@ -1,7 +1,7 @@
 Index: electron/shell/browser/osr/osr_host_display_client.cc
 --- electron/shell/browser/osr/osr_host_display_client.cc.orig
 +++ electron/shell/browser/osr/osr_host_display_client.cc
-@@ -95,7 +95,7 @@ void OffScreenHostDisplayClient::CreateLayeredWindowUp
+@@ -94,7 +94,7 @@ void OffScreenHostDisplayClient::CreateLayeredWindowUp
    layered_window_updater_->SetActive(active_);
  }
  

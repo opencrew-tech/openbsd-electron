@@ -1,7 +1,7 @@
 Index: content/browser/child_process_launcher_helper_linux.cc
 --- content/browser/child_process_launcher_helper_linux.cc.orig
 +++ content/browser/child_process_launcher_helper_linux.cc
-@@ -77,6 +77,7 @@ bool ChildProcessLauncherHelper::BeforeLaunchOnLaunche
+@@ -78,6 +78,7 @@ bool ChildProcessLauncherHelper::BeforeLaunchOnLaunche
                                           remapped_fd.first);
      }
  
@@ -9,7 +9,7 @@ Index: content/browser/child_process_launcher_helper_linux.cc
      // (For Electron), if we're launching without zygote, that means we're
      // launching an unsandboxed process (since all sandboxed processes are
      // forked from the zygote). Relax the allow_new_privs option to permit
-@@ -85,6 +86,7 @@ bool ChildProcessLauncherHelper::BeforeLaunchOnLaunche
+@@ -86,6 +87,7 @@ bool ChildProcessLauncherHelper::BeforeLaunchOnLaunche
          delegate_->GetZygote() == nullptr) {
        options->allow_new_privs = true;
      }

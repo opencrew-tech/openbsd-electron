@@ -1,0 +1,43 @@
+Index: test/promises-gracefulify.js
+--- test/promises-gracefulify.js.orig
++++ test/promises-gracefulify.js
+@@ -0,0 +1,39 @@
++'use strict'
++
++var realFs = require('fs')
++var test = require('tap').test
++var gracefulFs = require('../')
++
++var EMFILE = Object.assign(new Error('FAKE EMFILE'), { code: 'EMFILE' })
++
++test('gracefulify patches fs.promises methods', function (t) {
++  if (!realFs.promises || typeof realFs.promises.readdir !== 'function') {
++    t.pass('fs.promises is not available')
++    return t.end()
++  }
++
++  var readdir = realFs.promises.readdir
++  var calls = 0
++
++  t.teardown(function () {
++    realFs.promises.readdir = readdir
++  })
++
++  realFs.promises.readdir = function () {
++    calls++
++    if (calls === 1)
++      return Promise.reject(EMFILE)
++    return readdir.apply(this, arguments)
++  }
++
++  gracefulFs.gracefulify(realFs)
++
++  realFs.promises.readdir(__dirname).then(function (files) {
++    t.ok(Array.isArray(files), 'received directory entries')
++    t.equal(calls, 2, 'retries once after EMFILE')
++    t.end()
++  }, function (err) {
++    t.error(err)
++    t.end()
++  })
++})

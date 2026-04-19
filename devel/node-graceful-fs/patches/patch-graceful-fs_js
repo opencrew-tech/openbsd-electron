@@ -1,0 +1,183 @@
+Index: graceful-fs.js
+--- graceful-fs.js.orig
++++ graceful-fs.js
+@@ -9,6 +9,9 @@ var util = require('util')
+ var gracefulQueue
+ var previousSymbol
+ 
++var curOpen = 0
++const maxOpen = parseInt(process.env.GRACEFUL_FS_LIMIT || '0', 10);
++
+ /* istanbul ignore else - node 0.x polyfill */
+ if (typeof Symbol === 'function' && typeof Symbol.for === 'function') {
+   gracefulQueue = Symbol.for('graceful-fs.queue')
+@@ -52,8 +55,15 @@ if (!fs[gracefulQueue]) {
+   fs.close = (function (fs$close) {
+     function close (fd, cb) {
+       return fs$close.call(fs, fd, function (err) {
++
+         // This function uses the graceful-fs shared queue
+         if (!err) {
++          curOpen--
++          if (curOpen < 0) {
++            curOpen = 0
++            debug('MISSED OPEN ? curOpen < 0')
++          }
++          debug('close : curOpen', curOpen, 'maxOpen', maxOpen)
+           resetQueue()
+         }
+ 
+@@ -83,7 +93,7 @@ if (!fs[gracefulQueue]) {
+ 
+   if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || '')) {
+     process.on('exit', function() {
+-      debug(fs[gracefulQueue])
++      debug('EXIT ', fs[gracefulQueue])
+       require('assert').equal(fs[gracefulQueue].length, 0)
+     })
+   }
+@@ -103,6 +113,7 @@ function patch (fs) {
+   // Everything that references the open() function needs to be in here
+   polyfills(fs)
+   fs.gracefulify = patch
++  patchPromises(fs)
+ 
+   fs.createReadStream = createReadStream
+   fs.createWriteStream = createWriteStream
+@@ -354,7 +365,19 @@ function patch (fs) {
+     return go$open(path, flags, mode, cb)
+ 
+     function go$open (path, flags, mode, cb, startTime) {
++      curOpen++
++      debug('open : curOpen', curOpen, 'maxOpen', maxOpen)
++      if (maxOpen && curOpen > maxOpen) {
++        curOpen--
++        debug('enqueue : curOpen', curOpen, 'maxOpen', maxOpen)
++        enqueue([go$open, [path, flags, mode, cb], undefined, startTime || Date.now(), Date.now()])
++        return
++      }
+       return fs$open(path, flags, mode, function (err, fd) {
++        if (err) {
++          curOpen--
++          debug('callback err : curOpen', curOpen, 'maxOpen', maxOpen)
++        }
+         if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+           enqueue([go$open, [path, flags, mode, cb], err, startTime || Date.now(), Date.now()])
+         else {
+@@ -368,6 +391,101 @@ function patch (fs) {
+   return fs
+ }
+ 
++function patchPromises (fs) {
++  var fsPromises
++  try {
++    fsPromises = fs.promises
++  } catch (_) {
++    return
++  }
++
++  if (!fsPromises || typeof fsPromises !== 'object')
++    return
++
++  var methods = ['readFile', 'writeFile', 'appendFile', 'copyFile', 'readdir', 'open']
++  var patchedPromises = patchMethods(fsPromises)
++
++  function patchMethods (promises) {
++    var wrappedPromises = clone(promises)
++    var originals = {}
++
++    methods.forEach(function (name) {
++      if (typeof promises[name] !== 'function')
++        return
++
++      originals[name] = promises[name]
++      wrappedPromises[name] = function () {
++        var args = Array.prototype.slice.call(arguments)
++        return retryPromiseCall(function () {
++          return originals[name].apply(promises, args)
++        })
++      }
++    })
++
++    return wrappedPromises
++  }
++
++  try {
++    Object.defineProperty(fs, 'promises', {
++      configurable: true,
++      enumerable: true,
++      get: function () {
++        return patchedPromises
++      },
++      set: function (value) {
++        fsPromises = value
++        if (!fsPromises || typeof fsPromises !== 'object') {
++          patchedPromises = fsPromises
++          return
++        }
++        patchedPromises = patchMethods(fsPromises)
++      }
++    })
++  } catch (_) {
++    // Ignore platforms where fs.promises cannot be redefined.
++  }
++}
++
++function isRetryError (err) {
++  return err && (err.code === 'EMFILE' || err.code === 'ENFILE')
++}
++
++function retryPromiseCall (fn, startTime, lastTime) {
++  var now = Date.now()
++  return new Promise(function (resolve, reject) {
++    var ret
++    try {
++      ret = fn()
++    } catch (err) {
++      reject(err)
++      return
++    }
++
++    Promise.resolve(ret).then(resolve, function (err) {
++      if (!isRetryError(err)) {
++        reject(err)
++        return
++      }
++
++      var first = startTime || now
++      if (Date.now() - first >= 60000) {
++        reject(err)
++        return
++      }
++
++      var prev = lastTime || first
++      var sinceAttempt = now - prev
++      var sinceStart = Math.max(prev - first, 1)
++      var desiredDelay = Math.min(sinceStart * 1.2, 100)
++      var delay = sinceAttempt >= desiredDelay ? 0 : desiredDelay - sinceAttempt
++
++      setTimeout(function () {
++        retryPromiseCall(fn, first, Date.now()).then(resolve, reject)
++      }, delay)
++    })
++  })
++}
++
+ function enqueue (elem) {
+   debug('ENQUEUE', elem[0].name, elem[1])
+   fs[gracefulQueue].push(elem)
+@@ -403,6 +521,14 @@ function retry () {
+     return
+ 
+   var elem = fs[gracefulQueue].shift()
++  if (maxOpen && curOpen >= maxOpen) {
++    fs[gracefulQueue].push(elem)
++    if (retryTimer === undefined) {
++      retryTimer = setTimeout(retry, 0)
++    }
++    return
++  }
++
+   var fn = elem[0]
+   var args = elem[1]
+   // these items may be unset if they were added by an older graceful-fs

@@ -1,0 +1,43 @@
+Index: test/promises-readfile.js
+--- test/promises-readfile.js.orig
++++ test/promises-readfile.js
+@@ -0,0 +1,39 @@
++'use strict'
++
++var importFresh = require('import-fresh')
++var path = require('path')
++var realFs = require('fs')
++var test = require('tap').test
++
++var EMFILE = Object.assign(new Error('FAKE EMFILE'), { code: 'EMFILE' })
++
++test('promises.readFile retries EMFILE', function (t) {
++  if (!realFs.promises || typeof realFs.promises.readFile !== 'function') {
++    t.pass('fs.promises is not available')
++    return t.end()
++  }
++
++  var readFile = realFs.promises.readFile
++  var calls = 0
++
++  t.teardown(function () {
++    realFs.promises.readFile = readFile
++  })
++
++  realFs.promises.readFile = function () {
++    calls++
++    if (calls === 1)
++      return Promise.reject(EMFILE)
++    return readFile.apply(this, arguments)
++  }
++
++  var fs = importFresh(path.dirname(__dirname))
++  fs.promises.readFile(__filename, 'utf8').then(function (content) {
++    t.match(content, /promises\.readFile retries EMFILE/)
++    t.equal(calls, 2, 'retries once after EMFILE')
++    t.end()
++  }, function (err) {
++    t.error(err)
++    t.end()
++  })
++})

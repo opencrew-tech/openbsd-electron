@@ -1,0 +1,89 @@
+{
+  "name": "@rollup/plugins",
+  "private": true,
+  "scripts": {
+    "ci:coverage:submit": "node scripts/codecov",
+    "fix:js": "eslint --cache packages scripts shared util --ext .js,.ts,.mjs --fix",
+    "lint": "pnpm lint:docs && pnpm --no-bail lint:json && pnpm lint:package && pnpm lint:js",
+    "lint:docs": "prettier --write .github/**/*.md **/README.md **/CHANGELOG.md",
+    "lint:js": "eslint --cache packages scripts shared util --ext .js,.ts,.mjs",
+    "lint:json": "prettier --write .github/**/*.yml **/tsconfig.json tsconfig.*.json pnpm-workspace.yaml",
+    "lint:package": "prettier --write **/package.json",
+    "package:release": "versioner --stripScope='^@.+/(plugin-)?' --target",
+    "preinstall": "node scripts/disallow-npm.js",
+    "prepare": "husky install",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "security": "pnpm audit --audit-level=high"
+  },
+  "devDependencies": {
+    "@dot/versioner": "^0.4.3",
+    "@rollup/plugin-typescript": "^9.0.1",
+    "@swc/wasm": "^1.15.24",
+    "@types/node": "^20.19.0",
+    "@types/source-map-support": "^0.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "ava": "^4.3.3",
+    "chalk": "^4.1.0",
+    "codecov-lite": "2.0.0",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.57.1",
+    "eslint-config-rollup": "^3.0.1",
+    "esm": "^3.2.25",
+    "execa": "^5.1.1",
+    "globby": "^11.0.1",
+    "husky": "8.0.1",
+    "lint-staged": "11.0.1",
+    "nyc": "^15.1.0",
+    "pnpm": "^8.7.5",
+    "prettier-plugin-package": "^1.3.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "10.9.1",
+    "typescript": "catalog:",
+    "vitest": "^4.0.2"
+  },
+  "ava": {
+    "files": [
+      "!**/fixtures/**",
+      "!**/helpers/**",
+      "!**/recipes/**",
+      "!**/types.ts"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --cache --fix"
+    ],
+    "**/(package|tsconfig(.*)?).json": [
+      "prettier --write"
+    ],
+    "(pnpm-workspace|.github/**/*).{yml,yaml}": [
+      "prettier --write"
+    ],
+    "((.github/**/*)|(README|CHANGELOG)|(**/(README|CHANGELOG))).md": [
+      "prettier --write"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "lib/**/*.js"
+    ],
+    "exclude": [
+      "lib/client*.js",
+      "test/"
+    ]
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup": "npm:@rollup/wasm-node",
+      "esbuild": "link:../../node/esbuild/node_modules/esbuild",
+      "graceful-fs": "link:../../node/graceful-fs/node_modules/graceful-fs"
+    }
+  }
+}

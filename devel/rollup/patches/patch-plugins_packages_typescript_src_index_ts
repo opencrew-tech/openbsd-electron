@@ -1,0 +1,99 @@
+rollup with typescript plugin hit fd limit.
+implement build without watch mode to overcome this issue.
+
+Index: plugins/packages/typescript/src/index.ts
+--- plugins/packages/typescript/src/index.ts.orig
++++ plugins/packages/typescript/src/index.ts
+@@ -4,12 +4,14 @@ import * as os from 'os';
+ 
+ import { createFilter } from '@rollup/pluginutils';
+ 
+-import type { Plugin, SourceDescription } from 'rollup';
++import type { Plugin, PluginContext, SourceDescription } from 'rollup';
+ import type { Watch } from 'typescript';
+ 
+ import type { RollupTypescriptOptions } from '../types';
+ 
+ import createFormattingHost from './diagnostics/host';
++import { emitDiagnostics } from './diagnostics/emit';
++import { mergeTransformers } from './customTransformers';
+ import createModuleResolver from './moduleResolution';
+ import { getPluginOptions } from './options/plugin';
+ import { emitParsedOptionsErrors, parseTypescriptConfig } from './options/tsconfig';
+@@ -145,7 +147,48 @@ export default function typescript(options: RollupType
+   const resolveModule = createModuleResolver(ts, formatHost, filter);
+ 
+   let program: Watch<unknown> | null = null;
++  const writeFile = (fileName: string, data: string) => {
++    if (parsedOptions.options.composite || parsedOptions.options.incremental) {
++      tsCache.cacheCode(fileName, data);
++    }
++    emittedFiles.set(fileName, data);
++  };
++  const runNonWatchBuild = (context: PluginContext) => {
++    const host = ts.createCompilerHost(parsedOptions.options);
++    host.resolveModuleNames = (
++      moduleNames,
++      containingFile,
++      _reusedNames,
++      redirectedReference,
++      _optionsOnlyWithNewerTsVersions,
++      containingSourceFile
++    ) => {
++      return moduleNames.map((moduleName, index) => {
++        const mode = containingSourceFile
++          ? ts.getModeForResolutionAtIndex?.(containingSourceFile, index)
++          : undefined; // eslint-disable-line no-undefined
++        return resolveModule(moduleName, containingFile, redirectedReference, mode);
++      });
++    };
+ 
++    const tsProgram = ts.createProgram({
++      options: parsedOptions.options,
++      projectReferences: parsedOptions.projectReferences,
++      rootNames: parsedOptions.fileNames,
++      host
++    });
++    const createdTransformers =
++      typeof transformers === 'function'
++        ? transformers(tsProgram)
++        : transformers
++        ? mergeTransformers({ getProgram: () => tsProgram } as any, transformers)
++        : undefined;
++
++    const emitResult = tsProgram.emit(undefined, writeFile, undefined, undefined, createdTransformers);
++    emitDiagnostics(ts, context, formatHost, ts.getPreEmitDiagnostics(tsProgram));
++    emitDiagnostics(ts, context, formatHost, emitResult.diagnostics);
++  };
++
+   return {
+     name: 'typescript',
+ 
+@@ -161,23 +204,17 @@ export default function typescript(options: RollupType
+         tslib
+       });
+ 
+-      // Fixes a memory leak https://github.com/rollup/plugins/issues/322
+       if (this.meta.watchMode !== true) {
+-        // eslint-disable-next-line
+-        program?.close();
+-        program = null;
++        runNonWatchBuild(this);
++        return;
+       }
++
+       if (!program) {
+         program = createWatchProgram(ts, this, {
+           formatHost,
+           resolveModule,
+           parsedOptions,
+-          writeFile(fileName, data) {
+-            if (parsedOptions.options.composite || parsedOptions.options.incremental) {
+-              tsCache.cacheCode(fileName, data);
+-            }
+-            emittedFiles.set(fileName, data);
+-          },
++          writeFile,
+           status(diagnostic) {
+             watchProgramHelper.handleStatus(diagnostic);
+           },

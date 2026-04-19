@@ -1,0 +1,18 @@
+test fail, same issue as Linux & FreeBSD
+
+Index: rollup/src/watch/fileWatcher.ts
+--- rollup/src/watch/fileWatcher.ts.orig
++++ rollup/src/watch/fileWatcher.ts
+@@ -45,10 +45,11 @@ export class FileWatcher {
+ 		const task = this.task;
+ 		const isLinux = platform() === 'linux';
+ 		const isFreeBSD = platform() === 'freebsd';
++		const isOpenBSD = platform() === 'openbsd';
+ 		const isTransformDependency = transformWatcherId !== null;
+ 		const handleChange = (id: string, event: ChangeEvent) => {
+ 			const changedId = transformWatcherId || id;
+-			if (isLinux || isFreeBSD) {
++			if (isLinux || isFreeBSD || isOpenBSD) {
+ 				// unwatching and watching fixes an issue with chokidar where on certain systems,
+ 				// a file that was unlinked and immediately recreated would create a change event
+ 				// but then no longer any further events

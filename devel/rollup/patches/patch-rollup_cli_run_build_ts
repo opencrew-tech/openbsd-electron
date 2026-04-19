@@ -1,0 +1,17 @@
+Slowdown builds to preserve ressources bellow limits.
+Each output could still explode limits but this may help on some cases.
+
+Index: rollup/cli/run/build.ts
+--- rollup/cli/run/build.ts.orig
++++ rollup/cli/run/build.ts
+@@ -47,7 +47,9 @@ export default async function build(
+ 		return;
+ 	}
+ 
+-	await Promise.all(outputOptions.map(bundle.write));
++	for (const outputOption of outputOptions) {
++		await bundle.write(outputOption);
++	}
+ 	if (!silent) {
+ 		warnings.flush();
+ 		stderr(green(`created ${bold(files.join(', '))} in ${bold(ms(Date.now() - start))}`));

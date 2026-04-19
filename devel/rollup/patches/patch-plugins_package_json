@@ -1,0 +1,11 @@
+Index: plugins/package.json
+--- plugins/package.json.orig
++++ plugins/package.json
+@@ -11,7 +11,6 @@
+     "lint:package": "prettier --write **/package.json",
+     "package:release": "versioner --stripScope='^@.+/(plugin-)?' --target",
+     "preinstall": "node scripts/disallow-npm.js",
+-    "prepare": "husky install",
+     "prettier": "prettier --write .",
+     "prettier:check": "prettier --check .",
+     "security": "pnpm audit --audit-level=high"

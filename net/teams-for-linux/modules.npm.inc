@@ -4,7 +4,7 @@
 
 DISTFILES.npm += \
 ${MODNPM_DIST}/@babel-{@babel/runtime/-/}runtime-7.28.6.tgz \
-${MODNPM_DIST}/@electron-{@electron/fuses/-/}fuses-2.1.0.tgz \
+${MODNPM_DIST}/@electron-{@electron/fuses/-/}fuses-2.1.1.tgz \
 ${MODNPM_DIST}/@electron-{@electron/get/-/}get-2.0.3.tgz \
 ${MODNPM_DIST}/@eslint-community-{@eslint-community/eslint-utils/-/}eslint-utils-4.9.1.tgz \
 ${MODNPM_DIST}/@eslint-community-{@eslint-community/regexpp/-/}regexpp-4.12.2.tgz \
@@ -14,13 +14,13 @@ ${MODNPM_DIST}/@eslint-{@eslint/core/-/}core-1.1.1.tgz \
 ${MODNPM_DIST}/@eslint-{@eslint/js/-/}js-10.0.1.tgz \
 ${MODNPM_DIST}/@eslint-{@eslint/object-schema/-/}object-schema-3.0.3.tgz \
 ${MODNPM_DIST}/@eslint-{@eslint/plugin-kit/-/}plugin-kit-0.6.1.tgz \
-${MODNPM_DIST}/@homebridge-{@homebridge/dbus-native/-/}dbus-native-0.7.3.tgz \
+${MODNPM_DIST}/@homebridge-{@homebridge/dbus-native/-/}dbus-native-0.7.4.tgz \
 ${MODNPM_DIST}/@humanfs-{@humanfs/core/-/}core-0.19.1.tgz \
 ${MODNPM_DIST}/@humanfs-{@humanfs/node/-/}node-0.16.7.tgz \
 ${MODNPM_DIST}/@humanwhocodes-{@humanwhocodes/module-importer/-/}module-importer-1.0.1.tgz \
 ${MODNPM_DIST}/@humanwhocodes-{@humanwhocodes/retry/-/}retry-0.4.3.tgz \
 ${MODNPM_DIST}/@isaacs-{@isaacs/cliui/-/}cliui-9.0.0.tgz \
-${MODNPM_DIST}/@playwright-{@playwright/test/-/}test-1.58.2.tgz \
+${MODNPM_DIST}/@playwright-{@playwright/test/-/}test-1.59.0.tgz \
 ${MODNPM_DIST}/@sindresorhus-{@sindresorhus/is/-/}is-4.6.0.tgz \
 ${MODNPM_DIST}/@szmarczak-{@szmarczak/http-timer/-/}http-timer-4.0.6.tgz \
 ${MODNPM_DIST}/@types-{@types/cacheable-request/-/}cacheable-request-6.0.3.tgz \
@@ -29,7 +29,7 @@ ${MODNPM_DIST}/@types-{@types/estree/-/}estree-1.0.8.tgz \
 ${MODNPM_DIST}/@types-{@types/http-cache-semantics/-/}http-cache-semantics-4.0.4.tgz \
 ${MODNPM_DIST}/@types-{@types/json-schema/-/}json-schema-7.0.15.tgz \
 ${MODNPM_DIST}/@types-{@types/keyv/-/}keyv-3.1.4.tgz \
-${MODNPM_DIST}/@types-{@types/node/-/}node-22.19.6.tgz \
+${MODNPM_DIST}/@types-{@types/node/-/}node-24.12.0.tgz \
 ${MODNPM_DIST}/@types-{@types/readable-stream/-/}readable-stream-4.0.23.tgz \
 ${MODNPM_DIST}/@types-{@types/responselike/-/}responselike-1.0.3.tgz \
 ${MODNPM_DIST}/@types-{@types/ws/-/}ws-8.18.1.tgz \
@@ -51,7 +51,7 @@ ${MODNPM_DIST}/{base64-js/-/}base64-js-1.5.1.tgz \
 ${MODNPM_DIST}/{basic-auth/-/}basic-auth-2.0.1.tgz \
 ${MODNPM_DIST}/{bl/-/}bl-6.1.6.tgz \
 ${MODNPM_DIST}/{boolean/-/}boolean-3.2.0.tgz \
-${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-5.0.2.tgz \
+${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-5.0.5.tgz \
 ${MODNPM_DIST}/{broker-factory/-/}broker-factory-3.1.12.tgz \
 ${MODNPM_DIST}/{buffer-crc32/-/}buffer-crc32-0.2.13.tgz \
 ${MODNPM_DIST}/{buffer-from/-/}buffer-from-1.1.2.tgz \
@@ -87,7 +87,7 @@ ${MODNPM_DIST}/{electron-log/-/}electron-log-5.4.3.tgz \
 ${MODNPM_DIST}/{electron-store/-/}electron-store-11.0.2.tgz \
 ${MODNPM_DIST}/{electron-updater/-/}electron-updater-6.8.3.tgz \
 ${MODNPM_DIST}/{electron-window-state/-/}electron-window-state-5.0.3.tgz \
-${MODNPM_DIST}/{electron/-/}electron-39.8.2.tgz \
+${MODNPM_DIST}/{electron/-/}electron-41.1.0.tgz \
 ${MODNPM_DIST}/{emoji-regex/-/}emoji-regex-10.6.0.tgz \
 ${MODNPM_DIST}/{end-of-stream/-/}end-of-stream-1.4.5.tgz \
 ${MODNPM_DIST}/{env-paths/-/}env-paths-2.2.1.tgz \
@@ -145,7 +145,7 @@ ${MODNPM_DIST}/{has-symbols/-/}has-symbols-1.1.0.tgz \
 ${MODNPM_DIST}/{hasown/-/}hasown-2.0.2.tgz \
 ${MODNPM_DIST}/{he/-/}he-1.2.0.tgz \
 ${MODNPM_DIST}/{help-me/-/}help-me-5.0.0.tgz \
-${MODNPM_DIST}/{hexy/-/}hexy-0.3.5.tgz \
+${MODNPM_DIST}/{hexy/-/}hexy-0.4.0.tgz \
 ${MODNPM_DIST}/{html-encoding-sniffer/-/}html-encoding-sniffer-3.0.0.tgz \
 ${MODNPM_DIST}/{http-cache-semantics/-/}http-cache-semantics-4.2.0.tgz \
 ${MODNPM_DIST}/{http-proxy/-/}http-proxy-1.18.1.tgz \
@@ -191,7 +191,7 @@ ${MODNPM_DIST}/{minimatch/-/}minimatch-10.2.4.tgz \
 ${MODNPM_DIST}/{minimist/-/}minimist-1.2.8.tgz \
 ${MODNPM_DIST}/{mkdirp/-/}mkdirp-0.5.6.tgz \
 ${MODNPM_DIST}/{mqtt-packet/-/}mqtt-packet-9.0.2.tgz \
-${MODNPM_DIST}/{mqtt/-/}mqtt-5.15.0.tgz \
+${MODNPM_DIST}/{mqtt/-/}mqtt-5.15.1.tgz \
 ${MODNPM_DIST}/{ms/-/}ms-2.1.3.tgz \
 ${MODNPM_DIST}/{natural-compare/-/}natural-compare-1.4.0.tgz \
 ${MODNPM_DIST}/{normalize-url/-/}normalize-url-6.1.0.tgz \
@@ -208,8 +208,8 @@ ${MODNPM_DIST}/{path-exists/-/}path-exists-4.0.0.tgz \
 ${MODNPM_DIST}/{path-key/-/}path-key-3.1.1.tgz \
 ${MODNPM_DIST}/{pause-stream/-/}pause-stream-0.0.11.tgz \
 ${MODNPM_DIST}/{pend/-/}pend-1.2.0.tgz \
-${MODNPM_DIST}/{playwright-core/-/}playwright-core-1.58.2.tgz \
-${MODNPM_DIST}/{playwright/-/}playwright-1.58.2.tgz \
+${MODNPM_DIST}/{playwright-core/-/}playwright-core-1.59.0.tgz \
+${MODNPM_DIST}/{playwright/-/}playwright-1.59.0.tgz \
 ${MODNPM_DIST}/{portfinder/-/}portfinder-1.0.38.tgz \
 ${MODNPM_DIST}/{prelude-ls/-/}prelude-ls-1.2.1.tgz \
 ${MODNPM_DIST}/{process-nextick-args/-/}process-nextick-args-2.0.1.tgz \
@@ -265,7 +265,7 @@ ${MODNPM_DIST}/{type-fest/-/}type-fest-0.13.1.tgz \
 ${MODNPM_DIST}/{type-fest/-/}type-fest-5.4.3.tgz \
 ${MODNPM_DIST}/{typedarray/-/}typedarray-0.0.6.tgz \
 ${MODNPM_DIST}/{uint8array-extras/-/}uint8array-extras-1.5.0.tgz \
-${MODNPM_DIST}/{undici-types/-/}undici-types-6.21.0.tgz \
+${MODNPM_DIST}/{undici-types/-/}undici-types-7.16.0.tgz \
 ${MODNPM_DIST}/{union/-/}union-0.5.0.tgz \
 ${MODNPM_DIST}/{universalify/-/}universalify-0.1.2.tgz \
 ${MODNPM_DIST}/{universalify/-/}universalify-2.0.1.tgz \
@@ -316,7 +316,7 @@ https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz;uri-js-4.4.1.tgz \
 https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz;universalify-2.0.1.tgz \
 https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz;universalify-0.1.2.tgz \
 https://registry.npmjs.org/union/-/union-0.5.0.tgz;union-0.5.0.tgz \
-https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz;undici-types-6.21.0.tgz \
+https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz;undici-types-7.16.0.tgz \
 https://registry.npmjs.org/uint8array-extras/-/uint8array-extras-1.5.0.tgz;uint8array-extras-1.5.0.tgz \
 https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz;typedarray-0.0.6.tgz \
 https://registry.npmjs.org/type-fest/-/type-fest-5.4.3.tgz;type-fest-5.4.3.tgz \
@@ -372,8 +372,8 @@ https://registry.npmjs.org/process/-/process-0.11.10.tgz;process-0.11.10.tgz \
 https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz;process-nextick-args-2.0.1.tgz \
 https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz;prelude-ls-1.2.1.tgz \
 https://registry.npmjs.org/portfinder/-/portfinder-1.0.38.tgz;portfinder-1.0.38.tgz \
-https://registry.npmjs.org/playwright/-/playwright-1.58.2.tgz;playwright-1.58.2.tgz \
-https://registry.npmjs.org/playwright-core/-/playwright-core-1.58.2.tgz;playwright-core-1.58.2.tgz \
+https://registry.npmjs.org/playwright/-/playwright-1.59.0.tgz;playwright-1.59.0.tgz \
+https://registry.npmjs.org/playwright-core/-/playwright-core-1.59.0.tgz;playwright-core-1.59.0.tgz \
 https://registry.npmjs.org/pend/-/pend-1.2.0.tgz;pend-1.2.0.tgz \
 https://registry.npmjs.org/pause-stream/-/pause-stream-0.0.11.tgz;pause-stream-0.0.11.tgz \
 https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz;path-key-3.1.1.tgz \
@@ -390,7 +390,7 @@ https://registry.npmjs.org/number-allocator/-/number-allocator-1.0.14.tgz;number
 https://registry.npmjs.org/normalize-url/-/normalize-url-6.1.0.tgz;normalize-url-6.1.0.tgz \
 https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz;natural-compare-1.4.0.tgz \
 https://registry.npmjs.org/ms/-/ms-2.1.3.tgz;ms-2.1.3.tgz \
-https://registry.npmjs.org/mqtt/-/mqtt-5.15.0.tgz;mqtt-5.15.0.tgz \
+https://registry.npmjs.org/mqtt/-/mqtt-5.15.1.tgz;mqtt-5.15.1.tgz \
 https://registry.npmjs.org/mqtt-packet/-/mqtt-packet-9.0.2.tgz;mqtt-packet-9.0.2.tgz \
 https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.6.tgz;mkdirp-0.5.6.tgz \
 https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz;minimist-1.2.8.tgz \
@@ -436,7 +436,7 @@ https://registry.npmjs.org/http-server/-/http-server-14.1.1.tgz;http-server-14.1
 https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz;http-proxy-1.18.1.tgz \
 https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz;http-cache-semantics-4.2.0.tgz \
 https://registry.npmjs.org/html-encoding-sniffer/-/html-encoding-sniffer-3.0.0.tgz;html-encoding-sniffer-3.0.0.tgz \
-https://registry.npmjs.org/hexy/-/hexy-0.3.5.tgz;hexy-0.3.5.tgz \
+https://registry.npmjs.org/hexy/-/hexy-0.4.0.tgz;hexy-0.4.0.tgz \
 https://registry.npmjs.org/help-me/-/help-me-5.0.0.tgz;help-me-5.0.0.tgz \
 https://registry.npmjs.org/he/-/he-1.2.0.tgz;he-1.2.0.tgz \
 https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz;hasown-2.0.2.tgz \
@@ -493,7 +493,7 @@ https://registry.npmjs.org/env-paths/-/env-paths-3.0.0.tgz;env-paths-3.0.0.tgz \
 https://registry.npmjs.org/env-paths/-/env-paths-2.2.1.tgz;env-paths-2.2.1.tgz \
 https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.5.tgz;end-of-stream-1.4.5.tgz \
 https://registry.npmjs.org/emoji-regex/-/emoji-regex-10.6.0.tgz;emoji-regex-10.6.0.tgz \
-https://registry.npmjs.org/electron/-/electron-39.8.2.tgz;electron-39.8.2.tgz \
+https://registry.npmjs.org/electron/-/electron-41.1.0.tgz;electron-41.1.0.tgz \
 https://registry.npmjs.org/electron-window-state/-/electron-window-state-5.0.3.tgz;electron-window-state-5.0.3.tgz \
 https://registry.npmjs.org/electron-updater/-/electron-updater-6.8.3.tgz;electron-updater-6.8.3.tgz \
 https://registry.npmjs.org/electron-store/-/electron-store-11.0.2.tgz;electron-store-11.0.2.tgz \
@@ -528,7 +528,7 @@ https://registry.npmjs.org/buffer/-/buffer-6.0.3.tgz;buffer-6.0.3.tgz \
 https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz;buffer-from-1.1.2.tgz \
 https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz;buffer-crc32-0.2.13.tgz \
 https://registry.npmjs.org/broker-factory/-/broker-factory-3.1.12.tgz;broker-factory-3.1.12.tgz \
-https://registry.npmjs.org/brace-expansion/-/brace-expansion-5.0.2.tgz;brace-expansion-5.0.2.tgz \
+https://registry.npmjs.org/brace-expansion/-/brace-expansion-5.0.5.tgz;brace-expansion-5.0.5.tgz \
 https://registry.npmjs.org/boolean/-/boolean-3.2.0.tgz;boolean-3.2.0.tgz \
 https://registry.npmjs.org/bl/-/bl-6.1.6.tgz;bl-6.1.6.tgz \
 https://registry.npmjs.org/basic-auth/-/basic-auth-2.0.1.tgz;basic-auth-2.0.1.tgz \
@@ -550,7 +550,7 @@ https://registry.npmjs.org/@types/yauzl/-/yauzl-2.10.3.tgz;@types-yauzl-2.10.3.t
 https://registry.npmjs.org/@types/ws/-/ws-8.18.1.tgz;@types-ws-8.18.1.tgz \
 https://registry.npmjs.org/@types/responselike/-/responselike-1.0.3.tgz;@types-responselike-1.0.3.tgz \
 https://registry.npmjs.org/@types/readable-stream/-/readable-stream-4.0.23.tgz;@types-readable-stream-4.0.23.tgz \
-https://registry.npmjs.org/@types/node/-/node-22.19.6.tgz;@types-node-22.19.6.tgz \
+https://registry.npmjs.org/@types/node/-/node-24.12.0.tgz;@types-node-24.12.0.tgz \
 https://registry.npmjs.org/@types/keyv/-/keyv-3.1.4.tgz;@types-keyv-3.1.4.tgz \
 https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz;@types-json-schema-7.0.15.tgz \
 https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-4.0.4.tgz;@types-http-cache-semantics-4.0.4.tgz \
@@ -559,13 +559,13 @@ https://registry.npmjs.org/@types/esrecurse/-/esrecurse-4.3.1.tgz;@types-esrecur
 https://registry.npmjs.org/@types/cacheable-request/-/cacheable-request-6.0.3.tgz;@types-cacheable-request-6.0.3.tgz \
 https://registry.npmjs.org/@szmarczak/http-timer/-/http-timer-4.0.6.tgz;@szmarczak-http-timer-4.0.6.tgz \
 https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz;@sindresorhus-is-4.6.0.tgz \
-https://registry.npmjs.org/@playwright/test/-/test-1.58.2.tgz;@playwright-test-1.58.2.tgz \
+https://registry.npmjs.org/@playwright/test/-/test-1.59.0.tgz;@playwright-test-1.59.0.tgz \
 https://registry.npmjs.org/@isaacs/cliui/-/cliui-9.0.0.tgz;@isaacs-cliui-9.0.0.tgz \
 https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz;@humanwhocodes-retry-0.4.3.tgz \
 https://registry.npmjs.org/@humanwhocodes/module-importer/-/module-importer-1.0.1.tgz;@humanwhocodes-module-importer-1.0.1.tgz \
 https://registry.npmjs.org/@humanfs/node/-/node-0.16.7.tgz;@humanfs-node-0.16.7.tgz \
 https://registry.npmjs.org/@humanfs/core/-/core-0.19.1.tgz;@humanfs-core-0.19.1.tgz \
-https://registry.npmjs.org/@homebridge/dbus-native/-/dbus-native-0.7.3.tgz;@homebridge-dbus-native-0.7.3.tgz \
+https://registry.npmjs.org/@homebridge/dbus-native/-/dbus-native-0.7.4.tgz;@homebridge-dbus-native-0.7.4.tgz \
 https://registry.npmjs.org/@eslint/plugin-kit/-/plugin-kit-0.6.1.tgz;@eslint-plugin-kit-0.6.1.tgz \
 https://registry.npmjs.org/@eslint/object-schema/-/object-schema-3.0.3.tgz;@eslint-object-schema-3.0.3.tgz \
 https://registry.npmjs.org/@eslint/js/-/js-10.0.1.tgz;@eslint-js-10.0.1.tgz \
@@ -575,7 +575,7 @@ https://registry.npmjs.org/@eslint/config-array/-/config-array-0.23.3.tgz;@eslin
 https://registry.npmjs.org/@eslint-community/regexpp/-/regexpp-4.12.2.tgz;@eslint-community-regexpp-4.12.2.tgz \
 https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.9.1.tgz;@eslint-community-eslint-utils-4.9.1.tgz \
 https://registry.npmjs.org/@electron/get/-/get-2.0.3.tgz;@electron-get-2.0.3.tgz \
-https://registry.npmjs.org/@electron/fuses/-/fuses-2.1.0.tgz;@electron-fuses-2.1.0.tgz \
+https://registry.npmjs.org/@electron/fuses/-/fuses-2.1.1.tgz;@electron-fuses-2.1.1.tgz \
 https://registry.npmjs.org/@babel/runtime/-/runtime-7.28.6.tgz;@babel-runtime-7.28.6.tgz \
 graceful-fs@4.2.11;graceful-fs-4.2.11.tgz \
 electron-builder@26.8.2;electron-builder-26.8.2.tgz \

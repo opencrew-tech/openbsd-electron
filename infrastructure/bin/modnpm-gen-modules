@@ -64,6 +64,10 @@ sub _modules_add
 		say STDERR "skip local : " . $root . $path;
 		return;
 	}
+	if ($path =~ m:^../:) {
+		say STDERR "skip relative link : " . $root . $path;
+		return;
+	}
 	$path = $root . $path;
 	if (!exists($node->{version}) && !exists($node->{resolved})) {
 		say STDERR "no version (link/local) : " . $path;

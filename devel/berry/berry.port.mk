@@ -113,7 +113,13 @@ MODBERRY_MODULES+=\
 	@tailwindcss/upgrade www/tailwindcss \
 		tailwindcss/node_modules/@tailwindcss/upgrade \
 	@tailwindcss/vite www/tailwindcss \
-		tailwindcss/node_modules/@tailwindcss/vite
+		tailwindcss/node_modules/@tailwindcss/vite \
+	@typescript/api lang/typescript-go \
+		typescript-go/node_modules/@typescript/api \
+	@typescript/ast lang/typescript-go \
+		typescript-go/node_modules/@typescript/ast \
+	@typescript/native-preview lang/typescript-go \
+		typescript-go/node_modules/@typescript/native-preview
 # module . override : modules redirects without ports
 MODBERRY_MODULES+=\
 	lightningcss . npm:lightningcss-wasm@latest \

@@ -1,0 +1,33 @@
+WIP package.json vs workspace overrides, needed for vite-plus at least.
+But vite-plus was quickly abandoned as too hairy to build.
+
+Index: pkg-manager/plugin-commands-installation/src/import/index.ts
+--- pkg-manager/plugin-commands-installation/src/import/index.ts.orig
++++ pkg-manager/plugin-commands-installation/src/import/index.ts
+@@ -25,6 +25,18 @@ import { parseSyml } from '@yarnpkg/parsers'
+ import { recursive } from '../recursive.js'
+ import { yarnLockFileKeyNormalizer } from './yarnUtil.js'
+ 
++function mergeOverrides (
++  rootManifestOverrides: Record<string, string> | undefined,
++  configOverrides: Record<string, string> | undefined
++): Record<string, string> | undefined {
++  if (rootManifestOverrides == null) return configOverrides
++  if (configOverrides == null) return rootManifestOverrides
++  return {
++    ...rootManifestOverrides,
++    ...configOverrides,
++  }
++}
++
+ interface NpmPackageLock {
+   dependencies: LockedPackagesMap
+   packages: LockedPackagesMap
+@@ -177,6 +189,7 @@ export async function handler (
+   const installOpts = {
+     ...opts,
+     ...manifestOpts,
++    overrides: mergeOverrides(manifestOpts.overrides, opts.overrides),
+     lockfileOnly: true,
+     preferredVersions,
+     storeController: store.ctrl,

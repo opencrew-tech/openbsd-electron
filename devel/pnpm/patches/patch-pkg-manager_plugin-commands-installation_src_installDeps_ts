@@ -1,0 +1,64 @@
+WIP package.json vs workspace overrides, needed for vite-plus at least.
+But vite-plus was quickly abandoned as too hairy to build.
+
+Index: pkg-manager/plugin-commands-installation/src/installDeps.ts
+--- pkg-manager/plugin-commands-installation/src/installDeps.ts.orig
++++ pkg-manager/plugin-commands-installation/src/installDeps.ts
+@@ -46,6 +46,18 @@ const OVERWRITE_UPDATE_OPTIONS = {
+   update: false,
+ }
+ 
++function mergeOverrides (
++  rootManifestOverrides: Record<string, string> | undefined,
++  configOverrides: Record<string, string> | undefined
++): Record<string, string> | undefined {
++  if (rootManifestOverrides == null) return configOverrides
++  if (configOverrides == null) return rootManifestOverrides
++  return {
++    ...rootManifestOverrides,
++    ...configOverrides,
++  }
++}
++
+ export type InstallDepsOptions = Pick<Config,
+ | 'allProjects'
+ | 'allProjectsGraph'
+@@ -75,6 +87,7 @@ export type InstallDepsOptions = Pick<Config,
+ | 'lockfileOnly'
+ | 'production'
+ | 'preferWorkspacePackages'
++| 'overrides'
+ | 'rawLocalConfig'
+ | 'registries'
+ | 'rootProjectManifestDir'
+@@ -215,11 +228,13 @@ when running add/update with the --workspace option')
+         linkWorkspacePackages: Boolean(opts.linkWorkspacePackages),
+       }).graph
+ 
++      const rootManifestOptions = getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {})
+       await recursiveInstallThenUpdateWorkspaceState(allProjects,
+         params,
+         {
+           ...opts,
+-          ...getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {}),
++          ...rootManifestOptions,
++          overrides: mergeOverrides(rootManifestOptions.overrides, opts.overrides),
+           forceHoistPattern,
+           forcePublicHoistPattern,
+           allProjectsGraph,
+@@ -250,9 +265,14 @@ when running add/update with the --workspace option')
+     manifest = {}
+   }
+ 
++  const rootManifestOptions = getOptionsFromRootManifest(
++    opts.dir,
++    (opts.dir === opts.rootProjectManifestDir ? opts.rootProjectManifest ?? manifest : manifest),
++  )
+   const installOpts: Omit<MutateModulesOptions, 'allProjects'> = {
+     ...opts,
+-    ...getOptionsFromRootManifest(opts.dir, (opts.dir === opts.rootProjectManifestDir ? opts.rootProjectManifest ?? manifest : manifest)),
++    ...rootManifestOptions,
++    overrides: mergeOverrides(rootManifestOptions.overrides, opts.overrides),
+     forceHoistPattern,
+     forcePublicHoistPattern,
+     // In case installation is done in a multi-package repository

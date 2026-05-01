@@ -1,0 +1,93 @@
+WIP package.json vs workspace overrides, needed for vite-plus at least.
+But vite-plus was quickly abandoned as too hairy to build.
+
+Index: pkg-manager/plugin-commands-installation/src/recursive.ts
+--- pkg-manager/plugin-commands-installation/src/recursive.ts.orig
++++ pkg-manager/plugin-commands-installation/src/recursive.ts
+@@ -68,6 +68,7 @@ export type RecursiveOptions = CreateStoreControllerOp
+ | 'lockfileDir'
+ | 'lockfileOnly'
+ | 'modulesDir'
++| 'overrides'
+ | 'rawLocalConfig'
+ | 'registries'
+ | 'rootProjectManifest'
+@@ -121,6 +122,18 @@ Pick<Config, 'workspaceDir'>
+ 
+ export type CommandFullName = 'install' | 'add' | 'remove' | 'update' | 'import'
+ 
++function mergeOverrides (
++  rootManifestOverrides: Record<string, string> | undefined,
++  configOverrides: Record<string, string> | undefined
++): Record<string, string> | undefined {
++  if (rootManifestOverrides == null) return configOverrides
++  if (configOverrides == null) return rootManifestOverrides
++  return {
++    ...rootManifestOverrides,
++    ...configOverrides,
++  }
++}
++
+ export async function recursive (
+   allProjects: Project[],
+   params: string[],
+@@ -146,8 +159,10 @@ export async function recursive (
+   const workspacePackages: WorkspacePackages = arrayOfWorkspacePackagesToMap(allProjects) as WorkspacePackages
+   const targetDependenciesField = getSaveType(opts)
+   const rootManifestDir = (opts.lockfileDir ?? opts.dir) as ProjectRootDir
++  const rootManifestOptions = getOptionsFromRootManifest(rootManifestDir, manifestsByPath[rootManifestDir]?.manifest ?? {})
+   const installOpts = Object.assign(opts, {
+-    ...getOptionsFromRootManifest(rootManifestDir, manifestsByPath[rootManifestDir]?.manifest ?? {}),
++    ...rootManifestOptions,
++    overrides: mergeOverrides(rootManifestOptions.overrides, opts.overrides),
+     allProjects: getAllProjects(manifestsByPath, opts.allProjectsGraph, opts.sort),
+     linkWorkspacePackagesDepth: opts.linkWorkspacePackages === 'deep' ? Infinity : opts.linkWorkspacePackages ? 0 : -1,
+     ownLifecycleHooksStdio: 'pipe',
+@@ -394,25 +409,29 @@ export async function recursive (
+           ignoredBuilds,
+         } = await action(
+           manifest,
+-          {
+-            ...installOpts,
+-            ...localConfig,
+-            ...getOptionsFromRootManifest(rootDir, manifest),
+-            ...opts.allProjectsGraph[rootDir]?.package,
+-            bin: path.join(rootDir, 'node_modules', '.bin'),
+-            dir: rootDir,
+-            hooks,
+-            ignoreScripts: true,
+-            pinnedVersion: getPinnedVersion({
+-              saveExact: typeof localConfig.saveExact === 'boolean' ? localConfig.saveExact : opts.saveExact,
+-              savePrefix: typeof localConfig.savePrefix === 'string' ? localConfig.savePrefix : opts.savePrefix,
+-            }),
+-            rawConfig: {
+-              ...installOpts.rawConfig,
++          (() => {
++            const manifestOptions = getOptionsFromRootManifest(rootDir, manifest)
++            return {
++              ...installOpts,
+               ...localConfig,
+-            },
+-            storeController: store.ctrl,
+-          }
++              ...manifestOptions,
++              overrides: mergeOverrides(manifestOptions.overrides, installOpts.overrides),
++              ...opts.allProjectsGraph[rootDir]?.package,
++              bin: path.join(rootDir, 'node_modules', '.bin'),
++              dir: rootDir,
++              hooks,
++              ignoreScripts: true,
++              pinnedVersion: getPinnedVersion({
++                saveExact: typeof localConfig.saveExact === 'boolean' ? localConfig.saveExact : opts.saveExact,
++                savePrefix: typeof localConfig.savePrefix === 'string' ? localConfig.savePrefix : opts.savePrefix,
++              }),
++              rawConfig: {
++                ...installOpts.rawConfig,
++                ...localConfig,
++              },
++              storeController: store.ctrl,
++            }
++          })()
+         )
+         if (opts.save !== false) {
+           await writeProjectManifest(newManifest)

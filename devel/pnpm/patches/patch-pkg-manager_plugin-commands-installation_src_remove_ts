@@ -1,0 +1,45 @@
+WIP package.json vs workspace overrides, needed for vite-plus at least.
+But vite-plus was quickly abandoned as too hairy to build.
+
+Index: pkg-manager/plugin-commands-installation/src/remove.ts
+--- pkg-manager/plugin-commands-installation/src/remove.ts.orig
++++ pkg-manager/plugin-commands-installation/src/remove.ts
+@@ -20,6 +20,18 @@ import renderHelp from 'render-help'
+ import { getSaveType } from './getSaveType.js'
+ import { recursive } from './recursive.js'
+ 
++function mergeOverrides (
++  rootManifestOverrides: Record<string, string> | undefined,
++  configOverrides: Record<string, string> | undefined
++): Record<string, string> | undefined {
++  if (rootManifestOverrides == null) return configOverrides
++  if (configOverrides == null) return rootManifestOverrides
++  return {
++    ...rootManifestOverrides,
++    ...configOverrides,
++  }
++}
++
+ class RemoveMissingDepsError extends PnpmError {
+   constructor (
+     opts: {
+@@ -139,6 +151,7 @@ export async function handler (
+   | 'linkWorkspacePackages'
+   | 'lockfileDir'
+   | 'optional'
++  | 'overrides'
+   | 'production'
+   | 'rawLocalConfig'
+   | 'registries'
+@@ -176,8 +189,10 @@ export async function handler (
+     }, 'remove')
+     return
+   }
++  const rootManifestOptions = getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {})
+   const removeOpts = Object.assign(opts, {
+-    ...getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {}),
++    ...rootManifestOptions,
++    overrides: mergeOverrides(rootManifestOptions.overrides, opts.overrides),
+     linkWorkspacePackagesDepth: opts.linkWorkspacePackages === 'deep' ? Infinity : opts.linkWorkspacePackages ? 0 : -1,
+     storeController: store.ctrl,
+     storeDir: store.dir,

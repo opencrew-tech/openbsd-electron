@@ -1,0 +1,52 @@
+WIP package.json vs workspace overrides, needed for vite-plus at least.
+But vite-plus was quickly abandoned as too hairy to build.
+
+Index: pkg-manager/plugin-commands-installation/src/fetch.ts
+--- pkg-manager/plugin-commands-installation/src/fetch.ts.orig
++++ pkg-manager/plugin-commands-installation/src/fetch.ts
+@@ -16,6 +16,18 @@ export const shorthands: Record<string, string> = {
+   P: '--production',
+ }
+ 
++function mergeOverrides (
++  rootManifestOverrides: Record<string, string> | undefined,
++  configOverrides: Record<string, string> | undefined
++): Record<string, string> | undefined {
++  if (rootManifestOverrides == null) return configOverrides
++  if (configOverrides == null) return rootManifestOverrides
++  return {
++    ...rootManifestOverrides,
++    ...configOverrides,
++  }
++}
++
+ export const commandNames = ['fetch']
+ 
+ export function help (): string {
+@@ -45,7 +57,7 @@ export function help (): string {
+   })
+ }
+ 
+-type FetchCommandOptions = Pick<Config, 'production' | 'dev' | 'rootProjectManifest' | 'rootProjectManifestDir'> & CreateStoreControllerOptions
++type FetchCommandOptions = Pick<Config, 'production' | 'dev' | 'overrides' | 'rootProjectManifest' | 'rootProjectManifestDir'> & CreateStoreControllerOptions
+ 
+ export async function handler (opts: FetchCommandOptions): Promise<void> {
+   const store = await createOrConnectStoreController(opts)
+@@ -55,6 +67,7 @@ export async function handler (opts: FetchCommandOptio
+     // when including optional deps, production is also required when perform headless install
+     optionalDependencies: opts.production !== false,
+   }
++  const rootManifestOptions = getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {})
+   await mutateModulesInSingleProject({
+     manifest: {},
+     mutation: 'install',
+@@ -62,7 +75,8 @@ export async function handler (opts: FetchCommandOptio
+     rootDir: process.cwd() as ProjectRootDir,
+   }, {
+     ...opts,
+-    ...getOptionsFromRootManifest(opts.rootProjectManifestDir, opts.rootProjectManifest ?? {}),
++    ...rootManifestOptions,
++    overrides: mergeOverrides(rootManifestOptions.overrides, opts.overrides),
+     ignorePackageManifest: true,
+     ignoreLocalPackages: true,
+     include,

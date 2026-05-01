@@ -1,0 +1,12 @@
+Allow peer dependencies link: overrides.
+
+Index: semver/peer-range/src/index.ts
+--- semver/peer-range/src/index.ts.orig
++++ semver/peer-range/src/index.ts
+@@ -2,5 +2,5 @@ import { validRange } from 'semver'
+ 
+ export function isValidPeerRange (version: string): boolean {
+   // we use `includes` instead of `startsWith` because `workspace:*` and `catalog:*` could be a part of a wider version range expression
+-  return typeof validRange(version) === 'string' || version.includes('workspace:') || version.includes('catalog:')
++  return typeof validRange(version) === 'string' || version.includes('workspace:') || version.includes('catalog:') || version.startsWith('link:')
+ }

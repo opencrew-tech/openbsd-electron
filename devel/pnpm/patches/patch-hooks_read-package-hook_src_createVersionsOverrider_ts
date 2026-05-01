@@ -1,0 +1,24 @@
+Allow peer dependencies link: overrides.
+
+Index: hooks/read-package-hook/src/createVersionsOverrider.ts
+--- hooks/read-package-hook/src/createVersionsOverrider.ts.orig
++++ hooks/read-package-hook/src/createVersionsOverrider.ts
+@@ -118,12 +118,16 @@ function overrideDeps (
+     const newBareSpecifier = versionOverride.localTarget
+       ? `${versionOverride.localTarget.protocol}${resolveLocalOverride(versionOverride.localTarget, dir)}`
+       : versionOverride.newBareSpecifier
+-    if (peerDeps == null || !isValidPeerRange(newBareSpecifier)) {
++    if (peerDeps == null || !isPeerRangeOverride(newBareSpecifier)) {
+       deps[versionOverride.targetPkg.name] = newBareSpecifier
+-    } else if (isValidPeerRange(newBareSpecifier)) {
++    } else {
+       peerDeps[versionOverride.targetPkg.name] = newBareSpecifier
+     }
+   }
++}
++
++function isPeerRangeOverride (newBareSpecifier: string): boolean {
++  return isValidPeerRange(newBareSpecifier) || newBareSpecifier.startsWith('link:')
+ }
+ 
+ function resolveLocalOverride ({ specifiedViaRelativePath, absolutePath }: LocalTarget, pkgDir?: string): string {

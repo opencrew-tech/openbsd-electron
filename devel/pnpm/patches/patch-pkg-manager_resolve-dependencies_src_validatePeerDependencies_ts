@@ -1,0 +1,14 @@
+Allow peer dependencies link: overrides.
+
+Index: pkg-manager/resolve-dependencies/src/validatePeerDependencies.ts
+--- pkg-manager/resolve-dependencies/src/validatePeerDependencies.ts.orig
++++ pkg-manager/resolve-dependencies/src/validatePeerDependencies.ts
+@@ -17,7 +17,7 @@ export function validatePeerDependencies (project: Pro
+         'INVALID_PEER_DEPENDENCY_SPECIFICATION',
+         `The peerDependencies field named '${depName}' of package '${projectId}' has an invalid value: '${version}'`,
+         {
+-          hint: 'The values in peerDependencies should be either a valid semver range, a `workspace:` spec, or a `catalog:` spec',
++          hint: 'The values in peerDependencies should be either a valid semver range, a `workspace:` spec, a `catalog:` spec, or a `link:` spec',
+         }
+       )
+     }

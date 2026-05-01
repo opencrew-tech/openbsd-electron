@@ -1,0 +1,54 @@
+Allow peer dependencies link: overrides.
+
+Index: pkg-manager/resolve-dependencies/src/resolvePeers.ts
+--- pkg-manager/resolve-dependencies/src/resolvePeers.ts.orig
++++ pkg-manager/resolve-dependencies/src/resolvePeers.ts
+@@ -1,6 +1,7 @@
+ import filenamify from 'filenamify'
+ import { analyzeGraph, type Graph } from 'graph-cycles'
+ import path from 'path'
++import normalizePath from 'normalize-path'
+ import pDefer from 'p-defer'
+ import semver from 'semver'
+ import * as semverUtils from '@yarnpkg/core/semverUtils'
+@@ -898,6 +899,7 @@ function _resolvePeers<T extends PartialResolvedPackag
+   const missingPeers = new Map<string, MissingPeerInfo>()
+   for (const [peerName, { version, optional }] of Object.entries(ctx.resolvedPackage.peerDependencies)) {
+     const peerVersionRange = version.replace(/^workspace:/, '')
++    const isLinkPeerRange = peerVersionRange.startsWith('link:')
+ 
+     const resolved = ctx.parentPkgs[peerName]
+     const optionalPeer = optional === true
+@@ -916,7 +918,10 @@ function _resolvePeers<T extends PartialResolvedPackag
+       continue
+     }
+ 
+-    if (!semverUtils.satisfiesWithPrereleases(resolved.version, peerVersionRange, true)) {
++    const peerMatches = isLinkPeerRange
++      ? linkPeerMatches(ctx.lockfileDir, resolved.nodeId, peerVersionRange)
++      : semverUtils.satisfiesWithPrereleases(resolved.version, peerVersionRange, true)
++    if (!peerMatches) {
+       const location = getLocationFromParentNodeIds(ctx)
+       if (!ctx.peerDependencyIssues.bad[peerName]) {
+         ctx.peerDependencyIssues.bad[peerName] = []
+@@ -939,6 +944,20 @@ function _resolvePeers<T extends PartialResolvedPackag
+     if (resolved?.nodeId) resolvedPeers.set(peerName, resolved.nodeId)
+   }
+   return { resolvedPeers, missingPeers }
++}
++
++function linkPeerMatches (
++  lockfileDir: string,
++  resolvedNodeId: NodeId | undefined,
++  peerVersionRange: string
++): boolean {
++  return typeof resolvedNodeId === 'string' &&
++    resolvedNodeId.startsWith('link:') &&
++    getLinkedPath(lockfileDir, resolvedNodeId) === getLinkedPath(lockfileDir, peerVersionRange)
++}
++
++function getLinkedPath (lockfileDir: string, linkSpec: string): string {
++  return normalizePath(path.resolve(lockfileDir, linkSpec.slice(5)))
+ }
+ 
+ interface Location {

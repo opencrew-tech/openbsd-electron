@@ -1,0 +1,40 @@
+Allow peer dependencies link: overrides.
+
+Index: hooks/read-package-hook/test/createVersionOverrider.test.ts
+--- hooks/read-package-hook/test/createVersionOverrider.test.ts.orig
++++ hooks/read-package-hook/test/createVersionOverrider.test.ts
+@@ -691,7 +691,7 @@ test('createVersionsOverrider() removes dependencies',
+   })
+ })
+ 
+-test('createVersionsOverrider() moves invalid versions from peerDependencies to dependencies', () => {
++test('createVersionsOverrider() keeps link peer overrides in peerDependencies', () => {
+   const overrider = createVersionsOverrider([
+     {
+       targetPkg: {
+@@ -723,13 +723,12 @@ test('createVersionsOverrider() moves invalid versions
+     })
+   ).toStrictEqual({
+     dependencies: {
+-      foo: expect.stringMatching(/^link:.*foo[/\\]?$/),
+       bar: expect.stringMatching(/^file:.*bar[/\\]?$/),
+     },
+     peerDependencies: {
++      foo: expect.stringMatching(/^link:.*foo[/\\]?$/),
+       bar: '^1.0.0 || ^2.0.0',
+       baz: '7.7.7',
+-      foo: '^1.0.0 || ^2.0.0',
+       qux: '^1.0.0 || ^2.0.0',
+     },
+   })
+@@ -756,9 +755,9 @@ test('createVersionsOverrider() moves invalid versions
+       qux: '^2.1.0',
+     },
+     peerDependencies: {
++      foo: expect.stringMatching(/^link:.*foo[/\\]?$/),
+       bar: '^1.0.0 || ^2.0.0',
+       baz: '7.7.7',
+-      foo: '^1.0.0 || ^2.0.0',
+       qux: '^1.0.0 || ^2.0.0',
+     },
+   })

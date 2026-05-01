@@ -1,0 +1,65 @@
+Allow peer dependencies link: overrides.
+
+Index: pkg-manager/resolve-dependencies/test/resolvePeers.ts
+--- pkg-manager/resolve-dependencies/test/resolvePeers.ts.orig
++++ pkg-manager/resolve-dependencies/test/resolvePeers.ts
+@@ -122,6 +122,59 @@ test('resolve peer dependencies of cyclic dependencies
+   ])
+ })
+ 
++test('resolve peer dependencies with link overrides', async () => {
++  const fooPkg = {
++    name: 'foo',
++    pkgIdWithPatchHash: 'foo/1.0.0' as PkgIdWithPatchHash,
++    version: '1.0.0',
++    peerDependencies: {
++      bar: { version: 'link:../bar' },
++    },
++    id: '' as PkgResolutionId,
++  }
++  const barPkg = {
++    name: 'bar',
++    pkgIdWithPatchHash: 'bar/1.0.0' as PkgIdWithPatchHash,
++    version: '1.0.0',
++    peerDependencies: {} as PeerDependencies,
++    id: '' as PkgResolutionId,
++  }
++  const { peerDependencyIssuesByProjects } = await resolvePeers({
++    allPeerDepNames: new Set(['bar']),
++    projects: [
++      {
++        directNodeIdsByAlias: new Map([
++          ['foo', '>foo/1.0.0>' as NodeId],
++          ['bar', 'link:../bar' as NodeId],
++        ]),
++        topParents: [],
++        rootDir: '/repo' as ProjectRootDir,
++        id: '.',
++      },
++    ],
++    resolvedImporters: {},
++    dependenciesTree: new Map<NodeId, DependenciesTreeNode<PartialResolvedPackage>>([
++      ['>foo/1.0.0>' as NodeId, {
++        children: {},
++        installable: true,
++        resolvedPackage: fooPkg,
++        depth: 0,
++      }],
++      ['link:../bar' as NodeId, {
++        children: {},
++        installable: true,
++        resolvedPackage: barPkg,
++        depth: 0,
++      }],
++    ]),
++    virtualStoreDir: '/repo/node_modules/.pnpm',
++    lockfileDir: '/repo',
++    virtualStoreDirMaxLength: 120,
++    peersSuffixMaxLength: 1000,
++  })
++  expect(peerDependencyIssuesByProjects).toStrictEqual({})
++})
++
+ test('when a package is referenced twice in the dependencies graph and one of the times it cannot resolve its peers, still try to resolve it in the other occurrence', async () => {
+   const fooPkg = {
+     name: 'foo',

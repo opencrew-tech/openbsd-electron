@@ -594,7 +594,6 @@ lib/node/pnpm/dist/node_modules/minipass-fetch/lib/request.js
 lib/node/pnpm/dist/node_modules/minipass-fetch/lib/response.js
 lib/node/pnpm/dist/node_modules/minipass-fetch/package.json
 lib/node/pnpm/dist/node_modules/minipass-flush/
-lib/node/pnpm/dist/node_modules/minipass-flush/LICENSE
 lib/node/pnpm/dist/node_modules/minipass-flush/index.js
 lib/node/pnpm/dist/node_modules/minipass-flush/node_modules/
 lib/node/pnpm/dist/node_modules/minipass-flush/node_modules/minipass/

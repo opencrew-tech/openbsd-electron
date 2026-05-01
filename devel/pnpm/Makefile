@@ -18,7 +18,7 @@
 
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.33.0
+V=		10.33.2
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel

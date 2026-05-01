@@ -4,7 +4,7 @@ DIST_TUPLE+=	github rollup rollup v4.59.0 rollup
 
 # need a custom @rollup/plugin-typescript to overcome fd limit issue
 DIST_TUPLE+=	github rollup plugins \
-	5cc7fc5cb1b7fbff42130a4cd798f709cd6f3158 plugins
+		5cc7fc5cb1b7fbff42130a4cd798f709cd6f3158 plugins
 
 CATEGORIES =	devel
 
@@ -18,6 +18,7 @@ PERMIT_PACKAGE =	Yes
 WANTLIB += ${MODCARGO_WANTLIB} m
 
 MODULES =		devel/cargo \
+			devel/cmake \
 			devel/npm \
 			devel/pnpm
 

@@ -1,3 +1,5 @@
+Implement pre-fetched archive loading into store.
+
 Index: store/plugin-commands-store/src/storeAdd.ts
 --- store/plugin-commands-store/src/storeAdd.ts.orig
 +++ store/plugin-commands-store/src/storeAdd.ts

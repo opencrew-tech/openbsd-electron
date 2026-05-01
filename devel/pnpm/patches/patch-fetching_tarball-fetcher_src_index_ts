@@ -1,3 +1,5 @@
+Implement pre-fetched archive loading into store.
+
 Index: fetching/tarball-fetcher/src/index.ts
 --- fetching/tarball-fetcher/src/index.ts.orig
 +++ fetching/tarball-fetcher/src/index.ts

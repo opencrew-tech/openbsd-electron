@@ -1,3 +1,5 @@
+Implement pre-fetched archive loading into store.
+
 Index: fetching/fetcher-base/src/index.ts
 --- fetching/fetcher-base/src/index.ts.orig
 +++ fetching/fetcher-base/src/index.ts

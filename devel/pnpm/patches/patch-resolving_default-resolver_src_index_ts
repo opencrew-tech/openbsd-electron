@@ -1,3 +1,5 @@
+Implement pre-fetched archive loading into store.
+
 Index: resolving/default-resolver/src/index.ts
 --- resolving/default-resolver/src/index.ts.orig
 +++ resolving/default-resolver/src/index.ts

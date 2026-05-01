@@ -1,3 +1,5 @@
+Handle system overrides where file permissions can't be changed.
+
 Index: pkg-manager/link-bins/src/index.ts
 --- pkg-manager/link-bins/src/index.ts.orig
 +++ pkg-manager/link-bins/src/index.ts

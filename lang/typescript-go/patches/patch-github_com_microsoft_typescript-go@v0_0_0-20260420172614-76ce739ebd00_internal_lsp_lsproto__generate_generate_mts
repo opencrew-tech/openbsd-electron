@@ -1,0 +1,12 @@
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/lsp/lsproto/_generate/generate.mts
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/lsp/lsproto/_generate/generate.mts.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/lsp/lsproto/_generate/generate.mts
+@@ -3220,8 +3220,6 @@ async function main() {
+     const generatedCode = generateCode();
+     fs.writeFileSync(out, generatedCode);
+ 
+-    await $({ cwd: repoRoot })`dprint fmt ${out}`;
+-
+     console.log(`Successfully generated ${out}`);
+ }
+ 

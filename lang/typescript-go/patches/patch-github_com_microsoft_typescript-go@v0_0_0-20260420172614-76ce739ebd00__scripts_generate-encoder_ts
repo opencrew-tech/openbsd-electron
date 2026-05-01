@@ -1,0 +1,17 @@
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-encoder.ts
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-encoder.ts.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-encoder.ts
+@@ -1941,13 +1941,6 @@ function emitRemoteNodeClassClose(w: CodeWriter) {
+ 
+ function writeAndFormat(filePath: string, content: string, formatter: string) {
+     fs.writeFileSync(filePath, content);
+-    try {
+-        const [cmd, ...args] = formatter.split(" ");
+-        execaSync(cmd, [...args, filePath], { stdio: "inherit", cwd: ROOT });
+-    }
+-    catch {
+-        console.warn(`Warning: formatter failed for ${filePath}`);
+-    }
+     console.log(`Wrote ${filePath}`);
+ }
+ 

@@ -1,0 +1,11 @@
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-go-ast.ts
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-go-ast.ts.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/_scripts/generate-go-ast.ts
+@@ -957,7 +957,6 @@ function generateKind(): string {
+ 
+ function writeAndFormat(filePath: string, content: string) {
+     fs.writeFileSync(filePath, content);
+-    execaSync("dprint", ["fmt", filePath], { stdio: "inherit", cwd: ROOT });
+     console.log(`Wrote ${filePath}`);
+ }
+ 

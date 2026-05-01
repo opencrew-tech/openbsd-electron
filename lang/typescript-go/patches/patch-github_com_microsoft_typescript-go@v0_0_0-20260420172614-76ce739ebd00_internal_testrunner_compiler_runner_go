@@ -1,0 +1,13 @@
+fatal error: runtime: out of memory
+
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner.go
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner.go.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner.go
+@@ -203,7 +203,6 @@ func (r *CompilerBaselineRunner) runTest(t *testing.T,
+ }
+ 
+ func (r *CompilerBaselineRunner) runSingleConfigTest(t *testing.T, testName string, test *compilerFileBasedTest, config *harnessutil.NamedTestConfiguration) {
+-	t.Parallel()
+ 	defer testutil.RecoverAndFail(t, "Panic on compiling test "+test.filename)
+ 
+ 	payload := makeUnitsFromTest(test.content, test.filename)

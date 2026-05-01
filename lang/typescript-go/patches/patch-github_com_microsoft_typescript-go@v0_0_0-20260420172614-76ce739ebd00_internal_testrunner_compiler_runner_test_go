@@ -1,0 +1,14 @@
+fatal error: runtime: out of memory
+
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner_test.go
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner_test.go.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/internal/testrunner/compiler_runner_test.go
+@@ -18,8 +18,6 @@ func TestLocal(t *testing.T) { runCompilerTests(t, fal
+ func TestSubmodule(t *testing.T) { runCompilerTests(t, true) } //nolint:paralleltest
+ 
+ func runCompilerTests(t *testing.T, isSubmodule bool) {
+-	t.Parallel()
+-
+ 	if isSubmodule {
+ 		repo.SkipIfNoTypeScriptSubmodule(t)
+ 	}

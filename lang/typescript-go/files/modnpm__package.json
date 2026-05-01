@@ -1,0 +1,48 @@
+{
+  "private": true,
+  "name": "typescript-go",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/node": "latest",
+    "@types/tmp": "^0.2.6",
+    "@types/which": "^3.0.4",
+    "adm-zip": "^0.5.17",
+    "chokidar": "^5.0.0",
+    "execa": "^9.6.1",
+    "glob": "^13.0.6",
+    "hereby": "^1.14.0",
+    "p-limit": "^7.3.0",
+    "picocolors": "^1.1.1",
+    "tmp": "^0.2.5",
+    "typescript": "^6.0.2",
+    "which": "^6.0.1"
+  },
+  "scripts": {
+    "build": "hereby build",
+    "build:watch": "hereby build:watch",
+    "build:watch:debug": "hereby build:watch --debug",
+    "test": "hereby test",
+    "api:build": "npm run -w @typescript/api build",
+    "extension:build": "npm run -w _extension build",
+    "extension:watch": "npm run -w _extension watch",
+    "convertfourslash": "node --experimental-strip-types --no-warnings internal/fourslash/_scripts/convertFourslash.mts",
+    "updatefailing": "node --experimental-strip-types --no-warnings internal/fourslash/_scripts/updateFailing.mts",
+    "makemanual": "node --experimental-strip-types --no-warnings internal/fourslash/_scripts/makeManual.mts"
+  },
+  "workspaces": [
+    "./_packages/*"
+  ],
+  "overrides": {
+    "@microsoft/applicationinsights-web-basic": "3.3.11",
+    "@microsoft/1ds-core-js": "4.3.11",
+    "@microsoft/1ds-post-js": "4.3.11",
+    "esbuild": "file:../../../node/esbuild/node_modules/esbuild",
+    "graceful-fs": "file:../../../node/graceful-fs/node_modules/graceful-fs"
+  },
+  "volta": {
+    "node": "22.22.0",
+    "npm": "11.12.1"
+  }
+}

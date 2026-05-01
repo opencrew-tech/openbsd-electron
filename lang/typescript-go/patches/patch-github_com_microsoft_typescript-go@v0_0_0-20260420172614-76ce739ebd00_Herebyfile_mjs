@@ -1,0 +1,43 @@
+Let modgo handle go build (btw, make clean can't delete files, maybe a missing goBuildFlags).
+
+Skip dprint depends.
+
+Index: github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/Herebyfile.mjs
+--- github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/Herebyfile.mjs.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260420172614-76ce739ebd00/Herebyfile.mjs
+@@ -210,10 +210,6 @@ function getReleaseBuildFlags(versionOverride) {
+  * @param {string[]} [opts.extraFlags]
+  */
+ function buildTsgo(opts) {
+-    opts ||= {};
+-    const out = opts.out ?? "./built/local/";
+-    const env = { ...goBuildEnv, ...opts.env };
+-    return $({ cancelSignal: opts.abortSignal, env })`go build ${goBuildFlags} ${opts.extraFlags ?? []} ${goBuildTags("noembed")} -o ${out} ./cmd/tsgo`;
+ }
+ 
+ export const tsgoBuild = task({
+@@ -494,7 +490,6 @@ async function runGenerateEnums() {
+         console.log(`  ${def.name}: ${members.length} members → ${camelName}.enum.ts, ${camelName}.ts`);
+     }
+ 
+-    await $`dprint fmt ${generatedFiles}`;
+     console.log("Done.");
+ }
+ 
+@@ -847,15 +842,12 @@ export const format = task({
+ });
+ 
+ async function runFormat() {
+-    await $`dprint fmt`;
+ }
+ 
+ export const checkFormat = task({
+     name: "check:format",
+     description: "Checks that the repo is formatted.",
+-    run: async () => {
+-        await $`dprint check`;
+-    },
++    run: async () => {},
+ });
+ 
+ const scriptTsconfigs = [

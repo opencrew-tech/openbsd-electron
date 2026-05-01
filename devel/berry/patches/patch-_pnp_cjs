@@ -72,7 +72,7 @@ Index: .pnp.cjs
      ["@yarnpkg/pnp", ["workspace:packages/yarnpkg-pnp"]],\
      ["@yarnpkg/pnpify", ["workspace:packages/yarnpkg-pnpify"]],\
      ["@yarnpkg/sdks", ["workspace:packages/yarnpkg-sdks"]],\
-@@ -9296,6 +9301,7 @@ const RAW_RUNTIME_STATE =
+@@ -9288,6 +9293,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -80,7 +80,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:a4e201fc3c2d8b3ec5632082d407d554bbf8ea8b84182577dde1ce419148ae0981b382a0805280637d50e1132628fef8f78ee6a015164963130b1310a4cca910#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:a4e201fc3c2d8b3ec5632082d407d554bbf8ea8b84182577dde1ce419148ae0981b382a0805280637d50e1132628fef8f78ee6a015164963130b1310a4cca910#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9347,6 +9353,7 @@ const RAW_RUNTIME_STATE =
+@@ -9339,6 +9345,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -88,7 +88,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9398,6 +9405,7 @@ const RAW_RUNTIME_STATE =
+@@ -9390,6 +9397,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -96,7 +96,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:6fc63e4d1a1b8c6564cfaaeabf378b05cdf49336a90189d76df005175060690d597b069801c0c39b9c60573a6fba29e7646274224b3007bd7f72c95871114cf2#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:6fc63e4d1a1b8c6564cfaaeabf378b05cdf49336a90189d76df005175060690d597b069801c0c39b9c60573a6fba29e7646274224b3007bd7f72c95871114cf2#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9449,6 +9457,7 @@ const RAW_RUNTIME_STATE =
+@@ -9441,6 +9449,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -104,7 +104,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:4ff153bc11101851444cc464184bde5e42ffd55b3939421c30a4c2b69483c3267c1680de4a4c00a49c98cbbe35e70111bb3c26f5ce8836b703c15cd5b753451a#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:4ff153bc11101851444cc464184bde5e42ffd55b3939421c30a4c2b69483c3267c1680de4a4c00a49c98cbbe35e70111bb3c26f5ce8836b703c15cd5b753451a#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9500,6 +9509,7 @@ const RAW_RUNTIME_STATE =
+@@ -9492,6 +9501,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -112,7 +112,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:b4c0e602e8ac4e01a7b08db41bb5808da767dd1f6802758faa5125fb2423614bb0a8806ee1b30c3a0769f86da15ad37377f5118d93cd93fa48df0008a448fb35#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:b4c0e602e8ac4e01a7b08db41bb5808da767dd1f6802758faa5125fb2423614bb0a8806ee1b30c3a0769f86da15ad37377f5118d93cd93fa48df0008a448fb35#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9551,6 +9561,7 @@ const RAW_RUNTIME_STATE =
+@@ -9543,6 +9553,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -120,7 +120,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:f8376ca2bc11738adced76b97627e7eff07ec08f93f5b76caf8d6bd4f78f5ae9c1911cb9d1a0bd256ef3e0601dedeba933acf0d2381588b6513ee81e25626459#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:f8376ca2bc11738adced76b97627e7eff07ec08f93f5b76caf8d6bd4f78f5ae9c1911cb9d1a0bd256ef3e0601dedeba933acf0d2381588b6513ee81e25626459#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9602,6 +9613,7 @@ const RAW_RUNTIME_STATE =
+@@ -9594,6 +9605,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -128,7 +128,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:2351fd5ac4f83ad35b714d8af9fdeea561ada341d529d0dba50742dd5735dc3750df6c56bd680e14833d5b987026a1eab6618211ea0ef1b34b727372b3c77bc9#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:2351fd5ac4f83ad35b714d8af9fdeea561ada341d529d0dba50742dd5735dc3750df6c56bd680e14833d5b987026a1eab6618211ea0ef1b34b727372b3c77bc9#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9653,6 +9665,7 @@ const RAW_RUNTIME_STATE =
+@@ -9645,6 +9657,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -136,7 +136,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9704,6 +9717,7 @@ const RAW_RUNTIME_STATE =
+@@ -9696,6 +9709,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -144,7 +144,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:d1d72d9e3903ca8b8d9c23a360395cc764db2689e5992ef9af91c79f03a839db10ec675af9e4c1c8f4842aff1a614eb5b115fcc0afe8256630151ef1252de94b#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:d1d72d9e3903ca8b8d9c23a360395cc764db2689e5992ef9af91c79f03a839db10ec675af9e4c1c8f4842aff1a614eb5b115fcc0afe8256630151ef1252de94b#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9755,6 +9769,7 @@ const RAW_RUNTIME_STATE =
+@@ -9747,6 +9761,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -152,7 +152,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:ce4dc3135569e847b88addae1199f9468fb0b37867e1a86ba6725f71b9df587a8ae43356ae86c3bfe3b0cbbf07dcf8c1a4a95199810d9f20df387eec0a1e1965#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:ce4dc3135569e847b88addae1199f9468fb0b37867e1a86ba6725f71b9df587a8ae43356ae86c3bfe3b0cbbf07dcf8c1a4a95199810d9f20df387eec0a1e1965#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9806,6 +9821,7 @@ const RAW_RUNTIME_STATE =
+@@ -9798,6 +9813,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -160,7 +160,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:7b82ac5a3734606065dc76f117982c681b5b5076260acfcac869c687f06db0b8c08eae0998f419d64b9e59f6c816bcc70e067c87fa32ffe9cb979faf85cd80b4#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:7b82ac5a3734606065dc76f117982c681b5b5076260acfcac869c687f06db0b8c08eae0998f419d64b9e59f6c816bcc70e067c87fa32ffe9cb979faf85cd80b4#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9857,6 +9873,7 @@ const RAW_RUNTIME_STATE =
+@@ -9849,6 +9865,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -168,7 +168,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:a7c38e9a420fd3b408ea245831c2c9f0e880eac64b268fab3219f5f0b1d6015f44b1f92d23aabfc6e980bbbbda00a23e9faa983fb98544fab94119ccd31f2440#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:a7c38e9a420fd3b408ea245831c2c9f0e880eac64b268fab3219f5f0b1d6015f44b1f92d23aabfc6e980bbbbda00a23e9faa983fb98544fab94119ccd31f2440#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9908,6 +9925,7 @@ const RAW_RUNTIME_STATE =
+@@ -9900,6 +9917,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -176,7 +176,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:10635d85d43c1773f587c2d6565f7a30c3bff1c16e39550dcdd44b3745dd69317ced5e20de16484758df2d6dc9314da646bf356d1ef8485a0dcd939b71a3327c#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:10635d85d43c1773f587c2d6565f7a30c3bff1c16e39550dcdd44b3745dd69317ced5e20de16484758df2d6dc9314da646bf356d1ef8485a0dcd939b71a3327c#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -9959,6 +9977,7 @@ const RAW_RUNTIME_STATE =
+@@ -9951,6 +9969,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -184,7 +184,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:b63ad861025672af62aed0e7c80dca4cfce3194ca046161e54fc14c498c39e3b82004ea844489c7a58d2f1a31867f388bf25b8128f5ccce46f35305e1f91e9ab#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:b63ad861025672af62aed0e7c80dca4cfce3194ca046161e54fc14c498c39e3b82004ea844489c7a58d2f1a31867f388bf25b8128f5ccce46f35305e1f91e9ab#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10010,6 +10029,7 @@ const RAW_RUNTIME_STATE =
+@@ -10002,6 +10021,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -192,7 +192,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:adaf1cec8728346f1bf6a263f1954625a52d60518b8d2084da8a926203282105d2b95fb9da84922062af8d4fc84b8a1c39f220238424024e56f55577bdbc7208#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:adaf1cec8728346f1bf6a263f1954625a52d60518b8d2084da8a926203282105d2b95fb9da84922062af8d4fc84b8a1c39f220238424024e56f55577bdbc7208#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10039,6 +10059,58 @@ const RAW_RUNTIME_STATE =
+@@ -10031,6 +10051,58 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -251,7 +251,7 @@ Index: .pnp.cjs
        ["virtual:e3ce0ce4b7f0796ca44011528cb9cdc133fc62a76363fea6de68497bae04bdbe5a6dd47e6b9f23c282eb8e4533d75e96cf378c943d07a4e78aae0b715f06a450#workspace:packages/yarnpkg-cli", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-cli-virtual-c4bd2716e3/1/packages/yarnpkg-cli/",\
          "packageDependencies": [\
-@@ -10061,6 +10133,7 @@ const RAW_RUNTIME_STATE =
+@@ -10053,6 +10125,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -259,7 +259,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:c4bd2716e35986fb2e70f5fba6e9570c69eceabc69282df5bcff5d22c6b7d0e696d0cfb4bcbd9a20675fe3e2eb6192b59d41b97baa8b27e1d474b94eeda3f778#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:c4bd2716e35986fb2e70f5fba6e9570c69eceabc69282df5bcff5d22c6b7d0e696d0cfb4bcbd9a20675fe3e2eb6192b59d41b97baa8b27e1d474b94eeda3f778#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10112,6 +10185,7 @@ const RAW_RUNTIME_STATE =
+@@ -10104,6 +10177,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -267,7 +267,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:45a6746f11cef24d8db9429cc5650999571e6bb77a8cfb3904a0e832f542be35246ec490516049308ca15b8678eb03bcf394199e514a8145ec32731af7235c91#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:45a6746f11cef24d8db9429cc5650999571e6bb77a8cfb3904a0e832f542be35246ec490516049308ca15b8678eb03bcf394199e514a8145ec32731af7235c91#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10163,6 +10237,7 @@ const RAW_RUNTIME_STATE =
+@@ -10155,6 +10229,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -275,7 +275,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:16f564b30745199d7e07a913c371ce0c078051290c6e08b972f07b3f1bf057a6993fe67b7c6ee24931d0b1dd67e1274151612081733a79b961dd8336318fdfb9#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:16f564b30745199d7e07a913c371ce0c078051290c6e08b972f07b3f1bf057a6993fe67b7c6ee24931d0b1dd67e1274151612081733a79b961dd8336318fdfb9#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10213,6 +10288,7 @@ const RAW_RUNTIME_STATE =
+@@ -10205,6 +10280,7 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-github", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-github"],\
            ["@yarnpkg/plugin-http", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-http"],\
@@ -283,7 +283,7 @@ Index: .pnp.cjs
            ["@yarnpkg/plugin-init", "virtual:4864d30fc563f2fd1b72a5e3869493c5f50bf38f98ed3886173d80c044d981c3f68220dbf17f2b5fc5b4c5fba7d0af2e003926efe3487086484049f41c449852#workspace:packages/plugin-init"],\
            ["@yarnpkg/plugin-interactive-tools", "virtual:4864d30fc563f2fd1b72a5e3869493c5f50bf38f98ed3886173d80c044d981c3f68220dbf17f2b5fc5b4c5fba7d0af2e003926efe3487086484049f41c449852#workspace:packages/plugin-interactive-tools"],\
            ["@yarnpkg/plugin-jsr", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-jsr"],\
-@@ -10651,6 +10727,25 @@ const RAW_RUNTIME_STATE =
+@@ -10642,6 +10718,25 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -309,7 +309,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-catalog", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-catalog-virtual-b2250c1a95/1/packages/plugin-catalog/",\
          "packageDependencies": [\
-@@ -11039,6 +11134,32 @@ const RAW_RUNTIME_STATE =
+@@ -11030,6 +11125,32 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -342,7 +342,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-compat", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-compat-virtual-b605a03544/1/packages/plugin-compat/",\
          "packageDependencies": [\
-@@ -11549,6 +11670,30 @@ const RAW_RUNTIME_STATE =
+@@ -11540,6 +11661,30 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -373,7 +373,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-constraints", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-constraints-virtual-5d5cf1382d/1/packages/plugin-constraints/",\
          "packageDependencies": [\
-@@ -12015,6 +12160,26 @@ const RAW_RUNTIME_STATE =
+@@ -12006,6 +12151,26 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -400,7 +400,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-dlx", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-dlx-virtual-5344893080/1/packages/plugin-dlx/",\
          "packageDependencies": [\
-@@ -12435,6 +12600,39 @@ const RAW_RUNTIME_STATE =
+@@ -12426,6 +12591,39 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -440,7 +440,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-essentials", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-essentials-virtual-a61608b862/1/packages/plugin-essentials/",\
          "packageDependencies": [\
-@@ -13237,6 +13435,462 @@ const RAW_RUNTIME_STATE =
+@@ -13228,6 +13426,462 @@ const RAW_RUNTIME_STATE =
          "linkType": "SOFT"\
        }]\
      ]],\
@@ -903,7 +903,7 @@ Index: .pnp.cjs
      ["@yarnpkg/plugin-init", [\
        ["virtual:10635d85d43c1773f587c2d6565f7a30c3bff1c16e39550dcdd44b3745dd69317ced5e20de16484758df2d6dc9314da646bf356d1ef8485a0dcd939b71a3327c#workspace:packages/plugin-init", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-init-virtual-634b5aefbf/1/packages/plugin-init/",\
-@@ -13278,6 +13932,26 @@ const RAW_RUNTIME_STATE =
+@@ -13269,6 +13923,26 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -930,7 +930,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-init", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-init-virtual-29dac376fa/1/packages/plugin-init/",\
          "packageDependencies": [\
-@@ -13700,6 +14374,40 @@ const RAW_RUNTIME_STATE =
+@@ -13693,6 +14367,40 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -971,7 +971,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-interactive-tools", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-interactive-tools-virtual-6223598c4e/1/packages/plugin-interactive-tools/",\
          "packageDependencies": [\
-@@ -14409,6 +15117,32 @@ const RAW_RUNTIME_STATE =
+@@ -14420,6 +15128,32 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1004,7 +1004,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-nm", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-nm-virtual-78470cf5ab/1/packages/plugin-nm/",\
          "packageDependencies": [\
-@@ -14954,6 +15688,34 @@ const RAW_RUNTIME_STATE =
+@@ -14965,6 +15699,34 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1039,7 +1039,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-npm", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-npm-virtual-d10a34a30c/1/packages/plugin-npm/",\
          "packageDependencies": [\
-@@ -15549,6 +16311,41 @@ const RAW_RUNTIME_STATE =
+@@ -15560,6 +16322,41 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1081,7 +1081,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-npm-cli", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-npm-cli-virtual-fbc568d9bb/1/packages/plugin-npm-cli/",\
          "packageDependencies": [\
-@@ -16249,6 +17046,31 @@ const RAW_RUNTIME_STATE =
+@@ -16260,6 +17057,31 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1113,7 +1113,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-pack", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-pack-virtual-1fc8c38f0d/1/packages/plugin-pack/",\
          "packageDependencies": [\
-@@ -17074,6 +17896,27 @@ const RAW_RUNTIME_STATE =
+@@ -17085,6 +17907,27 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1141,7 +1141,7 @@ Index: .pnp.cjs
        ["virtual:f4e4f4a9a0213f122880195b39adaee7de5cb560c1d806ebc8bace6a3124e5b8f820bbb89ebecd4d535caeb6f527d343143210aa405689c118ff2813b78998a0#workspace:packages/plugin-patch", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-patch-virtual-b67eefea63/1/packages/plugin-patch/",\
          "packageDependencies": [\
-@@ -17179,6 +18022,30 @@ const RAW_RUNTIME_STATE =
+@@ -17190,6 +18033,30 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1172,7 +1172,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-pnp", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-pnp-virtual-42bad15125/1/packages/plugin-pnp/",\
          "packageDependencies": [\
-@@ -17651,6 +18518,29 @@ const RAW_RUNTIME_STATE =
+@@ -17662,6 +18529,29 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1202,7 +1202,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-pnpm", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-pnpm-virtual-8e25c8ad3a/1/packages/plugin-pnpm/",\
          "packageDependencies": [\
-@@ -18101,6 +18991,27 @@ const RAW_RUNTIME_STATE =
+@@ -18112,6 +19002,27 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1230,7 +1230,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-stage", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-stage-virtual-0ff42ca648/1/packages/plugin-stage/",\
          "packageDependencies": [\
-@@ -18531,6 +19442,35 @@ const RAW_RUNTIME_STATE =
+@@ -18542,6 +19453,35 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1266,7 +1266,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-typescript", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-typescript-virtual-c917949672/1/packages/plugin-typescript/",\
          "packageDependencies": [\
-@@ -19110,6 +20050,39 @@ const RAW_RUNTIME_STATE =
+@@ -19121,6 +20061,39 @@ const RAW_RUNTIME_STATE =
          ],\
          "linkType": "SOFT"\
        }],\
@@ -1306,7 +1306,7 @@ Index: .pnp.cjs
        ["virtual:1c3d72c6b31a8950672985f8306a860ecc80c9a006aac95cf4a7ba13a6e7cc4e095e37186a53c9909e9efe97bc0f7f570a74b3879778e2a2356cdcf407120006#workspace:packages/plugin-version", {\
          "packageLocation": "./.yarn/__virtual__/@yarnpkg-plugin-version-virtual-49806834b3/1/packages/plugin-version/",\
          "packageDependencies": [\
-@@ -19738,6 +20711,36 @@ const RAW_RUNTIME_STATE =
+@@ -19749,6 +20722,36 @@ const RAW_RUNTIME_STATE =
            ["@yarnpkg/fslib", "workspace:packages/yarnpkg-fslib"],\
            ["@yarnpkg/plugin-git", "virtual:54c8b951e743ea46368d98ac86d4c1ac7d1aa57c9d31cbf6424fa2d918257654f26f71d51dbfe63844c533e97635ff97de50fd37e6e4bf74f2603a98754d6d22#workspace:packages/plugin-git"],\
            ["@yarnpkg/plugin-workspace-tools", "virtual:16f564b30745199d7e07a913c371ce0c078051290c6e08b972f07b3f1bf057a6993fe67b7c6ee24931d0b1dd67e1274151612081733a79b961dd8336318fdfb9#workspace:packages/plugin-workspace-tools"],\

@@ -1,6 +1,6 @@
 COMMENT =	fast, reliable, and secure dependency management for node.js
 
-V =		4.12.0
+V =		4.14.1
 DISTNAME =	berry--yarnpkg-cli-${V}
 PKGNAME =	berry-${V}
 DIST_TUPLE =	github yarnpkg berry @yarnpkg/cli/${V} .
@@ -16,8 +16,12 @@ PERMIT_PACKAGE =	Yes
 
 RUN_DEPENDS =		lang/node
 
+PORTHOME =		${WRKDIR}/vendor
+
 do-build:
-	cd ${WRKSRC} && node ./scripts/run-yarn.js build:cli
+	mkdir -p ${PORTHOME}
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		node ./scripts/run-yarn.js build:cli
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/node/berry
@@ -26,5 +30,9 @@ do-install:
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/lib/node
 	ln -s ../lib/node/berry/packages/yarnpkg-cli/bundles/yarn.js \
 		${PREFIX}/bin/berry
+
+do-test:
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		node ./scripts/run-yarn.js test:unit
 
 .include <bsd.port.mk>

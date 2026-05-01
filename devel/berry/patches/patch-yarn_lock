@@ -1,7 +1,7 @@
 Index: yarn.lock
 --- yarn.lock.orig
 +++ yarn.lock
-@@ -5838,6 +5838,7 @@ __metadata:
+@@ -5832,6 +5832,7 @@ __metadata:
      "@yarnpkg/plugin-git": "workspace:^"
      "@yarnpkg/plugin-github": "workspace:^"
      "@yarnpkg/plugin-http": "workspace:^"
@@ -9,7 +9,7 @@ Index: yarn.lock
      "@yarnpkg/plugin-init": "workspace:^"
      "@yarnpkg/plugin-interactive-tools": "workspace:^"
      "@yarnpkg/plugin-jsr": "workspace:^"
-@@ -6321,6 +6322,23 @@ __metadata:
+@@ -6314,6 +6315,23 @@ __metadata:
      "@yarnpkg/core": "workspace:^"
      tslib: "npm:^2.4.0"
    peerDependencies:

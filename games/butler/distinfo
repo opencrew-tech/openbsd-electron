@@ -1,4 +1,4 @@
-SHA256 (.zip) = Kch3eMc7V636ah4Bs2Hq1Ddb9a9o5DjfLvJJv6TIBbs=
+SHA256 (butler-15.26.1.zip) = Kch3eMc7V636ah4Bs2Hq1Ddb9a9o5DjfLvJJv6TIBbs=
 SHA256 (go_modules/crawshaw.io/iox/@v/v0.0.0-20181124134642-c51c3df30797.mod) = cv6XYqZMpq6QmcJUR8VVaIPaJJtcNh+tC6bg9mtPUFk=
 SHA256 (go_modules/crawshaw.io/iox/@v/v0.0.0-20181124134642-c51c3df30797.zip) = c2ELIMbuwDR+eOdVBjPenJNvYMpQcIY6mNTwClQj8p4=
 SHA256 (go_modules/crawshaw.io/sqlite/@v/v0.2.5.mod) = MYu7kg9Nfcpn6F/AuoJN1pC7jY27IIJhHkZV9tUZ0f8=
@@ -446,7 +446,7 @@ SHA256 (go_modules/rsc.io/goversion/@v/v1.2.0.zip) = +EJvYHix0bTimoxiI2A2gBacfAq
 SHA256 (go_modules/xorm.io/builder/@v/v0.3.6.mod) = wwbZt0aS0bHyBHAyH4wSLDz1Qz5ObtIUwYpVtAAkQcQ=
 SHA256 (go_modules/xorm.io/builder/@v/v0.3.7.mod) = 5lfkTEm6NqDL1K+QLGscfGKhpuD9IIHR+AcmjONpvEw=
 SHA256 (go_modules/xorm.io/builder/@v/v0.3.7.zip) = zOAab7oShtqbliNkwqwDJay+m/O/71I8/3QEWs9KZRI=
-SIZE (.zip) = 10261179
+SIZE (butler-15.26.1.zip) = 10261179
 SIZE (go_modules/crawshaw.io/iox/@v/v0.0.0-20181124134642-c51c3df30797.mod) = 23
 SIZE (go_modules/crawshaw.io/iox/@v/v0.0.0-20181124134642-c51c3df30797.zip) = 20722
 SIZE (go_modules/crawshaw.io/sqlite/@v/v0.2.5.mod) = 95

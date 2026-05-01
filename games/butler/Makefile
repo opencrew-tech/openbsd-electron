@@ -1,13 +1,8 @@
 COMMENT =	command-line itch.io helper
 
 MODGO_MODNAME =	github.com/itchio/butler
-# go mod init tmp && go get github.com/itchio/butler@${H}
+# go mod init tmp && go get github.com/itchio/butler@${H} (commit hash of ${V})
 MODGO_VERSION =	v1.9.1-0.20260226193558-8557c8e5baf2
-V =		15.26.1
-# DISTNAME should not include suffix (like .tar.gz .tgz .tar.bz2 etc.)
-#DISTNAME =	butler-${V}
-# PKGNAME defaults to DISTNAME unless changed
-PKGNAME =	butler-${V}
 
 CATEGORIES =	games
 
@@ -16,11 +11,15 @@ HOMEPAGE =	https://github.com/itchio/butler
 MAINTAINER=	Fabien Romano <fabien@openbsd.org>
 
 # MIT
-PERMIT_PACKAGE =Yes
+PERMIT_PACKAGE =	Yes
 
 WANTLIB += c m pthread
 
 MODULES =		lang/go
+
+# play some tricks to use github version and allow proper portroach detection
+DISTNAME =	butler-15.26.1
+WRKDIST =	${WRKDIR}
 
 # keep buildinfo in sync with upstream release/build.js
 MODGO_BUILDINFO =	${MODGO_MODNAME}/buildinfo
@@ -31,44 +30,7 @@ MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.Version=${V}
 MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.BuiltAt=${MODGO_BUILT_AT}
 MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.Commit=${MODGO_VERSION_COMMIT}
 
-# Dependencies
-#BUILD_DEPENDS =	???
-#RUN_DEPENDS =		???
-#LIB_DEPENDS =		???
-#TEST_DEPENDS =		???
-
-#MAKE_FLAGS =		???
-#MAKE_ENV =		???
-#FAKE_FLAGS =		???
-#TEST_FLAGS =		???
-
-# Is the build automagic or is it interactive
-#
-#IS_INTERACTIVE =		Yes
-#TEST_IS_INTERACTIVE =		Yes
-
-# Things that we don't want to do for this port/package
-# Generally, DON'T set anything to No if it's not needed.
-# The time gained is not worth it.
-#
-#NO_BUILD =		Yes
-#NO_TEST =		Yes
-
-# Overrides for default values
-#
-#CFLAGS =		???
-#LDFLAGS =		???
-#MAKE_FILE =		???
-#PKG_ARCH =		??? (* for arch-independent packages)
-#WRKDIST =		??? if other than ${WRKDIR}/${DISTNAME}
-#WRKSRC =		??? if other than ${WRKDIST}
-#WRKBUILD =		??? if other than ${WRKSRC}
-#WRKCONF =		??? if other than ${WRKBUILD}
-
-#ALL_TARGET =		???
-#INSTALL_TARGET =	???
-#TEST_TARGET =		???
-
+# modgo doesn't support depends patches, use hotfix instead of patches
 post-configure:
 	# hotfix github.com/itchio/screw (reuse linux implementation)
 	@SCREW_DIR=$$( cd ${WRKSRC} && ${MODGO_LIST_CMD} -f '{{.Dir}}' \

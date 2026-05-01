@@ -1,0 +1,13 @@
+Index: build/lib/copilot.ts
+--- build/lib/copilot.ts.orig
++++ build/lib/copilot.ts
+@@ -126,6 +126,9 @@ export function prepareBuiltInCopilotExtensionShims(pl
+ 	const { nodePlatform, nodeArch } = toNodePlatformArch(platform, arch);
+ 	const platformArch = `${nodePlatform}-${nodeArch}`;
+ 
++	console.log(`[prepareBuiltInCopilotExtensionShims] Skip shims for ${platformArch} in ${builtInCopilotExtensionDir}`);
++	return;
++
+ 	const extensionNodeModules = path.join(builtInCopilotExtensionDir, 'node_modules');
+ 	const copilotBase = path.join(extensionNodeModules, '@github', 'copilot');
+ 	const copilotSdkBase = path.join(copilotBase, 'sdk');

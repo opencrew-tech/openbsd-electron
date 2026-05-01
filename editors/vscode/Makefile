@@ -7,8 +7,8 @@ PORTROACH =		skipv:1.999.0
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.115.0
-COMMIT=			41dd792b5e652393e7787322889ed5fdc58bd75b
+V=			1.117.0
+COMMIT=			10c8e557c8b9f9ed0a87f61f1c9a44bde731c409
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -24,7 +24,7 @@ PERMIT_PACKAGE=		Yes
 
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
-			js-debug js-debug 1.112.0 \
+			js-debug js-debug 1.117.0 \
 			js-profile-visualizer vscode-js-profile-table 1.0.10
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
 DISTFILES.exts+= \
@@ -43,16 +43,16 @@ EXTRACT_CASES+=		*.vsix) \
 	${UNZIP} -oq ${FULLDISTDIR}/$$archive \
 		-d ${WRKDIR}/$${_filename%.vsix} ;;
 
-WANTLIB += ${COMPILER_LIBCXX} c m notify util
+WANTLIB += ${COMPILER_LIBCXX} m
 
 COMPILER=		base-clang ports-gcc
 
 MODULES=		devel/npm \
 			lang/python \
-			security/heimdal \
 			www/electron
 
 # XXX drop MODULES security/heimdal and select minimum depends ?
+MODULES+=		security/heimdal
 #WANTLIB+= 		heimdal/lib/gssapi heimdal/lib/krb5
 #LIB_DEPENDS+=		security/heimdal,-libs
 
@@ -61,8 +61,6 @@ MODPY_RUNDEP=		No
 MODNPM_TARGETS=		${WRKSRC}/css-parser \
 			${WRKSRC} \
 			${VSCODE_TARGETS:=${WRKSRC}/%}
-MODNPM_BUILD=		No
-MODNPM_INSTALL=		No
 
 # optional depends keytar for @vscode/vsce, which is not installed
 # keytar needs x11/gnome/libsecret to build
@@ -86,6 +84,7 @@ MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
 MODNPM_MODS+=@parcel/watcher
 MODNPM_MODS+=rollup
+MODNPM_MODS+=@typescript/native-preview
 MODNPM_MODS+=lightningcss
 
 MODELECTRON_TARGET=	code-oss
@@ -101,12 +100,15 @@ RUN_DEPENDS=		devel/desktop-file-utils \
 			devel/xdg-utils \
 			shells/bash \
 			textproc/ripgrep
-LIB_DEPENDS=		devel/libnotify
+LIB_DEPENDS=		devel/libnotify \
+			security/openssl/3.5
 
 USE_GMAKE=		Yes
 
-CXXFLAGS+=		-I${LOCALBASE}/include/inotify
-LDFLAGS+=		-L${LOCALBASE}/lib
+CXXFLAGS+=		-I${LOCALBASE}/include/inotify \
+			-I${LOCALBASE}/include/eopenssl35
+LDFLAGS+=		-L${LOCALBASE}/lib \
+			-L${LOCALBASE}/lib/eopenssl35
 
 MAKE_ENV+=		BUILD_SOURCEVERSION=${COMMIT}
 
@@ -116,61 +118,11 @@ MAKE_ENV+=		PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
 
 MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 
-# XXX VSCODE_SKIP_PRELAUNCH=1, test only ? needed ?
+TEST_ENV+=		DISPLAY=:1 \
+			VSCODE_SKIP_PRELAUNCH=1
 
-# make gen-targets
-VSCODE_TARGETS+=
-VSCODE_TARGETS+=build
-VSCODE_TARGETS+=build/vite
-VSCODE_TARGETS+=extensions
-VSCODE_TARGETS+=extensions/configuration-editing
-VSCODE_TARGETS+=extensions/css-language-features
-VSCODE_TARGETS+=extensions/css-language-features/server
-VSCODE_TARGETS+=extensions/debug-auto-launch
-VSCODE_TARGETS+=extensions/debug-server-ready
-VSCODE_TARGETS+=extensions/emmet
-VSCODE_TARGETS+=extensions/extension-editing
-VSCODE_TARGETS+=extensions/git
-VSCODE_TARGETS+=extensions/git-base
-VSCODE_TARGETS+=extensions/github
-VSCODE_TARGETS+=extensions/github-authentication
-VSCODE_TARGETS+=extensions/grunt
-VSCODE_TARGETS+=extensions/gulp
-VSCODE_TARGETS+=extensions/html-language-features
-VSCODE_TARGETS+=extensions/html-language-features/server
-VSCODE_TARGETS+=extensions/ipynb
-VSCODE_TARGETS+=extensions/jake
-VSCODE_TARGETS+=extensions/json-language-features
-VSCODE_TARGETS+=extensions/json-language-features/server
-VSCODE_TARGETS+=extensions/markdown-language-features
-VSCODE_TARGETS+=extensions/markdown-math
-VSCODE_TARGETS+=extensions/media-preview
-VSCODE_TARGETS+=extensions/merge-conflict
-VSCODE_TARGETS+=extensions/mermaid-chat-features
-VSCODE_TARGETS+=extensions/microsoft-authentication
-VSCODE_TARGETS+=extensions/notebook-renderers
-VSCODE_TARGETS+=extensions/npm
-VSCODE_TARGETS+=extensions/php-language-features
-VSCODE_TARGETS+=extensions/references-view
-VSCODE_TARGETS+=extensions/search-result
-VSCODE_TARGETS+=extensions/simple-browser
-VSCODE_TARGETS+=extensions/tunnel-forwarding
-VSCODE_TARGETS+=extensions/terminal-suggest
-VSCODE_TARGETS+=extensions/typescript-language-features
-VSCODE_TARGETS+=extensions/vscode-api-tests
-VSCODE_TARGETS+=extensions/vscode-colorize-tests
-VSCODE_TARGETS+=extensions/vscode-colorize-perf-tests
-VSCODE_TARGETS+=extensions/vscode-test-resolver
-VSCODE_TARGETS+=remote
-VSCODE_TARGETS+=remote/web
-VSCODE_TARGETS+=test/automation
-VSCODE_TARGETS+=test/integration/browser
-VSCODE_TARGETS+=test/monaco
-VSCODE_TARGETS+=test/smoke
-VSCODE_TARGETS+=test/mcp
-VSCODE_TARGETS+=.vscode/extensions/vscode-selfhost-import-aid
-VSCODE_TARGETS+=.vscode/extensions/vscode-selfhost-test-provider
-VSCODE_TARGETS+=.vscode/extensions/vscode-extras
+# make gen-targets > Makefile.inc
+.include "Makefile.inc"
 
 post-patch:
 	# inject LOCALBASE for system path
@@ -195,7 +147,6 @@ post-extract:
 	cp ${WRKSRC}/build/.moduleignore{.linux,.openbsd}
 
 do-configure:
-	mkdir -p ${WRKDIR}/tmp
 	# preset desktop files
 	sed -i.bak \
 		's/@@NAME_LONG@@/${MODELECTRON_APP_NAME}/; \
@@ -233,20 +184,17 @@ pre-build:
 	rm -rf ${WRKSRC}/node_modules/kerberos/build/Release/obj.target
 
 do-build:
-	# build and package vscode
-# XXX, vscode moved to tsgo
-#	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
-#		node ./node_modules/typescript/bin/tsc \
-#		-p build/tsconfig.build.json
+	# force graceful-fs to overcome fd limits
 	echo "require('graceful-fs').gracefulify(require('fs'));" \
 		> ${WRKSRC}/use-graceful-fs.cjs
-	ulimit -d $$(ulimit -Hd) && \
-	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+	# build and package vscode
+	cd ${WRKSRC} && \
+	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} \
 		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
-		ESBUILD_MAX_THREADS=1 \
-		node --max-old-space-size=8192 \
-		./node_modules/gulp/bin/gulp.js \
-		vscode-linux-${ELECTRON_ARCH}-min
+		${MODNPM_BIN} run compile && \
+	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} \
+		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
+		${MODNPM_BIN} run gulp vscode-linux-${ELECTRON_ARCH}-min
 	# copy marketplace extensions
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
 	_dst='${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}/extensions' && \
@@ -260,7 +208,8 @@ do-install:
 	${MODELECTRON_UNVEIL_INSTALL}
 	# resources
 	${INSTALL_DATA_DIR} ${PREFIX}/${MODELECTRON_DIST_T}
-	@cp -Rp ${WRKDIR}/VSCode-linux-x64/* ${PREFIX}/${MODELECTRON_DIST_T}/
+	@cp -Rp ${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}/* \
+		${PREFIX}/${MODELECTRON_DIST_T}/
 	@chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/${MODELECTRON_DIST_T}
 	@rm -rf ${PREFIX}/${MODELECTRON_DIST_T}/bin
 	@rm -rf ${PREFIX}/${MODELECTRON_DIST_T}/resources/completions
@@ -280,7 +229,7 @@ do-install:
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
 
 pre-test:
-	# rebuild native node modules
+	# rebuild native node modules (including tests)
 .for _DIR in ./ ${VSCODE_TARGETS}
 	@if [ "`echo ${_DIR} | grep -e test -e .vscode`" ]; then \
 		echo "===>  Rebuild native electron modules in ${_DIR}" ; \
@@ -288,34 +237,89 @@ pre-test:
 			${ELECTRON_REBUILD_ENV} npm rebuild ${MODNPM_ARGS} ; \
 	fi
 .endfor
-	# setup electron dependency for unit tests
-	mkdir -p ${WRKSRC}/.build/electron
-	mkdir -p ${WRKDIR}/.config/electron
-# XXX not ok 95 app module sandbox options
-# Unhandled exception in main spec runner:... to not include '--no-sandbox'
-	cp ${LOCALBASE}/electron/${ELECTRON_V}/electron_nosandbox.sh \
-		${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
-#	cp ${TRUEPREFIX}/bin/electron \
-#		${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
+# build/azure-pipelines/linux/steps/product-build-linux-compile.yml
+	# force graceful-fs to overcome fd limits during test builds
+	echo "require('graceful-fs').gracefulify(require('fs'));" \
+		> ${WRKSRC}/use-graceful-fs.cjs
+# XXX run core-ci instead of gulp compile-build-without-mangling ?
+	# Compile
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
+		ESBUILD_MAX_THREADS=1 \
+		${MODNPM_BIN} run gulp compile-build-without-mangling
+	# Compile test suites
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		${MODNPM_BIN} run compile --prefix test/smoke
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		${MODNPM_BIN} run compile --prefix test/integration/browser
+	# compile integration test extensions
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		NODE_OPTIONS="--require ${WRKSRC}/use-graceful-fs.cjs" \
+		ESBUILD_MAX_THREADS=1 \
+		${MODNPM_BIN} run gulp \
+			compile-extension:configuration-editing \
+			compile-extension:css-language-features-server \
+			compile-extension:emmet \
+			compile-extension:git \
+			compile-extension:github-authentication \
+			compile-extension:html-language-features-server \
+			compile-extension:ipynb \
+			compile-extension:notebook-renderers \
+			compile-extension:json-language-features-server \
+			compile-extension:markdown-language-features \
+			compile-extension-media \
+			compile-extension:microsoft-authentication \
+			compile-extension:typescript-language-features \
+			compile-extension:vscode-api-tests \
+			compile-extension:vscode-colorize-tests \
+			compile-extension:vscode-colorize-perf-tests \
+			compile-extension:vscode-test-resolver
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
 	_dst='${WRKSRC}/.build/builtInExtensions' && \
 	mkdir -p $${_dst}/ms-vscode.${_ext} && \
 	cp -Rp ${WRKDIR}/ms-vscode.${_ext}*${_v}/extension/* \
 		$${_dst}/ms-vscode.${_ext}
 .endfor
+# openbsd glue for test
+	# setup electron dependency for unit tests
+	mkdir -p ${WRKSRC}/.build/electron
+	mkdir -p ${WRKDIR}/.config/electron
+# XXX not ok 95 app module sandbox options
+# Unhandled exception in main spec runner:... to not include '--no-sandbox'
+# XXX "<args>" break tests ?
+	cat ${LOCALBASE}/electron/${ELECTRON_V}/electron_nosandbox.sh \
+		| sed -e 's/"$${@}"/$${@}/' \
+		> ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
+# 	cat ${TRUEPREFIX}/bin/electron \
+# 		| sed -e 's/"$${@}"/$${@}/' \
+# 		> ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
+
+APP_ROOT=${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}
+APP_NAME=${MODELECTRON_TARGET}
 
 # XXX Xvfb :1 &
 # XXX nosandbox || unveil /
 do-test:
-	# unit tests
+# build/azure-pipelines/linux/steps/product-build-linux-test.yml
+# XXX no brower or remote version built
+	# Run unit tests (Electron)
+	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} VSCODE_PID=1 \
+		./scripts/test.sh --build
+	# Run unit tests (node.js)
+	cd ${WRKSRC} && ${MODNPM_CMD_TEST} run test-node -- --build
+	# Run integration tests (Electron)
 	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} \
-		DISPLAY=:1 ./scripts/test.sh || true
-#	# UI smoke tests
+		INTEGRATION_TEST_APP_NAME="${APP_NAME}" \
+		INTEGRATION_TEST_ELECTRON_PATH="${APP_ROOT}/${APP_NAME}" \
+		./scripts/test-integration.sh --build
+	# Run smoke tests (Electron)
 # XXX Error: Unsupported platform: openbsd
 # node_modules/playwright-core/lib/server/registry/index.js
 #	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 #		ELECTRON_PATH=${LOCALBASE}/bin/electron \
 #		npm run smoketest
+
+### targets for port maintainer(s)
 
 modnpm-pre-gen-modules:
 	cd ${WRKSRC} && \

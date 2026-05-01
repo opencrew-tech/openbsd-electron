@@ -1,0 +1,49 @@
+Handle(ignore) main script as first arguments.
+This happens because we run with --no-sandbox as first arg.
+
+Index: test/unit/electron/index.js
+--- test/unit/electron/index.js.orig
++++ test/unit/electron/index.js
+@@ -13,7 +13,7 @@ process.env.MOCHA_COLORS = '1';
+ const { app, BrowserWindow, ipcMain, crashReporter, session } = require('electron');
+ const product = require('../../../product.json');
+ const { tmpdir } = require('os');
+-const { existsSync, mkdirSync, promises } = require('fs');
++const { existsSync, mkdirSync, promises, realpathSync } = require('fs');
+ const path = require('path');
+ const mocha = require('mocha');
+ const events = require('events');
+@@ -87,8 +87,31 @@ Options:
+ 	process.exit(0);
+ }
+ 
+-// Treat bare .ts/.js positional arguments as --run values
+-const bareFiles = (args._ || []).filter(a => typeof a === 'string' && (a.endsWith('.ts') || a.endsWith('.js')));
++function normalizeArgPath(candidate) {
++	if (typeof candidate !== 'string' || candidate.length === 0) {
++		return undefined;
++	}
++
++	try {
++		return realpathSync.native ? realpathSync.native(candidate) : realpathSync(candidate);
++	} catch {
++		return path.resolve(candidate);
++	}
++}
++
++const selfPaths = new Set([
++	normalizeArgPath(__filename),
++	normalizeArgPath(process.argv[1]),
++].filter(Boolean));
++
++// Treat bare .ts/.js positional arguments as --run values, but ignore the launcher itself.
++const bareFiles = (args._ || []).filter(a => {
++	if (typeof a !== 'string' || (!a.endsWith('.ts') && !a.endsWith('.js'))) {
++		return false;
++	}
++
++	return !selfPaths.has(normalizeArgPath(a));
++});
+ if (bareFiles.length > 0) {
+ 	const existing = !args.run ? [] : Array.isArray(args.run) ? args.run : [args.run];
+ 	args.run = [...existing, ...bareFiles];

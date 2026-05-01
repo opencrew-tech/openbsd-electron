@@ -1,0 +1,13 @@
+Index: src/vs/workbench/contrib/debug/test/node/streamDebugAdapter.test.ts
+--- src/vs/workbench/contrib/debug/test/node/streamDebugAdapter.test.ts.orig
++++ src/vs/workbench/contrib/debug/test/node/streamDebugAdapter.test.ts
+@@ -80,7 +80,8 @@ suite('Debug - StreamDebugAdapter', () => {
+ 
+ 		const rndPort = Math.floor(Math.random() * 1000 + 8000);
+ 		const port = await ports.findFreePort(rndPort, 10 /* try 10 ports */, 3000 /* try up to 3 seconds */, 87 /* skip 87 ports between attempts */);
+-		const server = net.createServer(serverConnection).listen(port);
++		const server = net.createServer(serverConnection);
++		await new Promise<void>(resolve => server.listen(port, '127.0.0.1', resolve));
+ 		const debugAdapter = new SocketDebugAdapter({
+ 			type: 'server',
+ 			port

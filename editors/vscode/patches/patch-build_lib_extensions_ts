@@ -3,7 +3,7 @@ Serialize fromLocal() call to avoid resources exhaustion (SIGABRT).
 Index: build/lib/extensions.ts
 --- build/lib/extensions.ts.orig
 +++ build/lib/extensions.ts
-@@ -414,13 +414,27 @@ function doPackageLocalExtensionsStream(forWeb: boolea
+@@ -425,13 +425,27 @@ function doPackageLocalExtensionsStream(forWeb: boolea
  			.filter(({ name }) => builtInExtensions.every(b => b.name !== name))
  			.filter(({ manifestPath }) => (forWeb ? isWebExtension(require(manifestPath)) : true))
  	);

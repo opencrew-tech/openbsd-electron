@@ -18,7 +18,19 @@ Index: build/gulpfile.extensions.ts
  	task.define('bundle-non-native-extensions-build', () => ext.packageNonNativeLocalExtensionsStream(false, false).pipe(gulp.dest('.build')))
  ));
  gulp.task(compileNonNativeExtensionsBuildTask);
-@@ -285,7 +285,7 @@ gulp.task(compileNativeExtensionsBuildTask);
+@@ -283,8 +283,11 @@ gulp.task(compileNativeExtensionsBuildTask);
+  * Compiles the built-in copilot extension for the build.
+  * Used by non-CI local builds where copilot is not downloaded as a VSIX.
+  */
++/* XXX not yet
+ export const compileCopilotExtensionBuildTask = task.define('compile-copilot-extension-build', () => ext.packageCopilotExtensionStream(false).pipe(gulp.dest('.build')));
+ gulp.task(compileCopilotExtensionBuildTask);
++*/
++export const compileCopilotExtensionBuildTask = task.define('compile-copilot-extension-build', () => {});
+ 
+ /**
+  * Compiles the extensions for the build.
+@@ -292,7 +295,7 @@ gulp.task(compileCopilotExtensionBuildTask);
   */
  export const compileAllExtensionsBuildTask = task.define('compile-extensions-build', task.series(
  	cleanExtensionsBuildTask,

@@ -1,0 +1,47 @@
+XXX debug ESM host loader
+
+Index: src/vs/workbench/api/common/extHostExtensionService.ts
+--- src/vs/workbench/api/common/extHostExtensionService.ts.orig
++++ src/vs/workbench/api/common/extHostExtensionService.ts
+@@ -490,9 +490,11 @@ export abstract class AbstractExtHostExtensionService 
+ 				: this._loadCommonJSModule<IExtensionModule>(extensionDescription, joinPath(extensionDescription.extensionLocation, entryPoint), activationTimesBuilder),
+ 			this._loadExtensionContext(extensionDescription, extensionInternalStore)
+ 		]).then(values => {
++			this._logService.trace(`ExtensionService#loadModuleAndContextReady ${extensionDescription.identifier.value}`);
+ 			performance.mark(`code/extHost/willActivateExtension/${extensionDescription.identifier.value}`);
+ 			return AbstractExtHostExtensionService._callActivate(this._logService, extensionDescription.identifier, values[0], values[1], extensionInternalStore, activationTimesBuilder);
+ 		}).then((activatedExtension) => {
++			this._logService.trace(`ExtensionService#activateExtensionDone ${extensionDescription.identifier.value}`);
+ 			performance.mark(`code/extHost/didActivateExtension/${extensionDescription.identifier.value}`);
+ 			return activatedExtension;
+ 		});
+@@ -510,12 +512,14 @@ export abstract class AbstractExtHostExtensionService 
+ 		const extensionKind = this._initData.remote.isRemote ? ExtensionKind.Workspace : ExtensionKind.UI;
+ 
+ 		this._logService.trace(`ExtensionService#loadExtensionContext ${extensionDescription.identifier.value}`);
++		this._logService.trace(`ExtensionService#waitForExtensionContextStorage ${extensionDescription.identifier.value}`);
+ 
+ 		return Promise.all([
+ 			globalState.whenReady,
+ 			workspaceState.whenReady,
+ 			this._storagePath.whenReady
+ 		]).then(() => {
++			this._logService.trace(`ExtensionService#loadExtensionContextReady ${extensionDescription.identifier.value}`);
+ 			const that = this;
+ 			let extension: vscode.Extension<any> | undefined;
+ 
+@@ -592,11 +596,14 @@ export abstract class AbstractExtHostExtensionService 
+ 			try {
+ 				activationTimesBuilder.activateCallStart();
+ 				logService.trace(`ExtensionService#_callActivateOptional ${extensionId.value}`);
++				console.error('[ext-host-activate] start', extensionId.value);
+ 				const activateResult: Promise<IExtensionAPI> = extensionModule.activate.apply(globalThis, [context]);
+ 				activationTimesBuilder.activateCallStop();
++				console.error('[ext-host-activate] returned', extensionId.value);
+ 
+ 				activationTimesBuilder.activateResolveStart();
+ 				return Promise.resolve(activateResult).then((value) => {
++					console.error('[ext-host-activate] resolved', extensionId.value);
+ 					activationTimesBuilder.activateResolveStop();
+ 					return value;
+ 				});

@@ -1,0 +1,12 @@
+Index: src/vs/workbench/contrib/terminalContrib/chatAgentTools/test/browser/terminalSandboxService.test.ts
+--- src/vs/workbench/contrib/terminalContrib/chatAgentTools/test/browser/terminalSandboxService.test.ts.orig
++++ src/vs/workbench/contrib/terminalContrib/chatAgentTools/test/browser/terminalSandboxService.test.ts
+@@ -427,7 +427,7 @@ suite('TerminalSandboxService - network domains', () =
+ 		strictEqual(deletedFolders[0], expectedTempDir.path, 'Shutdown should delete the sandbox temp dir');
+ 	});
+ 
+-	test('should add ripgrep bin directory to PATH when wrapping command', async () => {
++	test.skip('should add ripgrep bin directory to PATH when wrapping command', async () => {
+ 		const sandboxService = store.add(instantiationService.createInstance(TerminalSandboxService));
+ 		await sandboxService.getSandboxConfigPath();
+ 

@@ -13,4 +13,4 @@ Index: package.json
 -    "postinstall": "node build/npm/postinstall.ts",
      "compile": "npm run gulp compile",
      "compile-check-ts-native": "tsgo --project ./src/tsconfig.json --noEmit --skipLibCheck",
-     "watch": "npm-run-all2 -lp watch-client-transpile watch-client watch-extensions",
+     "watch": "npm-run-all2 -lp watch-client-transpile watch-client watch-extensions watch-copilot",

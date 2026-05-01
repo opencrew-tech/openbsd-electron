@@ -1,0 +1,80 @@
+XXX debug ESM host loader
+
+Index: src/vs/workbench/api/node/extHostExtensionService.ts
+--- src/vs/workbench/api/node/extHostExtensionService.ts.orig
++++ src/vs/workbench/api/node/extHostExtensionService.ts
+@@ -84,17 +84,22 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 	// This string is a script that runs in the loader thread of NodeJS.
+ 	private static _loaderScript = `
+ 	let lookup;
++	const debug = (...args) => console.error('[esm-loader]', ...args);
+ 	export const initialize = async (context) => {
+ 		let requestIds = 0;
+ 		const { port } = context;
+ 		const pendingRequests = new Map();
++		debug('initialize:start');
+ 		port.onmessage = (event) => {
+ 			const { id, url } = event.data;
++			debug('initialize:response', id, url);
+ 			pendingRequests.get(id)?.(url);
++			pendingRequests.delete(id);
+ 		};
+ 		lookup = url => {
+ 			// debugger;
+ 			const myId = requestIds++;
++			debug('lookup:request', myId, url);
+ 			return new Promise((resolve) => {
+ 				pendingRequests.set(myId, resolve);
+ 				port.postMessage({ id: myId, url, });
+@@ -105,7 +110,9 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 		if (specifier !== 'vscode' || !context.parentURL) {
+ 			return nextResolve(specifier, context);
+ 		}
++		debug('resolve:enter', specifier, context.parentURL);
+ 		const otherUrl = await lookup(context.parentURL);
++		debug('resolve:resolved', specifier, context.parentURL, otherUrl);
+ 		return {
+ 			url: otherUrl,
+ 			shortCircuit: true,
+@@ -146,6 +153,7 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 		const port1LayerCheckerWorkaround: any = port1;
+ 
+ 		port1LayerCheckerWorkaround.onmessage = (e: { data: Message }) => {
++			console.error('[esm-main] lookup:received', e.data.id, e.data.url);
+ 
+ 			// Get the vscode-module factory - which is the same logic that's also used by
+ 			// the CommonJS require interceptor
+@@ -160,6 +168,7 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 			// Get or create the API instance. The interface is per extension and extensions are
+ 			// looked up by the uri (e.data.url) and path containment.
+ 			const apiInstance = apiModuleFactory.load('_not_used', uri, () => { throw new Error('CANNOT LOAD MODULE from here.'); });
++			console.error('[esm-main] lookup:apiLoaded', id, uri.toString());
+ 			let key = apiInstances.get(apiInstance);
+ 			if (!key) {
+ 				key = generateUuid();
+@@ -174,6 +183,7 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 				apiImportDataUrl.set(key, scriptDataUrlSrc);
+ 			}
+ 
++			console.error('[esm-main] lookup:reply', id, scriptDataUrlSrc);
+ 			port1.postMessage({
+ 				id,
+ 				url: scriptDataUrlSrc
+@@ -181,6 +191,7 @@ class NodeModuleESMInterceptor extends RequireIntercep
+ 		};
+ 
+ 		nodeModule.register(NodeModuleESMInterceptor._createDataUri(NodeModuleESMInterceptor._loaderScript), {
++			// OpenBSD instrumentation: if the extension host freezes on ESM imports, these logs show whether the loader thread, the MessageChannel bridge, or the API lookup is the last step reached.
+ 			parentURL: import.meta.url,
+ 			data: { port: port2 },
+ 			transferList: [port2],
+@@ -253,7 +264,9 @@ export class ExtHostExtensionService extends AbstractE
+ 				performance.mark(`code/extHost/willLoadExtensionCode/${extensionId}`);
+ 			}
+ 			if (mode === 'esm') {
++				console.error('[ext-host-load] esm:import:start', extensionId ?? '<tests>', module.toString(true));
+ 				r = <T>await import(module.toString(true));
++				console.error('[ext-host-load] esm:import:done', extensionId ?? '<tests>', module.toString(true));
+ 			} else {
+ 				r = <T>require(module.fsPath);
+ 			}

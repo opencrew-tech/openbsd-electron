@@ -1,0 +1,12 @@
+Index: src/vs/base/parts/ipc/test/node/ipc.net.test.ts
+--- src/vs/base/parts/ipc/test/node/ipc.net.test.ts.orig
++++ src/vs/base/parts/ipc/test/node/ipc.net.test.ts
+@@ -864,7 +864,7 @@ suite('WebSocketNodeSocket', () => {
+ 
+ 	function listenOnRandomPort(handler: (socket: Socket) => void): Promise<Server> {
+ 		return new Promise((resolve, reject) => {
+-			const server = createServer(handler).listen(0);
++			const server = createServer(handler).listen(0, '127.0.0.1');
+ 			server.on('listening', () => {
+ 				resolve(server);
+ 			});

@@ -1,7 +1,7 @@
 Index: build/checker/layersChecker.ts
 --- build/checker/layersChecker.ts.orig
 +++ build/checker/layersChecker.ts
-@@ -142,7 +142,7 @@ function checkFile(program: ts.Program, sourceFile: ts
+@@ -139,7 +139,7 @@ function checkFile(program: ts.Program, sourceFile: ts
  function createProgram(tsconfigPath: string): ts.Program {
  	const tsConfig = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
  

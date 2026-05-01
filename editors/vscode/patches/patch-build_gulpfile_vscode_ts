@@ -1,7 +1,7 @@
 Index: build/gulpfile.vscode.ts
 --- build/gulpfile.vscode.ts.orig
 +++ build/gulpfile.vscode.ts
-@@ -320,6 +320,104 @@ function computeChecksum(filename: string): string {
+@@ -321,6 +321,104 @@ function computeChecksum(filename: string): string {
  	return hash;
  }
  
@@ -106,7 +106,7 @@ Index: build/gulpfile.vscode.ts
  function packageTask(platform: string, arch: string, sourceFolderName: string, destinationFolderName: string, _opts?: { stats?: boolean }) {
  	const destination = path.join(path.dirname(root), destinationFolderName);
  	platform = platform || process.platform;
-@@ -428,7 +526,12 @@ function packageTask(platform: string, arch: string, s
+@@ -444,7 +542,12 @@ function packageTask(platform: string, arch: string, s
  		const jsFilter = util.filter(data => !data.isDirectory() && /\.js$/.test(data.path));
  		const root = path.resolve(path.join(import.meta.dirname, '..'));
  		const productionDependencies = getProductionDependencies(root);
@@ -120,7 +120,7 @@ Index: build/gulpfile.vscode.ts
  
  		const depFilterPattern = ['**', `!**/${config.version}/**`, '!**/bin/darwin-arm64-87/**', '!**/package-lock.json', '!**/yarn.lock'];
  		if (stripSourceMapsInPackagingTasks) {
-@@ -436,6 +539,7 @@ function packageTask(platform: string, arch: string, s
+@@ -452,6 +555,7 @@ function packageTask(platform: string, arch: string, s
  		}
  
  		const deps = gulp.src(dependenciesSrc, { base: '.', dot: true })
@@ -128,7 +128,7 @@ Index: build/gulpfile.vscode.ts
  			.pipe(filter(depFilterPattern))
  			.pipe(util.cleanNodeModules(path.join(import.meta.dirname, '.moduleignore')))
  			.pipe(util.cleanNodeModules(path.join(import.meta.dirname, `.moduleignore.${process.platform}`)))
-@@ -517,6 +621,8 @@ function packageTask(platform: string, arch: string, s
+@@ -533,6 +637,8 @@ function packageTask(platform: string, arch: string, s
  			const policyDest = gulp.src('.build/policies/linux/**', { base: '.build/policies/linux' })
  				.pipe(rename(f => f.dirname = `policies/${f.dirname}`));
  			all = es.merge(all, gulp.src('resources/linux/code.png', { base: '.' }), policyDest);
@@ -137,7 +137,7 @@ Index: build/gulpfile.vscode.ts
  		} else if (platform === 'darwin') {
  			const shortcut = gulp.src('resources/darwin/bin/code.sh')
  				.pipe(replace('@@APPNAME@@', product.applicationName))
-@@ -551,7 +657,7 @@ function packageTask(platform: string, arch: string, s
+@@ -568,7 +674,7 @@ function packageTask(platform: string, arch: string, s
  			.pipe(util.skipDirectories())
  			.pipe(util.fixWin32DirectoryPermissions())
  			.pipe(filter(['**', '!**/.github/**'], { dot: true })) // https://github.com/microsoft/vscode/issues/116523

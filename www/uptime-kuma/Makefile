@@ -1,6 +1,6 @@
 COMMENT =		fancy self-hosted monitoring tool
 
-VERSION =		2.1.1
+VERSION =		2.5.0
 
 DIST_TUPLE =		github louislam uptime-kuma ${VERSION} .
 
@@ -26,6 +26,9 @@ MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
 MODNPM_MODS+=rollup
 
+# @louislam/sqlite3 restricts node-addon-api to ^4.2.0.
+MODNPM_GEN_OVERRIDES =	node-addon-api 6.1.0
+
 MODNPM_NO_DEV =		Yes
 MODNPM_NO_OPTIONAL =	Yes
 MODNPM_INSTALL =	uptime-kuma
@@ -33,10 +36,9 @@ MODNPM_INSTALL_DIR =	libexec
 
 LIB_DEPENDS =		databases/sqlite3
 
-NO_TEST =		Yes
+MAKE_ENV+=		npm_config_sqlite=${LOCALBASE}
 
-# build @louislam/sqlite3 with system lib
-MAKE_FLAGS+=		--sqlite=${LOCALBASE}
+NO_TEST =		Yes
 
 post-install:
 	cp -a ${WRKDIR}/dist \

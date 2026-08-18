@@ -1,0 +1,16 @@
+Index: infrastructure/mk/bsd.port.mk
+===================================================================
+RCS file: /mnt/ext/cvs/ports/infrastructure/mk/bsd.port.mk,v
+diff -u -p -r1.1651 bsd.port.mk
+--- infrastructure/mk/bsd.port.mk	18 May 2026 23:38:23 -0000	1.1651
++++ infrastructure/mk/bsd.port.mk	20 May 2026 18:45:35 -0000
+@@ -2825,6 +2825,9 @@ ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE}
+ 
+ # run as _pbuild
+ _post-extract-finalize:
++.if defined(DIST-TUPLE_post-extract)
++	@${DIST-TUPLE_post-extract}
++.endif
+ .for _m in ${MODULES:T:U}
+ .  if defined(MOD${_m}_post-extract)
+ 	@${MOD${_m}_post-extract}

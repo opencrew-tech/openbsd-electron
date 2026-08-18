@@ -1,0 +1,35 @@
+Index: infrastructure/mk/dist-tuple.port.mk
+===================================================================
+RCS file: /mnt/ext/cvs/ports/infrastructure/mk/dist-tuple.port.mk,v
+diff -u -p -r1.22 dist-tuple.port.mk
+--- infrastructure/mk/dist-tuple.port.mk	1 Apr 2026 15:14:57 -0000	1.22
++++ infrastructure/mk/dist-tuple.port.mk	18 Aug 2026 21:52:39 -0000
+@@ -37,18 +37,25 @@ _DT_WRKDIST ?= ${WRKDIR}/${_project:C,^.
+ 
+ .    for _subst in S,<account>,${_account},g:S,<project>,${_project},g:S,<id>,${_id},g:S,<subdir>,${_subdir},g:S,<site>,${SITES.${_template}},g
+ 
+-DISTFILES.${_template} +=		${TEMPLATE_DISTFILES.${_template}:${_subst}}
+ EXTRACT_SUFX.${_template} ?=		${TEMPLATE_EXTRACT_SUFX}
+ TEMPLATE_HOMEPAGE.${_template} ?=	${TEMPLATE_HOMEPAGE}
+ HOMEPAGE ?=	${TEMPLATE_HOMEPAGE.${_template}:${_subst}}
+ 
++.      if !defined(SITES) && empty(GH_ACCOUNT) && empty(GH_PROJECT)
++SITES =		${SITES.${_template}}
++DISTFILES =	${TEMPLATE_DISTFILES.${_template}:${_subst}}
++EXTRACT_SUFX =	${EXTRACT_SUFX.${_template}}
++.      else
++DISTFILES.${_template} += ${TEMPLATE_DISTFILES.${_template}:${_subst}}
++.      endif
++
+ .      if "${_targetdir}" != "." && "${_template}" == "codeberg"
+-MODDIST-TUPLE_post-extract += \
++DIST-TUPLE_post-extract += \
+ 	t=${WRKDIST}/${_targetdir}; [[ -d $$t ]] && rmdir $$t \
+ 	|| mkdir -p `dirname $$t` ; \
+ 	mv ${WRKDIR}/${_project:T} $$t;
+ .      elif "${_targetdir}" != "."
+-MODDIST-TUPLE_post-extract += \
++DIST-TUPLE_post-extract += \
+ 	t=${WRKDIST}/${_targetdir}; [[ -d $$t ]] && rmdir $$t \
+ 	|| mkdir -p `dirname $$t` ; \
+ 	mv ${WRKDIR}/${_project:T}-${_id:S/refs\/tags\///:C/^v([0-9])/\1/} $$t;

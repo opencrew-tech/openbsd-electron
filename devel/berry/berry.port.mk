@@ -170,6 +170,9 @@ MODBERRY_ENV_GEN?=	YARN_ENABLE_SCRIPTS=false
 MODBERRY_BIN?=		berry
 MODBERRY_CMD?=\
 	${SETENV} ${MODBERRY_ENV} CI=true ${MODBERRY_BIN}
+MODBERRY_CMD_REHASH?=\
+	${SETENV} ${MODBERRY_ENV} YARN_CHECKSUM_BEHAVIOR=update \
+	    ${MODBERRY_ENV_EXTRACT} ${MODBERRY_BIN}
 MODBERRY_CMD_EXTRACT?=\
 	${SETENV} ${MODBERRY_ENV} CI=true ${MODBERRY_ENV_EXTRACT} \
 	    ${MODBERRY_BIN}
@@ -179,6 +182,8 @@ MODBERRY_CMD_BUILD?=\
 MODBERRY_CMD_TEST?=\
 	${SETENV} ${MODBERRY_ENV} CI=true ${MODBERRY_ENV_TEST} ${MODBERRY_BIN}
 MODBERRY_CMD_GEN?=\
+	ulimit -d `ulimit -H -d`; \
+	ulimit -m `ulimit -H -m`; \
 	${SETENV} ${MODBERRY_ENV} ${MODBERRY_ENV_GEN} ${MODBERRY_BIN}
 
 # common args
@@ -188,6 +193,9 @@ MODBERRY_ARGS_OPTIONAL?=\
 MODBERRY_ARGS_DEV?=\
 	${MODBERRY_NO_DEV:L:S/no//:S/yes/--production/}
 # ports args
+MODBERRY_ARGS_REHASH?=\
+	install ${MODBERRY_ARGS} --mode=skip-build \
+	    ${MODBERRY_ARGS_OPTIONAL} ${MODBERRY_ARGS_DEV}
 MODBERRY_ARGS_EXTRACT?=\
 	install ${MODBERRY_ARGS} --immutable --mode=skip-build \
 	    ${MODBERRY_ARGS_OPTIONAL} ${MODBERRY_ARGS_DEV}
@@ -280,10 +288,11 @@ MODBERRY_post-extract += \
 
 .if empty(_GEN_MODULES) && empty(_GEN_VENDOR)
 
-# import distfiles in store for pnpm use offline
+# import distfiles in store for berry use offline
 # XXX multiple MODBERRY_TARGETS will fail hard (I suppose)
 # XXX this needs test/review as the actual issue wasn't documented during dev.
 MODBERRY_post-extract += \
+	ulimit -s 16384 ; \
 	rm -f ${WRKDIR}/store.list ; \
 	for module in $$(echo "${MODBERRY_PKGS}") ; do \
 		pkg=$${module%;*} ; res=$${module\#*;} ; \
@@ -298,6 +307,20 @@ MODBERRY_post-extract += \
 				${MODBERRY_CMD} import ; \
 			cd - >/dev/null ; \
 		done ;
+
+# OpenBSD can't pin any version in any ports. On the other side, node package
+# managers expect everything to be reproducible given a specific version.
+# When a custom depends pre-build for OpenBSD get rebuilt with new tools, the
+# contents changes but not the version. Consequently the hash missmatch.
+# XXX Note, this isn't pkg_add -u issue (triggered update by wantlib changes)
+MODBERRY_post-extract += \
+	for target in ${MODBERRY_TARGETS}; do \
+		echo "MODBERRY: re-hash lockfile for system deps $${target}" ; \
+		cd $${target} && \
+		echo '${MODBERRY_CMD_REHASH} ${MODBERRY_ARGS_REHASH}' && \
+		${MODBERRY_CMD_REHASH} ${MODBERRY_ARGS_REHASH} ; \
+		cd - >/dev/null ; \
+	done ;
 
 # Install node_modules files only, ignore scripts. Then run berry install
 # --force during pre-build, after patch, which allows small customization.
@@ -338,7 +361,7 @@ MODBERRY_BUILD_TARGET=\
 		fi ; \
 		echo "MODBERRY: pack $${target} in workspace" ; \
 		mkdir -p ${MODBERRY_BUILD_DIST}/$${prefix} ; \
-		${MODBERRY_CMD_BUILD} workspaces foreach -R -A --no-private \
+		${MODBERRY_CMD_BUILD} workspaces foreach -A --no-private \
 			${MODBERRY_ARGS_BUILD} \
 			--out "${MODBERRY_BUILD_DIST}/$${prefix}/%s-%v.tgz" ; \
 	done

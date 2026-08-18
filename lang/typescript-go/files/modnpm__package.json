@@ -8,15 +8,16 @@
     "@types/node": "latest",
     "@types/tmp": "^0.2.6",
     "@types/which": "^3.0.4",
+    "@unicode/unicode-15.1.0": "^1.6.17",
     "adm-zip": "^0.5.17",
     "chokidar": "^5.0.0",
     "execa": "^9.6.1",
     "glob": "^13.0.6",
-    "hereby": "^1.14.0",
+    "hereby": "^1.15.1",
     "p-limit": "^7.3.0",
     "picocolors": "^1.1.1",
-    "tmp": "^0.2.5",
-    "typescript": "^6.0.2",
+    "tmp": "^0.2.7",
+    "typescript": "^6.0.3",
     "which": "^6.0.1"
   },
   "scripts": {
@@ -32,6 +33,7 @@
     "makemanual": "node --experimental-strip-types --no-warnings internal/fourslash/_scripts/makeManual.mts"
   },
   "workspaces": [
+    "./_extension-nightly",
     "./_packages/*"
   ],
   "overrides": {
@@ -43,6 +45,12 @@
   },
   "volta": {
     "node": "22.22.0",
-    "npm": "11.12.1"
+    "npm": "11.17.0"
+  },
+  "allowScripts": {
+    "dprint@0.55.1": true,
+    "esbuild@0.28.1": true,
+    "@vscode/vsce-sign@2.0.9": true,
+    "keytar@7.9.0": true
   }
 }

@@ -8,7 +8,7 @@ export default function getExePath() {
 
     let exeDir;
 
-    const expectedPackage = "native-preview-" + process.platform + "-" + process.arch;
+    const expectedPackage = "typescript-" + process.platform + "-" + process.arch;
 
     if (normalizedDirname.endsWith("/_packages/native-preview/lib")) {
         // We're running directly from source in the repo.

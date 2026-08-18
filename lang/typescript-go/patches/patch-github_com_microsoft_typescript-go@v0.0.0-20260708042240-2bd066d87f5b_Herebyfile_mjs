@@ -1,0 +1,155 @@
+Let modgo handle go build (btw, make clean can't delete files, maybe a missing goBuildFlags).
+
+Skip dprint depends.
+
+Index: github.com/microsoft/typescript-go@v0.0.0-20260708042240-2bd066d87f5b/Herebyfile.mjs
+--- github.com/microsoft/typescript-go@v0.0.0-20260708042240-2bd066d87f5b/Herebyfile.mjs.orig
++++ github.com/microsoft/typescript-go@v0.0.0-20260708042240-2bd066d87f5b/Herebyfile.mjs
+@@ -219,10 +219,6 @@ function getReleaseBuildFlags(versionOverride) {
+  * @param {string[]} [opts.extraFlags]
+  */
+ function buildTsgo(opts) {
+-    opts ||= {};
+-    const out = opts.out ?? "./built/local/";
+-    const env = { ...goBuildEnv, ...opts.env };
+-    return $({ cancelSignal: opts.abortSignal, env })`go build ${goBuildFlags} ${opts.extraFlags ?? []} ${goBuildTags("noembed")} -o ${out} ./cmd/tsgo`;
+ }
+ 
+ export const tsgoBuild = task({
+@@ -548,7 +544,6 @@ async function runGenerateEnums() {
+         console.log(`  ${def.name}: ${members.length} members → ${camelName}.enum.ts, ${camelName}.ts`);
+     }
+ 
+-    await $`dprint fmt ${generatedFiles}`;
+     console.log("Done.");
+ }
+ 
+@@ -929,15 +924,12 @@ export const format = task({
+ });
+ 
+ async function runFormat() {
+-    await $`dprint fmt`;
+ }
+ 
+ export const checkFormat = task({
+     name: "check:format",
+     description: "Checks that the repo is formatted.",
+-    run: async () => {
+-        await $`dprint check`;
+-    },
++    run: async () => {},
+ });
+ 
+ const scriptTsconfigs = [
+@@ -1801,8 +1793,6 @@ export const buildNativePreviewPackages = task({
+ async function runBuildNativePreviewPackages() {
+     await rimraf(builtNpm);
+ 
+-    const platforms = getPlatforms();
+-
+     const inputDir = "./_packages/native-preview";
+ 
+     const inputPackageJson = JSON.parse(fs.readFileSync(path.join(inputDir, "package.json"), "utf8"));
+@@ -1834,8 +1824,7 @@ async function runBuildNativePreviewPackages() {
+     }
+     stripSourceConditions(inputPackageJson);
+ 
+-    const { stdout: gitHead } = await $pipe`git rev-parse HEAD`;
+-    inputPackageJson.gitHead = gitHead;
++    inputPackageJson.gitHead = "${H}";
+     inputPackageJson.publishConfig = {
+         access: "public",
+         tag: getPublishTag(),
+@@ -1844,7 +1833,6 @@ async function runBuildNativePreviewPackages() {
+     const mainPackage = {
+         ...inputPackageJson,
+         name: mainNativePreviewPackage.npmPackageName,
+-        optionalDependencies: Object.fromEntries(platforms.map(p => [p.npmPackageName, getVersion()])),
+     };
+ 
+     const mainPackageDir = mainNativePreviewPackage.npmDir;
+@@ -1894,59 +1882,6 @@ async function runBuildNativePreviewPackages() {
+         throw new Error(`Found external imports in .d.ts files:\n${importErrors.map(e => "  " + e).join("\n")}`);
+     }
+ 
+-    const extraFlags = getReleaseBuildFlags(options.setPrerelease || nativePreviewReleaseVersion ? getVersion() : undefined);
+-
+-    const platformBuilders = platforms.map(({ npmDir, npmPackageName, nodeOs, nodeArch, goos, goarch }) => async () => {
+-        const packageJson = {
+-            ...inputPackageJson,
+-            bin: undefined,
+-            files: ["lib", "NOTICE.txt"],
+-            imports: undefined,
+-            dependencies: undefined,
+-            name: npmPackageName,
+-            os: [nodeOs],
+-            cpu: [nodeArch],
+-            exports: {
+-                "./package.json": "./package.json",
+-            },
+-        };
+-
+-        const out = path.join(npmDir, "lib");
+-        await fs.promises.mkdir(out, { recursive: true });
+-        await fs.promises.writeFile(path.join(npmDir, "package.json"), JSON.stringify(packageJson, undefined, 4));
+-        await fs.promises.copyFile("LICENSE", path.join(npmDir, "LICENSE"));
+-        await fs.promises.copyFile("NOTICE.txt", path.join(npmDir, "NOTICE.txt"));
+-
+-        const readme = [
+-            `# \`${npmPackageName}\``,
+-            "",
+-            `This package provides ${nodeOs}-${nodeArch} support for [${mainNativePreviewPackage.npmPackageName}](https://www.npmjs.com/package/${mainNativePreviewPackage.npmPackageName}).`,
+-        ];
+-
+-        await fs.promises.writeFile(path.join(npmDir, "README.md"), readme.join("\n") + "\n");
+-
+-        await generateLibs(out);
+-
+-        const exeName = nativePreviewExeName(nodeOs);
+-        await buildTsgo({
+-            out: publishAsTypescript ? path.join(out, exeName) : out,
+-            env: { GOOS: goos, GOARCH: goarch, GOARM: "6", CGO_ENABLED: "0" },
+-            extraFlags,
+-        });
+-    });
+-
+-    if (isCI) {
+-        for (const build of platformBuilders) {
+-            await build();
+-            // Build machines have too little space.
+-            // Clear the Go build cache between platforms.
+-            await $`go clean -cache`;
+-        }
+-    }
+-    else {
+-        const buildLimit = pLimit(os.availableParallelism());
+-        await Promise.all(platformBuilders.map(f => buildLimit(f)));
+-    }
+ }
+ 
+ export const signNativePreviewPackages = task({
+@@ -2086,20 +2021,13 @@ export const packNativePreviewPackages = task({
+ });
+ 
+ async function runPackNativePreviewPackages() {
+-    const platforms = getPlatforms();
+-    await Promise.all([mainNativePreviewPackage, ...platforms].map(async ({ npmDir, npmTarball }) => {
+-        const { stdout } = await $pipe`npm pack --json ${npmDir}`;
+-        const filename = JSON.parse(stdout)[0].filename.replace("@", "").replace("/", "-");
+-        await fs.promises.rename(filename, npmTarball);
+-    }));
++    const { npmDir, npmTarball } = mainNativePreviewPackage;
++    const { stdout } = await $pipe`npm pack --json ${npmDir}`;
++    const filename = JSON.parse(stdout)[0].filename.replace("@", "").replace("/", "-");
++    await fs.promises.rename(filename, npmTarball);
+ 
+-    // npm packages need to be published in dependency order: platform packages
+-    // first, then the main package that references them as optionalDependencies.
+     const publishManifest = {
+         stages: [
+-            platforms.map(p => ({
+-                filename: path.basename(p.npmTarball),
+-            })),
+             [
+                 {
+                     filename: path.basename(mainNativePreviewPackage.npmTarball),

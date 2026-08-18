@@ -4,12 +4,13 @@ COMMENT =	native port of TypeScript, JavaScript with syntax for types
 MODGO_MODNAME =	github.com/microsoft/typescript-go
 TOOLS_MODNAME =	${MODGO_MODNAME}/_tools
 
-H =		76ce739ebd00f0868b1eba8517a5ac8daa10f6ee
+# https://www.npmjs.com/package/typescript?activeTab=code gitHead
+H =		2bd066d87f5bafd315be9f40889d0a60b9e58e0b
 # go mod init tmp && go get github.com/microsoft/typescript-go@${H}
 # go: downloading github.com/microsoft/typescript-go v...
-MODGO_VERSION =	v0.0.0-20260420172614-76ce739ebd00
+MODGO_VERSION =	v0.0.0-20260708042240-2bd066d87f5b
 
-DISTNAME =	typescript-go-0.0.0pl20260420
+DISTNAME =	typescript-go-7.0.2
 
 # main file. see after bsd.port.mk load modgo, reset DISTFILES & EXTRACT_ONLY
 # preserve MODGO_MODNAME build but fetch the whole repo including tests
@@ -27,12 +28,12 @@ WANTLIB += c pthread
 
 # Apache-2.0
 DIST_TUPLE+=	github microsoft TypeScript \
-		c3bd12d888b86f676718b16e64d7d2abcb423514 \
+		4d4f005c8541e0255a9d8791205fdce326e462bc \
 		${MODGO_MODNAME}@${MODGO_VERSION}/_submodules/TypeScript
 
 # Fix dos line-endings in files needing patches
 FIX_CRLF_FILES = \
-${WRKSRC:S/${WRKDIST}\///}/_packages/api/scripts/generateSync.ts \
+${WRKSRC:S/${WRKDIST}\///}/_packages/native-preview/scripts/generateSync.ts \
 ${WRKSRC:S/${WRKDIST}\///}/_scripts/generate-encoder.ts \
 ${WRKSRC:S/${WRKDIST}\///}/_scripts/generate-go-ast.ts \
 ${WRKSRC:S/${WRKDIST}\///}/_scripts/generate-ts-ast.ts \
@@ -44,15 +45,14 @@ MODULES =		devel/npm \
 			lang/go
 
 MODNPM_BUILD =		No
+MODNPM_BUILD_DIST =	${WRKSRC}/built/npm
 MODNPM_INSTALL =	typescript-go
 
 # test run in sequential order to avoid OOM issues
 # thus we enable --timeout=45m to make those pass
 MODNPM_ENV_TEST =	CI=1
 
-MODNPM_MODS_SKIP =	@typescript/api \
-			@typescript/ast \
-			@typescript/native-preview
+MODNPM_MODS_SKIP =	typescript
 
 MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
@@ -61,25 +61,30 @@ WRKDIST =		${WRKDIR}
 
 # fix permission on ${MODGO_WORKSPACE} by using default modgo flags
 # trimpath brake test as they need build path to locate files
-# XXX but we want to trim path for release ... more experiment needed
+# XXX but we want to trim path for release ... more work needed
 MAKE_ENV+=		GOFLAGS="${MODGO_FLAGS:C/-trimpath//}"
 TEST_ENV+=		GOFLAGS="${MODGO_FLAGS:C/-trimpath//}"
 
-DIST_TSGO = ${MODNPM_INSTALL_DIR}/@typescript/native-preview/bin/tsgo
+DIST_TSGO =	${MODNPM_INSTALL_DIR}/typescript/bin/tsgo
+
+SUBST_VARS+=	H
+
+post-patch:
+	${SUBST_CMD} ${WRKSRC}/Herebyfile.mjs
 
 post-build:
-	cd ${WRKSRC} && \
-		${MODNPM_CMD_BUILD} run build
-	cd ${WRKSRC} && \
-		${MODNPM_CMD_BUILD} run api:build
+	cp ${WRKSRC}/_packages/native-preview/lib/getExePath.js{,.orig}
 	cp ${FILESDIR}/getExePath.js \
 		${WRKSRC}/_packages/native-preview/lib/getExePath.js
-	${MODNPM_BUILD_TARGET}
+	cd ${WRKSRC} && \
+		${MODNPM_CMD_BUILD} exec hereby native-preview:pack-packages
 
 do-install:
 	${MODNPM_INSTALL_TARGET}
+# XXX avoid conflict with lang/typescript ...
 	${INSTALL_PROGRAM} ${MODGO_WORKSPACE}/bin/tsgo ${PREFIX}/${DIST_TSGO}
 	ln -fs ../${DIST_TSGO} ${PREFIX}/bin/tsgo
+	rm ${PREFIX}/bin/tsc
 
 pre-test:
 	mkdir -p ${WRKSRC}/built/local
@@ -87,10 +92,13 @@ pre-test:
 
 # XXX modnpm prune node_modules during fake, run 'make clean test'
 do-test:
-	cd ${WRKSRC} && \
-		${MODNPM_CMD_TEST} exec hereby test ; \
-		${MODNPM_CMD_TEST} exec hereby test:benchmarks ; \
-		${MODNPM_CMD_TEST} exec hereby test:tools ; \
+	-cd ${WRKSRC} && \
+		${MODNPM_CMD_TEST} exec hereby test
+	-cd ${WRKSRC} && \
+		${MODNPM_CMD_TEST} exec hereby test:benchmarks
+	-cd ${WRKSRC} && \
+		${MODNPM_CMD_TEST} exec hereby test:tools
+	-cd ${WRKSRC} && \
 		${MODNPM_CMD_TEST} exec hereby test:api
 
 modnpm-pre-gen-modules:

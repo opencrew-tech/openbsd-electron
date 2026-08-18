@@ -88,6 +88,7 @@ ${MODELECTRON_DIST_T}/src/static/locales/fi.json
 ${MODELECTRON_DIST_T}/src/static/locales/fil.json
 ${MODELECTRON_DIST_T}/src/static/locales/fr.json
 ${MODELECTRON_DIST_T}/src/static/locales/ga.json
+${MODELECTRON_DIST_T}/src/static/locales/gl.json
 ${MODELECTRON_DIST_T}/src/static/locales/he.json
 ${MODELECTRON_DIST_T}/src/static/locales/hi.json
 ${MODELECTRON_DIST_T}/src/static/locales/hr.json

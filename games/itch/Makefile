@@ -1,9 +1,9 @@
 COMMENT =	best way to play your itch.io games
 
-DIST_TUPLE =	github itchio itch v26.9.0 .
+DIST_TUPLE =	github itchio itch v26.15.0 .
 
 # toggle if tag doesn't match pkg spec (kitch is -canary)
-#V =		26.9.0
+#V =		26.15.0
 #PKGNAME =	itch-${V}
 
 CATEGORIES =	games
@@ -51,7 +51,7 @@ do-install:
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/${MODELECTRON_DIST_T}
 	# unveil
 	${MODELECTRON_UNVEIL_INSTALL}
-	# wraper
+	# wrapper
 	${SUBST_PROGRAM} ${FILESDIR}/${MODELECTRON_TARGET} \
 		${PREFIX}/bin/${MODELECTRON_TARGET}
 	# menu

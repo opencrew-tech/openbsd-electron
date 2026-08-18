@@ -6,7 +6,7 @@ SharedArrayBuffer - Check web server configuration (send correct headers)
 Index: src/main/reactors/launch/itch-cave-protocol.ts
 --- src/main/reactors/launch/itch-cave-protocol.ts.orig
 +++ src/main/reactors/launch/itch-cave-protocol.ts
-@@ -92,6 +92,9 @@ export async function registerItchCaveProtocol(
+@@ -93,6 +93,9 @@ export async function registerItchCaveProtocol(
          server: "itch",
          "content-type": contentType,
          "access-control-allow-origin": "*",

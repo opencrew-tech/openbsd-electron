@@ -1,0 +1,11 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -5,7 +5,6 @@
+   "license": "MIT",
+   "type": "module",
+   "scripts": {
+-    "prepare": "vp config",
+     "lint-knip": "knip",
+     "lint-publint": "pnpm run -r --aggregate-output publint",
+     "build": "echo \"Use just build\"",

@@ -1,0 +1,53 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "description": "Rollup in Rust",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "prepare": "vp config",
+    "lint-knip": "knip",
+    "lint-publint": "pnpm run -r --aggregate-output publint",
+    "build": "echo \"Use just build\"",
+    "build:release": "echo \"Use just build native release\"",
+    "test": "echo \"Use just test-node\"",
+    "ci:build-release-binding": "pnpm --filter rolldown run build-binding:release",
+    "docs": "pnpm --filter rolldown-docs run dev",
+    "docs:build": "pnpm --filter rolldown-docs run generate && pnpm --filter rolldown-docs run build",
+    "docs:preview": "pnpm --filter rolldown-docs run preview"
+  },
+  "devDependencies": {
+    "@oxc-node/core": "catalog:",
+    "@oxc-project/runtime": "catalog:",
+    "@types/node": "catalog:",
+    "cjs-module-lexer": "^2.1.0",
+    "knip": "^6.0.0",
+    "playwright-chromium": "^1.56.1",
+    "publint": "^0.3.16",
+    "remove-unused-vars": "^0.0.12",
+    "rolldown": "workspace:*",
+    "typescript": "catalog:",
+    "vite-plus": "^0.1.13"
+  },
+  "pnpm": {
+    "overrides": {
+      "vitepress>vite": "npm:rolldown-vite@latest",
+      "esbuild": "link:../node/esbuild/node_modules/esbuild",
+      "graceful-fs": "link:../node/graceful-fs/node_modules/graceful-fs",
+      "@oxc-node/core": "link:../node/oxc-node/node_modules/@oxc-node/core",
+      "rollup": "link:../node/rollup/node_modules/rollup",
+      "tailwindcss": "link:../node/tailwindcss/node_modules/tailwindcss",
+      "@tailwindcss/node": "link:../node/tailwindcss/node_modules/@tailwindcss/node",
+      "@tailwindcss/oxide": "link:../node/tailwindcss/node_modules/@tailwindcss/oxide",
+      "@tailwindcss/vite": "link:../node/tailwindcss/node_modules/@tailwindcss/vite",
+      "lightningcss": "npm:lightningcss-wasm"
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "oxc-resolver",
+      "sharp",
+      "tree-sitter"
+    ]
+  }
+}

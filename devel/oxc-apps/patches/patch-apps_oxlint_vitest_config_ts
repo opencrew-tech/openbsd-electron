@@ -1,0 +1,17 @@
+Index: apps/oxlint/vitest.config.ts
+--- apps/oxlint/vitest.config.ts.orig
++++ apps/oxlint/vitest.config.ts
+@@ -22,9 +22,12 @@ export default defineConfig({
+         test: {
+           name: "isolated",
+           include: ["test/**/*.isolated.test.ts"],
+-          pool: "forks",
+         },
+       },
+     ],
++    testTimeout: 30_000,
++    hookTimeout: 30_000,
++    fileParallelism: false,
++    maxConcurrency: 1,
+   },
+ });

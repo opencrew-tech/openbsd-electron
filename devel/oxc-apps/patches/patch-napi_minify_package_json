@@ -1,0 +1,22 @@
+Index: napi/minify/package.json
+--- napi/minify/package.json.orig
++++ napi/minify/package.json
+@@ -27,7 +27,8 @@
+     "browser.js",
+     "index.d.ts",
+     "index.js",
+-    "webcontainer-fallback.cjs"
++    "webcontainer-fallback.cjs",
++    "minify.node"
+   ],
+   "type": "module",
+   "main": "index.js",
+@@ -39,7 +40,7 @@
+   "scripts": {
+     "build-dev": "napi build --esm --platform",
+     "build-test": "pnpm run build-dev --profile coverage",
+-    "build": "pnpm run build-dev --features allocator --release",
++    "build": "pnpm run build-dev --release",
+     "postbuild": "publint",
+     "postbuild-dev": "node scripts/patch.js",
+     "build-wasm": "pnpm run build-wasm-dev --release",

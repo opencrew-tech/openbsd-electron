@@ -1,0 +1,28 @@
+{
+  "name": "oxc",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --workspace-concurrency=1 --filter \"./napi/*\" --filter \"./apps/*\" build",
+    "build-dev": "pnpm --workspace-concurrency=1 --filter \"./napi/*\" --filter \"./apps/*\" build-dev",
+    "build-test": "pnpm --workspace-concurrency=1 --filter \"./napi/*\" --filter \"./apps/*\" build-test",
+    "build-wasm-dev": "pnpm --workspace-concurrency=1 --filter \"./napi/*\" build-wasm-dev",
+    "test": "pnpm --workspace-concurrency=1 --filter \"./napi/*\" --filter \"./apps/*\" test",
+    "fmt": "oxfmt -c oxfmtrc.jsonc",
+    "lint": "oxlint -c oxlintrc.json --deny-warnings --report-unused-disable-directives"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "catalog:",
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "0.22.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "link:../node/esbuild/node_modules/esbuild",
+      "rolldown": "link:../node/rolldown/node_modules/rolldown",
+      "@rolldown/pluginutils": "link:../node/rolldown/node_modules/@rolldown/pluginutils",
+      "rollup": "link:../node/rollup/node_modules/rollup",
+      "tailwindcss": "link:../node/tailwindcss/node_modules/tailwindcss"
+    }
+  }
+}

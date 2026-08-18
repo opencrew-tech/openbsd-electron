@@ -1,0 +1,25 @@
+node doesn't implement RegExp.escape() yet.
+
+Index: apps/oxlint/tsdown_plugins/inline_search.ts
+--- apps/oxlint/tsdown_plugins/inline_search.ts.orig
++++ apps/oxlint/tsdown_plugins/inline_search.ts
+@@ -15,6 +15,10 @@ const INLINE_FUNC_PATH = pathJoin(import.meta.dirname,
+ // Files to inline the binary search function into
+ const FILES = ["/src-js/plugins/tokens_methods.ts", "/src-js/plugins/comments_methods.ts"];
+ 
++function escapeRegExp(value: string): string {
++  return RegExp.escape ? RegExp.escape(value) : value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
++}
++
+ // Get details of the function to be inlined
+ const { fnParams, returnParamIndex, fnBodySource } = extractInlinedFunction(
+   INLINE_FUNC_PATH,
+@@ -50,7 +54,7 @@ const plugin: Plugin = {
+   name: "inline-binary-search",
+   transform: {
+     filter: {
+-      id: new RegExp("(?:" + FILES.map((filename) => RegExp.escape(filename)).join("|") + ")$"),
++      id: new RegExp("(?:" + FILES.map((filename) => escapeRegExp(filename)).join("|") + ")$"),
+     },
+ 
+     handler(code, path, meta) {

@@ -1,0 +1,22 @@
+Index: napi/transform/package.json
+--- napi/transform/package.json.orig
++++ napi/transform/package.json
+@@ -28,7 +28,8 @@
+     "browser.js",
+     "index.d.ts",
+     "index.js",
+-    "webcontainer-fallback.cjs"
++    "webcontainer-fallback.cjs",
++    "transform.node"
+   ],
+   "type": "module",
+   "main": "index.js",
+@@ -40,7 +41,7 @@
+   "scripts": {
+     "build-dev": "napi build --esm --platform",
+     "build-test": "pnpm run build-dev --profile coverage",
+-    "build": "pnpm run build-dev --features allocator --release",
++    "build": "pnpm run build-dev --release",
+     "postbuild": "publint",
+     "postbuild-dev": "node scripts/patch.js",
+     "build-wasm": "pnpm run build-wasm-dev --release",

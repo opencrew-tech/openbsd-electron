@@ -1,0 +1,74 @@
+Index: apps/oxlint/test/lsp/utils.ts
+--- apps/oxlint/test/lsp/utils.ts.orig
++++ apps/oxlint/test/lsp/utils.ts
+@@ -47,7 +47,7 @@ const PULL_DIAGNOSTICS_CAPABILITY = {
+ };
+ 
+ export function createLspConnection(env: Record<string, string> = {}) {
+-  const proc = spawn(process.execPath, [CLI_PATH, "--lsp"], {
++  const proc = spawn(process.execPath, [CLI_PATH, "--threads", "1", "--lsp"], {
+     env: {
+       ...process.env,
+       OXC_LOG: "debug",
+@@ -301,27 +301,24 @@ export async function lintMultiWorkspaceFixtureWithFil
+     );
+   }
+ 
+-  const oldContent = await Promise.all(
+-    fixturePaths.map(({ path }) => {
++  const oldContent: string[] = [];
++  for (const { path } of fixturePaths) {
++    const dir = dirname(join(fixturesDir, path));
++    const oldFilePath = join(dir, oldConfigPath);
++    oldContent.push(await fs.readFile(oldFilePath, "utf-8"));
++  }
++
++  try {
++    const refreshedUris: string[] = [];
++    for (const { path } of fixturePaths) {
+       const dir = dirname(join(fixturesDir, path));
++      const filePath = join(dir, newConfigPath);
+       const oldFilePath = join(dir, oldConfigPath);
+-      return fs.readFile(oldFilePath, "utf-8");
+-    }),
+-  );
++      const newContent = await fs.readFile(filePath, "utf-8");
++      await fs.writeFile(oldFilePath, newContent);
++      refreshedUris.push(pathToFileURL(oldFilePath).href);
++    }
+ 
+-  try {
+-    const refreshedUris = await Promise.all(
+-      fixturePaths.map(async ({ path }) => {
+-        const dir = dirname(join(fixturesDir, path));
+-        const filePath = join(dir, newConfigPath);
+-        const oldFilePath = join(dir, oldConfigPath);
+-        const newContent = await fs.readFile(filePath, "utf-8");
+-        await fs.writeFile(oldFilePath, newContent);
+-
+-        return pathToFileURL(oldFilePath).href;
+-      }),
+-    );
+-
+     const workspaceRefreshPromise = client.getWorkspaceRefresh();
+     await client.didChangeWatchedFiles(refreshedUris);
+     // Wait for the server to process the file change and ask for refreshed diagnostics
+@@ -331,13 +328,11 @@ export async function lintMultiWorkspaceFixtureWithFil
+ 
+     snapshots.push("=== After Config Change ===");
+   } finally {
+-    await Promise.all(
+-      fixturePaths.map(({ path }, index) => {
+-        const dir = dirname(join(fixturesDir, path));
+-        const oldFilePath = join(dir, oldConfigPath);
+-        return fs.writeFile(oldFilePath, oldContent[index]);
+-      }),
+-    );
++    for (const [index, { path }] of fixturePaths.entries()) {
++      const dir = dirname(join(fixturesDir, path));
++      const oldFilePath = join(dir, oldConfigPath);
++      await fs.writeFile(oldFilePath, oldContent[index]);
++    }
+   }
+ 
+   for (const fixturePath of fixturePaths) {

@@ -1,0 +1,22 @@
+Index: napi/parser/package.json
+--- napi/parser/package.json.orig
++++ napi/parser/package.json
+@@ -49,7 +49,8 @@
+     "src-js/generated/visit/keys.js",
+     "src-js/generated/visit/type_ids.js",
+     "src-js/generated/visit/visitor.d.ts",
+-    "src-js/generated/visit/walk.js"
++    "src-js/generated/visit/walk.js",
++    "src-js/parser.node"
+   ],
+   "type": "module",
+   "main": "src-js/index.js",
+@@ -61,7 +62,7 @@
+   "scripts": {
+     "build-dev": "napi build --esm --platform --js bindings.js --dts index.d.ts --output-dir src-js",
+     "build-test": "pnpm run build-dev --features tokens --profile coverage",
+-    "build": "pnpm run build-dev --features allocator --release",
++    "build": "pnpm run build-dev --release",
+     "postbuild": "publint",
+     "postbuild-dev": "node scripts/patch.js",
+     "build-wasi": "napi build --target wasm32-wasip1-threads",

@@ -1,0 +1,103 @@
+limit ressources, run in sequential order.
+
+node doesn't implement RegExp.escape() yet.
+
+Index: apps/oxlint/test/utils.ts
+--- apps/oxlint/test/utils.ts.orig
++++ apps/oxlint/test/utils.ts
+@@ -29,7 +29,7 @@ export interface Fixture {
+     fix: boolean;
+     // Run Oxlint with fix-suggestions. Default: `false`.
+     fixSuggestions: boolean;
+-    // Run Oxlint single-threaded. Default: `false`.
++    // Run Oxlint single-threaded. Default: `true`.
+     singleThread: boolean;
+     // Run Oxlint/ESLint in a specific working directory.
+     // If provided, `cwd` is relative to the fixture's directory.
+@@ -48,7 +48,7 @@ const DEFAULT_OPTIONS: Fixture["options"] = {
+   eslint: false,
+   fix: false,
+   fixSuggestions: false,
+-  singleThread: false,
++  singleThread: true,
+   cwd: null,
+   args: [],
+   env: {},
+@@ -143,17 +143,14 @@ export async function testFixtureWithCommand(options: 
+   const fileObjs = await fs.readdir(dirPath, { withFileTypes: true, recursive: true });
+ 
+   const files: { filename: string; code: string }[] = [];
+-  await Promise.all(
+-    fileObjs.map(async (fileObj) => {
+-      if (fileObj.isFile()) {
+-        const path = pathJoin(fileObj.parentPath, fileObj.name);
+-        files.push({
+-          filename: normalizeSlashes(path.slice(pathPrefixLen)),
+-          code: await fs.readFile(path, "utf8"),
+-        });
+-      }
+-    }),
+-  );
++  for (const fileObj of fileObjs) {
++    if (!fileObj.isFile()) continue;
++    const path = pathJoin(fileObj.parentPath, fileObj.name);
++    files.push({
++      filename: normalizeSlashes(path.slice(pathPrefixLen)),
++      code: await fs.readFile(path, "utf8"),
++    });
++  }
+ 
+   // Run command
+   const cwd = fixtureOptions.cwd === null ? dirPath : pathJoin(dirPath, fixtureOptions.cwd);
+@@ -177,16 +174,14 @@ export async function testFixtureWithCommand(options: 
+   // Check for any changes to files in `files` and add them to the snapshot.
+   // Revert any changes to the files (useful for `--fix` tests).
+   const changes: { filename: string; code: string }[] = [];
+-  await Promise.all(
+-    files.map(async ({ filename, code: codeBefore }) => {
+-      const path = pathJoin(dirPath, filename);
+-      const codeAfter = await fs.readFile(path, "utf8");
+-      if (codeAfter !== codeBefore) {
+-        await fs.writeFile(path, codeBefore);
+-        changes.push({ filename, code: codeAfter });
+-      }
+-    }),
+-  );
++  for (const { filename, code: codeBefore } of files) {
++    const path = pathJoin(dirPath, filename);
++    const codeAfter = await fs.readFile(path, "utf8");
++    if (codeAfter !== codeBefore) {
++      await fs.writeFile(path, codeBefore);
++      changes.push({ filename, code: codeAfter });
++    }
++  }
+ 
+   if (changes.length > 0) {
+     changes.sort((a, b) => (a.filename > b.filename ? 1 : -1));
+@@ -198,12 +193,16 @@ export async function testFixtureWithCommand(options: 
+   await expect(snapshot).toMatchFileSnapshot(snapshotPath);
+ }
+ 
++function escapeRegExp(value: string): string {
++  return RegExp.escape ? RegExp.escape(value) : value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
++}
++
+ export const NORMALIZED_REPO_ROOT = normalizeSlashes(REPO_ROOT_PATH);
+ // Regexp to match paths in output.
+ // Matches `/path/to/oxc`, `/path/to/oxc/`, `/path/to/oxc/whatever`,
+ // when preceded by whitespace, `(`, or a quote, and followed by whitespace, `)`, or a quote.
+ export const PATH_REGEXP = new RegExp(
+-  `(?<=^|[\\s\\('"\`])${RegExp.escape(NORMALIZED_REPO_ROOT).replace(/\\\//g, "[\\\\/]")}([\\\\\\\\/][^\\s\\)'"\`]*)?(?=$|[\\s\\)'"\`])`,
++  `(?<=^|[\\s\\('"\`])${escapeRegExp(NORMALIZED_REPO_ROOT).replace(/\\\//g, "[\\\\/]")}([\\\\\\\\/][^\\s\\)'"\`]*)?(?=$|[\\s\\)'"\`])`,
+   isWindows ? "gi" : "g",
+ );
+ 
+@@ -291,7 +290,7 @@ export function normalizeStdout(stdout: string, fixtur
+     // Handle fixture file URLs anywhere else in the line.
+     // e.g. `... file:///path/to/oxc/apps/oxlint/test/fixtures/foo/bar.js:1:1 ...`
+     line = line.replaceAll(
+-      new RegExp(`${RegExp.escape(FIXTURES_URL)}([^\\s\\)'"\`]+)`, isWindows ? "gi" : "g"),
++      new RegExp(`${escapeRegExp(FIXTURES_URL)}([^\\s\\)'"\`]+)`, isWindows ? "gi" : "g"),
+       (_match, subPath) => convertFixturesSubPath(`/${subPath}`, fixtureName),
+     );
+ 

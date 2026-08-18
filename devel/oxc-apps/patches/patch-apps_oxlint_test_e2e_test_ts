@@ -1,0 +1,21 @@
+Index: apps/oxlint/test/e2e.test.ts
+--- apps/oxlint/test/e2e.test.ts.orig
++++ apps/oxlint/test/e2e.test.ts
+@@ -26,7 +26,7 @@ const NODE_BIN_PATH = process.execPath;
+  * Fixtures with an `options.json` file containing `"oxlint": false` are skipped.
+  */
+ // oxlint-disable-next-line valid-describe-callback
+-describe("oxlint CLI", { concurrent: process.platform !== "win32" }, () => {
++describe("oxlint CLI", { concurrent: false }, () => {
+   const fixtures = getFixtures();
+   for (const fixture of fixtures) {
+     if (!fixture.options.oxlint) continue;
+@@ -35,7 +35,7 @@ describe("oxlint CLI", { concurrent: process.platform 
+     it(
+       `fixture: ${fixture.name}`,
+       {
+-        concurrent: process.platform !== "win32",
++        concurrent: false,
+         // Windows can be flaky due to memory allocation failures
+         // Ref: https://github.com/oxc-project/oxc/issues/19395
+         retry: process.platform === "win32" ? 2 : 0,

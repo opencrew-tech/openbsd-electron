@@ -1,0 +1,12 @@
+Index: apps/oxfmt/test/cli/external_formatter/fixtures/package.json
+--- apps/oxfmt/test/cli/external_formatter/fixtures/package.json.orig
++++ apps/oxfmt/test/cli/external_formatter/fixtures/package.json
+@@ -5,7 +5,7 @@
+   "scripts": {
+     "build": "pnpm run build-napi-release && pnpm run build-js",
+ 
+-    "build-napi-release": "pnpm run build-napi --release --features allocator",
++    "build-napi-release": "pnpm run build-napi --release",
+ 
+     "build-js": "node scripts/build.js",
+ 

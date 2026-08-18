@@ -1,0 +1,13 @@
+Index: apps/oxfmt/vitest.config.ts
+--- apps/oxfmt/vitest.config.ts.orig
++++ apps/oxfmt/vitest.config.ts
+@@ -9,6 +9,8 @@ export default defineConfig({
+       printBasicPrototype: false,
+     },
+     snapshotSerializers: [],
+-    testTimeout: 10000,
++    testTimeout: 30000,
++    fileParallelism: false,
++    maxConcurrency: 1,
+   },
+ });

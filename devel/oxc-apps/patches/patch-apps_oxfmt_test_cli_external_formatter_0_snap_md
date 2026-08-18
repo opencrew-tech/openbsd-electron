@@ -1,0 +1,12 @@
+Index: apps/oxfmt/test/cli/external_formatter/0.snap.md
+--- apps/oxfmt/test/cli/external_formatter/0.snap.md.orig
++++ apps/oxfmt/test/cli/external_formatter/0.snap.md
+@@ -45,7 +45,7 @@ Finished in <time> on 3 files using 1 threads.
+    "scripts": {
+      "build": "pnpm run build-napi-release && pnpm run build-js",
+ -
+-     "build-napi-release": "pnpm run build-napi --release --features allocator",
++     "build-napi-release": "pnpm run build-napi --release",
+ -
+      "build-js": "node scripts/build.js",
+ -

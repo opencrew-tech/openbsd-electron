@@ -1,15 +1,24 @@
+Fix electron-builder 25 -> 26.
+Add dependencies on grist-core and ext so npm list report correct graph.
+Drop obsolete includeSubNodeModules.
+Drop flatpak configuration which is now invalid (and not needed).
+Exclude node_modules/grist-core to avoid duplicates.
+
 Index: package.json
 --- package.json.orig
 +++ package.json
-@@ -45,7 +45,6 @@
-   "resolutions": {
-     "jquery": "3.5.0",
-     "ts-interface-checker": "1.0.2",
--    "chromedriver": "110.0.0",
-     "7zip-bin": "../node/7zip-bin/node_modules/7zip-bin",
-     "app-builder-bin": "../node/app-builder-bin/node_modules/app-builder-bin",
-     "electron-builder": "../node/electron-builder/node_modules/electron-builder",
-@@ -56,7 +55,6 @@
+@@ -25,6 +25,10 @@
+       "**/typescript-eslint/**"
+     ]
+   },
++  "dependencies": {
++    "grist-core": "*",
++    "ext": "*"
++  },
+   "devDependencies": {
+     "@types/trusted-types": "2.0.7",
+     "@unrs/resolver-binding-wasm32-wasi": "^1.12.2",
+@@ -59,7 +63,6 @@
      "appId": "com.getgrist.grist",
      "npmRebuild": false,
      "compression": "normal",
@@ -17,7 +26,7 @@ Index: package.json
      "icon": "core/static/icons/grist.png",
      "win": {
        "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
-@@ -95,78 +93,6 @@
+@@ -98,78 +101,6 @@
          "flatpak"
        ]
      },
@@ -96,34 +105,11 @@ Index: package.json
      "afterSign": "./scripts/notarize.js",
      "asarUnpack": [
        "core/plugins",
-@@ -187,7 +113,6 @@
-       "core/plugins/**/*",
-       "core/python/**/*",
-       "core/node_modules/**/*",
--      "node_modules/**/*",
-       "!**/*.map",
-       "!**/*.ts",
-       "!**/*.tar.gz",
-@@ -227,7 +152,21 @@
-       "!core/documentation",
-       "!core/sandbox/pyodide/_build/worker/node_modules/deno/deno",
-       "!core/sandbox/pyodide/_build/worker/node_modules/deno/deno.exe",
--      "!**/test_*.py"
-+      "!**/test_*.py",
-+      {
-+        "from": "node_modules",
-+        "to": "node_modules",
-+        "filter": [
-+          "**/*"
-+        ]
-+      },
-+      {
-+        "from": "core/sandbox/pyodide/_build/worker/node_modules",
-+        "to": "core/sandbox/pyodide/_build/worker/node_modules",
-+        "filter": [
-+          "**/*"
-+        ]
-+      }
-     ],
-     "directories": {
-       "buildResources": "."
+@@ -207,6 +138,7 @@
+       "!**/{appveyor.yml,.travis.yml,circle.yml}",
+       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
+       "!node_modules/ext",
++      "!node_modules/grist-core",
+       "!**/node_modules/electron",
+       "!**/node_modules/app-builder-bin",
+       "!**/node_modules/7zip-bin",

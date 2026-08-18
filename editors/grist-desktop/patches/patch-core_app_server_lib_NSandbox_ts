@@ -1,7 +1,7 @@
 Index: core/app/server/lib/NSandbox.ts
 --- core/app/server/lib/NSandbox.ts.orig
 +++ core/app/server/lib/NSandbox.ts
-@@ -704,6 +704,7 @@ function pyodide(options: ISandboxOptions): SandboxPro
+@@ -855,6 +855,7 @@ function pyodide(options: ISandboxOptions): SandboxPro
      env: {
        PYTHONPATH: paths.engine,
        IMPORTDIR: options.importDir,

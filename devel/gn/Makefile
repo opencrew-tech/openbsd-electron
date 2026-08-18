@@ -3,8 +3,9 @@ BROKEN-sparc64= Doesn't support sparc64 as an architecture
 COMMENT=	meta build framework for ninja
 DPB_PROPERTIES=	parallel
 
-COMMIT=		0c25d1bbde6ef17e1e6d3938011f56a00c02e457
-DATE =		20250515
+# https://gn.googlesource.com/gn/+/refs/heads/main
+COMMIT=		c6cffd45cc17c30acb6f8bcc0b9a0e49654aafa2
+DATE =		20260817
 VERSION =	0.0.${DATE}
 DISTNAME =	gn-${DATE}
 PKGNAME =	gn-${VERSION}
@@ -30,23 +31,30 @@ RUN_DEPENDS =	devel/ninja
 
 CONFIGURE_STYLE =	simple
 CONFIGURE_SCRIPT =	${MODPY_BIN} build/gen.py
-CONFIGURE_ARGS +=	--platform openbsd
-CONFIGURE_ENV +=	GN_VERSION=${DATE}
+CONFIGURE_ARGS+=	--platform openbsd
+CONFIGURE_ENV+=		GN_VERSION=${DATE}
+MAKE_ENV+=		GN_VERSION=${DATE}
 
 DOCDIR =	${PREFIX}/share/doc/gn
 WRKDIST =	${WRKDIR}/gn
+
+SUBST_VARS+=	WRKSRC
 
 post-patch:
 	${SUBST_CMD} ${WRKSRC}/src/util/exe_path.cc \
 		${WRKSRC}/src/gn/command_format_unittest.cc
 
 do-build:
-	${SETENV} ${MAKE_ENV} ninja -C${WRKSRC}/out -j${MAKE_JOBS} -v
+	${SETENV} ${MAKE_ENV} ninja -C${WRKSRC}/out -j${MAKE_JOBS} -v gn
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/out/gn ${PREFIX}/bin
 	${INSTALL_DATA_DIR} ${DOCDIR}
 	${INSTALL_DATA} ${WRKSRC}/{LICENSE,README.md} ${DOCDIR}
+
+pre-test:
+	${SETENV} ${MAKE_ENV} ninja -C${WRKSRC}/out -j${MAKE_JOBS} -v \
+		gn_unittests
 
 do-test:
 	cd ${WRKBUILD} && \
@@ -55,7 +63,7 @@ do-test:
 ### targets for port maintainer(s)
 
 _SRC?=		${WRKDIR}/gn
-_FETCH?=	https://gn.googlesource.com/gn ${COMMIT}
+_FETCH?=	https://gn.googlesource.com/gn.git ${COMMIT}
 tarball:
 	mkdir -p ${_SRC}/gn
 	cd ${_SRC}/gn && [ -d ".git" ] || ( \

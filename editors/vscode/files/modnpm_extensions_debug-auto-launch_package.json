@@ -33,7 +33,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "22.x"
+    "@types/node": "24.x"
   },
   "prettier": {
     "printWidth": 100,
@@ -47,7 +47,6 @@
   },
   "bundleDependencies": [],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

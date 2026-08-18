@@ -1,0 +1,20 @@
+Index: src/vs/platform/extensionManagement/common/extensionGalleryManifestService.ts
+--- src/vs/platform/extensionManagement/common/extensionGalleryManifestService.ts.orig
++++ src/vs/platform/extensionManagement/common/extensionGalleryManifestService.ts
+@@ -13,6 +13,7 @@ type ExtensionGalleryConfig = {
+ 	readonly serviceUrl: string;
+ 	readonly itemUrl: string;
+ 	readonly publisherUrl: string;
++	readonly latestUrlTemplate?: string;
+ 	readonly resourceUrlTemplate: string;
+ 	readonly extensionUrlTemplate: string;
+ 	readonly controlUrl: string;
+@@ -47,7 +48,7 @@ export class ExtensionGalleryManifestService extends D
+ 				type: ExtensionGalleryResourceType.ExtensionQueryService
+ 			},
+ 			{
+-				id: `${extensionsGallery.serviceUrl}/vscode/{publisher}/{name}/latest`,
++				id: extensionsGallery.latestUrlTemplate ?? `${extensionsGallery.serviceUrl}/vscode/{publisher}/{name}/latest`,
+ 				type: ExtensionGalleryResourceType.ExtensionLatestVersionUri
+ 			},
+ 			{

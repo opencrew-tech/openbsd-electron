@@ -125,7 +125,6 @@
     "@vscode/markdown-it-katex"
   ],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

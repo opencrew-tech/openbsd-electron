@@ -22,7 +22,7 @@
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
-    "@types/node": "22.x"
+    "@types/node": "24.x"
   },
   "contributes": {
     "semanticTokenTypes": [
@@ -63,7 +63,6 @@
     "jsonc-parser"
   ],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

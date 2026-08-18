@@ -1,5 +1,7 @@
+# make gen-targets
 VSCODE_TARGETS+=
 VSCODE_TARGETS+=build
+VSCODE_TARGETS+=build/rspack
 VSCODE_TARGETS+=build/vite
 VSCODE_TARGETS+=extensions
 VSCODE_TARGETS+=extensions/configuration-editing
@@ -25,7 +27,7 @@ VSCODE_TARGETS+=extensions/markdown-language-features
 VSCODE_TARGETS+=extensions/markdown-math
 VSCODE_TARGETS+=extensions/media-preview
 VSCODE_TARGETS+=extensions/merge-conflict
-VSCODE_TARGETS+=extensions/mermaid-chat-features
+VSCODE_TARGETS+=extensions/mermaid-markdown-features
 VSCODE_TARGETS+=extensions/microsoft-authentication
 VSCODE_TARGETS+=extensions/notebook-renderers
 VSCODE_TARGETS+=extensions/npm
@@ -50,3 +52,4 @@ VSCODE_TARGETS+=test/mcp
 VSCODE_TARGETS+=.vscode/extensions/vscode-selfhost-import-aid
 VSCODE_TARGETS+=.vscode/extensions/vscode-selfhost-test-provider
 VSCODE_TARGETS+=.vscode/extensions/vscode-extras
+VSCODE_TARGETS+=.vscode/extensions/vscode-pr-pinger

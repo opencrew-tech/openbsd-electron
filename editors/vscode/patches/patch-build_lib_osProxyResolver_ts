@@ -1,0 +1,13 @@
+Index: build/lib/osProxyResolver.ts
+--- build/lib/osProxyResolver.ts.orig
++++ build/lib/osProxyResolver.ts
+@@ -46,6 +46,9 @@ export function getOSProxyResolverExcludeFilter(platfo
+ }
+ 
+ export function ensureOSProxyResolverPlatformPackage(platform: string, arch: string, nodeModulesRoot = 'node_modules', options: EnsureNpmPackageOptions = {}): void {
++	if (process.platform === 'openbsd' && platform === 'linux') {
++		return;
++	}
+ 	const target = toOSProxyResolverPlatform(platform, arch);
+ 	if (target) {
+ 		ensureNpmPackage(`@vscode/os-proxy-resolver-${target}`, nodeModulesRoot, options);

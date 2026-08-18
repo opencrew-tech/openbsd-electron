@@ -8,7 +8,7 @@ https://github.com/VSCodium/vscodium/blob/master/patches/remove-mangle.patch
 Index: build/lib/compilation.ts
 --- build/lib/compilation.ts.orig
 +++ build/lib/compilation.ts
-@@ -66,7 +66,7 @@ export function createCompile(src: string, { build, em
+@@ -65,7 +65,7 @@ export function createCompile(src: string, { build, em
  	}
  
  	const compilation = tsb.create(projectPath, overrideOptions, {
@@ -17,7 +17,7 @@ Index: build/lib/compilation.ts
  		transpileOnly: Boolean(transpileOnly),
  		transpileWithEsbuild: typeof transpileOnly !== 'boolean' && transpileOnly.esbuild
  	}, err => reporter(err));
-@@ -138,26 +138,26 @@ export function compileTask(src: string, out: string, 
+@@ -139,26 +139,26 @@ export function compileTask(src: string, out: string, 
  
  		// mangle: TypeScript to TypeScript
  		let mangleStream = es.through();
@@ -62,5 +62,5 @@ Index: build/lib/compilation.ts
 +// 			});
 +// 		}
  
- 		return srcPipe
+ 		const emit = util.streamToPromise(srcPipe
  			.pipe(mangleStream)

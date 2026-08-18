@@ -30,7 +30,6 @@
     "typescript"
   ],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

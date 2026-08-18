@@ -1,0 +1,12 @@
+Index: node_modules/native-keymap/binding.gyp
+--- node_modules/native-keymap/binding.gyp.orig
++++ node_modules/native-keymap/binding.gyp
+@@ -32,7 +32,7 @@
+         }
+       },
+       "conditions": [
+-        ['OS=="linux"', {
++        ['OS=="linux" or OS=="openbsd"', {
+           "sources": [
+             "deps/chromium/x/keysym_to_unicode.cc",
+             "src/keyboard_x.cc"

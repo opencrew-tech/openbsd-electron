@@ -183,7 +183,7 @@
           "when": "github.hasGitHubRepo && timelineItem =~ /git:file:commit\\b/"
         }
       ],
-      "chat/input/editing/sessionApplyActions": []
+      "agents/changes/actions/primary": []
     },
     "configuration": [
       {
@@ -248,7 +248,7 @@
     "@vscode/extension-telemetry": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "22.x"
+    "@types/node": "24.x"
   },
   "repository": {
     "type": "git",
@@ -262,7 +262,6 @@
     "@vscode/extension-telemetry"
   ],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

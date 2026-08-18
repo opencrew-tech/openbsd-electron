@@ -1,0 +1,97 @@
+Index: src/vs/platform/agentHost/node/codex/codexAgent.ts
+--- src/vs/platform/agentHost/node/codex/codexAgent.ts.orig
++++ src/vs/platform/agentHost/node/codex/codexAgent.ts
+@@ -50,7 +50,6 @@ import { IAgentHostGitHubEndpointService } from '../ag
+ import { ICopilotApiService } from '../shared/copilotApiService.js';
+ import { extractForwardedErrorInfo } from '../shared/forwardedChatError.js';
+ import { IAgentSdkDownloader, IAgentSdkPackage } from '../agentSdkDownloader.js';
+-import { CancellationToken } from '../../../../base/common/cancellation.js';
+ import { PendingRequestRegistry } from '../../common/pendingRequestRegistry.js';
+ import { CodexAppServerClient, JsonRpcError, transportFromChildProcess, type ICodexAppServerClient, type ServerRequestHandlerResult } from './codexAppServerClient.js';
+ import { ICodexProxyService, type ICodexProxyHandle } from './codexProxyService.js';
+@@ -62,7 +61,7 @@ import { buildUserInputRequest, emptyUserInputResponse
+ import { replayThreadToTurns } from './codexReplayMapper.js';
+ import { CodexSessionMetadataStore } from './codexSessionMetadataStore.js';
+ import { buildCodexLaunchConfig, buildCodexResumeParams, isCodexThreadProviderCompatible } from './codexLaunchConfig.js';
+-import { codexAccountStateForUsageSource, codexAccountStateFromResponse, codexProtectedResourcesForUsageSource, resolveCodexUsageSourceAfterAccountRead, type ICodexAccountState } from './codexAccountState.js';
++import { codexAccountStateForUsageSource, codexAccountStateFromResponse, codexProtectedResourcesForUsageSource, type ICodexAccountState } from './codexAccountState.js';
+ import { CodexSessionConfigKey, CODEX_DEFAULT_PERMISSIONS_PRESET, CODEX_PERMISSIONS_PRESETS, collaborationModeKind, migrateCodexPermissionValues, narrowAdditionalDirectories, narrowBoolean, narrowPersonality, narrowReasoningEffort, narrowReasoningSummary, narrowWebSearchMode, resolveCodexPermissions, type CodexApprovalPolicy, type CodexPermissionsPreset, type ICodexResolvedPermissions } from './codexSessionConfigKeys.js';
+ import type { ReasoningEffort } from './protocol/generated/ReasoningEffort.js';
+ import type { ReasoningSummary } from './protocol/generated/ReasoningSummary.js';
+@@ -872,12 +871,6 @@ export class CodexAgent extends Disposable implements 
+ 		if (this._usageSource !== 'openai') {
+ 			return;
+ 		}
+-		const source = resolveCodexUsageSourceAfterAccountRead(this._usageSource, account);
+-		if (source === 'copilot') {
+-			this._logService.info('[Codex] OpenAI is signed out; falling back to GitHub Copilot');
+-			this._configurationService.updateRootConfig({ [AgentHostConfigKey.CodexUsageSource]: source });
+-			return;
+-		}
+ 		if (account.status === 'signedIn') {
+ 			this._queueModelRefresh();
+ 		}
+@@ -888,7 +881,7 @@ export class CodexAgent extends Disposable implements 
+ 	}
+ 
+ 	private _resolveUsageSource(): CodexUsageSource {
+-		return this._configurationService.getRootValue(agentHostCustomizationConfigSchema, AgentHostConfigKey.CodexUsageSource) ?? 'copilot';
++		return this._configurationService.getRootValue(agentHostCustomizationConfigSchema, AgentHostConfigKey.CodexUsageSource) ?? 'openai';
+ 	}
+ 
+ 	private _requestUsageSourceChange(source: CodexUsageSource): void {
+@@ -1395,35 +1388,6 @@ export class CodexAgent extends Disposable implements 
+ 		return promise;
+ 	}
+ 
+-	/**
+-	 * Resolve the Codex SDK root — the directory whose
+-	 * `node_modules/@openai/codex-<target>/…` holds the native binary.
+-	 *
+-	 * Mirrors the three-tier resolution in `ClaudeAgentSdkService._loadSdk`:
+-	 *   1. dev override / product download, via the downloader, when the SDK
+-	 *      `isAvailable` (env override || `product.agentSdks.codex`);
+-	 *   2. dev fallback to this repo's `node_modules`, where `@openai/codex`
+-	 *      and its per-host binary package are devDependencies — this is what
+-	 *      lets running-from-source (and dev smoke tests) spawn Codex without
+-	 *      an env-var override.
+-	 *
+-	 * `isAvailable` is already false in dev, so it discriminates the two
+-	 * without injecting `INativeEnvironmentService`. When neither path
+-	 * resolves we defer to the downloader so callers get its actionable
+-	 * "not configured" diagnostic.
+-	 */
+-	private async _resolveSdkRoot(): Promise<string> {
+-		if (this._agentSdkDownloader.isAvailable(CodexSdkPackage)) {
+-			return this._agentSdkDownloader.loadSdkRoot(CodexSdkPackage, CancellationToken.None);
+-		}
+-		const devRoot = await resolveCodexDevSdkRoot();
+-		if (devRoot) {
+-			this._logService.info(`[Codex] resolving SDK from repo node_modules (dev fallback): ${devRoot}`);
+-			return devRoot;
+-		}
+-		return this._agentSdkDownloader.loadSdkRoot(CodexSdkPackage, CancellationToken.None);
+-	}
+-
+ 	private async _startConnection(usageSource: CodexUsageSource, token: string | undefined): Promise<IConnectionReady> {
+ 		// Resolve the Codex SDK root: dev override / product download via the
+ 		// downloader, or this repo's `node_modules` in a source checkout (see
+@@ -1433,17 +1397,7 @@ export class CodexAgent extends Disposable implements 
+ 		// through the shim adds a launcher hop and forces an
+ 		// `ELECTRON_RUN_AS_NODE` round-trip when the agent host runs as an
+ 		// Electron utility process.
+-		const root = await this._resolveSdkRoot();
+-		const codexTarget = codexPackageSuffix(process.platform, process.arch);
+-		if (!codexTarget) {
+-			throw new Error(`Codex: unsupported platform ${process.platform}-${process.arch}`);
+-		}
+-		const triple = codexBinaryTriple(codexTarget);
+-		if (!triple) {
+-			throw new Error(`Codex: no binary triple known for sdkTarget '${codexTarget}'`);
+-		}
+-		const binaryName = process.platform === 'win32' ? 'codex.exe' : 'codex';
+-		const binaryPath = join(root, 'node_modules', `@openai/codex-${codexTarget}`, 'vendor', triple, 'bin', binaryName);
++		const binaryPath = '${LOCALBASE}/bin/codex';
+ 		try {
+ 			fs.accessSync(binaryPath, fs.constants.X_OK);
+ 		} catch (err) {

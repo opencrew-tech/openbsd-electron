@@ -16,10 +16,13 @@
   },
   "overrides": {
     "node-gyp-build": "4.8.1",
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package",
     "esbuild": "file:../../node/esbuild/node_modules/esbuild",
     "@parcel/watcher": "file:../../node/parcel-watcher/node_modules/@parcel/watcher"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "esbuild@0.28.1": true
   },
   "bundleDependencies": [
     "typescript"

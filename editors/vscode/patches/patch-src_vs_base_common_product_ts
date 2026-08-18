@@ -1,0 +1,13 @@
+Index: src/vs/base/common/product.ts
+--- src/vs/base/common/product.ts.orig
++++ src/vs/base/common/product.ts
+@@ -143,6 +143,9 @@ export interface IProductConfiguration {
+ 
+ 	readonly extensionsGallery?: {
+ 		readonly serviceUrl: string;
++		readonly itemUrl?: string;
++		readonly publisherUrl?: string;
++		readonly latestUrlTemplate?: string;
+ 		readonly controlUrl: string;
+ 		readonly extensionUrlTemplate: string;
+ 		readonly resourceUrlTemplate: string;

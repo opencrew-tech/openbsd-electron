@@ -1,0 +1,12 @@
+Index: src/vs/workbench/contrib/chat/browser/chat.shared.contribution.ts
+--- src/vs/workbench/contrib/chat/browser/chat.shared.contribution.ts.orig
++++ src/vs/workbench/contrib/chat/browser/chat.shared.contribution.ts
+@@ -878,7 +878,7 @@ configurationRegistry.registerConfiguration({
+ 		[CodexPreferAgentHostEditorSettingId]: {
+ 			type: 'boolean',
+ 			markdownDescription: nls.localize('chat.editor.codex.preferAgentHost', "When enabled, Codex sessions opened from the regular workbench (sidebar chat) run inside the agent host process using the Codex App Server instead of the OpenAI extension. Only one Codex implementation surfaces per window. Requires `#chat.agentHost.enabled#` and `#chat.agentHost.codexAgent.enabled#`."),
+-			default: false,
++			default: true,
+ 			tags: ['experimental'],
+ 			experiment: { mode: 'startup' },
+ 		},

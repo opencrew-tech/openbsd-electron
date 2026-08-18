@@ -18,7 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "22.x"
+    "@types/node": "24.x"
   },
   "main": "./out/main",
   "activationEvents": [
@@ -74,7 +74,6 @@
   },
   "bundleDependencies": [],
   "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
     "archiver": "npm:noop-package"
   }
 }

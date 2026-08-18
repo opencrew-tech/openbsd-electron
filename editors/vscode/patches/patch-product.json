@@ -1,17 +1,25 @@
 Index: product.json
 --- product.json.orig
 +++ product.json
-@@ -33,6 +33,16 @@
- 	"nodejsRepository": "https://nodejs.org",
+@@ -36,6 +36,24 @@
  	"urlProtocol": "code-oss",
+ 	"agentsTelemetryAppName": "agents",
  	"webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
 +	"documentationUrl": "https://go.microsoft.com/fwlink/?LinkID=533484",
 +	"extensionsGallery": {
 +		"serviceUrl": "https://open-vsx.org/vscode/gallery",
-+		"itemUrl": "https://open-vsx.org/vscode/item"
++		"itemUrl": "https://open-vsx.org/vscode/item",
++		"publisherUrl": "https://open-vsx.org/namespace",
++		"latestUrlTemplate": "https://open-vsx.org/vscode/gallery/{publisher}/{name}/latest",
++		"extensionUrlTemplate": "https://open-vsx.org/vscode/gallery/{publisher}/{name}/latest",
++		"resourceUrlTemplate": "https://open-vsx.org/vscode/asset/{publisher}/{name}/{version}/Microsoft.VisualStudio.Code.WebResources/{path}",
++		"controlUrl": "https://raw.githubusercontent.com/EclipseFdn/publish-extensions/refs/heads/master/extension-control/extensions.json"
 +	},
 +	"introductoryVideosUrl": "https://go.microsoft.com/fwlink/?linkid=832146",
 +	"keyboardShortcutsUrlLinux": "https://go.microsoft.com/fwlink/?linkid=832144",
++	"linkProtectionTrustedDomains": [
++		"https://open-vsx.org"
++	],
 +	"quality": "stable",
 +	"requestFeatureUrl": "https://go.microsoft.com/fwlink/?LinkID=533482",
 +	"tipsAndTricksUrl": "https://go.microsoft.com/fwlink/?linkid=852118",

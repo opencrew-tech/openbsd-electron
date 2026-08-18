@@ -1,0 +1,12 @@
+Index: src/vs/platform/agentHost/common/agentHostCustomizationConfig.ts
+--- src/vs/platform/agentHost/common/agentHostCustomizationConfig.ts.orig
++++ src/vs/platform/agentHost/common/agentHostCustomizationConfig.ts
+@@ -103,7 +103,7 @@ export const agentHostCustomizationConfigSchema = crea
+ 		type: 'string',
+ 		title: localize('agentHost.config.codexUsageSource.title', "Codex Usage Source"),
+ 		description: localize('agentHost.config.codexUsageSource.description', "Choose whether Codex usage is routed through GitHub Copilot or uses an existing Codex OpenAI login. VS Code does not provide the OpenAI sign-in flow; authenticate Codex separately before selecting OpenAI."),
+-		default: 'copilot',
++		default: 'openai',
+ 		enum: [...codexUsageSources],
+ 	}),
+ 	[AgentHostConfigKey.SessionCustomizationDiscoveryMode]: schemaProperty<SessionCustomizationDiscoveryMode>({

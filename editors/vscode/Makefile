@@ -7,8 +7,8 @@ PORTROACH =		skipv:1.999.0
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.117.0
-COMMIT=			10c8e557c8b9f9ed0a87f61f1c9a44bde731c409
+V=			1.132.0
+COMMIT=			df53daabb18cd157bdb08c7f01c34df936cf12f4
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -25,25 +25,19 @@ PERMIT_PACKAGE=		Yes
 # check builtInExtensions from product.json, use pre-build .vsix (.zip)
 VSCODE_EXTENSIONS=	js-debug-companion js-debug-companion 1.1.3 \
 			js-debug js-debug 1.117.0 \
-			js-profile-visualizer vscode-js-profile-table 1.0.10
+			js-profile-visualizer vscode-js-profile-table 1.0.11
 .for _git _ext _v in ${VSCODE_EXTENSIONS}
 DISTFILES.exts+= \
 	vscode-${_git}/releases/download/v${_v}/ms-vscode.${_ext}.${_v}.vsix
 .endfor
 SITES.exts=		https://github.com/microsoft/
 
-# git depends ramya-rao-a/css-parser#vscode needs rebuild during CI
-# bring in as a separate target to be built by modnpm
-# see custom MODNPM_GEN_OVERRIDES bellow
-CSS_PARSER_H=		370c480ac103bd17c7bcfb34bf5d577dc40d3660
-DIST_TUPLE+=		github ramya-rao-a css-parser ${CSS_PARSER_H} css-parser
-
 EXTRACT_CASES+=		*.vsix) \
 	_filename=$${archive\#\#*/} && \
 	${UNZIP} -oq ${FULLDISTDIR}/$$archive \
 		-d ${WRKDIR}/$${_filename%.vsix} ;;
 
-WANTLIB += ${COMPILER_LIBCXX} m
+WANTLIB += ${COMPILER_LIBCXX} X11 c m xkbfile
 
 COMPILER=		base-clang ports-gcc
 
@@ -58,33 +52,25 @@ MODULES+=		security/heimdal
 
 MODPY_RUNDEP=		No
 
-MODNPM_TARGETS=		${WRKSRC}/css-parser \
-			${WRKSRC} \
+MODNPM_TARGETS=		${WRKSRC} \
 			${VSCODE_TARGETS:=${WRKSRC}/%}
 
 # optional depends keytar for @vscode/vsce, which is not installed
 # keytar needs x11/gnome/libsecret to build
 MODNPM_GEN_EXCLUDES+=	keytar
-# optional depends bare-* for tar-fs, which need bare-make and custom build
-# it bundles prebuild for all os/arch and generates .bare instead of .node
-# rather avoid it
-MODNPM_GEN_EXCLUDES+=	bare-events \
-			bare-fs \
-			bare-os \
-			bare-path \
-			bare-stream
-
-# override for .extensions/emmet depends, use relative path
-MODNPM_GEN_OVERRIDES+=	@emmetio/css-parser file:../../css-parser
 
 # node-ovsx-sign brings in archiver which depends on bare-fs (harder to build)
 MODNPM_GEN_OVERRIDES+=	archiver npm:noop-package
 
 MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
+MODNPM_MODS+=@oxc-project/runtime
+MODNPM_MODS+=@oxc-project/types
 MODNPM_MODS+=@parcel/watcher
+MODNPM_MODS+=rolldown
+MODNPM_MODS+=@rolldown/pluginutils
 MODNPM_MODS+=rollup
-MODNPM_MODS+=@typescript/native-preview
+MODNPM_MODS+=tailwindcss
 MODNPM_MODS+=lightningcss
 
 MODELECTRON_TARGET=	code-oss
@@ -95,11 +81,12 @@ MODELECTRON_INSTALL=	No
 
 BUILD_DEPENDS=		archivers/unzip \
 			archivers/zip \
-			lang/node
-RUN_DEPENDS=		devel/desktop-file-utils \
-			devel/xdg-utils \
-			shells/bash \
+			lang/node \
 			textproc/ripgrep
+RUN_DEPENDS=		devel/codex \
+			devel/desktop-file-utils \
+			devel/xdg-utils \
+			shells/bash
 LIB_DEPENDS=		devel/libnotify \
 			security/openssl/3.5
 
@@ -119,6 +106,7 @@ MAKE_ENV+=		PLAYWRIGHT_BROWSERS_PATH=${WRKDIR}/pw-browsers \
 MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 
 TEST_ENV+=		DISPLAY=:1 \
+			XDG_RUNTIME_DIR=${WRKDIR}/runtime \
 			VSCODE_SKIP_PRELAUNCH=1
 
 # make gen-targets > Makefile.inc
@@ -126,16 +114,12 @@ TEST_ENV+=		DISPLAY=:1 \
 
 post-patch:
 	# inject LOCALBASE for system path
-	cd ${WRKSRC} && ${SUBST_CMD} node_modules/@vscode/ripgrep/lib/index.js
-	cd ${WRKSRC}/src/vs/workbench/contrib && ${SUBST_CMD} \
-		mcp/common/mcpSandboxService.ts \
-		terminalContrib/chatAgentTools/common/terminalSandboxService.ts
+	cd ${WRKSRC}/src/vs && \
+		${SUBST_CMD} platform/agentHost/node/codex/codexAgent.ts
 	# copy duplicate node_modules patched
 	cd ${WRKSRC} && \
 		cp {,remote/}node_modules/@vscode/deviceid/dist/index.js && \
 		cp {,remote/}node_modules/@vscode/deviceid/dist/storage.js && \
-		cp {,build/}node_modules/@vscode/ripgrep/lib/index.js && \
-		cp {,remote/}node_modules/@vscode/ripgrep/lib/index.js && \
 		cp {,build/}node_modules/@vscode/vsce-sign/package.json && \
 		cp {,remote/}node_modules/kerberos/binding.gyp && \
 		cp {,remote/}node_modules/kerberos/src/kerberos_common.h && \
@@ -148,8 +132,7 @@ post-extract:
 
 do-configure:
 	# preset desktop files
-	sed -i.bak \
-		's/@@NAME_LONG@@/${MODELECTRON_APP_NAME}/; \
+	sed -i.bak 's/@@NAME_LONG@@/${MODELECTRON_APP_NAME}/; \
 		s/@@NAME_SHORT@@/${MODELECTRON_APP_NAME}/; \
 		s/@@PRODNAME@@/${MODELECTRON_APP_NAME}/; \
 		s/@@NAME@@/${MODELECTRON_TARGET}/g; \
@@ -164,6 +147,21 @@ do-configure:
 		${WRKSRC}/resources/linux/code-url-handler.desktop
 
 pre-build:
+	# bundle textproc/ripgrep (bin/rg) into node_modules
+	@${INSTALL_DATA_DIR} ${WRKSRC}/node_modules/@vscode/ripgrep/bin
+	@${INSTALL_PROGRAM} ${LOCALBASE}/bin/rg \
+		${WRKSRC}/node_modules/@vscode/ripgrep/bin/rg
+.for _dir in \
+    node_modules/@vscode/ripgrep-universal/bin/linux \
+    node_modules/@vscode/ripgrep-universal/bin/openbsd \
+    build/node_modules/@vscode/ripgrep-universal/bin/linux \
+    build/node_modules/@vscode/ripgrep-universal/bin/openbsd \
+    remote/node_modules/@vscode/ripgrep-universal/bin/linux \
+    remote/node_modules/@vscode/ripgrep-universal/bin/openbsd
+	@${INSTALL_DATA_DIR} ${WRKSRC}/${_dir}-${ELECTRON_ARCH}
+	@${INSTALL_PROGRAM} ${LOCALBASE}/bin/rg \
+		${WRKSRC}/${_dir}-${ELECTRON_ARCH}/rg
+.endfor
 	# see package.json patch, skip build/npm/postinstall.js, custom build
 	# rebuild native node modules in subdirectories
 .for _DIR in ./ ${VSCODE_TARGETS}
@@ -213,7 +211,7 @@ do-install:
 	@chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/${MODELECTRON_DIST_T}
 	@rm -rf ${PREFIX}/${MODELECTRON_DIST_T}/bin
 	@rm -rf ${PREFIX}/${MODELECTRON_DIST_T}/resources/completions
-	# wraper
+	# wrapper
 	${SUBST_PROGRAM} ${FILESDIR}/vscode ${PREFIX}/bin/vscode
 	# menu
 	${INSTALL_DATA_DIR} ${PREFIX}/share/appdata
@@ -229,6 +227,7 @@ do-install:
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
 
 pre-test:
+	${INSTALL_DATA_DIR} ${WRKDIR}/runtime
 	# rebuild native node modules (including tests)
 .for _DIR in ./ ${VSCODE_TARGETS}
 	@if [ "`echo ${_DIR} | grep -e test -e .vscode`" ]; then \
@@ -287,12 +286,10 @@ pre-test:
 # XXX not ok 95 app module sandbox options
 # Unhandled exception in main spec runner:... to not include '--no-sandbox'
 # XXX "<args>" break tests ?
-	cat ${LOCALBASE}/electron/${ELECTRON_V}/electron_nosandbox.sh \
+	cat ${TRUEPREFIX}/bin/electron \
 		| sed -e 's/"$${@}"/$${@}/' \
 		> ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
-# 	cat ${TRUEPREFIX}/bin/electron \
-# 		| sed -e 's/"$${@}"/$${@}/' \
-# 		> ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
+	chmod 755 ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
 
 APP_ROOT=${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}
 APP_NAME=${MODELECTRON_TARGET}
@@ -301,7 +298,7 @@ APP_NAME=${MODELECTRON_TARGET}
 # XXX nosandbox || unveil /
 do-test:
 # build/azure-pipelines/linux/steps/product-build-linux-test.yml
-# XXX no brower or remote version built
+# XXX no browser or remote version built
 	# Run unit tests (Electron)
 	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} VSCODE_PID=1 \
 		./scripts/test.sh --build
@@ -318,6 +315,8 @@ do-test:
 #	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 #		ELECTRON_PATH=${LOCALBASE}/bin/electron \
 #		npm run smoketest
+	cd ${WRKSRC} && ${MODNPM_CMD_TEST} run smoketest-no-compile -- \
+		--tracing --build "${APP_ROOT}"
 
 ### targets for port maintainer(s)
 
@@ -325,7 +324,16 @@ modnpm-pre-gen-modules:
 	cd ${WRKSRC} && \
 		${MODNPM_CMD_GEN} install --ignore-script node-ovsx-sign
 
-### targets for port maintainer(s)
+# npm drops the lockfile placeholder for ssh2's disabled optional dependency.
+_OPT =	node_modules/ssh2/node_modules/cpu-features
+modnpm-post-gen-modules:
+	@set -e ; \
+	for target in ${WRKSRC} ${WRKSRC}/remote ; do \
+		cd $${target} ; \
+		jq '.packages["${_OPT}"] = {"inBundle":true,"optional":true}' \
+			${MODNPM_LOCK} > ${MODNPM_LOCK}.tmp ; \
+		mv ${MODNPM_LOCK}.tmp ${MODNPM_LOCK} ; \
+	done
 
 gen-targets: extract
 	# make gen-targets

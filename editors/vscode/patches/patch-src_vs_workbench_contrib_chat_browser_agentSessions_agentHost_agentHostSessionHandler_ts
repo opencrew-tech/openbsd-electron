@@ -1,0 +1,12 @@
+Index: src/vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostSessionHandler.ts
+--- src/vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostSessionHandler.ts.orig
++++ src/vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostSessionHandler.ts
+@@ -1324,7 +1324,7 @@ export class AgentHostSessionHandler extends Disposabl
+ 			extensionVersion: undefined,
+ 			extensionPublisherId: 'vscode',
+ 			extensionDisplayName: this._config.extensionDisplayName ?? 'Agent Host',
+-			isDefault: false,
++			isDefault: this._config.provider === 'codex',
+ 			isDynamic: true,
+ 			isCore: true,
+ 			metadata: { themeIcon: getAgentSessionProviderIcon(this._config.sessionType) },

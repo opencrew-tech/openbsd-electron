@@ -10,11 +10,17 @@
   "dependencies": {
     "@vscode/l10n": "^0.0.18",
     "vscode-css-languageservice": "^7.0.0-next.1",
-    "vscode-languageserver": "^10.0.0-next.16",
+    "vscode-languageserver": "^10.0.0-next.18",
     "vscode-uri": "^3.1.0"
   },
   "devDependencies": {
-    "@types/node": "22.x"
+    "@types/node": "24.x"
+  },
+  "overrides": {
+    "vscode-css-languageservice": {
+      "vscode-languageserver-types": "3.17.6-next.7"
+    },
+    "archiver": "npm:noop-package"
   },
   "scripts": {
     "compile": "gulp compile-extension:css-language-features-server",
@@ -30,9 +36,5 @@
     "vscode-css-languageservice",
     "vscode-languageserver",
     "vscode-uri"
-  ],
-  "overrides": {
-    "@emmetio/css-parser": "file:../../css-parser",
-    "archiver": "npm:noop-package"
-  }
+  ]
 }

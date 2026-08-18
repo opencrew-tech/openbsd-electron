@@ -1,57 +1,85 @@
+No crashpad support. Skip tests.
+
 Index: electron/spec/api-crash-reporter-spec.ts
 --- electron/spec/api-crash-reporter-spec.ts.orig
 +++ electron/spec/api-crash-reporter-spec.ts
-@@ -14,7 +14,7 @@ import { setTimeout } from 'node:timers/promises';
- import { ifdescribe, ifit, defer, startRemoteControlApp, repeatedly, listen } from './lib/spec-helpers';
+@@ -15,6 +15,7 @@ import { ifdescribe, ifit, defer, startRemoteControlAp
  
  const isWindowsOnArm = process.platform === 'win32' && process.arch === 'arm64';
--const isLinuxOnArm = process.platform === 'linux' && process.arch.includes('arm');
-+const isLinuxOnArm = (['freebsd', 'linux', 'openbsd'].includes(process.platform) && process.arch.includes('arm'));
+ const isLinuxOnArm = process.platform === 'linux' && process.arch.includes('arm');
++const hasCrashReporterBackend = !['freebsd', 'openbsd'].includes(process.platform);
  
  type CrashInfo = {
-   prod: string
-@@ -47,7 +47,7 @@ function checkCrash (expectedProcessType: string, fiel
+   prod: string;
+@@ -138,7 +139,7 @@ function waitForNewFileInDir(dir: string): Promise<str
+ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_TESTS)(
+   'crashReporter module',
+   function () {
+-    describe('should send minidump', () => {
++    ifdescribe(hasCrashReporterBackend)('should send minidump', () => {
+       it('when renderer crashes', async () => {
+         const { port, waitForCrash } = await startServer();
+         runCrashApp('renderer', port);
+@@ -323,7 +324,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+       });
+     });
  
-   // TODO(nornagon): minidumps are sometimes (not always) turning up empty on
-   // 32-bit Linux.  Figure out why.
--  if (!(process.platform === 'linux' && process.arch === 'ia32')) {
-+  if (!(['freebsd', 'linux', 'openbsd'].includes(process.platform) && process.arch === 'ia32')) {
-     expect(fields.upload_file_minidump.length).to.be.greaterThan(0);
-   }
- }
-@@ -184,7 +184,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+-    ifdescribe(!isLinuxOnArm)('extra parameter limits', () => {
++    ifdescribe(!isLinuxOnArm && hasCrashReporterBackend)('extra parameter limits', () => {
+       function stitchLongCrashParam(crash: any, paramKey: string) {
+         if (crash[paramKey]) return crash[paramKey];
+         let chunk = 1;
+@@ -386,7 +387,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+       });
+     });
  
-     // Ensures that passing in crashpadHandlerPID flag for Linx child processes
-     // does not affect child process args.
--    ifit(process.platform === 'linux')('ensure linux child process args are not modified', async () => {
-+    ifit(['freebsd', 'linux', 'openbsd'].includes(process.platform))('ensure linux child process args are not modified', async () => {
-       const { port, waitForCrash } = await startServer();
-       let exitCode: number | null = null;
-       const appPath = path.join(__dirname, 'fixtures', 'apps', 'crash');
-@@ -533,7 +533,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+-    describe('globalExtra', () => {
++    ifdescribe(hasCrashReporterBackend)('globalExtra', () => {
+       ifit(!isLinuxOnArm)('should be sent with main process dumps', async () => {
+         const { port, waitForCrash } = await startServer();
+         runCrashApp('main', port, ['--add-global-param=globalParam:globalValue']);
+@@ -445,7 +446,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+     });
+ 
+     // TODO(nornagon): re-enable on woa
+-    ifdescribe(!isWindowsOnArm)('getLastCrashReport', () => {
++    ifdescribe(!isWindowsOnArm && hasCrashReporterBackend)('getLastCrashReport', () => {
+       it('returns the last uploaded report', async () => {
+         const { remotely } = await startRemoteControlApp();
+         const { port, waitForCrash } = await startServer();
+@@ -491,7 +492,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+       });
+     });
+ 
+-    describe('getParameters', () => {
++    ifdescribe(hasCrashReporterBackend)('getParameters', () => {
+       it('returns all of the current parameters', async () => {
+         const { remotely } = await startRemoteControlApp();
+         await remotely(() => {
+@@ -611,6 +612,8 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+         }
        }
-     }
  
--    const processList = process.platform === 'linux'
-+    const processList = (['freebsd', 'linux', 'openbsd'].includes(process.platform))
-       ? ['main', 'renderer', 'sandboxed-renderer']
-       : ['main', 'renderer', 'sandboxed-renderer', 'node'];
-     for (const crashingProcess of processList) {
-@@ -546,7 +546,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
-             return app.getPath('crashDumps');
-           });
-           let reportsDir = crashesDir;
--          if (process.platform === 'darwin' || process.platform === 'linux') {
-+          if (['darwin', 'freebsd', 'linux', 'openbsd'].includes(process.platform)) {
-             reportsDir = path.join(crashesDir, 'completed');
-           } else if (process.platform === 'win32') {
-             reportsDir = path.join(crashesDir, 'reports');
-@@ -570,7 +570,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
-           expect(remoteCrashesDir).to.equal(crashesDir);
++      if (!hasCrashReporterBackend) return;
++
+       const processList =
+         process.platform === 'linux'
+           ? ['main', 'renderer', 'sandboxed-renderer']
+@@ -706,7 +709,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+     });
  
-           let reportsDir = crashesDir;
--          if (process.platform === 'darwin' || process.platform === 'linux') {
-+          if (['darwin', 'freebsd', 'linux', 'openbsd'].includes(process.platform)) {
-             reportsDir = path.join(crashesDir, 'completed');
-           } else if (process.platform === 'win32') {
-             reportsDir = path.join(crashesDir, 'reports');
+     describe('getUploadToServer()', () => {
+-      it('returns true when uploadToServer is set to true (by default)', async () => {
++      ifit(hasCrashReporterBackend)('returns true when uploadToServer is set to true (by default)', async () => {
+         const { remotely } = await startRemoteControlApp();
+ 
+         await remotely(() => {
+@@ -725,7 +728,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.e
+         expect(uploadToServer).to.be.false();
+       });
+ 
+-      it('is updated by setUploadToServer', async () => {
++      ifit(hasCrashReporterBackend)('is updated by setUploadToServer', async () => {
+         const { remotely } = await startRemoteControlApp();
+         await remotely(() => {
+           require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1' });

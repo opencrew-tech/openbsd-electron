@@ -1,7 +1,7 @@
 Index: electron/script/lib/utils.js
 --- electron/script/lib/utils.js.orig
 +++ electron/script/lib/utils.js
-@@ -19,7 +19,7 @@ function getElectronExec () {
+@@ -19,7 +19,7 @@ function getElectronExec() {
        return `out/${OUT_DIR}/Electron.app/Contents/MacOS/Electron`;
      case 'win32':
        return `out/${OUT_DIR}/electron.exe`;

@@ -1,0 +1,50 @@
+--- electron/patches/chromium/cherry-pick-847b11ad2fa3.patch.orig	Tue Apr 28 16:26:21 2026
++++ electron/patches/chromium/cherry-pick-847b11ad2fa3.patch	Tue Apr 28 16:26:35 2026
+@@ -78,47 +78,6 @@
+ +};
+ +window.createInput();
+ +</script>
+-diff --git a/third_party/blink/web_tests/external/wpt/html/semantics/forms/the-select-element/customizable-select/selectedcontent-restore.html b/third_party/blink/web_tests/external/wpt/html/semantics/forms/the-select-element/customizable-select/selectedcontent-restore.html
+-deleted file mode 100644
+-index da5fe450abbae0d19826021f114cc6388f97bc57..0000000000000000000000000000000000000000
+---- a/third_party/blink/web_tests/external/wpt/html/semantics/forms/the-select-element/customizable-select/selectedcontent-restore.html
+-+++ /dev/null
+-@@ -1,35 +0,0 @@
+--<!DOCTYPE html>
+--<link rel=author href="mailto:jarhar@chromium.org">
+--<link rel=help href="https://github.com/whatwg/html/issues/9799">
+--<script src="/resources/testharness.js"></script>
+--<script src="/resources/testharnessreport.js"></script>
+--<script src="/resources/testdriver.js"></script>
+--<script src="/resources/testdriver-vendor.js"></script>
+--
+--<iframe src="resources/selectedcontent-restore-iframe.html"></iframe>
+--
+--<script>
+--const iframe = document.querySelector('iframe');
+--promise_test(async () => {
+--  await new Promise(resolve => iframe.onload = resolve);
+--  await test_driver.bless();
+--
+--  iframe.contentDocument.querySelector('select').value = 'two';
+--  assert_equals(iframe.contentDocument.querySelector('select').value, 'two',
+--    'Assining two to select.value should work.');
+--  iframe.contentDocument.querySelector('form').submit();
+--  await new Promise(resolve => iframe.onload = resolve);
+--
+--  await test_driver.bless();
+--  iframe.contentWindow.history.back();
+--  await new Promise(resolve => iframe.onload = resolve);
+--  await new Promise(requestAnimationFrame);
+--  await new Promise(requestAnimationFrame);
+--
+--  assert_equals(iframe.contentDocument.querySelector('select').value, 'two',
+--    'The selects value should be restored after navigating back.');
+--  assert_equals(iframe.contentDocument.querySelector('selectedcontent').innerHTML,
+--    iframe.contentDocument.querySelector('option[value=two]').innerHTML,
+--    'selectedcontent.innerHTML should match the selected <option>');
+--}, '<selectedcontent> should be up to date after form restoration.');
+--</script>
+ diff --git a/third_party/blink/web_tests/external/wpt/html/semantics/forms/the-select-element/customizable-select/selectedcontent-restore.optional.html b/third_party/blink/web_tests/external/wpt/html/semantics/forms/the-select-element/customizable-select/selectedcontent-restore.optional.html
+ new file mode 100644
+ index 0000000000000000000000000000000000000000..1d0064659cd9df06d6267261bf0b39b3fb29aeef

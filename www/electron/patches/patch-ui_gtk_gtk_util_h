@@ -1,0 +1,48 @@
+fix component build
+
+Index: ui/gtk/gtk_util.h
+--- ui/gtk/gtk_util.h.orig
++++ ui/gtk/gtk_util.h
+@@ -35,6 +35,7 @@ const char* GtkCssMenuScrollbar();
+ 
+ // Sets |dialog| as transient for |parent|, which will keep it on top and center
+ // it above |parent|. Do nothing if |parent| is nullptr.
++COMPONENT_EXPORT(GTK)
+ void SetGtkTransientForAura(GtkWidget* dialog,
+                             aura::Window* parent,
+                             GtkUiPlatform* platform);
+@@ -90,7 +91,7 @@ class CairoSurface {
+   raw_ptr<cairo_t> cairo_;
+ };
+ 
+-class GtkCssContext {
++class COMPONENT_EXPORT(GTK) GtkCssContext {
+  public:
+   GtkCssContext();
+   GtkCssContext(const GtkCssContext&);
+@@ -135,6 +136,7 @@ GtkStateFlags StateToStateFlags(ui::NativeTheme::State
+ // If |context| is nullptr, creates a new top-level style context
+ // specified by parsing |css_node|.  Otherwise, creates the child
+ // context with |context| as the parent.
++COMPONENT_EXPORT(GTK)
+ GtkCssContext AppendCssNodeToStyleContext(GtkCssContext context,
+                                           const std::string& css_node);
+ 
+@@ -154,7 +156,7 @@ void ApplyCssToContext(GtkCssContext context, const st
+ 
+ // Get the 'color' property from the style context created by
+ // GetStyleContextFromCss(|css_selector|).
+-SkColor GetFgColor(const std::string& css_selector);
++COMPONENT_EXPORT(GTK) SkColor GetFgColor(const std::string& css_selector);
+ 
+ ScopedCssProvider GetCssProvider(const std::string& css);
+ 
+@@ -167,7 +169,7 @@ void RenderBackground(const gfx::Size& size,
+ // Renders a background from the style context created by
+ // GetStyleContextFromCss(|css_selector|) into a 24x24 bitmap and
+ // returns the average color.
+-SkColor GetBgColor(const std::string& css_selector);
++COMPONENT_EXPORT(GTK) SkColor GetBgColor(const std::string& css_selector);
+ 
+ // Renders the border from the style context created by
+ // GetStyleContextFromCss(|css_selector|) into a 24x24 bitmap and

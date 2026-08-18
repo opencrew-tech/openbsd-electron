@@ -1,0 +1,15 @@
+Index: electron/shell/renderer/electron_renderer_client.cc
+--- electron/shell/renderer/electron_renderer_client.cc.orig
++++ electron/shell/renderer/electron_renderer_client.cc
+@@ -263,9 +263,9 @@ void ElectronRendererClient::WillDestroyWorkerContextO
+ }
+ 
+ void ElectronRendererClient::SetUpWebAssemblyTrapHandler() {
+-#if ((BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC)) && \
++#if ((BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)) && \
+      defined(ARCH_CPU_X86_64)) ||                                       \
+-    ((BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC)) && defined(ARCH_CPU_ARM64))
++    ((BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)) && defined(ARCH_CPU_ARM64))
+   if (electron::fuses::IsWasmTrapHandlersEnabled()) {
+     electron::SetUpWebAssemblyTrapHandler();
+   }

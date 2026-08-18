@@ -1,0 +1,15 @@
+fix component build
+
+Index: gin/v8_initializer.h
+--- gin/v8_initializer.h.orig
++++ gin/v8_initializer.h
+@@ -29,7 +29,8 @@ class StartupData;
+ 
+ namespace gin {
+ 
+-void SetV8SnapshotValidator(const base::RepeatingCallback<void(v8::StartupData*)>& callback);
++GIN_EXPORT void SetV8SnapshotValidator(
++    const base::RepeatingCallback<void(v8::StartupData*)>& callback);
+ 
+ class GIN_EXPORT V8Initializer {
+  public:

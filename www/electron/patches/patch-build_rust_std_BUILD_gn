@@ -1,0 +1,19 @@
+Fix component build with prebuilt rust stdlib.
+
+Index: build/rust/std/BUILD.gn
+--- build/rust/std/BUILD.gn.orig
++++ build/rust/std/BUILD.gn
+@@ -356,6 +356,13 @@ if (toolchain_has_rust) {
+         ":prebuilt_stdlib_libs",
+         ":stdlib_public_dependent_libs",
+       ]
++      # In component builds, prebuilt stdlib rlibs are propagated to C++ links
++      # via all_dependent_configs. Forward only the allocator link inputs that
++      # define `__rustc::__rust_*`, rather than depending on :allocator itself,
++      # because :allocator also uses std and that would create a cycle.
++      if (is_component_build && !toolchain_for_rust_host_build_tools) {
++        all_dependent_configs += [ "//build/rust/allocator:allocator_link_inputs" ]
++      }
+       deps = [ ":prebuilt_rustc_copy_to_sysroot" ]
+     }
+   }

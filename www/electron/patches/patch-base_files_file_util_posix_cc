@@ -1,0 +1,19 @@
+ERROR:net/disk_cache/simple/simple_backend_impl.cc:82] Failed to create directory
+
+Ignore error when directory already exsists.
+XXX quick diff to improve (EEXISTS ?), test ongoing
+
+Index: base/files/file_util_posix.cc
+--- base/files/file_util_posix.cc.orig
++++ base/files/file_util_posix.cc
+@@ -968,6 +968,10 @@ bool CreateDirectoryAndGetError(const FilePath& full_p
+     if ((mkdir(subpath.value().c_str(), mode) == -1) &&
+         ((full_path != subpath) ? (errno != ENOENT) : (-1))) {
+       int saved_errno = errno;
++      if (DirectoryExists(subpath)) {
++        errno = 0;
++        continue;
++      }
+       if (error)
+         *error = File::OSErrorToFileError(saved_errno);
+       return false;

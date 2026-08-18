@@ -1,16 +1,20 @@
+Longer spin to give v8 tracing times to captures events.
+
 Index: electron/spec/api-content-tracing-spec.ts
 --- electron/spec/api-content-tracing-spec.ts.orig
 +++ electron/spec/api-content-tracing-spec.ts
-@@ -9,7 +9,7 @@ import { setTimeout } from 'node:timers/promises';
- import { ifdescribe } from './lib/spec-helpers';
+@@ -13,7 +13,9 @@ const isCI = !!process.env.CI;
+ const fixturesPath = path.resolve(__dirname, 'fixtures');
  
  // FIXME: The tests are skipped on linux arm/arm64
--ifdescribe(!(['arm', 'arm64'].includes(process.arch)) || (process.platform !== 'linux'))('contentTracing', () => {
-+ifdescribe(!(['arm', 'arm64'].includes(process.arch)) || !(['freebsd', 'linux', 'openbsd'].includes(process.platform)))('contentTracing', () => {
-   const record = async (options: TraceConfig | TraceCategoriesAndOptions, outputFilePath: string | undefined, recordTimeInMilliseconds = 1e1) => {
-     await app.whenReady();
- 
-@@ -91,7 +91,7 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)) 
+-ifdescribe(!['arm', 'arm64'].includes(process.arch) || process.platform !== 'linux')('contentTracing', () => {
++ifdescribe(
++  !['arm', 'arm64'].includes(process.arch) || !['freebsd', 'linux', 'openbsd'].includes(process.platform)
++)('contentTracing', () => {
+   const record = async (
+     options: TraceConfig | TraceCategoriesAndOptions,
+     outputFilePath: string | undefined,
+@@ -99,7 +101,7 @@ ifdescribe(!['arm', 'arm64'].includes(process.arch) ||
      });
    });
  
@@ -19,3 +23,12 @@ Index: electron/spec/api-content-tracing-spec.ts
      if (process.platform === 'win32' && process.arch === 'arm64') {
        // WOA needs more time
        this.timeout(10e3);
+@@ -427,7 +429,7 @@ ifdescribe(!['arm', 'arm64'].includes(process.arch) ||
+         const start = Date.now();
+         let n = 0;
+         const f = () => {};
+-        while (Date.now() - start < 200 && n < 500) {
++        while (Date.now() - start < 2000 && n < 5000) {
+           await setTimeout(0);
+           f();
+           n++;

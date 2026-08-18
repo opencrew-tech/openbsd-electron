@@ -1,0 +1,34 @@
+fix DCHECK build.
+Fatal error in ../../v8/src/api/api-inl.h
+DCHECK(microtask_queue->GetMicrotasksScopeDepth() ||
+       !microtask_queue->DebugMicrotasksScopeDepthIsZero());
+
+Index: electron/shell/renderer/web_worker_observer.cc
+--- electron/shell/renderer/web_worker_observer.cc.orig
++++ electron/shell/renderer/web_worker_observer.cc
+@@ -234,7 +234,8 @@ void WebWorkerObserver::ContextWillDestroy(v8::Local<v
+   if (active_context_count_ == 0) {
+     // Last context on this thread — full cleanup.
+     {
+-      v8::Context::Scope context_scope(env->context());
++      v8::Local<v8::Context> ctx = env->context();
++      v8::Context::Scope context_scope(ctx);
+ 
+       // Emit the "exit" event on the process object. We avoid using
+       // gin_helper::EmitEvent here because it goes through
+@@ -242,10 +243,13 @@ void WebWorkerObserver::ContextWillDestroy(v8::Local<v
+       // worker shutdown (PrepareForShutdownOnWorkerThread), the
+       // CallbackScope destructor's InternalCallbackScope::Close() tries to
+       // process ticks and microtask checkpoints, which can SEGV because the
+-      // worker context is being torn down by Blink.
++      // worker context is being torn down by Blink. Still enter an explicit
++      // "do not run" scope so debug V8 builds do not DCHECK on a bare API
++      // call while the queue policy is kScoped.
+       v8::Isolate* isolate = env->isolate();
+       v8::HandleScope handle_scope(isolate);
+-      v8::Local<v8::Context> ctx = env->context();
++      v8::MicrotasksScope microtasks_scope(
++          ctx, v8::MicrotasksScope::kDoNotRunMicrotasks);
+       v8::Local<v8::Value> emit_v;
+       if (env->process_object()
+               ->Get(ctx, gin::StringToV8(isolate, "emit"))

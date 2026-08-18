@@ -1,0 +1,59 @@
+Index: v8/src/wasm/stacks.cc
+--- v8/src/wasm/stacks.cc.orig
++++ v8/src/wasm/stacks.cc
+@@ -4,6 +4,10 @@
+ 
+ #include "src/wasm/stacks.h"
+ 
++#if V8_OS_OPENBSD
++#include <sys/mman.h>
++#endif
++
+ #include "src/base/platform/platform.h"
+ #include "src/execution/frames.h"
+ #include "src/execution/simulator.h"
+@@ -73,6 +77,20 @@ StackMemory::StackSegment::StackSegment(size_t pages) 
+   size_t page_size = allocator->AllocatePageSize();
+   size_ = pages * page_size;
+   // Reserve one guard page before and after the stack memory.
++#if V8_OS_OPENBSD
++  limit_ = static_cast<uint8_t*>(
++      mmap(nullptr, size_ + 2 * page_size, PROT_READ | PROT_WRITE,
++           MAP_PRIVATE | MAP_ANON | MAP_STACK, -1, 0));
++  if (limit_ == MAP_FAILED) {
++    limit_ = nullptr;
++  }
++  if (limit_ == nullptr ||
++      mprotect(limit_, page_size, PROT_NONE) != 0 ||
++      mprotect(limit_ + page_size + size_, page_size, PROT_NONE) != 0) {
++    V8::FatalProcessOutOfMemory(nullptr,
++                                "StackMemory::StackSegment::StackSegment");
++  }
++#else
+   limit_ = static_cast<uint8_t*>(allocator->AllocatePages(
+       nullptr, size_ + 2 * page_size, allocator->AllocatePageSize(),
+       PageAllocator::kNoAccess));
+@@ -81,6 +99,7 @@ StackMemory::StackSegment::StackSegment(size_t pages) 
+     V8::FatalProcessOutOfMemory(nullptr,
+                                 "StackMemory::StackSegment::StackSegment");
+   }
++#endif
+   limit_ += page_size;
+ #ifdef V8_ENABLE_SANDBOX_HARDWARE_SUPPORT
+   // The actual stack memory must be accessible to sandboxed code, so we need
+@@ -95,9 +114,15 @@ StackMemory::StackSegment::StackSegment(size_t pages) 
+ StackMemory::StackSegment::~StackSegment() {
+   PageAllocator* allocator = GetPlatformPageAllocator();
+   size_t page_size = allocator->AllocatePageSize();
++#if V8_OS_OPENBSD
++  if (munmap(limit_ - page_size, size_ + 2 * page_size) != 0) {
++    V8::FatalProcessOutOfMemory(nullptr, "Release stack memory");
++  }
++#else
+   if (!allocator->DecommitPages(limit_ - page_size, size_ + 2 * page_size)) {
+     V8::FatalProcessOutOfMemory(nullptr, "Decommit stack memory");
+   }
++#endif
+ }
+ 
+ void StackMemory::Iterate(v8::internal::RootVisitor* v, Isolate* isolate,

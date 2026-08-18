@@ -1,0 +1,29 @@
+Index: electron/spec/fuses-spec.ts
+--- electron/spec/fuses-spec.ts.orig
++++ electron/spec/fuses-spec.ts
+@@ -10,11 +10,23 @@ import { startRemoteControlApp } from './lib/spec-help
+ 
+ describe('fuses', () => {
+   it('can be enabled by command-line argument during testing', async () => {
+-    const child0 = spawn(process.execPath, ['-v'], { env: { NODE_OPTIONS: '-e 0' } });
++    const child0 = spawn(process.execPath, ['-v'], {
++      env: {
++        NODE_OPTIONS: '-e 0',
++        LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH,
++        HOME: process.env.HOME
++      }
++    });
+     const [code0] = await once(child0, 'exit');
+     // Should exit with 9 because -e is not allowed in NODE_OPTIONS
+     expect(code0).to.equal(9);
+-    const child1 = spawn(process.execPath, ['--set-fuse-node_options=0', '-v'], { env: { NODE_OPTIONS: '-e 0' } });
++    const child1 = spawn(process.execPath, ['--set-fuse-node_options=0', '-v'], {
++      env: {
++        NODE_OPTIONS: '-e 0',
++        LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH,
++        HOME: process.env.HOME
++      }
++    });
+     const [code1] = await once(child1, 'exit');
+     // Should print the version and exit with 0
+     expect(code1).to.equal(0);

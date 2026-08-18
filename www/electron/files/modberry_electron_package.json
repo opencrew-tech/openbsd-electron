@@ -7,32 +7,23 @@
     "@azure/storage-blob": "^12.28.0",
     "@datadog/datadog-ci": "^4.1.2",
     "@electron/asar": "^4.0.1",
-    "@electron/docs-parser": "^2.0.0",
+    "@electron/docs-parser": "^3.0.1",
     "@electron/fiddle-core": "^1.3.4",
     "@electron/github-app-auth": "^3.2.0",
     "@electron/lint-roller": "^3.2.0",
     "@electron/typescript-definitions": "^9.1.5",
     "@octokit/rest": "^20.1.2",
     "@primer/octicons": "^10.0.0",
+    "@sentry/cli": "1.72.0",
     "@types/minimist": "^1.2.5",
     "@types/node": "^24.9.0",
     "@types/semver": "^7.5.8",
     "@types/stream-json": "^1.7.8",
     "@types/temp": "^0.9.4",
-    "@typescript-eslint/eslint-plugin": "^8.32.1",
-    "@typescript-eslint/parser": "^8.7.0",
     "@xmldom/xmldom": "^0.8.11",
     "buffer": "^6.0.3",
     "chalk": "^4.1.0",
     "check-for-leaks": "^1.2.1",
-    "eslint": "^8.57.1",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-markdown": "^5.1.0",
-    "eslint-plugin-mocha": "^10.5.0",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.6.0",
     "events": "^3.2.0",
     "folder-hash": "^4.1.1",
     "got": "^11.8.5",
@@ -40,8 +31,10 @@
     "lint-staged": "^16.1.0",
     "markdownlint-cli2": "^0.18.0",
     "minimist": "^1.2.8",
-    "node-gyp": "^11.4.2",
+    "node-gyp": "^12.3.0",
     "null-loader": "^4.0.1",
+    "oxfmt": "^0.42.0",
+    "oxlint": "^1.57.0",
     "pre-flight": "^2.0.0",
     "process": "^0.11.10",
     "remark-cli": "^12.0.1",
@@ -64,8 +57,10 @@
   "scripts": {
     "asar": "asar",
     "generate-version-json": "node script/generate-version-json.js",
-    "lint": "node ./script/lint.js && npm run lint:docs && npm run lint:chromium-roller",
+    "lint": "node ./script/lint.js && npm run lint:fmt && npm run lint:docs && npm run lint:chromium-roller",
     "lint:js": "node ./script/lint.js --js",
+    "lint:fmt": "oxfmt --check \"{lib,spec,script,build,default_app,npm}/**/*.{js,ts,mjs,cjs}\"",
+    "format": "oxfmt --write \"{lib,spec,script,build,default_app,npm}/**/*.{js,ts,mjs,cjs}\"",
     "lint:clang-format": "python3 script/run-clang-format.py -r -c shell/ || (echo \"\\nCode not formatted correctly.\" && exit 1)",
     "lint:clang-tidy": "ts-node ./script/run-clang-tidy.ts",
     "lint:cpp": "node ./script/lint.js --cc",
@@ -85,7 +80,7 @@
     "gn-typescript-definitions": "npm run create-typescript-definitions && node script/cp.mjs electron.d.ts",
     "pre-flight": "pre-flight",
     "gn-check": "node ./script/gn-check.js",
-    "gn-format": "python3 script/run-gn-format.py",
+    "gn-format": "node ./script/lint.js --gn --fix",
     "precommit": "lint-staged",
     "preinstall": "node -e 'process.exit(0)'",
     "pretest": "npm run create-typescript-definitions",
@@ -106,8 +101,12 @@
     "*": [
       "npm run lint:chromium-roller"
     ],
+    "*.{js,ts,mjs,cjs}": [
+      "oxfmt --write"
+    ],
     "*.{js,ts}": [
-      "node script/lint.js --js --fix --only --"
+      "node script/lint.js --js --fix --only --",
+      "oxfmt --write"
     ],
     "*.{js,ts,d.ts}": [
       "ts-node script/gen-filenames.ts"
@@ -120,7 +119,7 @@
     ],
     "*.{gn,gni}": [
       "npm run gn-check",
-      "npm run gn-format"
+      "node ./script/lint.js --gn --fix --only --"
     ],
     "*.py": [
       "node script/lint.js --py --fix --only --"
@@ -147,9 +146,11 @@
     "dbus-native/xml2js": "0.5.0",
     "abstract-socket": "github:deepak1556/node-abstractsocket#928cc591decd12aff7dad96449da8afc29832c19",
     "minimist@npm:~0.0.1": "0.2.4",
-    "dbus-native": "npm:dbus-native@latest",
     "put": "npm:@nornagon/put@latest",
-    "graceful-fs": "/usr/local/node/graceful-fs/node_modules/graceful-fs"
+    "dbus-native": "npm:dbus-native@latest",
+    "graceful-fs": "/usr/local/node/graceful-fs/node_modules/graceful-fs",
+    "oxfmt": "/usr/local/node/oxc-apps/node_modules/oxfmt",
+    "oxlint": "/usr/local/node/oxc-apps/node_modules/oxlint"
   },
   "workspaces": [
     ".github/workflows",
@@ -157,6 +158,9 @@
     "spec/fixtures/native-addon/*"
   ],
   "dependenciesMeta": {
+    "@sentry/cli": {
+      "built": true
+    },
     "abstract-socket": {
       "built": true
     }

@@ -1,0 +1,12 @@
+Index: services/device/serial/BUILD.gn
+--- services/device/serial/BUILD.gn.orig
++++ services/device/serial/BUILD.gn
+@@ -8,7 +8,7 @@ if (is_android) {
+   import("//third_party/jni_zero/jni_zero.gni")
+ }
+ 
+-if (is_win || ((!is_bsd && is_linux || is_chromeos) && use_udev) || is_mac || is_android) {
++if (is_win || ((!is_bsd && is_linux || is_chromeos) && use_udev) || is_mac || is_android || is_openbsd) {
+   config("platform_support") {
+     visibility = [ ":serial" ]
+     if (is_win) {

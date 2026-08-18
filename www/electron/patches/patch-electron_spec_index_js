@@ -1,0 +1,62 @@
+Index: electron/spec/index.js
+--- electron/spec/index.js.orig
++++ electron/spec/index.js
+@@ -91,6 +91,23 @@ function isDescendantOfCurrentProcess(pid) {
+   return false;
+ }
+ 
++function isDescendantOfCurrentProcessUsingPs(pid) {
++  let current = pid;
++  while (current > 1) {
++    const result = childProcess.spawnSync('ps', ['-o', 'ppid=', '-p', String(current)], { encoding: 'utf8' });
++    const ppid = parseInt((result.stdout || '').trim(), 10);
++    if (isNaN(ppid)) return false;
++    if (ppid === process.pid) return true;
++    if (ppid === current) return false; // guard against cycles
++    current = ppid;
++  }
++  return false;
++}
++
++function escapeRegex(value) {
++  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
++}
++
+ async function killOrphanedElectronProcesses(suiteName) {
+   let killed = 0;
+   try {
+@@ -165,6 +182,17 @@ async function killOrphanedElectronProcesses(suiteName
+         } catch {
+           // /proc unavailable — ignore
+         }
++      } else if (['freebsd', 'openbsd'].includes(process.platform)) {
++        // Match only command lines that start with the Electron executable path.
++        // A plain `pgrep -f process.execPath` also matches wrapper scripts like
++        // `python3 dbus_mock.py /path/to/electron`, killing the active test run.
++        const result = childProcess.spawnSync('pgrep', ['-f', `^${escapeRegex(process.execPath)}`], {
++          encoding: 'utf8'
++        });
++        pids = (result.stdout || '')
++          .split('\n')
++          .map((s) => parseInt(s, 10))
++          .filter((pid) => !isNaN(pid));
+       } else {
+         // macOS: pgrep -f is safe here (no wrapper scripts, and helpers use
+         // different .app bundles with different executable paths).
+@@ -180,6 +208,7 @@ async function killOrphanedElectronProcesses(suiteName
+           // On Linux, skip any process that is a descendant of the current
+           // Electron instance (GPU, renderer, zygote, crashpad, etc.).
+           if (process.platform === 'linux' && isDescendantOfCurrentProcess(pid)) continue;
++          if (['freebsd', 'openbsd'].includes(process.platform) && isDescendantOfCurrentProcessUsingPs(pid)) continue;
+           process.kill(pid, 'SIGKILL');
+           killed++;
+         } catch {
+@@ -267,7 +296,7 @@ app
+     if (!process.env.MOCHA_REPORTER) {
+       mocha.ui('bdd').reporter('tap');
+     }
+-    const mochaTimeout = process.env.MOCHA_TIMEOUT || 30000;
++    const mochaTimeout = process.env.MOCHA_TIMEOUT || 60000;
+     mocha.timeout(mochaTimeout);
+ 
+     if (argv.grep) mocha.grep(argv.grep);

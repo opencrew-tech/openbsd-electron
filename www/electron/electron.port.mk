@@ -1,5 +1,5 @@
 # sync with Makefile
-ELECTRON_V=		41.1.1
+ELECTRON_V=		41.10.2
 ELECTRON_DIST=		electron/resources
 
 # XXX use per app folder and keep generic app.asar name

@@ -1,12 +1,12 @@
 Index: electron/lib/browser/api/menu-item-roles.ts
 --- electron/lib/browser/api/menu-item-roles.ts.orig
 +++ electron/lib/browser/api/menu-item-roles.ts
-@@ -2,7 +2,7 @@ import { app, BaseWindow, BrowserWindow, session, webC
+@@ -2,7 +2,7 @@ import { app, BaseWindow, session, webContents, WebCon
  
  const isMac = process.platform === 'darwin';
  const isWindows = process.platform === 'win32';
 -const isLinux = process.platform === 'linux';
 +const isLinux = (['freebsd', 'linux', 'openbsd'].includes(process.platform));
  
- type RoleId = 'about' | 'close' | 'copy' | 'cut' | 'delete' | 'forcereload' | 'front' | 'help' | 'hide' | 'hideothers' | 'minimize' |
-   'paste' | 'pasteandmatchstyle' | 'quit' | 'redo' | 'reload' | 'resetzoom' | 'selectall' | 'services' | 'recentdocuments' | 'clearrecentdocuments' |
+ type RoleId =
+   | 'about'

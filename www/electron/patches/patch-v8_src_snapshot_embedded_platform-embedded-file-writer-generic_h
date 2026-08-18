@@ -1,0 +1,15 @@
+Fix dcheck_always_on build.
+
+Index: v8/src/snapshot/embedded/platform-embedded-file-writer-generic.h
+--- v8/src/snapshot/embedded/platform-embedded-file-writer-generic.h.orig
++++ v8/src/snapshot/embedded/platform-embedded-file-writer-generic.h
+@@ -20,7 +20,8 @@ class PlatformEmbeddedFileWriterGeneric
+     DCHECK(target_os_ == EmbeddedTargetOs::kAndroid ||
+            target_os_ == EmbeddedTargetOs::kChromeOS ||
+            target_os_ == EmbeddedTargetOs::kFuchsia ||
+-           target_os_ == EmbeddedTargetOs::kGeneric);
++           target_os_ == EmbeddedTargetOs::kGeneric ||
++           target_os_ == EmbeddedTargetOs::kOpenBSD);
+   }
+ 
+   void SectionText() override;

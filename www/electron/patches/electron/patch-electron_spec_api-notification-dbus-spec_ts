@@ -1,12 +1,12 @@
 Index: electron/spec/api-notification-dbus-spec.ts
 --- electron/spec/api-notification-dbus-spec.ts.orig
 +++ electron/spec/api-notification-dbus-spec.ts
-@@ -19,7 +19,7 @@ import { ifdescribe } from './lib/spec-helpers';
- 
+@@ -20,7 +20,7 @@ import { ifdescribe } from './lib/spec-helpers';
  const fixturesPath = path.join(__dirname, 'fixtures');
  
--const skip = process.platform !== 'linux' ||
-+const skip = !(['freebsd', 'linux', 'openbsd'].includes(process.platform)) ||
-              process.arch === 'ia32' ||
-              process.arch.indexOf('arm') === 0 ||
-              !process.env.DBUS_SESSION_BUS_ADDRESS;
+ const skip =
+-  process.platform !== 'linux' ||
++  !['freebsd', 'linux', 'openbsd'].includes(process.platform) ||
+   process.arch === 'ia32' ||
+   process.arch.indexOf('arm') === 0 ||
+   !process.env.DBUS_SESSION_BUS_ADDRESS;

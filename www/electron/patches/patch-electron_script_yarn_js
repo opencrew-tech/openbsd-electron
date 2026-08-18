@@ -1,3 +1,5 @@
+On OpenBSD yarn is classic (v1) and berry is the latest (v4)
+
 Index: electron/script/yarn.js
 --- electron/script/yarn.js.orig
 +++ electron/script/yarn.js

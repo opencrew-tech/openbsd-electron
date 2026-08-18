@@ -1,0 +1,24 @@
+fix component build
+
+Index: components/viz/client/frame_evictor.h
+--- components/viz/client/frame_evictor.h.orig
++++ components/viz/client/frame_evictor.h
+@@ -16,14 +16,14 @@ namespace viz {
+ class VIZ_CLIENT_EXPORT FrameEvictorClient {
+  public:
+   struct VIZ_CLIENT_EXPORT EvictIds {
+-    EvictIds();
+-    ~EvictIds();
++    EvictIds() = default;
++    ~EvictIds() = default;
+ 
+     EvictIds(const EvictIds&) = delete;
+     EvictIds& operator=(const EvictIds&) = delete;
+ 
+-    EvictIds(EvictIds&& other);
+-    EvictIds& operator=(EvictIds&& other);
++    EvictIds(EvictIds&& other) = default;
++    EvictIds& operator=(EvictIds&& other) = default;
+ 
+     // `embedded_ids` contains a list of SurfaceIds embedded by the UI
+     // compositor.

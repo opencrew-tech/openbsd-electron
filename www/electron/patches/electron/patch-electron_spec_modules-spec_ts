@@ -1,11 +1,12 @@
 Index: electron/spec/modules-spec.ts
 --- electron/spec/modules-spec.ts.orig
 +++ electron/spec/modules-spec.ts
-@@ -52,6 +52,7 @@ describe('modules support', () => {
+@@ -49,7 +49,7 @@ describe('modules support', () => {
+       });
+     });
  
-     const enablePlatforms: NodeJS.Platform[] = [
-       'linux',
-+      'openbsd',
-       'darwin',
-       'win32'
-     ];
+-    const enablePlatforms: NodeJS.Platform[] = ['linux', 'darwin', 'win32'];
++    const enablePlatforms: NodeJS.Platform[] = ['linux', 'openbsd', 'darwin', 'win32'];
+     ifdescribe(nativeModulesEnabled && enablePlatforms.includes(process.platform))('module that use uv_dlopen', () => {
+       it('can be required in renderer', async () => {
+         const w = new BrowserWindow({

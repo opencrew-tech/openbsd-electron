@@ -1,0 +1,11 @@
+Index: electron/build/npm.gni
+--- electron/build/npm.gni.orig
++++ electron/build/npm.gni
+@@ -33,7 +33,6 @@ template("npm_action") {
+     if (!defined(deps)) {
+       deps = []
+     }
+-    deps += [ ":npm_pre_flight_" + target_name ]
+ 
+     script = "//electron/build/npm-run.py"
+     args = [

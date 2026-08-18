@@ -1,7 +1,7 @@
 Index: electron/lib/browser/api/power-monitor.ts
 --- electron/lib/browser/api/power-monitor.ts.orig
 +++ electron/lib/browser/api/power-monitor.ts
-@@ -23,7 +23,7 @@ class PowerMonitor extends EventEmitter implements Ele
+@@ -18,7 +18,7 @@ class PowerMonitor extends EventEmitter implements Ele
        pm = createPowerMonitor();
        pm.emit = this.emit.bind(this);
  

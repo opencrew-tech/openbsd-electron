@@ -6,7 +6,7 @@ Up to 2024/08, the only consumers are os.cpus().length.
 Index: third_party/electron_node/deps/uv/src/unix/openbsd.c
 --- third_party/electron_node/deps/uv/src/unix/openbsd.c.orig
 +++ third_party/electron_node/deps/uv/src/unix/openbsd.c
-@@ -183,11 +183,11 @@ int uv_uptime(double* uptime) {
+@@ -142,11 +142,11 @@ int uv_uptime(double* uptime) {
  
  int uv_cpu_info(uv_cpu_info_t** cpu_infos, int* count) {
    unsigned int ticks = (unsigned int)sysconf(_SC_CLK_TCK),
@@ -20,7 +20,7 @@ Index: third_party/electron_node/deps/uv/src/unix/openbsd.c
    int percpu[] = {CTL_KERN,KERN_CPTIME2,0};
    size_t size;
    int i, j;
-@@ -208,19 +208,6 @@ int uv_cpu_info(uv_cpu_info_t** cpu_infos, int* count)
+@@ -167,19 +167,6 @@ int uv_cpu_info(uv_cpu_info_t** cpu_infos, int* count)
  
    i = 0;
    *count = numcpus;

@@ -1,0 +1,16 @@
+chrome always calls SysInfo::NumberOfEfficientProcessorsImpl.
+using dcheck, this bring unwanted output and many tests fails.
+
+Index: base/system/sys_info_posix.cc
+--- base/system/sys_info_posix.cc.orig
++++ base/system/sys_info_posix.cc
+@@ -367,7 +367,8 @@ int SysInfo::NumberOfEfficientProcessorsImpl() {
+                                      max_core_frequencies.end(),
+                                      *min_max_core_frequencies_it));
+ #else
+-  NOTIMPLEMENTED();
++  // this feature is mandatory per design and break tests when dchecks are on
++  // NOTIMPLEMENTED();
+   return 0;
+ #endif
+ }

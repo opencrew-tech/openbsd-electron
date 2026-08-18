@@ -1,0 +1,17 @@
+--- electron/patches/chromium/cherry-pick-1f1aba87c6f3.patch.orig	Sun Jul 19 14:13:11 2026
++++ electron/patches/chromium/cherry-pick-1f1aba87c6f3.patch	Sun Jul 19 14:13:40 2026
+@@ -91,14 +91,3 @@
+      case kCustomMedia:
+        return MakeGarbageCollected<StyleRuleCustomMedia>(
+            To<StyleRuleCustomMedia>(*this));
+-diff --git a/third_party/blink/web_tests/external/wpt/css/css-anchor-position/position-try-rule-caching-002-expected.txt b/third_party/blink/web_tests/external/wpt/css/css-anchor-position/position-try-rule-caching-002-expected.txt
+-deleted file mode 100644
+-index ff7e84a2135fba467f6cca264fda7ba908aeb4c3..0000000000000000000000000000000000000000
+---- a/third_party/blink/web_tests/external/wpt/css/css-anchor-position/position-try-rule-caching-002-expected.txt
+-+++ /dev/null
+-@@ -1,5 +0,0 @@
+--This is a testharness.js-based test.
+--[FAIL] Modifying one sheet containing @position-try rule doesn't affect another sheet
+--  assert_equals: expected "right top" but got "right bottom"
+--Harness: the test ran to completion.
+--

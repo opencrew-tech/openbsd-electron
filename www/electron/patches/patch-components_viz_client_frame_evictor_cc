@@ -1,0 +1,19 @@
+fix component build
+
+Index: components/viz/client/frame_evictor.cc
+--- components/viz/client/frame_evictor.cc.orig
++++ components/viz/client/frame_evictor.cc
+@@ -13,13 +13,6 @@
+ 
+ namespace viz {
+ 
+-FrameEvictorClient::EvictIds::EvictIds() = default;
+-FrameEvictorClient::EvictIds::~EvictIds() = default;
+-
+-FrameEvictorClient::EvictIds::EvictIds(EvictIds&& other) = default;
+-FrameEvictorClient::EvictIds& FrameEvictorClient::EvictIds::operator=(
+-    EvictIds&& other) = default;
+-
+ FrameEvictor::FrameEvictor(FrameEvictorClient* client) : client_(client) {}
+ 
+ FrameEvictor::~FrameEvictor() {

@@ -1,0 +1,22 @@
+fix component build
+
+Index: content/browser/keyboard_lock/keyboard_lock_service_impl.h
+--- content/browser/keyboard_lock/keyboard_lock_service_impl.h.orig
++++ content/browser/keyboard_lock/keyboard_lock_service_impl.h
+@@ -11,6 +11,7 @@
+ #include "base/memory/raw_ptr.h"
+ #include "base/memory/weak_ptr.h"
+ #include "content/browser/renderer_host/render_frame_host_impl.h"
++#include "content/common/content_export.h"
+ #include "content/public/browser/document_service.h"
+ #include "mojo/public/cpp/bindings/pending_receiver.h"
+ #include "third_party/blink/public/mojom/keyboard_lock/keyboard_lock.mojom.h"
+@@ -20,7 +21,7 @@ namespace content {
+ class KeyboardLockServiceImpl final
+     : public DocumentService<blink::mojom::KeyboardLockService> {
+  public:
+-  static void CreateMojoService(
++  static CONTENT_EXPORT void CreateMojoService(
+       RenderFrameHost* render_frame_host,
+       mojo::PendingReceiver<blink::mojom::KeyboardLockService> receiver);
+ 

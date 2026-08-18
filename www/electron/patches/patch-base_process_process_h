@@ -1,0 +1,16 @@
+Index: base/process/process.h
+--- base/process/process.h.orig
++++ base/process/process.h
+@@ -87,6 +87,12 @@ class BASE_EXPORT Process {
+   // address space and duplicate handles).
+   static Process OpenWithExtraPrivileges(ProcessId pid);
+ 
++#if BUILDFLAG(IS_OPENBSD)
++  // Registers the current process creation time early in startup so it remains
++  // available after pledge restrictions prevent querying it later.
++  static void RegisterCreationTime();
++#endif
++
+ #if BUILDFLAG(IS_WIN)
+   // Returns a Process for the given |pid|, using some |desired_access|.
+   // See ::OpenProcess documentation for valid |desired_access|.

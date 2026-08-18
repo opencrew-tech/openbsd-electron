@@ -1,0 +1,12 @@
+Index: electron/spec/desktop-name-spec.ts
+--- electron/spec/desktop-name-spec.ts.orig
++++ electron/spec/desktop-name-spec.ts
+@@ -5,7 +5,7 @@ import * as path from 'node:path';
+ import { defaultDesktopName } from '../lib/browser/desktop-name';
+ import { ifdescribe } from './lib/spec-helpers';
+ 
+-ifdescribe(process.platform === 'linux')('defaultDesktopName', () => {
++ifdescribe(['freebsd', 'linux', 'openbsd'].includes(process.platform))('defaultDesktopName', () => {
+   it("derives an appropriate .desktop name from the app's human readable name", () => {
+     const fallback = `${path.basename(process.execPath)}.desktop`;
+     const cases: Array<[string | undefined, string]> = [

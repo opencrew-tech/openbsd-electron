@@ -1,19 +1,20 @@
+work around folder hash issue, always re-run tests.
+work around fd limit, tests leeks fd, run each test file in isolation.
+
 Index: electron/script/spec-runner.js
 --- electron/script/spec-runner.js.orig
 +++ electron/script/spec-runner.js
-@@ -91,14 +91,16 @@ async function main () {
+@@ -89,13 +89,15 @@ async function main() {
      console.log(`Running against Electron ${versionString.green}`);
    }
  
 -  const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
 -  const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
--  const somethingChanged = (currentSpecHash !== lastSpecHash) ||
--      (lastSpecInstallHash !== currentSpecInstallHash);
-+  // XXX folder-hash looks broken on openbsd
+-  const somethingChanged = currentSpecHash !== lastSpecHash || lastSpecInstallHash !== currentSpecInstallHash;
++  // XXX folder-hash looks broken on OpenBSD.
 +  // const [lastSpecHash, lastSpecInstallHash] = loadLastSpecHash();
 +  // const [currentSpecHash, currentSpecInstallHash] = await getSpecHash();
-+  // const somethingChanged = (currentSpecHash !== lastSpecHash) ||
-+  //     (lastSpecInstallHash !== currentSpecInstallHash);
++  // const somethingChanged = currentSpecHash !== lastSpecHash || lastSpecInstallHash !== currentSpecInstallHash;
 +  const somethingChanged = true;
  
    if (somethingChanged && !args.skipYarnInstall) {
@@ -23,8 +24,30 @@ Index: electron/script/spec-runner.js
    }
  
    if (!fs.existsSync(path.resolve(__dirname, '../electron.d.ts'))) {
-@@ -359,7 +361,7 @@ async function runTestUsingElectron (specDir, testName
-     argsToPass = argsToPass.filter(arg => (arg.toString().indexOf('--files') === -1 && arg.toString().indexOf('spec/') === -1));
+@@ -271,8 +273,7 @@ async function rerunFailedTests(specDir, testName) {
+ 
+   if (failedTests.length === 0) {
+     console.log('No failed tests could be found.');
+-    process.exit(1);
+-    return;
++    return false;
+   }
+ 
+   // Save off the original junit xml file
+@@ -335,9 +336,10 @@ async function rerunFailedTests(specDir, testName) {
+ 
+   if (results.failed === 0) {
+     console.log('🎉 All previously failed tests now pass!');
++    return true;
+   } else {
+     console.log(`⚠️  ${results.failed} test(s) are still failing`);
+-    process.exit(1);
++    return false;
+   }
+ }
+ 
+@@ -356,7 +358,7 @@ async function runTestUsingElectron(specDir, testName,
+     );
    }
    const runnerArgs = [`electron/${specDir}`, ...argsToPass, ...additionalArgs];
 -  if (process.platform === 'linux') {
@@ -32,7 +55,88 @@ Index: electron/script/spec-runner.js
      runnerArgs.unshift(path.resolve(__dirname, 'dbus_mock.py'), exe);
      exe = 'python3';
    }
-@@ -419,6 +421,8 @@ async function installSpecModules (dir) {
+@@ -370,21 +372,76 @@ async function runTestUsingElectron(specDir, testName,
+       console.log(`${fail} Electron tests failed with kill signal ${signal}.`);
+     }
+     if (shouldRerun) {
+-      await rerunFailedTests(specDir, testName);
+-    } else {
+-      process.exit(1);
++      return await rerunFailedTests(specDir, testName);
+     }
++    return false;
+   }
+   console.log(`${pass} Electron ${testName} process tests passed.`);
+   return true;
+ }
+ 
++function getMainProcessTestFiles() {
++  const specDir = path.resolve(BASE, 'electron/spec');
++  const baseElectronDir = path.resolve(BASE, 'electron');
++  const requestedFiles = args.files
++    ? (Array.isArray(args.files) ? args.files : [args.files]).map((file) =>
++        path.isAbsolute(file) ? path.relative(baseElectronDir, file) : path.normalize(file)
++      )
++    : null;
++
++  const moduleMatch = process.env.npm_config_match ? new RegExp(process.env.npm_config_match, 'g') : null;
++
++  const testFiles = fs
++    .readdirSync(specDir)
++    .map((file) => path.join(specDir, file))
++    .filter((file) => {
++      if (!/-spec\.[tj]s$/.test(file)) {
++        return false;
++      }
++
++      if (moduleMatch && !moduleMatch.test(file)) {
++        return false;
++      }
++
++      if (requestedFiles && !requestedFiles.includes(path.relative(baseElectronDir, file))) {
++        return false;
++      }
++
++      return true;
++    })
++    .sort();
++
++  if (requestedFiles && requestedFiles.length > 0 && testFiles.length === 0) {
++    console.error('Test files were provided, but they did not match any searched files');
++    console.error('provided file paths (relative to electron/):', requestedFiles);
++    process.exit(1);
++  }
++
++  return testFiles;
++}
++
+ async function runMainProcessElectronTests() {
+   let shouldRerun = false;
+   if (args.enableRerun && args.enableRerun > 0) {
+     shouldRerun = true;
+   }
+-  await runTestUsingElectron('spec', 'main', shouldRerun);
++
++  const failedFiles = [];
++  for (const file of getMainProcessTestFiles()) {
++    const relativeFile = path.relative(path.resolve(BASE, 'electron'), file);
++    const success = await runTestUsingElectron('spec', relativeFile, shouldRerun, ['--files', relativeFile]);
++    if (!success) {
++      failedFiles.push(relativeFile);
++    }
++  }
++
++  if (failedFiles.length > 0) {
++    console.log('\nFailed spec files:');
++    for (const file of failedFiles) {
++      console.log(`- ${file}`);
++    }
++    throw new Error(`${failedFiles.length} spec file(s) failed.`);
++  }
+ }
+ 
+ async function installSpecModules(dir) {
+@@ -416,6 +473,8 @@ async function installSpecModules(dir) {
    if (fs.existsSync(path.resolve(dir, 'node_modules'))) {
      await fs.promises.rm(path.resolve(dir, 'node_modules'), { force: true, recursive: true });
    }
@@ -41,7 +145,7 @@ Index: electron/script/spec-runner.js
    const yarnArgs = [YARN_SCRIPT_PATH, 'install', '--immutable'];
    const { status } = childProcess.spawnSync(process.execPath, yarnArgs, {
      env,
-@@ -431,7 +435,7 @@ async function installSpecModules (dir) {
+@@ -428,7 +487,7 @@ async function installSpecModules(dir) {
      process.exit(1);
    }
  

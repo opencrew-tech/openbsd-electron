@@ -3,7 +3,15 @@ Fix unbundle.
 Index: third_party/electron_node/unofficial.gni
 --- third_party/electron_node/unofficial.gni.orig
 +++ third_party/electron_node/unofficial.gni
-@@ -173,7 +173,6 @@ template("node_gn_build") {
+@@ -147,6 +147,7 @@ template("node_gn_build") {
+       ":node_internal_config",
+       "//build/config/compiler:no_exit_time_destructors"
+     ]
++    libs = []
+     public_configs = [
+       ":node_external_config",
+       "deps/googletest:googletest_config",
+@@ -173,7 +174,6 @@ template("node_gn_build") {
        "//third_party/brotli:dec",
        "//third_party/brotli:enc",
        "//third_party/zstd:decompress",
@@ -11,7 +19,26 @@ Index: third_party/electron_node/unofficial.gni
        "$node_simdutf_path",
        "$node_v8_path:v8_libplatform",
      ]
-@@ -249,17 +248,17 @@ template("node_gn_build") {
+@@ -190,7 +190,7 @@ template("node_gn_build") {
+     ] + gypi_values.node_sources
+ 
+     if (is_win) {
+-      libs = [ "psapi.lib" ]
++      libs += [ "psapi.lib" ]
+     }
+     if (is_mac) {
+       frameworks = [
+@@ -206,6 +206,9 @@ template("node_gn_build") {
+       configs -= [ "//build/config/gcc:symbol_visibility_hidden" ]
+       configs += [ "//build/config/gcc:symbol_visibility_default" ]
+     }
++    if (is_bsd) {
++      libs += [ "execinfo" ]
++    }
+     if (use_system_llhttp) {
+       libs += [ "llhttp" ]
+     } else {
+@@ -249,17 +252,17 @@ template("node_gn_build") {
        sources += node_inspector.node_inspector_sources +
                   node_inspector.node_inspector_generated_sources
      }

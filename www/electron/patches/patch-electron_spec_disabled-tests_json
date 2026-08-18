@@ -1,42 +1,21 @@
+Reduce unveil needs by not implementing some 'ps' syscall.
+Skip getAppMetrics() & getSystemMemoryInfo().
+
+No network access, mute net errors during dns lookup (feature untested).
+
+Run on Xvfb, getGPUInfo() return -1 (maybe UINT_MAX from vfb).
+
 Index: electron/spec/disabled-tests.json
 --- electron/spec/disabled-tests.json.orig
 +++ electron/spec/disabled-tests.json
-@@ -1,4 +1,38 @@
+@@ -1,4 +1,10 @@
  [
-+  "crashReporter module should send minidump when renderer crashes",
-+  "crashReporter module should send minidump when sandboxed renderer crashes",
-+  "crashReporter module should send minidump when main process crashes",
-+  "crashReporter module should send minidump when a node process crashes",
-+  "crashReporter module should send minidump when a node process inside a node process crashes",
-+  "crashReporter module should send minidump ensure linux child process args are not modified",
-+  "crashReporter module should send minidump with guid when main crashes",
-+  "crashReporter module should send minidump with guid when renderer crashes",
-+  "crashReporter module should send minidump with guid when sandboxed-renderer crashes",
-+  "crashReporter module should send minidump with guid is a consistent id",
-+  "crashReporter module should send minidump with extra parameters when renderer crashes",
-+  "crashReporter module should send minidump with extra parameters when sandboxed renderer crashes",
-+  "crashReporter module should send minidump with extra parameters contains v8 crash keys when a v8 crash occurs",
-+  "crashReporter module extra parameter limits should truncate extra values longer than 5 * 4096 characters",
-+  "crashReporter module extra parameter limits should omit extra keys with names longer than the maximum",
-+  "crashReporter module globalExtra should be sent with main process dumps",
-+  "crashReporter module globalExtra should be sent with renderer process dumps",
-+  "crashReporter module globalExtra should be sent with sandboxed renderer process dumps",
-+  "crashReporter module globalExtra should not be overridden by extra in main process",
-+  "crashReporter module globalExtra should not be overridden by extra in renderer process",
-+  "crashReporter module getUploadedReports returns an array of reports",
-+  "crashReporter module getLastCrashReport returns the last uploaded report",
-+  "crashReporter module getParameters returns all of the current parameters",
-+  "crashReporter module getParameters reflects added and removed parameters",
-+  "crashReporter module getParameters can be called in the renderer",
-+  "crashReporter module getParameters can be called in a node child process",
-+  "crashReporter module crash dumps directory when main crashes stores crashes in the crash dump directory when uploadToServer: false",
-+  "crashReporter module crash dumps directory when main crashes respects an overridden crash dump directory",
-+  "crashReporter module crash dumps directory when renderer crashes stores crashes in the crash dump directory when uploadToServer: false",
-+  "crashReporter module crash dumps directory when renderer crashes respects an overridden crash dump directory",
-+  "crashReporter module crash dumps directory when sandboxed-renderer crashes stores crashes in the crash dump directory when uploadToServer: false",
-+  "crashReporter module crash dumps directory when sandboxed-renderer crashes respects an overridden crash dump directory",
-+  "crashReporter module getUploadToServer() returns true when uploadToServer is set to true (by default)",
-+  "crashReporter module getUploadToServer() is updated by setUploadToServer",
++  "app module getAppMetrics() API returns memory and cpu stats of all running electron processes",
++  "app module configureHostResolver affects dns lookup behavior",
++  "app module getGPUInfo() API succeeds with basic GPUInfo",
++  "app module getGPUInfo() API succeeds with complete GPUInfo",
++  "process module renderer process process.getSystemMemoryInfo() returns system memory info object",
++  "process module main process process.getSystemMemoryInfo() returns system memory info object",
    "// NOTE: this file is used to disable tests in our test suite by their full title.",
    "BrowserWindow module BrowserWindow.loadURL(url) should emit did-fail-load event for files that do not exist",
    "Menu module Menu.setApplicationMenu unsets a menu with null",

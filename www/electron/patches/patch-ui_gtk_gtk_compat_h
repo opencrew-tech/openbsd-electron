@@ -1,0 +1,53 @@
+fix component build
+
+Index: ui/gtk/gtk_compat.h
+--- ui/gtk/gtk_compat.h.orig
++++ ui/gtk/gtk_compat.h
+@@ -13,6 +13,7 @@
+ 
+ #include <optional>
+ 
++#include "base/component_export.h"
+ #include "base/files/file_path.h"
+ #include "base/version.h"
+ #include "ui/base/glib/scoped_gobject.h"
+@@ -43,10 +44,10 @@ using SkColor = uint32_t;
+ namespace gtk {
+ 
+ // Get handle to the currently loaded gdk_pixbuf library in the process.
+-void* GetLibGdkPixbuf();
++COMPONENT_EXPORT(GTK) void* GetLibGdkPixbuf();
+ 
+ // Get handle to the currently loaded gdk library in the process.
+-void* GetLibGdk();
++COMPONENT_EXPORT(GTK) void* GetLibGdk();
+ 
+ // Loads libgtk and related libraries and returns true on success.
+ bool LoadGtk(ui::LinuxUiBackend backend);
+@@ -63,13 +64,15 @@ bool GtkCheckVersion(uint32_t major, uint32_t minor = 
+ 
+ [[nodiscard]] bool GtkInitCheck(int* argc, char** argv);
+ 
+-gfx::Insets GtkStyleContextGetPadding(GtkStyleContext* context);
++COMPONENT_EXPORT(GTK) gfx::Insets GtkStyleContextGetPadding(
++    GtkStyleContext* context);
+ 
+ gfx::Insets GtkStyleContextGetBorder(GtkStyleContext* context);
+ 
+ gfx::Insets GtkStyleContextGetMargin(GtkStyleContext* context);
+ 
+-SkColor GtkStyleContextGetColor(GtkStyleContext* context);
++COMPONENT_EXPORT(GTK) SkColor GtkStyleContextGetColor(
++    GtkStyleContext* context);
+ 
+ // Only available in Gtk3.
+ SkColor GtkStyleContextGetBackgroundColor(GtkStyleContext* context);
+@@ -125,7 +128,7 @@ ScopedGObject<GtkIconPaintable> Gtk4IconThemeLookupIco
+ // generate_stubs cannot forward to C-style variadic functions, so the
+ // functions below wrap the corresponding GTK va_list functions.
+ 
+-void GtkStyleContextGet(GtkStyleContext* context, ...);
++COMPONENT_EXPORT(GTK) void GtkStyleContextGet(GtkStyleContext* context, ...);
+ 
+ void GtkStyleContextGetStyle(GtkStyleContext* context, ...);
+ 

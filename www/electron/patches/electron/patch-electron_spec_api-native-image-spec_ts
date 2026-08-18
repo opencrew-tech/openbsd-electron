@@ -1,7 +1,7 @@
 Index: electron/spec/api-native-image-spec.ts
 --- electron/spec/api-native-image-spec.ts.orig
 +++ electron/spec/api-native-image-spec.ts
-@@ -439,7 +439,7 @@ describe('nativeImage module', () => {
+@@ -433,7 +433,7 @@ describe('nativeImage module', () => {
      });
    });
  

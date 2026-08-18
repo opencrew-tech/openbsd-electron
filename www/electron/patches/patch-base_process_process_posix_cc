@@ -1,0 +1,89 @@
+Index: base/process/process_posix.cc
+--- base/process/process_posix.cc.orig
++++ base/process/process_posix.cc
+@@ -4,6 +4,7 @@
+ 
+ #include "base/process/process.h"
+ 
++#include <atomic>
+ #include <errno.h>
+ #include <signal.h>
+ #include <stdint.h>
+@@ -44,6 +45,13 @@
+ 
+ namespace {
+ 
++#if BUILDFLAG(IS_OPENBSD)
++std::atomic<int64_t>& RegisteredCreationTimeInternal() {
++  static std::atomic<int64_t> creation_time{0};
++  return creation_time;
++}
++#endif
++
+ #if !BUILDFLAG(IS_IOS) || (BUILDFLAG(IS_IOS) && TARGET_OS_SIMULATOR)
+ bool WaitpidWithTimeout(base::ProcessHandle handle,
+                         int* status,
+@@ -228,7 +236,18 @@ Process Process::Current() {
+   return Process(GetCurrentProcessHandle());
+ }
+ 
++#if BUILDFLAG(IS_OPENBSD)
+ // static
++void Process::RegisterCreationTime() {
++  const int64_t current = RegisteredCreationTimeInternal().load();
++  if (current != 0)
++    return;
++
++  RegisteredCreationTimeInternal().store(Time::Now().ToInternalValue());
++}
++#endif
++
++// static
+ Process Process::Open(ProcessId pid) {
+   if (pid == GetCurrentProcId()) {
+     return Current();
+@@ -417,32 +436,36 @@ int Process::GetOSPriority() const {
+ }
+ 
+ Time Process::CreationTime() const {
+-// avoid ps pledge in the network process
+-#if !BUILDFLAG(IS_BSD)
+-  int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid(),
++#if BUILDFLAG(IS_OPENBSD)
++  // on current pid we don't need ps pledge anymore
++  if (is_current()) {
++    const int64_t registered = RegisteredCreationTimeInternal().load();
++    if (registered != 0)
++      return Time::FromInternalValue(registered);
++  }
++#endif
++  // on other process pid we may succedd or fail hard
++  int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, Pid(),
+                sizeof(struct kinfo_proc), 0 };
+   struct kinfo_proc *info = nullptr;
+   size_t info_size;
+-#endif
+   Time ct = Time();
+ 
+-#if !BUILDFLAG(IS_BSD)
+   if (sysctl(mib, std::size(mib), NULL, &info_size, NULL, 0) < 0)
+     goto out;
+ 
+-  mib[5] = (info_size / sizeof(struct kinfo_proc));
++  mib[5] = static_cast<int>(info_size / sizeof(struct kinfo_proc));
+   if ((info = reinterpret_cast<kinfo_proc*>(malloc(info_size))) == NULL)
+     goto out;
+ 
+   if (sysctl(mib, std::size(mib), info, &info_size, NULL, 0) < 0)
+     goto out;
+ 
+-  ct = Time::FromTimeT(info->p_ustart_sec);
++  ct = Time::FromTimeT(static_cast<time_t>(info->p_ustart_sec));
+ 
+ out:
+   if (info)
+     free(info);
+-#endif
+   return ct;
+ }
+ 

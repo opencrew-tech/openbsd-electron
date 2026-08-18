@@ -27,7 +27,7 @@ Index: electron/shell/app/node_main.cc
    electron::crash_keys::GetCrashKeys(&keys);
  #endif
    return gin::ConvertToV8(isolate, keys);
-@@ -291,7 +291,7 @@ int NodeMain() {
+@@ -296,7 +296,7 @@ int NodeMain() {
        // Setup process.crashReporter in child node processes
        auto reporter = gin_helper::Dictionary::CreateEmpty(isolate);
        reporter.SetMethod("getParameters", &GetParameters);

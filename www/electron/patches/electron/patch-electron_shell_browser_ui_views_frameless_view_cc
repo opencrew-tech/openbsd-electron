@@ -1,7 +1,7 @@
 Index: electron/shell/browser/ui/views/frameless_view.cc
 --- electron/shell/browser/ui/views/frameless_view.cc.orig
 +++ electron/shell/browser/ui/views/frameless_view.cc
-@@ -123,7 +123,7 @@ gfx::Size FramelessView::GetMaximumSize() const {
+@@ -122,7 +122,7 @@ gfx::Size FramelessView::GetMaximumSize() const {
    return window_->GetMaximumSize();
  }
  

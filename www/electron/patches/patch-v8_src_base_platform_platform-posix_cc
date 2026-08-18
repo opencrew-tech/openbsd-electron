@@ -1,0 +1,17 @@
+Bump thread stack size.
+# XXX globals.h
+# XXX openbsd default 512kB
+# XXX last v8 fail one test, 1M->2M ?
+
+Index: v8/src/base/platform/platform-posix.cc
+--- v8/src/base/platform/platform-posix.cc.orig
++++ v8/src/base/platform/platform-posix.cc
+@@ -1330,7 +1330,7 @@ bool Thread::Start() {
+   if (result != 0) return false;
+   size_t stack_size = stack_size_;
+   if (stack_size == 0) {
+-#if V8_OS_DARWIN
++#if V8_OS_DARWIN || V8_OS_OPENBSD
+     // Default on Mac OS X is 512kB -- bump up to 1MB
+     stack_size = 1 * 1024 * 1024;
+ #elif V8_OS_AIX

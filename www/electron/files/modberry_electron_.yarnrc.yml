@@ -1,8 +1,17 @@
+approvedGitRepositories:
+  - "**"
+
 enableScripts: false
+
+httpProxy: "${HTTP_PROXY:-}"
+
+httpsProxy: "${HTTPS_PROXY:-}"
+
 nmHoistingLimits: workspaces
+
 nodeLinker: node-modules
+
 npmMinimalAgeGate: 10080
+
 npmPreapprovedPackages:
-  - '@electron/*'
-httpProxy: ${HTTP_PROXY:-}
-httpsProxy: ${HTTPS_PROXY:-}
+  - "@electron/*"

@@ -1,7 +1,7 @@
 Index: electron/default_app/default_app.ts
 --- electron/default_app/default_app.ts.orig
 +++ electron/default_app/default_app.ts
-@@ -61,7 +61,7 @@ async function createWindow (backgroundColor?: string)
+@@ -100,7 +100,7 @@ async function createWindow(backgroundColor?: string) 
      show: false
    };
  

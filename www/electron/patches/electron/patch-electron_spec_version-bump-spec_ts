@@ -1,12 +1,90 @@
+more gitFake (test offline from tgz, no git)
+
 Index: electron/spec/version-bump-spec.ts
 --- electron/spec/version-bump-spec.ts.orig
 +++ electron/spec/version-bump-spec.ts
-@@ -54,7 +54,7 @@ class GitFake {
+@@ -10,9 +10,13 @@ class GitFake {
+   branches: {
+     [key: string]: string[];
+   };
++  currentBranch: string;
++  releaseBranches: string[];
+ 
+   constructor() {
+     this.branches = {};
++    this.currentBranch = 'main';
++    this.releaseBranches = ['origin/8-0-x', 'origin/8-x-y', 'origin/9-x-y'];
+   }
+ 
+   setBranch(channel: string): void {
+@@ -39,9 +43,18 @@ class GitFake {
+     const stderr = '';
+     const status = 0;
+ 
+-    // handle for promoting from current master HEAD
++    if (args[0] === 'rev-parse' && args[1] === '--abbrev-ref' && args[2] === 'HEAD') {
++      stdout = this.currentBranch;
++      return { status, stdout, stderr, pid: 0, output: [null, stdout, stderr], signal: null };
++    }
++
++    if (args[0] === 'branch' && args[1] === '-a' && args[2] === '--remote' && args[3] === '--list') {
++      stdout = this.releaseBranches.join('\n');
++      return { status, stdout, stderr, pid: 0, output: [null, stdout, stderr], signal: null };
++    }
++
+     let branch = 'stable';
+-    const v = args[2] === 'HEAD' ? 'stable' : args[3];
++    const v = args[3] ?? '';
+     if (v.includes('nightly')) branch = 'nightly';
+     if (v.includes('alpha')) branch = 'alpha';
+     if (v.includes('beta')) branch = 'beta';
+@@ -54,13 +67,33 @@ class GitFake {
  }
  
  describe('version-bumper', () => {
--  ifdescribe(!(process.platform === 'linux' && process.arch.indexOf('arm') === 0) && process.platform !== 'darwin')('nextVersion', () => {
-+  ifdescribe(!(['freebsd', 'linux', 'openbsd'].includes(process.platform) && process.arch.indexOf('arm') === 0) && process.platform !== 'darwin')('nextVersion', () => {
-     describe('bump versions', () => {
-       const nightlyPattern = /[0-9.]*(-nightly.(\d{4})(\d{2})(\d{2}))$/g;
-       const betaPattern = /[0-9.]*(-beta[0-9.]*)/g;
+-  ifdescribe(!(process.platform === 'linux' && process.arch.indexOf('arm') === 0) && process.platform !== 'darwin')(
++  ifdescribe(
++    !(['freebsd', 'linux', 'openbsd'].includes(process.platform) && process.arch.indexOf('arm') === 0) &&
++      process.platform !== 'darwin'
++  )(
+     'nextVersion',
+     () => {
+       describe('bump versions', () => {
+         const nightlyPattern = /[0-9.]*(-nightly.(\d{4})(\d{2})(\d{2}))$/g;
+         const betaPattern = /[0-9.]*(-beta[0-9.]*)/g;
++        const sandbox = sinon.createSandbox();
++        const gitFake = new GitFake();
+ 
++        beforeEach(() => {
++          const wrapper = (command: unknown, args: unknown, options?: unknown) => {
++            if (command === 'git' && Array.isArray(args)) {
++              return gitFake.exec(command as string, args as string[], options);
++            }
++            return { status: 0, stdout: '', stderr: '', pid: 0, output: [null, '', ''], signal: null };
++          };
++          sandbox.stub(require('node:child_process'), 'spawnSync').callsFake(wrapper);
++        });
++
++        afterEach(() => {
++          gitFake.branches = {};
++          sandbox.restore();
++        });
++
+         it('bumps to nightly from stable', async () => {
+           const version = 'v2.0.0';
+           const next = await nextVersion('nightly', version);
+@@ -103,12 +136,14 @@ describe('version-bumper', () => {
+ 
+         it('bumps to beta from beta', async () => {
+           const version = 'v2.0.0-beta.8';
++          gitFake.setVersion('beta', version);
+           const next = await nextVersion('beta', version);
+           expect(next).to.equal('2.0.0-beta.9');
+         });
+ 
+         it('bumps to beta from beta if the previous beta is at least beta.10', async () => {
+           const version = 'v6.0.0-beta.15';
++          gitFake.setVersion('beta', version);
+           const next = await nextVersion('beta', version);
+           expect(next).to.equal('6.0.0-beta.16');
+         });

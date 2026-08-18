@@ -1,0 +1,14 @@
+XXX to review, looks wrong
+
+Index: build/config/compiler/BUILD.gn
+--- build/config/compiler/BUILD.gn.orig
++++ build/config/compiler/BUILD.gn
+@@ -1993,7 +1993,7 @@ config("runtime_library") {
+   if (is_posix || is_fuchsia) {
+     configs += [ "//build/config/posix:runtime_library" ]
+ 
+-    if (use_custom_libunwind) {
++    if (use_custom_libunwind && !is_bsd) {
+       # Instead of using an unwind lib from the toolchain,
+       # buildtools/third_party/libunwind will be built and used directly.
+       ldflags = [ "--unwindlib=none" ]

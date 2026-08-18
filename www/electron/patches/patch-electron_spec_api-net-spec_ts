@@ -1,0 +1,42 @@
+DNS fails in 100s, increase timeout
+
+XXX drop if (test === itIgnoringArgs)
+
+Index: electron/spec/api-net-spec.ts
+--- electron/spec/api-net-spec.ts.orig
++++ electron/spec/api-net-spec.ts
+@@ -26,7 +26,10 @@ const utilityFixturePath = path.resolve(__dirname, 'fi
+ const fixturesPath = path.resolve(__dirname, 'fixtures');
+ 
+ async function itUtility(name: string, fn?: Function, args?: { [key: string]: any }) {
+-  it(`${name} in utility process`, async () => {
++  it(`${name} in utility process`, async function (this: Mocha.Context) {
++    if (name === 'should reject promise on DNS failure') {
++      this.timeout(300000);
++    }
+     const child = utilityProcess.fork(utilityFixturePath, [], {
+       execArgv: ['--expose-gc']
+     });
+@@ -1671,10 +1674,18 @@ describe('net module', () => {
+           expect(result.get('foo')).to.equal('bar');
+         });
+ 
+-        test('should reject promise on DNS failure', async () => {
+-          const r = net.fetch('https://i.do.not.exist');
+-          await expect(r).to.be.rejectedWith(/ERR_NAME_NOT_RESOLVED/);
+-        });
++        if (test === itIgnoringArgs) {
++          test('should reject promise on DNS failure', async function (this: Mocha.Context) {
++            this.timeout(300000);
++            const r = net.fetch('https://i.do.not.exist');
++            await expect(r).to.be.rejectedWith(/ERR_NAME_NOT_RESOLVED/);
++          });
++        } else {
++          test('should reject promise on DNS failure', async () => {
++            const r = net.fetch('https://i.do.not.exist');
++            await expect(r).to.be.rejectedWith(/ERR_NAME_NOT_RESOLVED/);
++          });
++        }
+ 
+         test('should follow a redirect to another http origin', async () => {
+           const targetUrl = await respondOnce.toSingleURL((req, res) => {

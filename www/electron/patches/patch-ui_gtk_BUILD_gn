@@ -1,0 +1,17 @@
+fix component build
+
+Index: ui/gtk/BUILD.gn
+--- ui/gtk/BUILD.gn.orig
++++ ui/gtk/BUILD.gn
+@@ -68,7 +68,10 @@ generate_stubs("gtk_stubs") {
+ }
+ 
+ component("gtk") {
+-  visibility = [ "//ui/linux:linux_ui_factory" ]
++  visibility = [
++    "//electron:*",
++    "//ui/linux:linux_ui_factory",
++  ]
+   public = [ "gtk_ui_factory.h" ]
+ 
+   sources = [

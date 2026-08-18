@@ -13,14 +13,17 @@ Index: net/dns/dns_config_service_posix.cc
  namespace net {
  
  namespace internal {
-@@ -132,6 +137,12 @@ class DnsConfigServicePosix::Watcher : public DnsConfi
+@@ -132,6 +137,15 @@ class DnsConfigServicePosix::Watcher : public DnsConfi
  
    bool Watch() override {
      CheckOnCorrectSequence();
 +
 +// pledge + unveil
 +    base::CommandLine* command_line = base::CommandLine::ForCurrentProcess();
-+    if (!command_line->HasSwitch(sandbox::policy::switches::kNoSandbox))
++    // sandbox::policy::switches::kNoSandbox is undefined during component build
++    // we can't link //sandbox/policy into //net as policy cycle bak to net
++    // XXX keep in sync with src/sandbox/policy/switches.cc
++    if (!command_line->HasSwitch("no-sandbox"))
 +      return false;
 +
      bool success = true;

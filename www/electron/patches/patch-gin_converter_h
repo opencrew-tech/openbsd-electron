@@ -1,3 +1,5 @@
+fix component build
+
 Index: gin/converter.h
 --- gin/converter.h.orig
 +++ gin/converter.h

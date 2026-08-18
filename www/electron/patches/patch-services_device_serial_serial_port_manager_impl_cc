@@ -1,0 +1,37 @@
+Index: services/device/serial/serial_port_manager_impl.cc
+--- services/device/serial/serial_port_manager_impl.cc.orig
++++ services/device/serial/serial_port_manager_impl.cc
+@@ -83,6 +83,9 @@ void SerialPortManagerImpl::SetClient(
+ 
+ void SerialPortManagerImpl::GetDevices(GetDevicesCallback callback) {
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
++#if BUILDFLAG(IS_OPENBSD)
++  std::move(callback).Run({});
++#else
+   if (!enumerator_) {
+     enumerator_ = SerialDeviceEnumerator::Create(ui_task_runner_);
+     observed_enumerator_.AddObservation(enumerator_.get());
+@@ -95,6 +98,7 @@ void SerialPortManagerImpl::GetDevices(GetDevicesCallb
+   }
+   bluetooth_enumerator_->GetDevicesAfterInitialEnumeration(base::BindOnce(
+       &FinishGetDevices, std::move(callback), std::move(devices)));
++#endif
+ }
+ 
+ void SerialPortManagerImpl::OpenPort(
+@@ -105,6 +109,7 @@ void SerialPortManagerImpl::OpenPort(
+     mojo::PendingRemote<mojom::SerialPortConnectionWatcher> watcher,
+     OpenPortCallback callback) {
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
++#if !BUILDFLAG(IS_OPENBSD)
+   if (!enumerator_) {
+     enumerator_ = SerialDeviceEnumerator::Create(ui_task_runner_);
+     observed_enumerator_.AddObservation(enumerator_.get());
+@@ -144,6 +149,7 @@ void SerialPortManagerImpl::OpenPort(
+                            base::SequencedTaskRunner::GetCurrentDefault())));
+     return;
+   }
++#endif
+ 
+   std::move(callback).Run(mojo::NullRemote());
+ }

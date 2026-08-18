@@ -1,0 +1,16 @@
+XXX sync with freebsd ?
+
+Index: electron/chromium_src/BUILD.gn
+--- electron/chromium_src/BUILD.gn.orig
++++ electron/chromium_src/BUILD.gn
+@@ -165,6 +165,10 @@ static_library("chrome") {
+     sources += [ "//chrome/browser/process_singleton_posix.cc" ]
+   }
+ 
++  if (is_bsd) {
++    libs = [ "epoll-shim" ]
++  }
++
+   if (is_win) {
+     sources += [
+       "//chrome/browser/icon_loader_win.cc",

@@ -1,0 +1,16 @@
+chrome always calls SysInfo::NumberOfEfficientProcessorsImpl.
+using dcheck, this bring unwanted output and many tests fails.
+
+Index: base/threading/platform_thread_bsd.cc
+--- base/threading/platform_thread_bsd.cc.orig
++++ base/threading/platform_thread_bsd.cc
+@@ -11,7 +11,8 @@ namespace internal {
+ 
+ void SetCurrentThreadTypeImpl(ThreadType thread_type,
+                               MessagePumpType pump_type_hint) {
+-  NOTIMPLEMENTED();
++  // this feature is mandatory per design and break tests when dchecks are on
++  // NOTIMPLEMENTED();
+   return;
+ }
+ 

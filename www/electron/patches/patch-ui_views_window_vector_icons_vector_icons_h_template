@@ -1,0 +1,21 @@
+fix component build
+
+Index: ui/views/window/vector_icons/vector_icons.h.template
+--- ui/views/window/vector_icons/vector_icons.h.template.orig
++++ ui/views/window/vector_icons/vector_icons.h.template
+@@ -8,12 +8,14 @@
+ #ifndef UI_VIEWS_WINDOW_VECTOR_ICONS_VECTOR_ICONS_H_
+ #define UI_VIEWS_WINDOW_VECTOR_ICONS_VECTOR_ICONS_H_
+ 
++#include "ui/views/views_export.h"
++
+ namespace gfx {
+ struct VectorIcon;
+ }
+ 
+ #define VECTOR_ICON_TEMPLATE_H(icon_name) \
+-extern const gfx::VectorIcon icon_name;
++VIEWS_EXPORT extern const gfx::VectorIcon icon_name;
+ 
+ namespace views {
+ 

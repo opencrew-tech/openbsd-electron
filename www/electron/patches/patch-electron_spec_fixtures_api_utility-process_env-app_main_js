@@ -1,0 +1,14 @@
+Index: electron/spec/fixtures/api/utility-process/env-app/main.js
+--- electron/spec/fixtures/api/utility-process/env-app/main.js.orig
++++ electron/spec/fixtures/api/utility-process/env-app/main.js
+@@ -7,7 +7,9 @@ app.whenReady().then(() => {
+   if (app.commandLine.hasSwitch('create-custom-env')) {
+     child = utilityProcess.fork(path.join(__dirname, 'test.js'), {
+       env: {
+-        FROM: 'child'
++        FROM: 'child',
++        HOME: process.env.HOME,
++        LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
+       }
+     });
+   } else {

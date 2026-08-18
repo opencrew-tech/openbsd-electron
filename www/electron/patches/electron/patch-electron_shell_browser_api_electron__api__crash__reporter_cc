@@ -28,16 +28,18 @@ Index: electron/shell/browser/api/electron_api_crash_reporter.cc
    if (g_crash_reporter_initialized)
      return;
    g_crash_reporter_initialized = true;
-@@ -182,7 +182,7 @@ void Start(const std::string& submit_url,
- 
- namespace {
- 
--#if IS_MAS_BUILD()
-+#if IS_MAS_BUILD() || BUILDFLAG(IS_BSD)
- void GetUploadedReports(
-     v8::Isolate* isolate,
+@@ -188,6 +188,10 @@ void GetUploadedReports(
      base::OnceCallback<void(v8::Local<v8::Value>)> callback) {
-@@ -237,13 +237,13 @@ v8::Local<v8::Value> GetUploadedReports(v8::Isolate* i
+   std::move(callback).Run(v8::Array::New(isolate));
+ }
++#elif BUILDFLAG(IS_BSD)
++v8::Local<v8::Value> GetUploadedReports(v8::Isolate* isolate) {
++  return v8::Array::New(isolate);
++}
+ #else
+ scoped_refptr<UploadList> CreateCrashUploadList() {
+ #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN)
+@@ -237,13 +241,13 @@ v8::Local<v8::Value> GetUploadedReports(v8::Isolate* i
  #endif
  
  void SetUploadToServer(bool upload) {
@@ -53,7 +55,7 @@ Index: electron/shell/browser/api/electron_api_crash_reporter.cc
    return false;
  #else
    return ElectronCrashReporterClient::Get()->GetCollectStatsConsent();
-@@ -252,7 +252,7 @@ bool GetUploadToServer() {
+@@ -252,7 +256,7 @@ bool GetUploadToServer() {
  
  v8::Local<v8::Value> GetParameters(v8::Isolate* isolate) {
    std::map<std::string, std::string> keys;
@@ -62,7 +64,7 @@ Index: electron/shell/browser/api/electron_api_crash_reporter.cc
    electron::crash_keys::GetCrashKeys(&keys);
  #endif
    return gin::ConvertToV8(isolate, keys);
-@@ -265,7 +265,7 @@ void Initialize(v8::Local<v8::Object> exports,
+@@ -265,7 +269,7 @@ void Initialize(v8::Local<v8::Object> exports,
    v8::Isolate* const isolate = electron::JavascriptEnvironment::GetIsolate();
    gin_helper::Dictionary dict(isolate, exports);
    dict.SetMethod("start", &electron::api::crash_reporter::Start);

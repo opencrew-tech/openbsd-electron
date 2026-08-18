@@ -1,0 +1,31 @@
+Fix component build with prebuilt rust stdlib.
+
+Index: build/rust/allocator/BUILD.gn
+--- build/rust/allocator/BUILD.gn.orig
++++ build/rust/allocator/BUILD.gn
+@@ -122,4 +122,25 @@ if (toolchain_has_rust) {
+     ]
+     visibility = [ ":*" ]
+   }
++
++  # Component builds that use the prebuilt Rust stdlib can propagate std rlibs
++  # into downstream C++ link steps without propagating the extra allocator
++  # inputs that rustc would normally add during a Rust-driven final link. Export
++  # only those link inputs here, without depending on :allocator itself from
++  # //build/rust/std, which would create a cycle because :allocator also uses
++  # std.
++  config("allocator_link_inputs") {
++    _allocator_dir_hash = string_hash(get_label_info(":allocator", "dir"))
++    _allocator_target_out_dir =
++        rebase_path(get_label_info(":allocator", "target_out_dir"),
++                    root_build_dir)
++    _allocator_crate_name = "allocator_${_allocator_dir_hash}"
++
++    ldflags = [ "${_allocator_target_out_dir}/lib${_allocator_crate_name}.rlib" ]
++
++    visibility = [
++      ":*",
++      "//build/rust/std:*",
++    ]
++  }
+ }

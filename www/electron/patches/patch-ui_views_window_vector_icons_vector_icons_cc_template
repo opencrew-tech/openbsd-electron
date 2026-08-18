@@ -1,0 +1,13 @@
+fix component build
+
+Index: ui/views/window/vector_icons/vector_icons.cc.template
+--- ui/views/window/vector_icons/vector_icons.cc.template.orig
++++ ui/views/window/vector_icons/vector_icons.cc.template
+@@ -7,6 +7,7 @@
+ 
+ #include "ui/views/window/vector_icons/vector_icons.h"
+ 
++#define VECTOR_ICON_EXPORT VIEWS_EXPORT
+ #include "components/vector_icons/cc_macros.h"
+ #include "ui/gfx/vector_icon_types.h"
+ 

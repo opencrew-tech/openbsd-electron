@@ -1,0 +1,33 @@
+Index: v8/src/runtime/runtime-wasm.cc
+--- v8/src/runtime/runtime-wasm.cc.orig
++++ v8/src/runtime/runtime-wasm.cc
+@@ -1305,7 +1305,15 @@ RUNTIME_FUNCTION(Runtime_WasmAllocateSuspender) {
+       isolate->stack_pool().GetOrAllocate();
+   target_stack->jmpbuf()->parent = nullptr;
+   target_stack->jmpbuf()->stack_limit = target_stack->jslimit();
++#if V8_OS_OPENBSD
++  // OpenBSD MAP_STACK mappings cannot be entered with rsp exactly equal to the
++  // high end of the mapping. The first push from that value traps with
++  // SEGV_ACCERR, even though push would write below rsp. Keep the initial stack
++  // pointer strictly inside the mapped stack.
++  target_stack->jmpbuf()->sp = target_stack->base() - kSystemPointerSize;
++#else
+   target_stack->jmpbuf()->sp = target_stack->base();
++#endif
+   target_stack->jmpbuf()->fp = kNullAddress;
+   target_stack->jmpbuf()->state = wasm::JumpBuffer::Suspended;
+   target_stack->jmpbuf()->is_on_central_stack = false;
+@@ -2786,7 +2794,12 @@ RUNTIME_FUNCTION(Runtime_WasmAllocateContinuation) {
+   alignment = RoundUp(alignment, 2 * kSystemPointerSize);
+ #endif
+   stack->jmpbuf()->fp = kNullAddress;
+-  stack->jmpbuf()->sp = RoundDown(stack->base() - arg_buffer_size, alignment);
++#if V8_OS_OPENBSD
++  const Address stack_base = stack->base() - kSystemPointerSize;
++#else
++  const Address stack_base = stack->base();
++#endif
++  stack->jmpbuf()->sp = RoundDown(stack_base - arg_buffer_size, alignment);
+   Address arg_buffer = stack->jmpbuf()->sp;
+   stack->set_arg_buffer(arg_buffer);
+   stack->jmpbuf()->state = wasm::JumpBuffer::Suspended;

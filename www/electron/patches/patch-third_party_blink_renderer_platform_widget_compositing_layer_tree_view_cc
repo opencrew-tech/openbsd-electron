@@ -1,0 +1,16 @@
+Index: third_party/blink/renderer/platform/widget/compositing/layer_tree_view.cc
+--- third_party/blink/renderer/platform/widget/compositing/layer_tree_view.cc.orig
++++ third_party/blink/renderer/platform/widget/compositing/layer_tree_view.cc
+@@ -563,8 +563,10 @@ void LayerTreeView::AddCallback(
+   std::vector<Callback> new_callbacks;
+   new_callbacks.push_back(std::move(callback));
+   callbacks.emplace_back(frame_token, std::move(new_callbacks));
+-  DCHECK_LE(callbacks.size(),
+-            cc::PresentationTimeCallbackBuffer::kMaxBufferSize);
++  // on openbsd, kMaxBufferSize=60 isn't enough and make the process crash
++  // XXX maybe look for actual limit just to know
++  // DCHECK_LE(callbacks.size(),
++  //           cc::PresentationTimeCallbackBuffer::kMaxBufferSize);
+ }
+ 
+ }  // namespace blink

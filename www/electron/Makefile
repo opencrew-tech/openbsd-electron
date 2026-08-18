@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		41.1.1
+ELECTRON_V=		41.10.2
 ELECTRON_DIST=		electron/resources
 
 # make update-patches happy
@@ -31,15 +31,15 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 PERMIT_PACKAGE=		Yes
 
 # make versions
-# electron/v41.1.1/DEPS
-CHROMIUM_V=	146.0.7680.166
-NODE_V=		24.14.0
+# electron/v41.10.2/DEPS
+CHROMIUM_V=	146.0.7680.216
+NODE_V=		24.18.0
 NAN_V=		675cefebca42410733da8a454c8d9391fcebfbc2
 SQUIRREL_MAC_V=	0e5d146ba13101a1302d59ea6e6e0b3cace4ae38
 REACTIVEOBJC_V=	74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76
 MANTLE_V=	78d3966b3c331292ea29ec38661b25df0a245948
 ENGFLOW_V=	955335c30a752e9ef7bff375baab5e0819b6c00d
-# chromium/146.0.7680.166/third_party/node/node_modules.tar.gz.sha1
+# chromium/146.0.7680.216/third_party/node/node_modules.tar.gz.sha1
 NODE_MODULES_H=	93c8d9925d573861d892cec96b2b6c00fcf4659a
 
 DIST_TUPLE+=	github nodejs node v${NODE_V} .
@@ -101,14 +101,24 @@ MODULES=	devel/berry \
 		x11/qt5 \
 		x11/qt6
 
-MODCLANG_VERSION=	21
+MODCLANG_VERSION=	22
 MODQT5_DEPS=		No
 MODQT6_DEPS=		No
 MODPY_RUNDEP=		No
 
 MODBERRY_TARGETS=	${WRKSRC}/electron
+MODBERRY_ENV+=		SENTRYCLI_SKIP_DOWNLOAD=1
+
+MODBERRY_ARGS_TEST=	run test -- --ci
+MODBERRY_ENV_TEST=	LD_LIBRARY_PATH=${BUILDDIR} \
+			DISPLAY=:1 \
+			ELECTRON_OUT_DIR=${BUILDTYPE} \
+			ELECTRON_EXE_PATH=${WRKSRC}/out/${BUILDTYPE}/electron \
+			XDG_RUNTIME_DIR=${PORTHOME}/.run
 
 MODBERRY_MODS+=graceful-fs
+MODBERRY_MODS+=oxfmt
+MODBERRY_MODS+=oxlint
 
 # electron-test-main use dbus-native fork on github:nornagon/dbus-native#master.
 # cache import fails because it needs npm to rebuild (pack > cache) this one.
@@ -205,6 +215,10 @@ USE_GMAKE=	Yes
 # XXX remember to review strip_binary in .gn files
 # (without DEBUG_PACKAGES, ports doesn't strip and the build should handle that)
 DEBUG_PACKAGES=	${BUILD_PACKAGES}
+
+# dev flavor enable component build + dcheck (+ symbol, default)
+FLAVORS=		dev
+FLAVOR?=
 
 .include <bsd.own.mk>
 
@@ -360,7 +374,7 @@ GN_ARGS+=	ffmpeg_branding=\"${FFMPEG_BRAND}\" \
 DWZ = :
 
 # always build with symbol, bsd.port.mk will strip
-# XXX bsd.port.mk doesn't strip anymore, it does only to split debug-package
+# XXX bsd.port.mk doesn't strip, it does only to split debug-package
 GN_ARGS+=	symbol_level=1
 
 # always link static into bin, no component
@@ -376,12 +390,19 @@ GN_ARGS+=	override_electron_version=\"${ELECTRON_V}\"
 # XXX need chrome-linux-${CHROMIUM_V}-llvm<XX>.profdata${EXTRACT_SUFX}
 GN_ARGS+=	chrome_pgo_phase=0
 
+.if ${FLAVOR:Mdev}
+# dev only, enable dcheck_always_on
+# electron exceed MAXTSIZE, build in component
+# fix component build, hint ld to builddir
+GN_ARGS+=	dcheck_always_on=true
+GN_ARGS+=	is_component_build=true
+MAKE_ENV+=	LD_LIBRARY_PATH=${BUILDDIR}
+.endif
+
 BUILDTYPE=	Release
 BUILDDIR=	${WRKSRC}/out/${BUILDTYPE}
 ELECTRON_GN=	//electron/build/args/release.gn
 MAKE_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE}
-TEST_ENV+=	ELECTRON_OUT_DIR=${BUILDTYPE} \
-		ELECTRON_EXE_PATH=${WRKSRC}/out/${BUILDTYPE}/electron
 
 DEVFRONT_T =	${WRKSRC}/third_party/devtools-frontend/src/
 
@@ -420,12 +441,13 @@ pre-patch:
 		to=${WRKDIR}/$$(echo $${pair} | cut -f 2 -d '"') ; \
 		for p in $$(cat $${from}/.patches); do \
 			echo "===>   Applying $${from}/$${p} into $${to}"; \
-			${PATCH} -p1 -z .orig.electron \
-				-d $${to} -i $${from}/$${p}; \
+			${PATCH} -f -p1 -z .orig.electron \
+				-d $${to} -i $${from}/$${p} || true ; \
 			grep -R '^rename' $${from}/$${p} | \
 				cut -f 3 -d ' ' | xargs -r -L2 sh -c \
 				"cd $${to} && mv \$$@" mv ; \
 		done ; \
+		find ${WRKSRC} -name '*.rej' ; \
 	done
 	# bundle libaom and libvpx for vaapi (internal header needed)
 	mkdir -p ${WRKSRC}/third_party/libaom/source/libaom
@@ -472,6 +494,15 @@ post-patch:
     third_party/vulkan-loader/src/loader/vk_loader_platform.h
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
+	# hotfix libaom config to match multimedia/aom
+	cd ${WRKSRC}/third_party/libaom/source ; \
+	[ -f config/linux/arm64-cpu-detect/config/av1_rtcd.h.beforesubst ] || \
+	cp config/linux/arm64-cpu-detect/config/av1_rtcd.h{,.beforesubst} ; \
+	[ -f config/linux/x64/config/av1_rtcd.h.beforesubst ] || \
+	cp config/linux/x64/config/av1_rtcd.h{,.beforesubst} ; \
+	perl -pi -e 's#uint16_t eob,#int eob,#g' \
+		config/linux/arm64-cpu-detect/config/av1_rtcd.h \
+		config/linux/x64/config/av1_rtcd.h
 
 pre-configure:
 	# configure ffmpeg
@@ -503,7 +534,7 @@ do-configure:
 		--args="import(\"${ELECTRON_GN}\") ${GN_ARGS}"
 
 do-build:
-	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		ninja -j ${MAKE_JOBS} -C out/${BUILDTYPE} ${BUILD_TARGET}
 
 do-install:
@@ -571,21 +602,18 @@ do-install:
 # echo "/\trwcx" >> /etc/electron/unveil.utility_network
 # *** Fake display, env DISPLAY=:1
 # Xvfb :1 &
-# XXX *** Limit openfiles max 1024 isn't enouch
-# adjust _pbuild to :openfiles-max=2048: (/etc/login.conf)
 
 # Notes :
 # use a wrapper script, skip bin/electron check, electron/spec/api-app-spec.ts
 # no crashReporter, electron/spec/disabled-tests.json
+# depends on /etc/electron, need XDG_RUNTIME_DIR, set to ${PORTHOME}/.run
 do-test:
-	rm -rf ${WRKDIR}/.config
-	mkdir -p ${WRKDIR}/.config
-	ulimit -Sn `ulimit -Hn` && \
-	cd ${WRKSRC}/electron && ${SETENV} ${TEST_ENV} \
-		HOME=${WRKDIR} \
-		LD_LIBRARY_PATH=${BUILDDIR} \
-		DISPLAY=:1 \
-		npm run test -- --ci
+	rm -rf ${PORTHOME}/.config
+	mkdir -p ${PORTHOME}/.config
+	mkdir -p -m 0700 ${PORTHOME}/.run
+	ulimit -n `ulimit -Hn` ; \
+	cd ${WRKSRC}/electron && \
+	${MODBERRY_CMD_TEST} ${MODBERRY_ARGS_TEST}
 
 ### targets for port maintainer(s)
 
@@ -875,16 +903,6 @@ gn-system:
 		echo "${GN_SYSTEM_LIBS}" | \
 			grep -q "$$_pkg" || echo $$_pkg ; \
 	done
-
-tarball-useless:
-	# look for outdated file access time which could be removed from tarball
-	# be carefull to not grep anything in src tree
-	# make && make test && make tarball-useless
-	find ${WRKSRC} -type d -print | \
-		${_PBUILD} tee ${WRKDIR}/src_tree.list >/dev/null
-	find ${WRKSRC} -anewer ${_EXTRACT_COOKIE} -type d -print | \
-		${_PBUILD} tee ${WRKDIR}/src_tree_access.list >/dev/null
-	diff -uN ${WRKDIR}/src_tree_access.list ${WRKDIR}/src_tree.list
 
 .include "modules.berry.inc"
 

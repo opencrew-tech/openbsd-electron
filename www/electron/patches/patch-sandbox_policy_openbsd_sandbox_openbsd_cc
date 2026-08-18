@@ -5,6 +5,8 @@ strsep unveil lines by tabulation, allow space in path.
 allow unveil failures to list non-existent directories.
 extend rules by loading file ELECTRON_UNVEIL.
 
+XXX kPrintCompositor to review
+
 Index: sandbox/policy/openbsd/sandbox_openbsd.cc
 --- sandbox/policy/openbsd/sandbox_openbsd.cc.orig
 +++ sandbox/policy/openbsd/sandbox_openbsd.cc
@@ -177,7 +179,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        } else {
          VLOG(5) << "unveiling " << path << " with permissions " << tokens[1];
        }
-@@ -287,7 +278,70 @@ bool SandboxLinux::SetUnveil(const std::string process
+@@ -287,7 +278,72 @@ bool SandboxLinux::SetUnveil(const std::string process
          LOG(ERROR) << "failed to open " << ufile << " errno: " << errno;
          _exit(1);
    }
@@ -208,6 +210,8 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
 +  }
 +
 +  switch (sandbox_type) {
++    /* XXX implement a dedicated unveil.print_compositor */
++    case sandbox::mojom::Sandbox::kPrintCompositor:
 +    case sandbox::mojom::Sandbox::kNoSandbox:
 +      ufile = _UNVEIL_MAIN;
 +      break;
@@ -248,7 +252,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
  done:
    unveil_initialized_ = true;
  
-@@ -336,7 +390,7 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
+@@ -336,7 +392,7 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
  
    switch(sandbox_type) {
      case sandbox::mojom::Sandbox::kNoSandbox:
@@ -257,7 +261,7 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        break;
      case sandbox::mojom::Sandbox::kRenderer:
        // prot_exec needed by v8
-@@ -348,13 +402,13 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
+@@ -348,19 +404,20 @@ bool SandboxLinux::InitializeSandbox(sandbox::mojom::S
        SetPledge("stdio drm inet rpath flock cpath wpath prot_exec recvfd sendfd unix", NULL);
        break;
      case sandbox::mojom::Sandbox::kAudio:
@@ -274,3 +278,10 @@ Index: sandbox/policy/openbsd/sandbox_openbsd.cc
        break;
      case sandbox::mojom::Sandbox::kCdm:
        SetPledge("stdio rpath flock recvfd sendfd", NULL);
+       break;
+     case sandbox::mojom::Sandbox::kUtility:
+     case sandbox::mojom::Sandbox::kService:
++    case sandbox::mojom::Sandbox::kPrintCompositor:
+       SetPledge("stdio rpath cpath wpath fattr flock sendfd recvfd prot_exec", NULL);
+       break;
+     default:

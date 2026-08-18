@@ -1,3 +1,5 @@
+Do not strip and let ports infra handle it.
+
 Index: chrome/BUILD.gn
 --- chrome/BUILD.gn.orig
 +++ chrome/BUILD.gn

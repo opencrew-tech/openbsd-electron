@@ -1,0 +1,12 @@
+Index: electron/spec/api-corner-smoothing-spec.ts
+--- electron/spec/api-corner-smoothing-spec.ts.orig
++++ electron/spec/api-corner-smoothing-spec.ts
+@@ -125,7 +125,7 @@ describe('-electron-corner-smoothing', () => {
+   });
+ 
+   describe('system-ui keyword', () => {
+-    const { platform } = process;
++    const platform = process.platform === 'openbsd' ? 'linux' : process.platform;
+     it(`matches the reference for platform = ${platform}`, async () => {
+       await pageCaptureTestRecipe(
+         path.join(FIXTURE_PATH, 'system-ui-keyword', 'test.html'),

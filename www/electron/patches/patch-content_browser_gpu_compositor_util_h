@@ -1,0 +1,33 @@
+fix component build
+
+Index: content/browser/gpu/compositor_util.h
+--- content/browser/gpu/compositor_util.h.orig
++++ content/browser/gpu/compositor_util.h
+@@ -10,6 +10,7 @@
+ #include <vector>
+ 
+ #include "base/values.h"
++#include "content/common/content_export.h"
+ 
+ namespace content {
+ 
+@@ -36,13 +37,13 @@ int NumberOfRendererRasterThreads();
+ // Returns true if main thread can be pipelined with activation.
+ bool IsMainFrameBeforeActivationEnabled();
+ 
+-base::Value GetFeatureStatus();
+-base::Value GetProblems();
+-std::vector<std::string> GetDriverBugWorkarounds();
++CONTENT_EXPORT base::Value GetFeatureStatus();
++CONTENT_EXPORT base::Value GetProblems();
++CONTENT_EXPORT std::vector<std::string> GetDriverBugWorkarounds();
+ 
+-base::Value GetFeatureStatusForHardwareGpu();
+-base::Value GetProblemsForHardwareGpu();
+-std::vector<std::string> GetDriverBugWorkaroundsForHardwareGpu();
++CONTENT_EXPORT base::Value GetFeatureStatusForHardwareGpu();
++CONTENT_EXPORT base::Value GetProblemsForHardwareGpu();
++CONTENT_EXPORT std::vector<std::string> GetDriverBugWorkaroundsForHardwareGpu();
+ 
+ }  // namespace content
+ 

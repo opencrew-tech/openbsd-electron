@@ -1,7 +1,7 @@
 Index: electron/spec/api-utility-process-spec.ts
 --- electron/spec/api-utility-process-spec.ts.orig
 +++ electron/spec/api-utility-process-spec.ts
-@@ -538,7 +538,7 @@ describe('utilityProcess module', () => {
+@@ -566,7 +566,7 @@ describe('utilityProcess module', () => {
        expect(output).to.include(result);
      });
  
@@ -10,7 +10,7 @@ Index: electron/spec/api-utility-process-spec.ts
        const message = 'Message from utility process';
        const child = utilityProcess.fork(path.join(fixturesPath, 'expose-main-process-module.js'));
        await once(child, 'spawn');
-@@ -575,7 +575,7 @@ describe('utilityProcess module', () => {
+@@ -603,7 +603,7 @@ describe('utilityProcess module', () => {
        await closeWindow(w);
      });
  
@@ -19,3 +19,49 @@ Index: electron/spec/api-utility-process-spec.ts
        const child = utilityProcess.fork(path.join(fixturesPath, 'suid.js'));
        await once(child, 'spawn');
        const [data] = await once(child, 'message');
+@@ -894,20 +894,31 @@ describe('utilityProcess module', () => {
+ 
+     it('supports generating snapshots via v8.setHeapSnapshotNearHeapLimit', async () => {
+       const tmpDir = await fs.mkdtemp(path.resolve(os.tmpdir(), 'electron-spec-utility-oom-'));
+-      const child = utilityProcess.fork(path.join(fixturesPath, 'oom-grow.js'), [], {
+-        stdio: 'ignore',
+-        execArgv: [`--diagnostic-dir=${tmpDir}`, '--js-flags=--max-old-space-size=50'],
+-        env: {
+-          NODE_DEBUG_NATIVE: 'diagnostic'
+-        }
+-      });
+-      await once(child, 'spawn');
+-      await once(child, 'exit');
+-      const files = (await fs.readdir(tmpDir)).filter((file) => file.endsWith('.heapsnapshot'));
+-      expect(files.length).to.be.equal(1);
+-      const stat = await fs.stat(path.join(tmpDir, files[0]));
+-      expect(stat.size).to.be.greaterThan(0);
+-      await fs.rm(tmpDir, { recursive: true });
++      try {
++        const child = utilityProcess.fork(path.join(fixturesPath, 'oom-grow.js'), [], {
++          stdio: ['ignore', 'ignore', 'pipe'],
++          execArgv: [`--diagnostic-dir=${tmpDir}`, '--js-flags=--max-old-space-size=50'],
++          env: {
++            HOME: process.env.HOME,
++            LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH,
++            NODE_DEBUG_NATIVE: 'diagnostic'
++          }
++        });
++        let stderr = '';
++        child.stderr?.setEncoding('utf8');
++        child.stderr?.on('data', chunk => {
++          stderr += chunk;
++        });
++
++        await once(child, 'spawn');
++        await once(child, 'exit');
++        const files = (await fs.readdir(tmpDir)).filter((file) => file.endsWith('.heapsnapshot'));
++        expect(files.length, stderr || 'utility child exited without emitting diagnostics').to.be.equal(1);
++        const stat = await fs.stat(path.join(tmpDir, files[0]));
++        expect(stat.size).to.be.greaterThan(0);
++      } finally {
++        await fs.rm(tmpDir, { recursive: true, force: true });
++      }
+     });
+ 
+     it('supports --no-experimental-global-navigator flag', async () => {

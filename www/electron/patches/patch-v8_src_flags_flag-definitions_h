@@ -1,0 +1,19 @@
+Disable regexp JIT by default.
+
+Index: v8/src/flags/flag-definitions.h
+--- v8/src/flags/flag-definitions.h.orig
++++ v8/src/flags/flag-definitions.h
+@@ -3289,7 +3289,13 @@ DEFINE_BOOL(regexp_optimization, true, "generate optim
+ DEFINE_BOOL(regexp_unroll, true, "unroll small {} repeats when optimizing")
+ DEFINE_BOOL(regexp_quick_check, true,
+             "generate quickcheck code when optimizing")
++#ifdef V8_OS_OPENBSD
++// OpenBSD: Irregexp JIT rewrites a C++ return address, which conflicts with
++// retguard. Use bytecode interpretation by default.
++DEFINE_BOOL(regexp_interpret_all, true, "interpret all regexp code")
++#else
+ DEFINE_BOOL(regexp_interpret_all, false, "interpret all regexp code")
++#endif
+ #ifdef V8_TARGET_BIG_ENDIAN
+ #define REGEXP_PEEPHOLE_OPTIMIZATION_BOOL false
+ #else

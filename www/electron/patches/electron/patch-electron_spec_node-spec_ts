@@ -1,7 +1,17 @@
 Index: electron/spec/node-spec.ts
 --- electron/spec/node-spec.ts.orig
 +++ electron/spec/node-spec.ts
-@@ -148,7 +148,7 @@ describe('node feature', () => {
+@@ -181,7 +181,8 @@ describe('node feature', () => {
+             [require('node:path').join(fixtures, 'module', 'run-as-node.js')],
+             {
+               env: {
+-                ELECTRON_RUN_AS_NODE: true
++                ELECTRON_RUN_AS_NODE: true,
++                LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
+               }
+             }
+           );
+@@ -206,7 +207,7 @@ describe('node feature', () => {
      });
  
      describe('child_process.exec', () => {
@@ -10,3 +20,86 @@ Index: electron/spec/node-spec.ts
          // Chrome uses prctl(2) to set the NO_NEW_PRIVILEGES flag on Linux (see
          // https://github.com/torvalds/linux/blob/40fde647cc/Documentation/userspace-api/no_new_privs.rst).
          // We disable this for unsandboxed processes, which the renderer tests
+@@ -214,7 +215,9 @@ describe('node feature', () => {
+         // is not 0', then it's likely that our patch to prevent the flag from
+         // being set has become ineffective.
+         const w = await getRemoteContext();
+-        const stdout = await w.webContents.executeJavaScript("require('child_process').execSync('sudo --help')");
++        const stdout = await w.webContents.executeJavaScript(
++          "require('child_process').execSync('/sbin/ping -c1 127.0.0.1')"
++        );
+         expect(stdout).to.not.be.empty();
+       });
+     });
+@@ -900,7 +903,10 @@ describe('node feature', () => {
+       });
+ 
+       child = childProcess.spawn(process.execPath, ['--force-fips'], {
+-        env: { ELECTRON_RUN_AS_NODE: 'true' }
++        env: {
++          ELECTRON_RUN_AS_NODE: 'true',
++          LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++        }
+       });
+       exitPromise = once(child, 'exit');
+ 
+@@ -958,7 +964,10 @@ describe('node feature', () => {
+ 
+     it('Supports starting the v8 inspector with --inspect/--inspect-brk', (done) => {
+       child = childProcess.spawn(process.execPath, ['--inspect-brk', path.join(fixtures, 'module', 'run-as-node.js')], {
+-        env: { ELECTRON_RUN_AS_NODE: 'true' }
++        env: {
++          ELECTRON_RUN_AS_NODE: 'true',
++          LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++        }
+       });
+ 
+       let output = '';
+@@ -984,7 +993,10 @@ describe('node feature', () => {
+         process.execPath,
+         ['--inspect=17364', path.join(fixtures, 'module', 'run-as-node.js')],
+         {
+-          env: { ELECTRON_RUN_AS_NODE: 'true' }
++          env: {
++            ELECTRON_RUN_AS_NODE: 'true',
++            LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++          }
+         }
+       );
+       exitPromise = once(child, 'exit');
+@@ -1079,7 +1091,10 @@ describe('node feature', () => {
+         process.execPath,
+         ['--inspect', path.join(fixtures, 'module', 'inspector-binding.js')],
+         {
+-          env: { ELECTRON_RUN_AS_NODE: 'true' },
++          env: {
++            ELECTRON_RUN_AS_NODE: 'true',
++            LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++          },
+           stdio: ['ipc']
+         }
+       ) as childProcess.ChildProcessWithoutNullStreams;
+@@ -1115,7 +1130,10 @@ describe('node feature', () => {
+   it('handles Promise timeouts correctly', async () => {
+     const scriptPath = path.join(fixtures, 'module', 'node-promise-timer.js');
+     const child = childProcess.spawn(process.execPath, [scriptPath], {
+-      env: { ELECTRON_RUN_AS_NODE: 'true' }
++      env: {
++        ELECTRON_RUN_AS_NODE: 'true',
++        LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++      }
+     });
+     const [code, signal] = await once(child, 'exit');
+     expect(code).to.equal(0);
+@@ -1156,7 +1174,10 @@ describe('node feature', () => {
+         process.execPath,
+         [path.join(fixtures, 'type-stripping', 'transform-types-node.ts')],
+         {
+-          env: { ELECTRON_RUN_AS_NODE: 'true' }
++          env: {
++            ELECTRON_RUN_AS_NODE: 'true',
++            LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
++          }
+         }
+       );
+       const [code] = await once(child, 'exit');

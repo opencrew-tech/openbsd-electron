@@ -1,7 +1,7 @@
 Index: electron/lib/renderer/security-warnings.ts
 --- electron/lib/renderer/security-warnings.ts.orig
 +++ electron/lib/renderer/security-warnings.ts
-@@ -27,6 +27,7 @@ const shouldLogSecurityWarnings = function (): boolean
+@@ -26,6 +26,7 @@ const shouldLogSecurityWarnings = function (): boolean
        break;
      case 'freebsd':
      case 'linux':

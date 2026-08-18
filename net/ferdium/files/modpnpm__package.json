@@ -119,7 +119,7 @@
     "route-parser": "0.0.5",
     "sanitize-filename": "1.6.3",
     "semver": "7.6.3",
-    "sqlite3": "5.1.6",
+    "sqlite3": "5.1.7",
     "tar": "6.2.1",
     "tinycolor2": "1.6.0",
     "tslib": "2.7.0",

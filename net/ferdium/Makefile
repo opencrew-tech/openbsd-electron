@@ -1,6 +1,7 @@
 COMMENT =	all your web-services in one place
 
 DIST_TUPLE =	github ferdium ferdium-app v7.1.2 .
+REVIVION =	0
 
 CATEGORIES =	net
 
@@ -19,7 +20,7 @@ COMPILER =		base-clang ports-gcc
 RECIPES_ID =	785591facd25563dc2354e6f97088511e9cdfac8
 DIST_TUPLE+=	github ferdium ferdium-recipes ${RECIPES_ID} recipes
 
-BUILD_TIMESTAMP =	$(now)
+BUILD_TIMESTAMP =	$$(date +%s)
 BUILD_SHORTHASH =	c503018
 
 MODULES =		devel/pnpm \
@@ -41,6 +42,9 @@ MODPNPM_MODS+=electron-builder
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
 
+# fix build, to revisit on next update
+MODPNPM_GEN_UPDATE=sqlite3@5.1.7
+
 RUN_DEPENDS+=		devel/desktop-file-utils \
 			x11/gtk+4,-guic
 
@@ -53,6 +57,11 @@ post-patch:
 
 pre-build:
 	${MODPNPM_PREBUILD_TARGET}
+	# Cleaning sqlite3 build
+	cd ${WRKSRC}/node_modules/sqlite3 && \
+		mkdir -p Release && \
+		cp -p build/Release/node_sqlite3.node Release/ && \
+		rm -rf build
 	# Building recipes
 	cd ${WRKSRC}/recipes && \
 		${MODPNPM_CMD_BUILD} package
@@ -63,7 +72,7 @@ pre-build:
 post-install:
 	# remove build detritus
 	cd ${PREFIX}/${MODELECTRON_DIST_T}.asar.unpacked/node_modules && \
-		rm -rf sqlite3/build-tmp-napi-v6 sqlite3/deps sqlite3/src
+		rm -rf sqlite3/deps sqlite3/src
 	# menu
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${FILESDIR}/${MODELECTRON_TARGET}.desktop \

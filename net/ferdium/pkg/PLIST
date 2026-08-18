@@ -30,10 +30,9 @@ ${MODELECTRON_DIST_T}.asar.unpacked/assets/images/taskbar/win32/taskbar-alert.ic
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/LICENSE
+${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/Release/
+@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/Release/node_sqlite3.node
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/binding/
-${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/binding/napi-v6-openbsd-unknown-x64/
-@so ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/binding/napi-v6-openbsd-unknown-x64/node_sqlite3.node
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/sqlite3-binding.js
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/sqlite3.js
 ${MODELECTRON_DIST_T}.asar.unpacked/node_modules/sqlite3/lib/trace.js

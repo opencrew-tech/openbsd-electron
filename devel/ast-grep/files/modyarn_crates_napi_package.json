@@ -1,6 +1,6 @@
 {
   "name": "@ast-grep/napi",
-  "version": "0.41.1",
+  "version": "0.44.1",
   "description": "Search and Rewrite code at large scale using precise AST pattern",
   "homepage": "https://ast-grep.github.io",
   "main": "index.js",
@@ -42,32 +42,32 @@
     "build": "napi build --no-const-enum --dts ignore.d.ts --platform --release",
     "build:debug": "napi build --no-const-enum --dts ignore.d.ts --platform",
     "prepublishOnly": "napi prepublish -t npm --no-gh-release",
-    "pretest": "ts-node scripts/generateTypes.ts --test-only",
+    "pretest": "tsimp scripts/generateTypes.ts --test-only",
     "test": "tsc --noEmit && ava",
     "version": "napi version",
     "lint": "oxlint && dprint check",
     "format": "dprint fmt",
     "format:check": "dprint check",
-    "typegen": "ts-node scripts/generateTypes.ts"
+    "typegen": "tsimp scripts/generateTypes.ts"
   },
   "devDependencies": {
-    "@ast-grep/napi": "0.41.0",
-    "@napi-rs/cli": "3.5.1",
+    "@ast-grep/napi": "0.44.0",
+    "@napi-rs/cli": "3.7.2",
     "@types/node": "^24.0.0",
     "ava": "7.0.0",
     "chalk": "5.6.2",
-    "oxlint": "1.51.0",
+    "oxlint": "1.72.0",
     "smol-toml": "^1.3.1",
-    "ts-node": "10.9.2",
-    "typescript": "5.9.3"
+    "tsimp": "2.0.12",
+    "typescript": "6.0.3"
   },
   "ava": {
-    "require": [
-      "ts-node/register"
+    "nodeArguments": [
+      "--import=tsimp"
     ],
-    "extensions": [
-      "ts"
-    ],
+    "extensions": {
+      "ts": "module"
+    },
     "timeout": "2m",
     "workerThreads": false,
     "environmentVariables": {
@@ -75,6 +75,7 @@
     }
   },
   "resolutions": {
-    "graceful-fs": "../../../node/graceful-fs/node_modules/graceful-fs"
+    "graceful-fs": "../../../node/graceful-fs/node_modules/graceful-fs",
+    "oxlint": "../../../node/oxc-apps/node_modules/oxlint"
   }
 }

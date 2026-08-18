@@ -47,6 +47,8 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@babel__par
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@babel__traverse-7.99.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@babel__traverse-7.99.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@babel__traverse-7.99.0/package.json
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@hapi__joi-17.99.0/
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@hapi__joi-17.99.0/package.json
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@private__has-bin-entry-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@private__has-bin-entry-1.0.0/bin.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@private__has-bin-entry-1.0.0/index.js
@@ -82,6 +84,8 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@scoped__re
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__babel_traverse-7.99.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__babel_traverse-7.99.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__babel_traverse-7.99.0/package.json
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__hapi_joi-17.99.0/
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__hapi_joi-17.99.0/package.json
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__is-number-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__is-number-1.0.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/@types__is-number-1.0.0/package.json
@@ -978,6 +982,7 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/au
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/info.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/login.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/logout.test.ts
+lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/stage.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/npm/whoami.test.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/pack.test.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/commands/patch.test.ts
@@ -1037,6 +1042,7 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/mergeC
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/mirror.test.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/npmMinimalAgeGate.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/packageExtensions.test.ts
+lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/packageMaps.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/peerDependenciesMeta.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/plugins.test.ts
 lib/node/berry/packages/acceptance-tests/pkg-tests-specs/sources/features/plugins.utility.ts
@@ -1531,6 +1537,10 @@ lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/info.ts
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/login.ts
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/logout.ts
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/publish.ts
+lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/stage/
+lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/stage/approve.ts
+lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/stage/list.ts
+lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/stage/reject.ts
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/tag/
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/tag/add.ts
 lib/node/berry/packages/plugin-npm-cli/sources/commands/npm/tag/list.ts
@@ -1612,6 +1622,12 @@ lib/node/berry/packages/plugin-patch/tests/fixtures/update/a/
 lib/node/berry/packages/plugin-patch/tests/fixtures/update/a/foo.txt
 lib/node/berry/packages/plugin-patch/tests/fixtures/update/b/
 lib/node/berry/packages/plugin-patch/tests/fixtures/update/b/foo.txt
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/a/
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/a/.gitkeep
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/b/
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/b/.gitkeep
+lib/node/berry/packages/plugin-patch/tests/fixtures/测试/b/foo.txt
 lib/node/berry/packages/plugin-patch/tests/parsePatchFile.test.ts
 lib/node/berry/packages/plugin-pnp/
 lib/node/berry/packages/plugin-pnp/README.md
@@ -2119,10 +2135,12 @@ lib/node/berry/packages/yarnpkg-nm/
 lib/node/berry/packages/yarnpkg-nm/package.json
 lib/node/berry/packages/yarnpkg-nm/sources/
 lib/node/berry/packages/yarnpkg-nm/sources/buildNodeModulesTree.ts
+lib/node/berry/packages/yarnpkg-nm/sources/buildPackageMap.ts
 lib/node/berry/packages/yarnpkg-nm/sources/hoist.ts
 lib/node/berry/packages/yarnpkg-nm/sources/index.ts
 lib/node/berry/packages/yarnpkg-nm/tests/
 lib/node/berry/packages/yarnpkg-nm/tests/hoist.test.ts
+lib/node/berry/packages/yarnpkg-nm/tests/packageMap.test.ts
 lib/node/berry/packages/yarnpkg-parsers/
 lib/node/berry/packages/yarnpkg-parsers/package.json
 lib/node/berry/packages/yarnpkg-parsers/sources/
@@ -2187,6 +2205,7 @@ lib/node/berry/packages/yarnpkg-pnp/sources/node/util.js
 lib/node/berry/packages/yarnpkg-pnp/sources/types.ts
 lib/node/berry/packages/yarnpkg-pnp/tests/
 lib/node/berry/packages/yarnpkg-pnp/tests/generatePrettyJson.test.ts
+lib/node/berry/packages/yarnpkg-pnp/tests/loaderFlags.test.ts
 lib/node/berry/packages/yarnpkg-pnp/tests/pnpStandardRunner.test.ts
 lib/node/berry/packages/yarnpkg-pnp/tests/testExpectations.json
 lib/node/berry/packages/yarnpkg-pnpify/

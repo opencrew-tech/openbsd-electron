@@ -1,6 +1,6 @@
 COMMENT =	fast, reliable, and secure dependency management for node.js
 
-V =		4.14.1
+V =		4.17.1
 DISTNAME =	berry--yarnpkg-cli-${V}
 PKGNAME =	berry-${V}
 DIST_TUPLE =	github yarnpkg berry @yarnpkg/cli/${V} .
@@ -14,6 +14,7 @@ MAINTAINER =	Fabien Romano <fabien@openbsd.org>
 # BSD-2-Clause
 PERMIT_PACKAGE =	Yes
 
+BUILD_DEPENDS =		lang/node
 RUN_DEPENDS =		lang/node
 
 PORTHOME =		${WRKDIR}/vendor

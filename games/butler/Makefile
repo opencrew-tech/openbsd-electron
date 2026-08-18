@@ -2,7 +2,9 @@ COMMENT =	command-line itch.io helper
 
 MODGO_MODNAME =	github.com/itchio/butler
 # go mod init tmp && go get github.com/itchio/butler@${H} (commit hash of ${V})
-MODGO_VERSION =	v1.9.1-0.20260226193558-8557c8e5baf2
+MODGO_VERSION = v1.9.1-0.20260713193417-44467a1c7b02
+
+DISTNAME =	butler-15.29.0
 
 CATEGORIES =	games
 
@@ -17,10 +19,6 @@ WANTLIB += c m pthread
 
 MODULES =		lang/go
 
-# play some tricks to use github version and allow proper portroach detection
-DISTNAME =	butler-15.26.1
-WRKDIST =	${WRKDIR}
-
 # keep buildinfo in sync with upstream release/build.js
 MODGO_BUILDINFO =	${MODGO_MODNAME}/buildinfo
 MODGO_VERSION_TS =	${MODGO_VERSION:C/^.*\.//:C/-.*$//}
@@ -29,6 +27,9 @@ MODGO_BUILT_AT !=	date -ju -f '%Y%m%d%H%M%S' ${MODGO_VERSION_TS} +%s
 MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.Version=${V}
 MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.BuiltAt=${MODGO_BUILT_AT}
 MODGO_LDFLAGS +=	-X ${MODGO_BUILDINFO}.Commit=${MODGO_VERSION_COMMIT}
+
+# play some tricks to use github version in DISTNAME (portroach detection)
+WRKDIST =	${WRKDIR}
 
 # modgo doesn't support depends patches, use hotfix instead of patches
 post-configure:

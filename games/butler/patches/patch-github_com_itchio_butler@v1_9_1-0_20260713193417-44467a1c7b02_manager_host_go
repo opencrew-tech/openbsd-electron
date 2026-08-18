@@ -1,6 +1,6 @@
-Index: github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go
---- github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go.orig
-+++ github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/manager/host.go
+Index: github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/manager/host.go
+--- github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/manager/host.go.orig
++++ github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/manager/host.go
 @@ -43,8 +43,39 @@ func (dre *defaultHostEnumerator) Enumerate(consumer *
  	native := NativeHost()
  	consumer.Debugf("Native platform: %v", native)

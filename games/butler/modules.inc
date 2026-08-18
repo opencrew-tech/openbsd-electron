@@ -10,7 +10,6 @@ MODGO_MODULES =	\
 	github.com/basgys/goxml2json			 v1.1.0 \
 	github.com/benbjohnson/clock			 v1.1.0 \
 	github.com/bitly/go-simplejson			 v0.5.0 \
-	github.com/bmizerany/assert			 v0.0.0-20160611221934-b7ed37b82869 \
 	github.com/certifi/gocertifi			 v0.0.0-20210507211836-431795d63e8d \
 	github.com/cespare/xxhash/v2			 v2.3.0 \
 	github.com/clipperhouse/uax29/v2		 v2.2.0 \
@@ -52,32 +51,32 @@ MODGO_MODULES =	\
 	github.com/hashicorp/golang-lru			 v1.0.2 \
 	github.com/helloeave/json			 v1.13.0 \
 	github.com/inconshreveable/mousetrap		 v1.1.0 \
-	github.com/itchio/arkive			 v0.0.0-20260129195250-d003d2dc1a31 \
-	github.com/itchio/boar				 v0.0.0-20260130230637-862e70c1e0d7 \
+	github.com/itchio/arkive			 v0.0.0-20260428180635-32e8e9c72151 \
+	github.com/itchio/boar				 v0.0.0-20260417011146-418a6ee74f35 \
 	github.com/itchio/dash				 v0.0.0-20260128225838-1643ccf89aea \
-	github.com/itchio/dmcunrar-go			 v0.0.0-20260128194444-1ffa7219a4a2 \
+	github.com/itchio/dmcunrar-go			 v0.0.0-20260417004436-431599c00729 \
 	github.com/itchio/dskompress			 v0.0.0-20190702113811-5e6f499be697 \
-	github.com/itchio/elefant			 v0.0.0-20200305193251-d52333c6ec90 \
+	github.com/itchio/elefant			 v0.0.0-20260515053942-17c52347bcf4 \
 	github.com/itchio/go-brotli			 v0.0.0-20190702114328-3f28d645a45c \
-	github.com/itchio/go-itchio			 v0.0.0-20260219215812-1c5026457495 \
-	github.com/itchio/hades				 v0.0.0-20260219080741-55750b20dd32 \
+	github.com/itchio/go-itchio			 v0.0.0-20260710194225-a8581d36bf19 \
+	github.com/itchio/hades				 v0.0.0-20260711210423-80ab837c55cd \
 	github.com/itchio/headway			 v0.0.0-20251229214354-da882c8b5dd4 \
 	github.com/itchio/httpkit			 v0.0.0-20260213231528-25109ada88c9 \
-	github.com/itchio/hush				 v0.0.0-20260123230201-fb8be8976347 \
+	github.com/itchio/hush				 v0.0.0-20260710191509-8882c242cb2b \
 	github.com/itchio/intact			 v0.0.0-20200301161822-f8c4a3336c2a \
 	github.com/itchio/kompress			 v0.0.0-20200301155538-5c2eecce9e51 \
-	github.com/itchio/lake				 v0.0.0-20260214042742-d93a9d33bb65 \
+	github.com/itchio/lake				 v0.0.0-20260609175358-7830e8bc546a \
 	github.com/itchio/lzma				 v0.0.0-20190703113020-d3e24e3e3d49 \
 	github.com/itchio/mitch				 v0.0.0-20200305160145-f3a01c4897c9 \
 	github.com/itchio/ox				 v0.0.0-20260212201121-1e6be0bfd382 \
-	github.com/itchio/pelican			 v0.0.0-20200626221820-739b3d7708d2 \
+	github.com/itchio/pelican			 v0.0.0-20260515051627-03ecc612cf1c \
 	github.com/itchio/randsource			 v0.0.0-20260216215536-1b48147d46e5 \
 	github.com/itchio/savior			 v0.0.0-20260128212141-556ab9757054 \
-	github.com/itchio/screw				 v0.0.0-20260217205324-77dbfa8b7bd3 \
+	github.com/itchio/screw				 v0.0.0-20260221011136-e674b460b040 \
 	github.com/itchio/sevenzip-go			 v0.0.0-20260201233743-2dbe441fd43c \
-	github.com/itchio/smaug				 v0.0.0-20260221030659-51a9124f1310 \
+	github.com/itchio/smaug				 v0.0.0-20260713192329-3859079146ba \
 	github.com/itchio/spellbook			 v0.0.0-20200301161431-a4bdbea6b725 \
-	github.com/itchio/wharf				 v0.0.0-20260121214545-5e5efc838cdb \
+	github.com/itchio/wharf				 v0.0.0-20260314032032-5343a90f618c \
 	github.com/itchio/wizardry			 v0.0.0-20200301161332-e8c8c4a5a488 \
 	github.com/jgallagher/gosaca			 v0.0.0-20130226042358-754749770f08 \
 	github.com/jinzhu/inflection			 v1.0.0 \
@@ -127,16 +126,16 @@ MODGO_MODULES =	\
 	go.uber.org/goleak				 v1.3.0 \
 	go.uber.org/multierr				 v1.11.0 \
 	go.uber.org/zap					 v1.27.1 \
-	golang.org/x/crypto				 v0.47.0 \
+	golang.org/x/crypto				 v0.53.0 \
 	golang.org/x/lint				 v0.0.0-20190930215403-16217165b5de \
-	golang.org/x/mod				 v0.31.0 \
-	golang.org/x/net				 v0.49.0 \
-	golang.org/x/sync				 v0.19.0 \
-	golang.org/x/sys				 v0.41.0 \
-	golang.org/x/term				 v0.39.0 \
-	golang.org/x/text				 v0.33.0 \
-	golang.org/x/time				 v0.14.0 \
-	golang.org/x/tools				 v0.40.0 \
+	golang.org/x/mod				 v0.37.0 \
+	golang.org/x/net				 v0.55.0 \
+	golang.org/x/sync				 v0.21.0 \
+	golang.org/x/sys				 v0.46.0 \
+	golang.org/x/term				 v0.44.0 \
+	golang.org/x/text				 v0.39.0 \
+	golang.org/x/time				 v0.15.0 \
+	golang.org/x/tools				 v0.47.0 \
 	golang.org/x/xerrors				 v0.0.0-20200804184101-5ec99f83aff1 \
 	google.golang.org/protobuf			 v1.36.11 \
 	gopkg.in/alecthomas/kingpin.v2			 v2.2.6 \
@@ -189,6 +188,7 @@ MODGO_MODFILES =	\
 	github.com/itchio/arkive		 v0.0.0-20200618123031-1a30392a8cfe \
 	github.com/itchio/arkive		 v0.0.0-20260123020546-e17bae820608 \
 	github.com/itchio/arkive		 v0.0.0-20260123023417-b44dc5f47699 \
+	github.com/itchio/arkive		 v0.0.0-20260424164943-5eabdbdce5c8 \
 	github.com/itchio/boar			 v0.0.0-20260123024902-13da36d125e4 \
 	github.com/itchio/dash			 v0.0.0-20221120052447-7320435e1835 \
 	github.com/itchio/dmcunrar-go		 v0.0.0-20241212230744-bd86d6b265e9 \
@@ -205,6 +205,7 @@ MODGO_MODFILES =	\
 	github.com/itchio/ox			 v0.0.0-20200301160301-4e131878ba64 \
 	github.com/itchio/ox			 v0.0.0-20200826161350-12c6ca18d236 \
 	github.com/itchio/pelican		 v0.0.0-20200305192721-308c3772290a \
+	github.com/itchio/pelican		 v0.0.0-20200626221820-739b3d7708d2 \
 	github.com/itchio/randsource		 v0.0.0-20190703104731-3f6d22f91927 \
 	github.com/itchio/savior		 v0.0.0-20200301160120-c73741a23f8b \
 	github.com/itchio/savior		 v0.0.0-20200618124148-6034e878d75b \
@@ -251,6 +252,7 @@ MODGO_MODFILES =	\
 	go.uber.org/zap				 v1.26.0 \
 	golang.org/x/crypto			 v0.0.0-20190308221718-c2843e01d9a2 \
 	golang.org/x/crypto			 v0.0.0-20191011191535-87dc89f01550 \
+	golang.org/x/crypto			 v0.51.0 \
 	golang.org/x/mod			 v0.4.2 \
 	golang.org/x/net			 v0.0.0-20190311183353-d8887717615a \
 	golang.org/x/net			 v0.0.0-20190404232315-eb5bcb51f2a3 \
@@ -259,7 +261,7 @@ MODGO_MODFILES =	\
 	golang.org/x/net			 v0.0.0-20210405180319-a5a99cb37ef4 \
 	golang.org/x/net			 v0.35.0 \
 	golang.org/x/net			 v0.38.0 \
-	golang.org/x/net			 v0.48.0 \
+	golang.org/x/net			 v0.49.0 \
 	golang.org/x/net			 v0.6.0 \
 	golang.org/x/sync			 v0.0.0-20190423024810-112230192c58 \
 	golang.org/x/sync			 v0.0.0-20210220032951-036812b2e83c \
@@ -275,15 +277,21 @@ MODGO_MODFILES =	\
 	golang.org/x/sys			 v0.29.0 \
 	golang.org/x/sys			 v0.30.0 \
 	golang.org/x/sys			 v0.40.0 \
+	golang.org/x/sys			 v0.41.0 \
+	golang.org/x/sys			 v0.45.0 \
 	golang.org/x/sys			 v0.5.0 \
 	golang.org/x/sys			 v0.6.0 \
 	golang.org/x/term			 v0.0.0-20201126162022-7de9c90e9dd1 \
+	golang.org/x/term			 v0.43.0 \
 	golang.org/x/text			 v0.14.0 \
 	golang.org/x/text			 v0.22.0 \
 	golang.org/x/text			 v0.23.0 \
 	golang.org/x/text			 v0.3.0 \
 	golang.org/x/text			 v0.3.2 \
 	golang.org/x/text			 v0.3.3 \
+	golang.org/x/text			 v0.33.0 \
+	golang.org/x/text			 v0.37.0 \
+	golang.org/x/text			 v0.38.0 \
 	golang.org/x/time			 v0.0.0-20191024005414-555d28b269f0 \
 	golang.org/x/tools			 v0.0.0-20180917221912-90fa682c2a6e \
 	golang.org/x/tools			 v0.0.0-20190311212946-11955173bddd \

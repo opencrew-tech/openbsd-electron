@@ -1,6 +1,6 @@
-Index: github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go
---- github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go.orig
-+++ github.com/itchio/butler@v1.9.1-0.20260226193558-8557c8e5baf2/endpoints/install/install_plan.go
+Index: github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/endpoints/install/install_plan.go
+--- github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/endpoints/install/install_plan.go.orig
++++ github.com/itchio/butler@v1.9.1-0.20260713193417-44467a1c7b02/endpoints/install/install_plan.go
 @@ -16,7 +16,6 @@ import (
  	"github.com/itchio/butler/cmd/operate"
  	"github.com/itchio/butler/database/models"

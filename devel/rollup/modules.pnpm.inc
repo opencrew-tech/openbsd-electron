@@ -162,7 +162,8 @@ ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-4.2.1.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.0.1.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.0.4.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.1.0.tgz \
-${MODPNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.60.1.tgz \
+${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.3.0.tgz \
+${MODPNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.62.2.tgz \
 ${MODPNPM_DIST}/@sindresorhus-{@sindresorhus/is/-/}is-4.6.0.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/commons/-/}commons-1.8.3.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/fake-timers/-/}fake-timers-9.1.2.tgz \
@@ -170,7 +171,7 @@ ${MODPNPM_DIST}/@sinonjs-{@sinonjs/samsam/-/}samsam-6.1.1.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/text-encoding/-/}text-encoding-0.7.2.tgz \
 ${MODPNPM_DIST}/@standard-schema-{@standard-schema/spec/-/}spec-1.0.0.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/core/-/}core-1.3.78.tgz \
-${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.15.24.tgz \
+${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.15.46.tgz \
 ${MODPNPM_DIST}/@szmarczak-{@szmarczak/http-timer/-/}http-timer-4.0.6.tgz \
 ${MODPNPM_DIST}/@trysound-{@trysound/sax/-/}sax-0.2.0.tgz \
 ${MODPNPM_DIST}/@tsconfig-{@tsconfig/node10/-/}node10-1.0.9.tgz \
@@ -189,6 +190,7 @@ ${MODPNPM_DIST}/@types-{@types/deep-eql/-/}deep-eql-4.0.2.tgz \
 ${MODPNPM_DIST}/@types-{@types/eslint/-/}eslint-8.56.12.tgz \
 ${MODPNPM_DIST}/@types-{@types/estree/-/}estree-1.0.0.tgz \
 ${MODPNPM_DIST}/@types-{@types/estree/-/}estree-1.0.8.tgz \
+${MODPNPM_DIST}/@types-{@types/estree/-/}estree-1.0.9.tgz \
 ${MODPNPM_DIST}/@types-{@types/http-cache-semantics/-/}http-cache-semantics-4.0.1.tgz \
 ${MODPNPM_DIST}/@types-{@types/json-schema/-/}json-schema-7.0.15.tgz \
 ${MODPNPM_DIST}/@types-{@types/json5/-/}json5-0.0.29.tgz \
@@ -940,6 +942,7 @@ ${MODPNPM_DIST}/{which/-/}which-2.0.2.tgz \
 ${MODPNPM_DIST}/{why-is-node-running/-/}why-is-node-running-2.3.0.tgz \
 ${MODPNPM_DIST}/{word-wrap/-/}word-wrap-1.2.3.tgz \
 ${MODPNPM_DIST}/{word-wrap/-/}word-wrap-1.2.5.tgz \
+${MODPNPM_DIST}/{workerpool/-/}workerpool-9.3.4.tgz \
 ${MODPNPM_DIST}/{wrap-ansi/-/}wrap-ansi-6.2.0.tgz \
 ${MODPNPM_DIST}/{wrap-ansi/-/}wrap-ansi-7.0.0.tgz \
 ${MODPNPM_DIST}/{wrappy/-/}wrappy-1.0.2.tgz \
@@ -1120,7 +1123,8 @@ MODPNPM_PKGS += \
 @rollup/pluginutils@5.0.1;@rollup-pluginutils-5.0.1.tgz \
 @rollup/pluginutils@5.0.4;@rollup-pluginutils-5.0.4.tgz \
 @rollup/pluginutils@5.1.0;@rollup-pluginutils-5.1.0.tgz \
-@rollup/wasm-node@4.60.1;@rollup-wasm-node-4.60.1.tgz \
+@rollup/pluginutils@5.3.0;@rollup-pluginutils-5.3.0.tgz \
+@rollup/wasm-node@4.62.2;@rollup-wasm-node-4.62.2.tgz \
 @sindresorhus/is@4.6.0;@sindresorhus-is-4.6.0.tgz \
 @sinonjs/commons@1.8.3;@sinonjs-commons-1.8.3.tgz \
 @sinonjs/fake-timers@9.1.2;@sinonjs-fake-timers-9.1.2.tgz \
@@ -1128,7 +1132,7 @@ MODPNPM_PKGS += \
 @sinonjs/text-encoding@0.7.2;@sinonjs-text-encoding-0.7.2.tgz \
 @standard-schema/spec@1.0.0;@standard-schema-spec-1.0.0.tgz \
 @swc/core@1.3.78;@swc-core-1.3.78.tgz \
-@swc/wasm@1.15.24;@swc-wasm-1.15.24.tgz \
+@swc/wasm@1.15.46;@swc-wasm-1.15.46.tgz \
 @szmarczak/http-timer@4.0.6;@szmarczak-http-timer-4.0.6.tgz \
 @trysound/sax@0.2.0;@trysound-sax-0.2.0.tgz \
 @tsconfig/node10@1.0.9;@tsconfig-node10-1.0.9.tgz \
@@ -1147,6 +1151,7 @@ MODPNPM_PKGS += \
 @types/eslint@8.56.12;@types-eslint-8.56.12.tgz \
 @types/estree@1.0.0;@types-estree-1.0.0.tgz \
 @types/estree@1.0.8;@types-estree-1.0.8.tgz \
+@types/estree@1.0.9;@types-estree-1.0.9.tgz \
 @types/http-cache-semantics@4.0.1;@types-http-cache-semantics-4.0.1.tgz \
 @types/json-schema@7.0.15;@types-json-schema-7.0.15.tgz \
 @types/json5@0.0.29;@types-json5-0.0.29.tgz \
@@ -1898,6 +1903,7 @@ which@2.0.2;which-2.0.2.tgz \
 why-is-node-running@2.3.0;why-is-node-running-2.3.0.tgz \
 word-wrap@1.2.3;word-wrap-1.2.3.tgz \
 word-wrap@1.2.5;word-wrap-1.2.5.tgz \
+workerpool@9.3.4;workerpool-9.3.4.tgz \
 wrap-ansi@6.2.0;wrap-ansi-6.2.0.tgz \
 wrap-ansi@7.0.0;wrap-ansi-7.0.0.tgz \
 wrappy@1.0.2;wrappy-1.0.2.tgz \

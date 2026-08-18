@@ -43,7 +43,7 @@ Index: rollup/package.json
      "test:coverage": "npm run build:cjs && shx rm -rf coverage/* && nyc --reporter html mocha test/test.js",
      "test:coverage:browser": "npm run build && shx rm -rf coverage/* && nyc mocha test/browser/index.js",
      "test:leak": "npm install --no-save weak-napi && node --expose-gc test/leak/index.js",
-@@ -262,4 +262,4 @@
+@@ -269,4 +269,4 @@
      "@types/estree",
      "fsevents"
    ]

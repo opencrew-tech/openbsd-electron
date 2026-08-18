@@ -1,10 +1,10 @@
 COMMENT =	next-generation ES module bundler
 
-DIST_TUPLE+=	github rollup rollup v4.59.0 rollup
+DIST_TUPLE+=	github rollup rollup v4.62.2 rollup
 
 # need a custom @rollup/plugin-typescript to overcome fd limit issue
 DIST_TUPLE+=	github rollup plugins \
-		5cc7fc5cb1b7fbff42130a4cd798f709cd6f3158 plugins
+		7eb983224cc0f44a0c44ba7b9599a5fcc2e45a24 plugins
 
 CATEGORIES =	devel
 
@@ -33,10 +33,12 @@ MODNPM_TARGETS =	${WRKSRC}/rollup
 MODNPM_INSTALL =	rollup
 MODNPM_MODS_SKIP+=	rollup
 
+# skip building docs, avoid recursive depends (tailwindcss need rollup)
+MODNPM_MODS_SKIP+=	tailwindcss
+
 MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
 MODNPM_MODS+=puppeteer
-MODNPM_MODS+=tailwindcss
 
 MODPNPM_TARGETS =	${WRKSRC}/plugins
 MODPNPM_INSTALL =	rollup
@@ -47,7 +49,7 @@ MODPNPM_MODS+=graceful-fs
 MODPNPM_MODS+=@swc/core
 
 # we actually only need plugin-typescript to fix it for ressources limits but to
-# ease porting we use default pnpm modules directive and thus build all plugins
+# ease porting we use default pnpm modules directive and thus build all plugins.
 # problem is some plugins need rollup to build ...
 MODPNPM_GEN_OVERRIDES=	rollup "npm:@rollup/wasm-node"
 

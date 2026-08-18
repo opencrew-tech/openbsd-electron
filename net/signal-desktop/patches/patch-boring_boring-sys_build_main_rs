@@ -1,9 +1,9 @@
 Index: boring/boring-sys/build/main.rs
 --- boring/boring-sys/build/main.rs.orig
 +++ boring/boring-sys/build/main.rs
-@@ -469,15 +469,15 @@ fn get_extra_clang_args_for_bindgen(config: &Config) -
+@@ -446,15 +446,15 @@ fn ensure_patches_applied(config: &Config) -> io::Resu
+     }
  
- fn ensure_patches_applied(config: &Config) -> io::Result<()> {
      let mut lock_file = LockFile::open(&config.out_dir.join(".patch_lock"))?;
 -    let src_path = get_boringssl_source_path(config);
 -    let has_git = src_path.join(".git").exists();
@@ -20,35 +20,26 @@ Index: boring/boring-sys/build/main.rs
 +//        run_command(Command::new("git").arg("init").current_dir(src_path))?;
 +//    }
  
-     if config.features.pq_experimental {
-         println!("cargo:warning=applying experimental post quantum crypto patch to boringssl");
-@@ -509,15 +509,15 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
+     println!("cargo:warning=applying post quantum crypto patch to boringssl");
+     apply_patch(config, "boring-pq.patch")?;
+@@ -484,16 +484,13 @@ fn apply_patch(config: &Config, patch_name: &str) -> i
      #[cfg(windows)]
      let cmd_path = config.manifest_dir.join("patches").join(patch_name);
  
 -    let mut args = vec!["apply", "-v", "--whitespace=fix"];
-+    let mut args = vec!["-p 1",];
- 
+-
      // non-bazel versions of BoringSSL have no src/ dir
 -    if config.is_bazel {
 -        args.push("-p2");
 -    }
-+//    if config.is_bazel {
-+//        args.push("-p2");
-+//    }
++    let strip = if config.is_bazel { "-p2" } else { "-p1" };
  
      run_command(
 -        Command::new("git")
+-            .args(&args)
 +        Command::new("patch")
-             .args(&args)
++            .arg(strip)
++            .arg("-i")
              .arg(cmd_path)
              .current_dir(src_path),
-@@ -651,7 +651,7 @@ fn get_cpp_runtime_lib(config: &Config) -> Option<Stri
-     // TODO(rmehra): figure out how to do this for windows
-     if env::var_os("CARGO_CFG_UNIX").is_some() {
-         match env::var("CARGO_CFG_TARGET_OS").unwrap().as_ref() {
--            "macos" | "ios" => Some("c++".into()),
-+            "macos" | "ios" | "openbsd" => Some("c++".into()),
-             _ => Some("stdc++".into()),
-         }
-     } else {
+     )?;

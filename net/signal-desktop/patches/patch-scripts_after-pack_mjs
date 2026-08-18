@@ -1,0 +1,20 @@
+Index: scripts/after-pack.mjs
+--- scripts/after-pack.mjs.orig
++++ scripts/after-pack.mjs
+@@ -1,8 +1,6 @@
+ // Copyright 2021 Signal Messenger, LLC
+ // SPDX-License-Identifier: AGPL-3.0-only
+ // @ts-check
+-import { afterPack as fuseElectron } from './fuse-electron.mjs';
+-import { afterPack as copyPacks } from './copy-language-packs.mjs';
+ import { afterPack as pruneMacOSRelease } from './prune-macos-release.mjs';
+ import { afterPack as ensureLinuxFilePermissions } from './ensure-linux-file-permissions.mjs';
+ 
+@@ -14,7 +12,5 @@ import { afterPack as ensureLinuxFilePermissions } fro
+  */
+ export async function afterPack(context) {
+   await pruneMacOSRelease(context);
+-  await fuseElectron(context);
+-  await copyPacks(context);
+   await ensureLinuxFilePermissions(context);
+ }

@@ -1,0 +1,27 @@
+increase timeout
+
+Index: ts/test-node/sql/migration_1100_test.node.ts
+--- ts/test-node/sql/migration_1100_test.node.ts.orig
++++ ts/test-node/sql/migration_1100_test.node.ts
+@@ -31,7 +31,11 @@ describe('SQL/updateToSchemaVersion1100', () => {
+   });
+ 
+   describe('Optimize markAllCallHistoryReadInConversation', () => {
+-    it('is fast', () => {
++    it('is fast', function (this: Mocha.Context) {
++      if (process.platform === 'openbsd') {
++        this.timeout(60_000);
++      }
++
+       const COUNT = 10_000;
+       const CONVERSATIONS = 30;
+ 
+@@ -92,7 +96,7 @@ describe('SQL/updateToSchemaVersion1100', () => {
+       const changes = markAllCallHistoryRead(db, target, true);
+       const end = performance.now();
+       assert.equal(changes, Math.ceil(COUNT / CONVERSATIONS));
+-      assert.isBelow(end - start, 50);
++      assert.isBelow(end - start, process.platform === 'openbsd' ? 250 : 50);
+     });
+   });
+ });

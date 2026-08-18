@@ -1,0 +1,73 @@
+Index: node-sqlcipher/src/addon.cc
+--- node-sqlcipher/src/addon.cc.orig
++++ node-sqlcipher/src/addon.cc
+@@ -160,16 +160,35 @@ class FunctionWrap {
+ 
+ // Global Settings
+ 
+-thread_local Napi::Reference<Napi::Function> logger_fn_;
++// Use raw handles for TLS state: Napi::Reference has a destructor that may run
++// after the napi_env is already invalid during OpenBSD thread finalization.
++thread_local napi_env logger_env_ = nullptr;
++thread_local napi_ref logger_ref_ = nullptr;
+ 
++static void CleanupLogger() {
++  if (logger_ref_ != nullptr) {
++    napi_delete_reference(logger_env_, logger_ref_);
++    logger_ref_ = nullptr;
++  }
++  logger_env_ = nullptr;
++}
++
+ static void LoggerWrapper(void* _ctx, int code, const char* msg) {
+-  if (logger_fn_.IsEmpty()) {
++  if (logger_ref_ == nullptr) {
+     return;
+   }
+ 
+-  auto env = logger_fn_.Env();
++  auto env = Napi::Env(logger_env_);
+   Napi::HandleScope scope(env);
+ 
++  napi_value fn_value;
++  auto status = napi_get_reference_value(logger_env_, logger_ref_, &fn_value);
++  if (status != napi_ok || fn_value == nullptr) {
++    return;
++  }
++
++  auto logger_fn = Napi::Function(env, fn_value);
++
+ #define CODE_STR(NAME) \
+   case NAME:           \
+     code_name = #NAME; \
+@@ -185,7 +204,7 @@ static void LoggerWrapper(void* _ctx, int code, const 
+ 
+ #undef CODE_STR
+ 
+-  auto result = logger_fn_.Value().Call({
++  auto result = logger_fn.Call({
+       Napi::String::New(env, code_name),
+       Napi::String::New(env, msg),
+   });
+@@ -200,8 +219,12 @@ static void SetLogger(const Napi::CallbackInfo& info) 
+   auto callback = info[0].As<Napi::Function>();
+   assert(callback.IsFunction());
+ 
+-  logger_fn_.Reset(callback, 1);
++  CleanupLogger();
+ 
++  logger_env_ = info.Env();
++  auto status = napi_create_reference(logger_env_, callback, 1, &logger_ref_);
++  NAPI_THROW_IF_FAILED_VOID(logger_env_, status);
++
+   sqlite3_config(SQLITE_CONFIG_LOG, LoggerWrapper);
+ }
+ 
+@@ -1018,6 +1041,7 @@ AutoResetStatement::~AutoResetStatement() {
+ 
+ Napi::Object Init(Napi::Env env, Napi::Object exports) {
+   sqlite3_initialize();
++  env.AddCleanupHook(CleanupLogger);
+ 
+   Database::Init(env, exports);
+   Statement::Init(env, exports);

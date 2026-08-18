@@ -1,0 +1,21 @@
+Index: scripts/test-release.mjs
+--- scripts/test-release.mjs.orig
++++ scripts/test-release.mjs
+@@ -11,7 +11,7 @@ import { _electron as electron } from 'playwright';
+ import packageJson from '../package.json' with { type: 'json' };
+ 
+ const ENVIRONMENT = 'production';
+-const RELEASE_DIR = join(import.meta.dirname, '..', 'release');
++const RELEASE_DIR = join(import.meta.dirname, '..', 'dist');
+ 
+ /** @type {string} */
+ let archive;
+@@ -35,7 +35,7 @@ if (process.platform === 'darwin') {
+ } else if (process.platform === 'win32') {
+   archive = join('win-unpacked', 'resources', 'app.asar');
+   exe = join('win-unpacked', `${packageJson.productName}.exe`);
+-} else if (process.platform === 'linux') {
++} else if (process.platform === 'linux' || process.platform === 'openbsd') {
+   archive = join('linux-unpacked', 'resources', 'app.asar');
+   exe = join('linux-unpacked', packageJson.name);
+ } else {

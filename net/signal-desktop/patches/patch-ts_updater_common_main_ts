@@ -1,0 +1,38 @@
+Index: ts/updater/common.main.ts
+--- ts/updater/common.main.ts.orig
++++ ts/updater/common.main.ts
+@@ -8,7 +8,6 @@ import lodash from 'lodash';
+ import { release as osRelease, tmpdir } from 'node:os';
+ import { extname, join, normalize } from 'node:path';
+ 
+-import config from 'config';
+ import { FAILSAFE_SCHEMA, load as loadYaml } from 'js-yaml';
+ import { gt, gte, lt } from 'semver';
+ import got from 'got';
+@@ -17,6 +16,7 @@ import type { BrowserWindow } from 'electron';
+ import { app, ipcMain } from 'electron';
+ 
+ import { missingCaseError } from '../util/missingCaseError.std.ts';
++import config from '../../app/config.main.ts';
+ import { getTempPath, getUpdateCachePath } from '../../app/attachments.node.ts';
+ import {
+   markShouldNotQuit,
+@@ -981,15 +981,15 @@ export function validatePath(basePath: string, targetP
+ 
+ // Helper functions
+ 
+-export function getUpdateCheckUrl(): string {
++function getUpdateCheckUrl(): string {
+   return `${getUpdatesBase()}/${getUpdatesFileName()}`;
+ }
+ 
+-export function getUpdatesBase(): string {
++function getUpdatesBase(): string {
+   return config.get('updatesUrl');
+ }
+ 
+-export function getUpdatesFileName(): string {
++function getUpdatesFileName(): string {
+   const prefix = getChannel();
+ 
+   if (process.platform === 'darwin') {

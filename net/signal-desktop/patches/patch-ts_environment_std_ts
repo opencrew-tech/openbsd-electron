@@ -1,0 +1,14 @@
+Index: ts/environment.std.ts
+--- ts/environment.std.ts.orig
++++ ts/environment.std.ts
+@@ -25,6 +25,10 @@ export function getEnvironment(): Environment {
+   return environment;
+ }
+ 
++export function isEnvironmentSet(): boolean {
++  return environment !== undefined;
++}
++
+ /**
+  * Sets the current environment. Should be called early in a process's life, and can only
+  * be called once.

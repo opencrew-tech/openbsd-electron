@@ -1,0 +1,12 @@
+Index: ts/test-node/updater/differential_test.main.ts
+--- ts/test-node/updater/differential_test.main.ts.orig
++++ ts/test-node/updater/differential_test.main.ts
+@@ -168,7 +168,7 @@ describe('updater/differential', () => {
+ 
+       server.unref();
+ 
+-      server.listen(0, () => {
++      server.listen(0, '127.0.0.1', () => {
+         const addr = server.address();
+         strictAssert(typeof addr === 'object' && addr != null, 'node.js apis');
+         baseUrl = `http://127.0.0.1:${addr.port}`;

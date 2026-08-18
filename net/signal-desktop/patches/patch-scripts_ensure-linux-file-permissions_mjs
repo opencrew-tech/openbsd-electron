@@ -1,0 +1,12 @@
+Index: scripts/ensure-linux-file-permissions.mjs
+--- scripts/ensure-linux-file-permissions.mjs.orig
++++ scripts/ensure-linux-file-permissions.mjs
+@@ -16,7 +16,7 @@ const FILES = [
+  * @returns {Promise<void>}
+  */
+ export async function afterPack({ appOutDir, electronPlatformName }) {
+-  if (electronPlatformName !== 'linux') {
++  if (electronPlatformName !== 'linux' && electronPlatformName !== 'openbsd') {
+     return;
+   }
+ 

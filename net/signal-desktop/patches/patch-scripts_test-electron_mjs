@@ -1,0 +1,12 @@
+Index: scripts/test-electron.mjs
+--- scripts/test-electron.mjs.orig
++++ scripts/test-electron.mjs
+@@ -156,7 +156,7 @@ async function launchElectron(worker, attempt) {
+             if (event.type === 'pass') {
+               pass += 1;
+ 
+-              process.stdout.write(logSymbols.success);
++              console.log(` ${logSymbols.success} ${event.title.join(' ')} (${event.duration}ms)`);
+               if (event.duration > SECOND) {
+                 console.error('');
+                 console.error(

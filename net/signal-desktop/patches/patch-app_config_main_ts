@@ -1,0 +1,34 @@
+Index: app/config.main.ts
+--- app/config.main.ts.orig
++++ app/config.main.ts
+@@ -9,6 +9,7 @@ import type { IConfig } from 'config';
+ import {
+   Environment,
+   getEnvironment,
++  isEnvironmentSet,
+   setEnvironment,
+   parseEnvironment,
+ } from '../ts/environment.std.ts';
+@@ -18,13 +19,15 @@ import { getAppRootDir } from '../ts/util/appRootDir.m
+ const log = createLogger('config');
+ 
+ // In production mode, NODE_ENV cannot be customized by the user
+-if (app.isPackaged) {
+-  setEnvironment(Environment.PackagedApp, false);
+-} else {
+-  setEnvironment(
+-    parseEnvironment(process.env.NODE_ENV || 'development'),
+-    Boolean(process.env.MOCK_TEST)
+-  );
++if (!isEnvironmentSet()) {
++  if (app.isPackaged) {
++    setEnvironment(Environment.PackagedApp, false);
++  } else {
++    setEnvironment(
++      parseEnvironment(process.env.NODE_ENV || 'development'),
++      Boolean(process.env.MOCK_TEST)
++    );
++  }
+ }
+ 
+ // Set environment vars to configure node-config before requiring it

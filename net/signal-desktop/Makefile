@@ -1,6 +1,6 @@
 COMMENT=		Signal Desktop links with Signal
 
-V=			8.1.0
+V=			8.7.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -18,21 +18,20 @@ PERMIT_PACKAGE=		Yes
 WANTLIB += ${MODCARGO_WANTLIB} c++ m vpx
 
 # make versions
-# ELECTRON_V=40.4.1
-# NODE_V=24.13.0
-# NODE_V=24.13.0
+# ELECTRON_V=41.1.1
+# NODE_V=24.14.0
 # sqlcipher depends
-SQLCIPHER_V=	2.4.4
+SQLCIPHER_V=	3.2.1
 FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
 # libsignal depends
-LIBSIGNAL_V=	0.87.1
-BORING_ID=	81d4aa19ac6c5af99238ff0bf9328b381ccebcdd
+LIBSIGNAL_V=	0.91.0
+BORING_ID=	2c157897feea0c54f5eca93407a157fa90703b5f
 CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
-SPQR_ID=	d310c99c57a046549be205b9ce50d80dcbe5f3e4
-BORINGSSL_ID=	44b3df6f03d85c901767250329c571db405122d5
+SPQR_ID=	f2589fef855c10f39d72634dab3d14654dd410bf
+BORINGSSL_ID=	91a66a59b6c1435120ff83e245d7719411294386
 # ringrtc depends
-RINGRTC_V=	2.64.1
-WEBRTC_V=	7444f
+RINGRTC_V=	2.67.0
+WEBRTC_V=	7444h
 
 # node-sqlcipher, AGPLv3
 SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
@@ -48,6 +47,7 @@ DIST_TUPLE+=	github signalapp Signal-FTS5-Extension ${FTS5_ID} .
 # libsignal, AGPLv3
 LIBSIGNAL_SRC=	${WRKSRC}/libsignal
 LIBSIGNAL_NODE=	${LIBSIGNAL_SRC}/node
+LIBSIGNAL_TEST=	${LIBSIGNAL_NODE}/prebuilds/openbsd-${NODE_ARCH}
 LIBSIGNAL_PREB=	@signalapp/libsignal-client/prebuilds/openbsd-${NODE_ARCH}
 LIBSIGNAL_TOML=	${LIBSIGNAL_SRC}/Cargo.toml
 LIBSIGNAL_T=	${WRKSRC}/node_modules/${LIBSIGNAL_PREB}
@@ -94,7 +94,7 @@ MODULES=		devel/cargo \
 USE_GMAKE=		Yes
 USE_NINJA=		No	# disable MODCMAKE targets
 
-MODCLANG_VERSION=	20
+MODCLANG_VERSION=	22
 
 # custom modcargo-gen-crates
 MODCARGO_CARGOS_TOML=	${SQLCEXT_TOML} \
@@ -125,18 +125,28 @@ MODNPM_INSTALL=		No
 MODNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 MODNPM_TARGETS=		${RINGRTC_NODE} ${LIBSIGNAL_NODE}
 
+# XXX rolldown use wasip1-thread which looks not supported by node 22.22.2v0
+# while modpnpm use --cpu=wasm32, rolldown wasm32 binding is optional
+#MODPNPM_NO_OPTIONAL=	No
+
 MODPNPM_MODS+=7zip-bin
 MODPNPM_MODS+=app-builder-bin
 MODPNPM_MODS+=electron-builder
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
+MODPNPM_MODS+=@oxc-project/types
+MODPNPM_MODS+=oxc-transform
+MODPNPM_MODS+=oxlint
 MODPNPM_MODS+=@parcel/watcher
+MODPNPM_MODS+=rolldown
+MODPNPM_MODS+=@rolldown/pluginutils
 MODPNPM_MODS+=rollup
 MODPNPM_MODS+=tailwindcss
 MODPNPM_MODS+=@tailwindcss/cli
 MODPNPM_MODS+=@tailwindcss/node
 MODPNPM_MODS+=@tailwindcss/oxide
 MODPNPM_MODS+=@tailwindcss/postcss
+MODPNPM_MODS+=@typescript/native-preview
 MODPNPM_MODS+=lightningcss
 MODPNPM_MODS+=@swc/core
 
@@ -163,12 +173,16 @@ BUILD_DEPENDS+=		devel/esbuild \
 			textproc/re2 \
 			www/tailwindcss
 LIB_DEPENDS+=		multimedia/libvpx
-RUN_DEPENDS+=		devel/desktop-file-utils
+RUN_DEPENDS+=		devel/desktop-file-utils \
+			x11/gnome/keyring
 
 # XXX missing rust debug symbol (?)
 DEBUG_PACKAGES=		${BUILD_PACKAGES}
 
-SUBST_VARS+=		WRKDIR WRKSRC MODCARGO_TARGET_DIR MODCLANG_VERSION
+SUBST_VARS+=		WRKDIR WRKSRC \
+			MODCARGO_TARGET_DIR \
+			MODCLANG_VERSION \
+			NODE_ARCH
 
 # pre-define source date, no git show -s --format=%ct
 MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
@@ -176,10 +190,8 @@ MAKE_ENV+=		SOURCE_DATE_EPOCH=$$(date +'%s')
 # signal's appbuilder config
 MAKE_ENV+=		SIGNAL_ENV=production
 
-# XXX build @parcel/watcher with inotify instead of kqueue
-#CXXFLAGS+=		-I${LOCALBASE}/include/inotify
-#LDFLAGS+=		-L${LOCALBASE}/lib
-#MAKE_ENV+=		CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
+# XXX nodejs issues, wasip1-thread on rolldown/emnapi_async_worker_create
+MAKE_ENV+=		NAPI_RS_ASYNC_WORK_POOL_SIZE=1
 
 TEST_ENV+=		PATH='${PORTPATH}'
 
@@ -326,8 +338,6 @@ sqlcipher-extension:
 node-sqlcipher:sqlcipher-extension
 	# build node-sqlcipher native depends
 	${SUBST_CMD} ${SQLCIPHER_SRC}/deps/sqlcipher/sqlcipher.gyp
-#	cd ${SQLCIPHER_SRC} && ${SETENV} ${MAKE_ENV} ${ELECTRON_REBUILD_ENV} \
-#		node ${MODNPM_GYP_BIN} rebuild --verbose
 	cd ${SQLCIPHER_SRC} && ${MODPNPM_CMD_BUILD} run install
 	# install node-sqlcipher prebuild
 	mkdir -p ${SQLCIPHER_T}/openbsd-${NODE_ARCH}
@@ -361,8 +371,9 @@ webrtc:
 ringrtc: webrtc
 	# build ringrtc native depends
 	cd ${RINGRTC_SRC} && ${SETENV} ${MAKE_ENV} ${CONFIGURE_ENV} \
-		OUTPUT_DIR=${WEBRTC_SRC}/out \
-		${MODCARGO_ENV} ${MODCARGO_CARGO_BIN} build -p ringrtc \
+		OUTPUT_DIR=${WEBRTC_SRC}/out ${MODCARGO_ENV} \
+		RUSTFLAGS="${MODCARGO_RUSTFLAGS} -C link-arg=-Wl,-z,nodelete" \
+		${MODCARGO_CARGO_BIN} build -p ringrtc \
 		--features electron --release \
 		${MODCARGO_BUILD_ARGS}
 	# install ringrtc prebuild
@@ -379,12 +390,12 @@ sticker-creator:
 test-libsignal:
 	# install libsignal prebuild for tests
 	cd ${LIBSIGNAL_NODE}/node_modules && \
-		mkdir -p ${LIBSIGNAL_PREB} && \
+		mkdir -p ${LIBSIGNAL_TEST} && \
 		cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
-			${LIBSIGNAL_PREB}/@signalapp+libsignal-client.node
+			${LIBSIGNAL_TEST}/@signalapp+libsignal-client.node
 	# setup required bin
 	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} rebuild ${MODNPM_ARGS} mocha
-	# build libsignal tests
+	# build & run libsignal tests
 	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} run tsc || true
 	cd ${LIBSIGNAL_NODE} && ${MODNPM_CMD} run test || true
 
@@ -400,9 +411,14 @@ test-signal-desktop:
 		mkdir -p ${LIBSIGNAL_PREB} && \
 		cp ${MODCARGO_TARGET_DIR}/release/libsignal_node.so \
 			${LIBSIGNAL_PREB}/@signalapp+libsignal-client.node
+	# make test-electron use the system electron wrapper
+	cp -p ${LOCALBASE}/${ELECTRON_NOSANDBOX} \
+		${WRKDIR}/bin/electron
 	# run signal-desktop test
 	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
 		ELECTRON_PATH=${LOCALBASE}/${ELECTRON_NOSANDBOX} \
+		ELECTRON_OVERRIDE_DIST_PATH=${WRKDIR}/bin \
+		WORKER_COUNT=1 \
 		npm run test || true
 
 ### targets for port maintainer(s)

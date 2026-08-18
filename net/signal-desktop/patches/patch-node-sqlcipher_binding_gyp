@@ -1,7 +1,10 @@
+fix port build.
+prevent tls destructor crash with nodelete.
+
 Index: node-sqlcipher/binding.gyp
 --- node-sqlcipher/binding.gyp.orig
 +++ node-sqlcipher/binding.gyp
-@@ -5,10 +5,10 @@
+@@ -5,15 +5,20 @@
        'target_name': 'node_sqlcipher',
        'dependencies': [
          'deps/sqlcipher/sqlcipher.gyp:sqlcipher',
@@ -13,3 +16,13 @@ Index: node-sqlcipher/binding.gyp
        'conditions': [
          ['OS=="linux"', {
            'ldflags': [
+             '-Wl,-Bsymbolic',
+             '-Wl,--exclude-libs,ALL',
++          ],
++        }],
++        ['OS=="openbsd"', {
++          'ldflags': [
++            '-Wl,-z,nodelete',
+           ],
+         }],
+       ],

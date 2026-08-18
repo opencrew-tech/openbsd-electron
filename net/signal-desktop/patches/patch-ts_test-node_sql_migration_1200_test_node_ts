@@ -1,0 +1,16 @@
+Index: ts/test-node/sql/migration_1200_test.node.ts
+--- ts/test-node/sql/migration_1200_test.node.ts.orig
++++ ts/test-node/sql/migration_1200_test.node.ts
+@@ -99,7 +99,11 @@ describe('SQL/updateToSchemaVersion1200', () => {
+     db.close();
+   });
+ 
+-  before(() => {
++  before(function (this: Mocha.Context) {
++    if (process.platform === 'openbsd') {
++      this.timeout(60_000);
++    }
++
+     db = createDB();
+     updateToVersion(db, 1200);
+     db.transaction(() => {

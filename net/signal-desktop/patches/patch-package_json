@@ -3,16 +3,15 @@ Index: package.json
 +++ package.json
 @@ -14,12 +14,11 @@
    "browserslist": "last 1 chrome versions",
-   "main": "app/main.main.js",
+   "main": "bundles/main.js",
    "scripts": {
 -    "postinstall": "pnpm run build:acknowledgments && pnpm run electron:install-app-deps",
      "postuninstall": "pnpm run build:acknowledgments",
      "start": "electron .",
      "generate": "run-s generate:phase-0 generate:phase-1",
--    "generate:phase-0": "run-p build:esbuild:scripts",
--    "generate:phase-1": "run-p --aggregate-output --print-label generate:phase-1:bundle build:icu-types build:compact-locales build:styles get-expire-time copy-components build:policy-files",
-+    "generate:phase-0": "run-s build:esbuild:scripts",
-+    "generate:phase-1": "run-s --print-label generate:phase-1:bundle build:icu-types build:compact-locales build:styles get-expire-time copy-components build:policy-files",
-     "generate:phase-1:bundle": "run-s build-protobuf build:esbuild:bundle",
+     "generate:phase-0": "run-s build:protobuf build:rolldown:prod",
+-    "generate:phase-1": "run-p --aggregate-output --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:webaudio-recorder build:policy-files",
++    "generate:phase-1": "run-s --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:webaudio-recorder build:policy-files",
      "build-release": "pnpm run build",
-     "sign-release": "node ts/updater/generateSignature.js",
+     "notarize": "echo 'No longer necessary'",
+     "get-strings": "node scripts/get-strings.mjs && node scripts/gen-nsis-script.mjs && node scripts/gen-locales-config.mjs && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",

@@ -27,8 +27,6 @@ ${MODNPM_DIST}/@humanwhocodes-{@humanwhocodes/retry/-/}retry-0.4.3.tgz \
 ${MODNPM_DIST}/@indutny-{@indutny/bencher/-/}bencher-1.2.0.tgz \
 ${MODNPM_DIST}/@indutny-{@indutny/parallel-prettier/-/}parallel-prettier-3.0.0.tgz \
 ${MODNPM_DIST}/@ioredis-{@ioredis/commands/-/}commands-1.2.0.tgz \
-${MODNPM_DIST}/@isaacs-{@isaacs/balanced-match/-/}balanced-match-4.0.1.tgz \
-${MODNPM_DIST}/@isaacs-{@isaacs/brace-expansion/-/}brace-expansion-5.0.0.tgz \
 ${MODNPM_DIST}/@isaacs-{@isaacs/cliui/-/}cliui-8.0.2.tgz \
 ${MODNPM_DIST}/@isaacs-{@isaacs/fs-minipass/-/}fs-minipass-4.0.1.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.scandir/-/}fs.scandir-2.1.5.tgz \
@@ -74,8 +72,8 @@ ${MODNPM_DIST}/@types-{@types/json5/-/}json5-0.0.29.tgz \
 ${MODNPM_DIST}/@types-{@types/keyv/-/}keyv-3.1.4.tgz \
 ${MODNPM_DIST}/@types-{@types/lodash/-/}lodash-4.17.21.tgz \
 ${MODNPM_DIST}/@types-{@types/mocha/-/}mocha-10.0.10.tgz \
-${MODNPM_DIST}/@types-{@types/node/-/}node-20.11.30.tgz \
 ${MODNPM_DIST}/@types-{@types/node/-/}node-22.19.3.tgz \
+${MODNPM_DIST}/@types-{@types/node/-/}node-24.12.0.tgz \
 ${MODNPM_DIST}/@types-{@types/node/-/}node-25.0.3.tgz \
 ${MODNPM_DIST}/@types-{@types/responselike/-/}responselike-1.0.3.tgz \
 ${MODNPM_DIST}/@types-{@types/semver/-/}semver-7.7.1.tgz \
@@ -108,6 +106,7 @@ ${MODNPM_DIST}/{acorn-jsx/-/}acorn-jsx-5.3.2.tgz \
 ${MODNPM_DIST}/{acorn/-/}acorn-8.15.0.tgz \
 ${MODNPM_DIST}/{agent-base/-/}agent-base-7.1.4.tgz \
 ${MODNPM_DIST}/{ajv/-/}ajv-6.12.6.tgz \
+${MODNPM_DIST}/{ajv/-/}ajv-6.14.0.tgz \
 ${MODNPM_DIST}/{ansi-colors/-/}ansi-colors-4.1.3.tgz \
 ${MODNPM_DIST}/{ansi-regex/-/}ansi-regex-5.0.1.tgz \
 ${MODNPM_DIST}/{ansi-regex/-/}ansi-regex-6.1.0.tgz \
@@ -135,6 +134,7 @@ ${MODNPM_DIST}/{available-typed-arrays/-/}available-typed-arrays-1.0.7.tgz \
 ${MODNPM_DIST}/{axe-core/-/}axe-core-4.11.1.tgz \
 ${MODNPM_DIST}/{axobject-query/-/}axobject-query-4.1.0.tgz \
 ${MODNPM_DIST}/{balanced-match/-/}balanced-match-1.0.2.tgz \
+${MODNPM_DIST}/{balanced-match/-/}balanced-match-4.0.4.tgz \
 ${MODNPM_DIST}/{base64-js/-/}base64-js-1.5.1.tgz \
 ${MODNPM_DIST}/{bl/-/}bl-4.1.0.tgz \
 ${MODNPM_DIST}/{boolean/-/}boolean-3.2.0.tgz \
@@ -142,6 +142,7 @@ ${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-1.1.11.tgz \
 ${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-1.1.12.tgz \
 ${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-2.0.1.tgz \
 ${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-2.0.2.tgz \
+${MODNPM_DIST}/{brace-expansion/-/}brace-expansion-5.0.3.tgz \
 ${MODNPM_DIST}/{braces/-/}braces-3.0.3.tgz \
 ${MODNPM_DIST}/{browser-stdout/-/}browser-stdout-1.3.1.tgz \
 ${MODNPM_DIST}/{buffer-crc32/-/}buffer-crc32-0.2.13.tgz \
@@ -198,8 +199,9 @@ ${MODNPM_DIST}/{depd/-/}depd-1.1.2.tgz \
 ${MODNPM_DIST}/{detect-indent/-/}detect-indent-7.0.2.tgz \
 ${MODNPM_DIST}/{detect-newline/-/}detect-newline-4.0.1.tgz \
 ${MODNPM_DIST}/{detect-node/-/}detect-node-2.1.0.tgz \
+${MODNPM_DIST}/{diff/-/}diff-5.2.2.tgz \
 ${MODNPM_DIST}/{diff/-/}diff-7.0.0.tgz \
-${MODNPM_DIST}/{diff/-/}diff-8.0.2.tgz \
+${MODNPM_DIST}/{diff/-/}diff-8.0.3.tgz \
 ${MODNPM_DIST}/{dir-glob/-/}dir-glob-3.0.1.tgz \
 ${MODNPM_DIST}/{doctrine/-/}doctrine-2.1.0.tgz \
 ${MODNPM_DIST}/{doctrine/-/}doctrine-3.0.0.tgz \
@@ -407,10 +409,9 @@ ${MODNPM_DIST}/{lodash.get/-/}lodash.get-4.4.2.tgz \
 ${MODNPM_DIST}/{lodash.isarguments/-/}lodash.isarguments-3.1.0.tgz \
 ${MODNPM_DIST}/{lodash.merge/-/}lodash.merge-4.6.2.tgz \
 ${MODNPM_DIST}/{lodash.throttle/-/}lodash.throttle-4.1.1.tgz \
-${MODNPM_DIST}/{lodash/-/}lodash-4.17.21.tgz \
+${MODNPM_DIST}/{lodash/-/}lodash-4.17.23.tgz \
 ${MODNPM_DIST}/{log-symbols/-/}log-symbols-4.1.0.tgz \
 ${MODNPM_DIST}/{long/-/}long-5.2.3.tgz \
-${MODNPM_DIST}/{long/-/}long-5.3.2.tgz \
 ${MODNPM_DIST}/{loose-envify/-/}loose-envify-1.4.0.tgz \
 ${MODNPM_DIST}/{lowercase-keys/-/}lowercase-keys-2.0.0.tgz \
 ${MODNPM_DIST}/{lru-cache/-/}lru-cache-10.4.3.tgz \
@@ -426,14 +427,17 @@ ${MODNPM_DIST}/{mimic-fn/-/}mimic-fn-2.1.0.tgz \
 ${MODNPM_DIST}/{mimic-response/-/}mimic-response-1.0.1.tgz \
 ${MODNPM_DIST}/{mimic-response/-/}mimic-response-3.1.0.tgz \
 ${MODNPM_DIST}/{minimatch/-/}minimatch-10.0.1.tgz \
-${MODNPM_DIST}/{minimatch/-/}minimatch-10.1.1.tgz \
+${MODNPM_DIST}/{minimatch/-/}minimatch-10.2.4.tgz \
 ${MODNPM_DIST}/{minimatch/-/}minimatch-3.1.2.tgz \
+${MODNPM_DIST}/{minimatch/-/}minimatch-3.1.5.tgz \
+${MODNPM_DIST}/{minimatch/-/}minimatch-5.1.9.tgz \
 ${MODNPM_DIST}/{minimatch/-/}minimatch-9.0.5.tgz \
+${MODNPM_DIST}/{minimatch/-/}minimatch-9.0.9.tgz \
 ${MODNPM_DIST}/{minimist/-/}minimist-1.2.8.tgz \
 ${MODNPM_DIST}/{minipass/-/}minipass-7.1.2.tgz \
 ${MODNPM_DIST}/{minizlib/-/}minizlib-3.1.0.tgz \
+${MODNPM_DIST}/{mocha/-/}mocha-11.3.0.tgz \
 ${MODNPM_DIST}/{mocha/-/}mocha-11.7.2.tgz \
-${MODNPM_DIST}/{mocha/-/}mocha-11.7.5.tgz \
 ${MODNPM_DIST}/{ms/-/}ms-2.1.3.tgz \
 ${MODNPM_DIST}/{natural-compare-lite/-/}natural-compare-lite-1.4.0.tgz \
 ${MODNPM_DIST}/{natural-compare/-/}natural-compare-1.4.0.tgz \
@@ -577,7 +581,7 @@ ${MODNPM_DIST}/{supports-color/-/}supports-color-8.1.1.tgz \
 ${MODNPM_DIST}/{supports-preserve-symlinks-flag/-/}supports-preserve-symlinks-flag-1.0.0.tgz \
 ${MODNPM_DIST}/{synckit/-/}synckit-0.11.11.tgz \
 ${MODNPM_DIST}/{synckit/-/}synckit-0.9.3.tgz \
-${MODNPM_DIST}/{tar/-/}tar-7.5.2.tgz \
+${MODNPM_DIST}/{tar/-/}tar-7.5.9.tgz \
 ${MODNPM_DIST}/{text-table/-/}text-table-0.2.0.tgz \
 ${MODNPM_DIST}/{through2-filter/-/}through2-filter-3.0.0.tgz \
 ${MODNPM_DIST}/{through2/-/}through2-2.0.5.tgz \
@@ -601,11 +605,9 @@ ${MODNPM_DIST}/{typed-array-byte-length/-/}typed-array-byte-length-1.0.3.tgz \
 ${MODNPM_DIST}/{typed-array-byte-offset/-/}typed-array-byte-offset-1.0.4.tgz \
 ${MODNPM_DIST}/{typed-array-length/-/}typed-array-length-1.0.7.tgz \
 ${MODNPM_DIST}/{typescript-eslint/-/}typescript-eslint-8.44.0.tgz \
-${MODNPM_DIST}/{typescript/-/}typescript-5.3.3.tgz \
 ${MODNPM_DIST}/{typescript/-/}typescript-5.9.3.tgz \
 ${MODNPM_DIST}/{unbox-primitive/-/}unbox-primitive-1.1.0.tgz \
 ${MODNPM_DIST}/{unc-path-regex/-/}unc-path-regex-0.1.2.tgz \
-${MODNPM_DIST}/{undici-types/-/}undici-types-5.26.5.tgz \
 ${MODNPM_DIST}/{undici-types/-/}undici-types-6.21.0.tgz \
 ${MODNPM_DIST}/{undici-types/-/}undici-types-7.16.0.tgz \
 ${MODNPM_DIST}/{unique-stream/-/}unique-stream-2.3.1.tgz \
@@ -614,7 +616,6 @@ ${MODNPM_DIST}/{unpipe/-/}unpipe-1.0.0.tgz \
 ${MODNPM_DIST}/{uri-js/-/}uri-js-4.4.1.tgz \
 ${MODNPM_DIST}/{url-pattern/-/}url-pattern-1.0.3.tgz \
 ${MODNPM_DIST}/{util-deprecate/-/}util-deprecate-1.0.2.tgz \
-${MODNPM_DIST}/{uuid/-/}uuid-11.1.0.tgz \
 ${MODNPM_DIST}/{uuid/-/}uuid-8.3.2.tgz \
 ${MODNPM_DIST}/{wcwidth/-/}wcwidth-1.0.1.tgz \
 ${MODNPM_DIST}/{which-boxed-primitive/-/}which-boxed-primitive-1.1.1.tgz \
@@ -624,6 +625,7 @@ ${MODNPM_DIST}/{which-typed-array/-/}which-typed-array-1.1.19.tgz \
 ${MODNPM_DIST}/{which/-/}which-2.0.2.tgz \
 ${MODNPM_DIST}/{which/-/}which-5.0.0.tgz \
 ${MODNPM_DIST}/{word-wrap/-/}word-wrap-1.2.5.tgz \
+${MODNPM_DIST}/{workerpool/-/}workerpool-6.5.1.tgz \
 ${MODNPM_DIST}/{workerpool/-/}workerpool-9.3.4.tgz \
 ${MODNPM_DIST}/{wrap-ansi/-/}wrap-ansi-7.0.0.tgz \
 ${MODNPM_DIST}/{wrap-ansi/-/}wrap-ansi-8.1.0.tgz \
@@ -656,6 +658,7 @@ https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz;wrappy-1.0.2.tgz \
 https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-8.1.0.tgz;wrap-ansi-8.1.0.tgz \
 https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz;wrap-ansi-7.0.0.tgz \
 https://registry.npmjs.org/workerpool/-/workerpool-9.3.4.tgz;workerpool-9.3.4.tgz \
+https://registry.npmjs.org/workerpool/-/workerpool-6.5.1.tgz;workerpool-6.5.1.tgz \
 https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.5.tgz;word-wrap-1.2.5.tgz \
 https://registry.npmjs.org/which/-/which-5.0.0.tgz;which-5.0.0.tgz \
 https://registry.npmjs.org/which/-/which-2.0.2.tgz;which-2.0.2.tgz \
@@ -665,7 +668,6 @@ https://registry.npmjs.org/which-builtin-type/-/which-builtin-type-1.2.1.tgz;whi
 https://registry.npmjs.org/which-boxed-primitive/-/which-boxed-primitive-1.1.1.tgz;which-boxed-primitive-1.1.1.tgz \
 https://registry.npmjs.org/wcwidth/-/wcwidth-1.0.1.tgz;wcwidth-1.0.1.tgz \
 https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz;uuid-8.3.2.tgz \
-https://registry.npmjs.org/uuid/-/uuid-11.1.0.tgz;uuid-11.1.0.tgz \
 https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz;util-deprecate-1.0.2.tgz \
 https://registry.npmjs.org/url-pattern/-/url-pattern-1.0.3.tgz;url-pattern-1.0.3.tgz \
 https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz;uri-js-4.4.1.tgz \
@@ -674,11 +676,9 @@ https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz;universalify-0.
 https://registry.npmjs.org/unique-stream/-/unique-stream-2.3.1.tgz;unique-stream-2.3.1.tgz \
 https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz;undici-types-7.16.0.tgz \
 https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz;undici-types-6.21.0.tgz \
-https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz;undici-types-5.26.5.tgz \
 https://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz;unc-path-regex-0.1.2.tgz \
 https://registry.npmjs.org/unbox-primitive/-/unbox-primitive-1.1.0.tgz;unbox-primitive-1.1.0.tgz \
 https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz;typescript-5.9.3.tgz \
-https://registry.npmjs.org/typescript/-/typescript-5.3.3.tgz;typescript-5.3.3.tgz \
 https://registry.npmjs.org/typescript-eslint/-/typescript-eslint-8.44.0.tgz;typescript-eslint-8.44.0.tgz \
 https://registry.npmjs.org/typed-array-length/-/typed-array-length-1.0.7.tgz;typed-array-length-1.0.7.tgz \
 https://registry.npmjs.org/typed-array-byte-offset/-/typed-array-byte-offset-1.0.4.tgz;typed-array-byte-offset-1.0.4.tgz \
@@ -702,7 +702,7 @@ https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.15.tgz;tinyglobby-0.2.15.
 https://registry.npmjs.org/through2/-/through2-2.0.5.tgz;through2-2.0.5.tgz \
 https://registry.npmjs.org/through2-filter/-/through2-filter-3.0.0.tgz;through2-filter-3.0.0.tgz \
 https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz;text-table-0.2.0.tgz \
-https://registry.npmjs.org/tar/-/tar-7.5.2.tgz;tar-7.5.2.tgz \
+https://registry.npmjs.org/tar/-/tar-7.5.9.tgz;tar-7.5.9.tgz \
 https://registry.npmjs.org/synckit/-/synckit-0.9.3.tgz;synckit-0.9.3.tgz \
 https://registry.npmjs.org/synckit/-/synckit-0.11.11.tgz;synckit-0.11.11.tgz \
 https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz;supports-preserve-symlinks-flag-1.0.0.tgz \
@@ -846,14 +846,17 @@ https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-4.8.4.tgz;node-gyp-bu
 https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz;natural-compare-1.4.0.tgz \
 https://registry.npmjs.org/natural-compare-lite/-/natural-compare-lite-1.4.0.tgz;natural-compare-lite-1.4.0.tgz \
 https://registry.npmjs.org/ms/-/ms-2.1.3.tgz;ms-2.1.3.tgz \
-https://registry.npmjs.org/mocha/-/mocha-11.7.5.tgz;mocha-11.7.5.tgz \
 https://registry.npmjs.org/mocha/-/mocha-11.7.2.tgz;mocha-11.7.2.tgz \
+https://registry.npmjs.org/mocha/-/mocha-11.3.0.tgz;mocha-11.3.0.tgz \
 https://registry.npmjs.org/minizlib/-/minizlib-3.1.0.tgz;minizlib-3.1.0.tgz \
 https://registry.npmjs.org/minipass/-/minipass-7.1.2.tgz;minipass-7.1.2.tgz \
 https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz;minimist-1.2.8.tgz \
+https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz;minimatch-9.0.9.tgz \
 https://registry.npmjs.org/minimatch/-/minimatch-9.0.5.tgz;minimatch-9.0.5.tgz \
+https://registry.npmjs.org/minimatch/-/minimatch-5.1.9.tgz;minimatch-5.1.9.tgz \
+https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz;minimatch-3.1.5.tgz \
 https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz;minimatch-3.1.2.tgz \
-https://registry.npmjs.org/minimatch/-/minimatch-10.1.1.tgz;minimatch-10.1.1.tgz \
+https://registry.npmjs.org/minimatch/-/minimatch-10.2.4.tgz;minimatch-10.2.4.tgz \
 https://registry.npmjs.org/minimatch/-/minimatch-10.0.1.tgz;minimatch-10.0.1.tgz \
 https://registry.npmjs.org/mimic-response/-/mimic-response-3.1.0.tgz;mimic-response-3.1.0.tgz \
 https://registry.npmjs.org/mimic-response/-/mimic-response-1.0.1.tgz;mimic-response-1.0.1.tgz \
@@ -869,10 +872,9 @@ https://registry.npmjs.org/lru-cache/-/lru-cache-11.1.0.tgz;lru-cache-11.1.0.tgz
 https://registry.npmjs.org/lru-cache/-/lru-cache-10.4.3.tgz;lru-cache-10.4.3.tgz \
 https://registry.npmjs.org/lowercase-keys/-/lowercase-keys-2.0.0.tgz;lowercase-keys-2.0.0.tgz \
 https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz;loose-envify-1.4.0.tgz \
-https://registry.npmjs.org/long/-/long-5.3.2.tgz;long-5.3.2.tgz \
 https://registry.npmjs.org/long/-/long-5.2.3.tgz;long-5.2.3.tgz \
 https://registry.npmjs.org/log-symbols/-/log-symbols-4.1.0.tgz;log-symbols-4.1.0.tgz \
-https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz;lodash-4.17.21.tgz \
+https://registry.npmjs.org/lodash/-/lodash-4.17.23.tgz;lodash-4.17.23.tgz \
 https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz;lodash.throttle-4.1.1.tgz \
 https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz;lodash.merge-4.6.2.tgz \
 https://registry.npmjs.org/lodash.isarguments/-/lodash.isarguments-3.1.0.tgz;lodash.isarguments-3.1.0.tgz \
@@ -1080,8 +1082,9 @@ https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz;dunder-proto-1.
 https://registry.npmjs.org/doctrine/-/doctrine-3.0.0.tgz;doctrine-3.0.0.tgz \
 https://registry.npmjs.org/doctrine/-/doctrine-2.1.0.tgz;doctrine-2.1.0.tgz \
 https://registry.npmjs.org/dir-glob/-/dir-glob-3.0.1.tgz;dir-glob-3.0.1.tgz \
-https://registry.npmjs.org/diff/-/diff-8.0.2.tgz;diff-8.0.2.tgz \
+https://registry.npmjs.org/diff/-/diff-8.0.3.tgz;diff-8.0.3.tgz \
 https://registry.npmjs.org/diff/-/diff-7.0.0.tgz;diff-7.0.0.tgz \
+https://registry.npmjs.org/diff/-/diff-5.2.2.tgz;diff-5.2.2.tgz \
 https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz;detect-node-2.1.0.tgz \
 https://registry.npmjs.org/detect-newline/-/detect-newline-4.0.1.tgz;detect-newline-4.0.1.tgz \
 https://registry.npmjs.org/detect-indent/-/detect-indent-7.0.2.tgz;detect-indent-7.0.2.tgz \
@@ -1138,6 +1141,7 @@ https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz;buffer-from-1.1.2
 https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz;buffer-crc32-0.2.13.tgz \
 https://registry.npmjs.org/browser-stdout/-/browser-stdout-1.3.1.tgz;browser-stdout-1.3.1.tgz \
 https://registry.npmjs.org/braces/-/braces-3.0.3.tgz;braces-3.0.3.tgz \
+https://registry.npmjs.org/brace-expansion/-/brace-expansion-5.0.3.tgz;brace-expansion-5.0.3.tgz \
 https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.2.tgz;brace-expansion-2.0.2.tgz \
 https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.1.tgz;brace-expansion-2.0.1.tgz \
 https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz;brace-expansion-1.1.12.tgz \
@@ -1145,6 +1149,7 @@ https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz;brace-ex
 https://registry.npmjs.org/boolean/-/boolean-3.2.0.tgz;boolean-3.2.0.tgz \
 https://registry.npmjs.org/bl/-/bl-4.1.0.tgz;bl-4.1.0.tgz \
 https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz;base64-js-1.5.1.tgz \
+https://registry.npmjs.org/balanced-match/-/balanced-match-4.0.4.tgz;balanced-match-4.0.4.tgz \
 https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz;balanced-match-1.0.2.tgz \
 https://registry.npmjs.org/axobject-query/-/axobject-query-4.1.0.tgz;axobject-query-4.1.0.tgz \
 https://registry.npmjs.org/axe-core/-/axe-core-4.11.1.tgz;axe-core-4.11.1.tgz \
@@ -1172,6 +1177,7 @@ https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.2.2.tgz;ansi-regex-6.2.2.tg
 https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.1.0.tgz;ansi-regex-6.1.0.tgz \
 https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz;ansi-regex-5.0.1.tgz \
 https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.3.tgz;ansi-colors-4.1.3.tgz \
+https://registry.npmjs.org/ajv/-/ajv-6.14.0.tgz;ajv-6.14.0.tgz \
 https://registry.npmjs.org/ajv/-/ajv-6.12.6.tgz;ajv-6.12.6.tgz \
 https://registry.npmjs.org/agent-base/-/agent-base-7.1.4.tgz;agent-base-7.1.4.tgz \
 https://registry.npmjs.org/acorn/-/acorn-8.15.0.tgz;acorn-8.15.0.tgz \
@@ -1204,8 +1210,8 @@ https://registry.npmjs.org/@types/sinon-chai/-/sinon-chai-4.0.0.tgz;@types-sinon
 https://registry.npmjs.org/@types/semver/-/semver-7.7.1.tgz;@types-semver-7.7.1.tgz \
 https://registry.npmjs.org/@types/responselike/-/responselike-1.0.3.tgz;@types-responselike-1.0.3.tgz \
 https://registry.npmjs.org/@types/node/-/node-25.0.3.tgz;@types-node-25.0.3.tgz \
+https://registry.npmjs.org/@types/node/-/node-24.12.0.tgz;@types-node-24.12.0.tgz \
 https://registry.npmjs.org/@types/node/-/node-22.19.3.tgz;@types-node-22.19.3.tgz \
-https://registry.npmjs.org/@types/node/-/node-20.11.30.tgz;@types-node-20.11.30.tgz \
 https://registry.npmjs.org/@types/mocha/-/mocha-10.0.10.tgz;@types-mocha-10.0.10.tgz \
 https://registry.npmjs.org/@types/lodash/-/lodash-4.17.21.tgz;@types-lodash-4.17.21.tgz \
 https://registry.npmjs.org/@types/keyv/-/keyv-3.1.4.tgz;@types-keyv-3.1.4.tgz \
@@ -1251,8 +1257,6 @@ https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-2.0.5.tgz;@nodelib-fs.stat
 https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz;@nodelib-fs.scandir-2.1.5.tgz \
 https://registry.npmjs.org/@isaacs/fs-minipass/-/fs-minipass-4.0.1.tgz;@isaacs-fs-minipass-4.0.1.tgz \
 https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz;@isaacs-cliui-8.0.2.tgz \
-https://registry.npmjs.org/@isaacs/brace-expansion/-/brace-expansion-5.0.0.tgz;@isaacs-brace-expansion-5.0.0.tgz \
-https://registry.npmjs.org/@isaacs/balanced-match/-/balanced-match-4.0.1.tgz;@isaacs-balanced-match-4.0.1.tgz \
 https://registry.npmjs.org/@ioredis/commands/-/commands-1.2.0.tgz;@ioredis-commands-1.2.0.tgz \
 https://registry.npmjs.org/@indutny/parallel-prettier/-/parallel-prettier-3.0.0.tgz;@indutny-parallel-prettier-3.0.0.tgz \
 https://registry.npmjs.org/@indutny/bencher/-/bencher-1.2.0.tgz;@indutny-bencher-1.2.0.tgz \

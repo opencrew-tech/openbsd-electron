@@ -1,0 +1,15 @@
+Index: ts/updater/linuxAppImage.main.ts
+--- ts/updater/linuxAppImage.main.ts.orig
++++ ts/updater/linuxAppImage.main.ts
+@@ -4,10 +4,10 @@
+ import { copyFile, unlink } from 'node:fs/promises';
+ import { chmod } from 'fs-extra';
+ 
+-import config from 'config';
+ import { app } from 'electron';
+ import { coerce, lt } from 'semver';
+ 
++import config from '../../app/config.main.ts';
+ import type { JSONVendorSchema } from './common.main.ts';
+ import { Updater } from './common.main.ts';
+ import { appRelaunch } from '../util/relaunch.main.ts';

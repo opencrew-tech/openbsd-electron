@@ -1,6 +1,6 @@
 {
   "name": "Stretchly",
-  "version": "1.20.0",
+  "version": "1.22.1",
   "description": "The break time reminder app",
   "main": "app/main.js",
   "type": "module",
@@ -137,30 +137,36 @@
     ]
   },
   "devDependencies": {
-    "@vitest/coverage-istanbul": "^4.0.16",
+    "@vitest/coverage-istanbul": "^4.1.10",
     "cross-env": "^10.1.0",
-    "electron": "^39.2.7",
+    "electron": "^43.4.0",
     "electron-builder": "file:../node/electron-builder/node_modules/electron-builder",
     "husky": "^9.1.7",
-    "jsdom": "^27.3.0",
-    "rimraf": "^6.1.2",
+    "jsdom": "^30.0.1",
+    "rimraf": "^6.1.3",
     "standard": "^17.1.2",
-    "vitest": "^4.0.16"
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@particle/dbus-next": "^0.11.4",
     "auto-launch": "^6.0.0-rc1",
-    "dompurify": "^3.3.1",
-    "electron-log": "^5.4.3",
-    "electron-store": "11.0.2",
-    "humanize-duration": "^3.33.2",
-    "i18next": "^25.7.3",
-    "i18next-fs-backend": "^2.6.1",
+    "dompurify": "^3.4.13",
+    "electron-log": "^5.4.4",
+    "electron-store": "^11.0.2",
+    "humanize-duration": "^3.34.0",
+    "i18next": "^26.3.6",
+    "i18next-fs-backend": "^2.6.7",
     "luxon": "^3.7.2",
     "meeussunmoon": "^3.1.0",
     "ps-list": "^9.0.0",
-    "semver": "^7.7.3",
+    "semver": "^7.8.5",
     "windows-focus-assist": "^1.4.0"
+  },
+  "allowScripts": {
+    "electron-winstaller@5.4.0": true,
+    "windows-focus-assist@1.4.0": true,
+    "usocket": true,
+    "fsevents": true
   },
   "bundleDependencies": [
     "@particle/dbus-next",
@@ -178,11 +184,11 @@
     "windows-focus-assist"
   ],
   "overrides": {
-    "7zip-bin": "file:../node/7zip-bin/node_modules/7zip-bin",
-    "app-builder-bin": "file:../node/app-builder-bin/node_modules/app-builder-bin",
     "electron-builder": "file:../node/electron-builder/node_modules/electron-builder",
-    "esbuild": "file:../node/esbuild/node_modules/esbuild",
     "graceful-fs": "file:../node/graceful-fs/node_modules/graceful-fs",
-    "rollup": "file:../node/rollup/node_modules/rollup"
+    "@oxc-project/types": "file:../node/oxc-apps/node_modules/@oxc-project/types",
+    "rolldown": "file:../node/rolldown/node_modules/rolldown",
+    "@rolldown/pluginutils": "file:../node/rolldown/node_modules/@rolldown/pluginutils",
+    "lightningcss": "npm:lightningcss-wasm"
   }
 }

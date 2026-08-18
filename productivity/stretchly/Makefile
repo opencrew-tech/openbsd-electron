@@ -1,7 +1,6 @@
 COMMENT=		break time reminder app
 
-DIST_TUPLE=		github hovancik stretchly v1.20.0 .
-REVISION=		0
+DIST_TUPLE=		github hovancik stretchly v1.22.1 .
 
 CATEGORIES=		productivity
 
@@ -20,12 +19,12 @@ MODELECTRON_APP_NAME=	Stretchly
 MODELECTRON_BUILDER=	Yes
 MODELECTRON_WRAPPER=	Yes
 
-MODNPM_MODS+=7zip-bin
-MODNPM_MODS+=app-builder-bin
 MODNPM_MODS+=electron-builder
-MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
-MODNPM_MODS+=rollup
+MODNPM_MODS+=@oxc-project/types
+MODNPM_MODS+=rolldown
+MODNPM_MODS+=@rolldown/pluginutils
+MODNPM_MODS+=lightningcss
 
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
@@ -60,6 +59,13 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/icons/icon_${size}.png \
 		${ICONS_TARGET}/${size}x${size}/apps/${MODELECTRON_TARGET}.png
 .endfor
+
+modnpm-pre-gen-modules:
+	cd ${WRKSRC} && \
+	jq 'del(.dependencies["node-desktop-idle-v2"]) \
+	    | del(.allowScripts["node-desktop-idle-v2@1.1.26"])' \
+	    ${MODNPM_PACKAGE} > tmp.json && \
+	mv tmp.json ${MODNPM_PACKAGE}
 
 .include "modules.npm.inc"
 

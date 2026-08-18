@@ -1,7 +1,6 @@
 COMMENT =	native C++ Node module for moniroting filesystem events
 
-V =		2.5.1
-REVISION =	0
+V =		2.5.6
 PKGNAME =	parcel-watcher-${V}
 DIST_TUPLE =	github parcel-bundler watcher v${V} .
 

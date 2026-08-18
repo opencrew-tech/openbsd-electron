@@ -69,7 +69,7 @@ ${MODYARN_DIST}/{cross-spawn/-/}cross-spawn-7.0.3.tgz \
 ${MODYARN_DIST}/{debug/-/}debug-4.3.1.tgz \
 ${MODYARN_DIST}/{debug/-/}debug-4.3.2.tgz \
 ${MODYARN_DIST}/{decamelize/-/}decamelize-4.0.0.tgz \
-${MODYARN_DIST}/{detect-libc/-/}detect-libc-1.0.3.tgz \
+${MODYARN_DIST}/{detect-libc/-/}detect-libc-2.0.3.tgz \
 ${MODYARN_DIST}/{diff/-/}diff-5.0.0.tgz \
 ${MODYARN_DIST}/{emoji-regex/-/}emoji-regex-8.0.0.tgz \
 ${MODYARN_DIST}/{end-of-stream/-/}end-of-stream-1.4.4.tgz \
@@ -130,7 +130,6 @@ ${MODYARN_DIST}/{log-update/-/}log-update-4.0.0.tgz \
 ${MODYARN_DIST}/{lru-cache/-/}lru-cache-6.0.0.tgz \
 ${MODYARN_DIST}/{merge-stream/-/}merge-stream-2.0.0.tgz \
 ${MODYARN_DIST}/{micromatch/-/}micromatch-4.0.4.tgz \
-${MODYARN_DIST}/{micromatch/-/}micromatch-4.0.5.tgz \
 ${MODYARN_DIST}/{mimic-fn/-/}mimic-fn-2.1.0.tgz \
 ${MODYARN_DIST}/{minimatch/-/}minimatch-3.0.4.tgz \
 ${MODYARN_DIST}/{minimist/-/}minimist-1.2.5.tgz \
@@ -159,7 +158,7 @@ ${MODYARN_DIST}/{path-key/-/}path-key-3.1.1.tgz \
 ${MODYARN_DIST}/{path-type/-/}path-type-4.0.0.tgz \
 ${MODYARN_DIST}/{picomatch/-/}picomatch-2.2.2.tgz \
 ${MODYARN_DIST}/{picomatch/-/}picomatch-2.3.0.tgz \
-${MODYARN_DIST}/{picomatch/-/}picomatch-2.3.1.tgz \
+${MODYARN_DIST}/{picomatch/-/}picomatch-4.0.3.tgz \
 ${MODYARN_DIST}/{please-upgrade-node/-/}please-upgrade-node-3.2.0.tgz \
 ${MODYARN_DIST}/{prebuildify/-/}prebuildify-6.0.1.tgz \
 ${MODYARN_DIST}/{prettier/-/}prettier-2.3.2.tgz \

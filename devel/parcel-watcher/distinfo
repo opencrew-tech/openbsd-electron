@@ -67,7 +67,7 @@ SHA256 (npm_modules/cross-spawn-7.0.3.tgz) = EcWIFAkCF+Pv+itMKOA5hoPah9bLNUQdhGw
 SHA256 (npm_modules/debug-4.3.1.tgz) = NMz+BW0nl5hnvAjnRJ86KxFw6dFlkVMtQgL7COs5o4w=
 SHA256 (npm_modules/debug-4.3.2.tgz) = BrW5hHHcAkEAA+i/NM+elq+63DCoOxn1yTdvqoF/p7s=
 SHA256 (npm_modules/decamelize-4.0.0.tgz) = 5FM/+tX+V4UAty8SvqluImJR7WA0Firx+5m/+TQW9Z8=
-SHA256 (npm_modules/detect-libc-1.0.3.tgz) = eirymLhcs2+HdpMxjhV+TSBxnOjcoCs01owSFCtxIYs=
+SHA256 (npm_modules/detect-libc-2.0.3.tgz) = KKvxElsvHuNN14cm7RjvVrJDqA1BgYgif7eqcRi6ybc=
 SHA256 (npm_modules/diff-5.0.0.tgz) = +JEVIbJJwRceO+HnKOZJDnYcAy+J1cny5BjcC9q6izM=
 SHA256 (npm_modules/emoji-regex-8.0.0.tgz) = tczZ+/sICY7vvra2tLQNtts6z5JD4yfgOZJaqGYcsQc=
 SHA256 (npm_modules/end-of-stream-1.4.4.tgz) = C4vs8Munb93f5K0iiZF+33QEeRPraJGnkizPgivfDbU=
@@ -128,7 +128,6 @@ SHA256 (npm_modules/log-update-4.0.0.tgz) = sT8dFNQHHsma+d0AxuuqndDCOa3aH7gVuVBW
 SHA256 (npm_modules/lru-cache-6.0.0.tgz) = XOQN6wMc9paPODJQKmj40mvgl2TcT4/AeVei/X6M314=
 SHA256 (npm_modules/merge-stream-2.0.0.tgz) = JMO+m7JwZeZ1GaSA2kOyUcig3m3vHeecPCLpbdWXdk4=
 SHA256 (npm_modules/micromatch-4.0.4.tgz) = GcWhbHgoyjlOe++yQyRdxEFg3lnOnjdpBvzNkzaowwY=
-SHA256 (npm_modules/micromatch-4.0.5.tgz) = IFZqW6umgJJ4v99DijYbJP5mzt9WnBzXXbGCGKjlvas=
 SHA256 (npm_modules/mimic-fn-2.1.0.tgz) = 6nBcJhSGxO8qjJNrFZyGrR10Udevx7f5fMLRgFwEZr8=
 SHA256 (npm_modules/minimatch-3.0.4.tgz) = Qmok15u28NO7Ez5izsaQIYNtJUs52THBBN3XxGSt6nE=
 SHA256 (npm_modules/minimist-1.2.5.tgz) = oYAM5NOTVulkl70JpB+tADOhPdjutGkAgzNUdQXOQ1A=
@@ -157,7 +156,7 @@ SHA256 (npm_modules/path-key-3.1.1.tgz) = S4mZrLkUgw7c08W4/sYysyxrx1msPtyGM29ang
 SHA256 (npm_modules/path-type-4.0.0.tgz) = wCXo+PsVJ5UVaEoVjCPre4/fNtdFyRCgyHAU8Phjm5c=
 SHA256 (npm_modules/picomatch-2.2.2.tgz) = ALoIltsAO7pZP/RAXXzRSIfrQagcCcnrO/ZlFo3rhsg=
 SHA256 (npm_modules/picomatch-2.3.0.tgz) = 7IHLs2VGNYtDab5lIRSLEpVp3ApR/QFUr2GDJviaNZY=
-SHA256 (npm_modules/picomatch-2.3.1.tgz) = GxTunshnwJDXtSx3GT2D53kQVTs9GLL4bdK3tV6CwR8=
+SHA256 (npm_modules/picomatch-4.0.3.tgz) = rWIR/RWd5ndko73OUXSXaI7d9dof0daPMRXyATwQipw=
 SHA256 (npm_modules/please-upgrade-node-3.2.0.tgz) = Z5WtYfgW6LpNs0Cvq23TDTYWspJKI0wQZK4B3NMYDEw=
 SHA256 (npm_modules/prebuildify-6.0.1.tgz) = GyWq20Yavx6x3nRx2Cp/1Zmx8S4UvvMhC//oC7h04HI=
 SHA256 (npm_modules/prettier-2.3.2.tgz) = +cmECqwJ3k2I99ivKVepPdi8V+9bwfjVs5hMfCpQn48=
@@ -212,7 +211,7 @@ SHA256 (npm_modules/yargs-16.2.0.tgz) = Rh39FIyoZdrqqsSSLmuP/ZmfgCWJ0M03OjK7Tdx2
 SHA256 (npm_modules/yargs-parser-20.2.4.tgz) = T+YWUqflN1Uw7xn5QSOP7JJfNMfK149FvHOvrWa9ASE=
 SHA256 (npm_modules/yargs-parser-20.2.9.tgz) = mUBG8uYEVzsiQl45qSb2D8U/d4AgFE3kYdOytqisEQU=
 SHA256 (npm_modules/yargs-unparser-2.0.0.tgz) = ySJNU4OQIriFIW7RgScZirwV44okLO0U10sR+vwLqXw=
-SHA256 (parcel-bundler-watcher-v2.5.1.tar.gz) = i7J+zv7+uIturFNY1VSpOpMuSuhRjxl1nINsnAP9ueo=
+SHA256 (parcel-bundler-watcher-v2.5.6.tar.gz) = wgDTauct5Qk14fk2ecjDYnipHu4JQ80tAd1e5CF+8Cw=
 SIZE (npm_modules/@babel-code-frame-7.10.4.tgz) = 3147
 SIZE (npm_modules/@babel-helper-validator-identifier-7.10.4.tgz) = 7071
 SIZE (npm_modules/@babel-highlight-7.10.4.tgz) = 2585
@@ -282,7 +281,7 @@ SIZE (npm_modules/cross-spawn-7.0.3.tgz) = 7477
 SIZE (npm_modules/debug-4.3.1.tgz) = 12810
 SIZE (npm_modules/debug-4.3.2.tgz) = 12876
 SIZE (npm_modules/decamelize-4.0.0.tgz) = 2060
-SIZE (npm_modules/detect-libc-1.0.3.tgz) = 6279
+SIZE (npm_modules/detect-libc-2.0.3.tgz) = 7109
 SIZE (npm_modules/diff-5.0.0.tgz) = 109166
 SIZE (npm_modules/emoji-regex-8.0.0.tgz) = 6664
 SIZE (npm_modules/end-of-stream-1.4.4.tgz) = 2387
@@ -343,7 +342,6 @@ SIZE (npm_modules/log-update-4.0.0.tgz) = 3161
 SIZE (npm_modules/lru-cache-6.0.0.tgz) = 5788
 SIZE (npm_modules/merge-stream-2.0.0.tgz) = 2260
 SIZE (npm_modules/micromatch-4.0.4.tgz) = 16616
-SIZE (npm_modules/micromatch-4.0.5.tgz) = 14433
 SIZE (npm_modules/mimic-fn-2.1.0.tgz) = 2119
 SIZE (npm_modules/minimatch-3.0.4.tgz) = 11423
 SIZE (npm_modules/minimist-1.2.5.tgz) = 8251
@@ -372,7 +370,7 @@ SIZE (npm_modules/path-key-3.1.1.tgz) = 2258
 SIZE (npm_modules/path-type-4.0.0.tgz) = 2018
 SIZE (npm_modules/picomatch-2.2.2.tgz) = 23357
 SIZE (npm_modules/picomatch-2.3.0.tgz) = 23519
-SIZE (npm_modules/picomatch-2.3.1.tgz) = 24289
+SIZE (npm_modules/picomatch-4.0.3.tgz) = 22248
 SIZE (npm_modules/please-upgrade-node-3.2.0.tgz) = 2800
 SIZE (npm_modules/prebuildify-6.0.1.tgz) = 7427
 SIZE (npm_modules/prettier-2.3.2.tgz) = 4400209
@@ -427,4 +425,4 @@ SIZE (npm_modules/yargs-16.2.0.tgz) = 62776
 SIZE (npm_modules/yargs-parser-20.2.4.tgz) = 26472
 SIZE (npm_modules/yargs-parser-20.2.9.tgz) = 27625
 SIZE (npm_modules/yargs-unparser-2.0.0.tgz) = 5115
-SIZE (parcel-bundler-watcher-v2.5.1.tar.gz) = 1828553
+SIZE (parcel-bundler-watcher-v2.5.6.tar.gz) = 1828068

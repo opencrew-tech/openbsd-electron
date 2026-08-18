@@ -1,7 +1,7 @@
 Index: binding.gyp
 --- binding.gyp.orig
 +++ binding.gyp
-@@ -81,6 +81,17 @@
+@@ -98,6 +98,17 @@
              "BRUTE_FORCE",
              "KQUEUE"
            ]

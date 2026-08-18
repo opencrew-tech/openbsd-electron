@@ -2,7 +2,7 @@
 
 COMMENT =	package manager for JavaScript
 
-V=		11.12.1
+V=		11.18.0
 PKGNAME =	npm-${V}
 DIST_TUPLE =	github npm cli v${V} .
 
@@ -60,9 +60,8 @@ post-install:
 		${PREFIX}/${MODNPM_INSTALL_DIR}/graceful-fs
 
 # Prepare pre-build npm to ease building a custom version itself.
-# The prebuild version does not include our patches but those are not needed
-# for this specific build of npm by itself thus this hack works.
-# Note this include a patch for gracefull-fs to better handle ressources limits.
+# The prebuild version only includes the patches needed to handle resource
+# limits while bootstrapping npm itself.
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?
 _TMP?=	./
 _DIST?=	$$(realpath `mktemp -d ${_TMP}/tarball.XXXXXXX`)
@@ -85,7 +84,9 @@ tarball:
 		tar -xzf npm.tgz && \
 		cd package && \
 		node bin/npm-cli.js install -gf ../npm.tgz --prefix=../npm && \
-		cd ../npm/lib/node_modules/npm/node_modules/graceful-fs && \
+		cd ../npm/lib/node_modules/npm && \
+		patch < "${.CURDIR}/patches/patch-lib_cli_entry_js" && \
+		cd node_modules/graceful-fs && \
 		patch < "$${graceful_fs}/patches/patch-graceful-fs_js" && \
 	cd $${dist} && \
 		tar -cRzf ${.CURDIR}/npm-${V}.tgz npm ; \

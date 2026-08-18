@@ -18,7 +18,7 @@ Index: workspaces/arborist/lib/node.js
            target.linksIn.add(this)
            // reload edges here, because now we have a target
            if (this.parent) {
-@@ -1391,10 +1394,42 @@ class Node {
+@@ -1392,10 +1395,42 @@ class Node {
        return
      }
  

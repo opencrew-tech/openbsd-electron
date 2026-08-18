@@ -5,7 +5,7 @@ Treats chmod failures during bin-link creation as non-fatal.
 Index: workspaces/arborist/lib/arborist/rebuild.js
 --- workspaces/arborist/lib/arborist/rebuild.js.orig
 +++ workspaces/arborist/lib/arborist/rebuild.js
-@@ -16,6 +16,21 @@ const { resolve } = require('node:path')
+@@ -17,6 +17,21 @@ const { isScriptAllowed } = require('../script-allowed
  const boolEnv = b => b ? '1' : ''
  const sortNodes = (a, b) => (a.depth - b.depth) || localeCompare(a.path, b.path)
  
@@ -27,7 +27,7 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
  const _checkBins = Symbol.for('checkBins')
  
  // defined by reify mixin
-@@ -225,6 +240,13 @@ module.exports = cls => class Builder extends cls {
+@@ -237,6 +252,13 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
@@ -41,7 +41,7 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
      if (this.#oldMeta === null) {
        const { root: { meta } } = node
        this.#oldMeta = meta && meta.loadedFromDisk &&
-@@ -380,6 +402,11 @@ module.exports = cls => class Builder extends cls {
+@@ -400,6 +422,11 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
@@ -53,7 +53,7 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
      const timeEnd = time.start(`build:link:${node.location}`)
  
      // On Windows, antivirus/indexer can transiently lock files, causing EPERM/EACCES/EBUSY on the rename inside write-file-atomic (used by bin-links/fix-bin.js), so, retry with backoff.
-@@ -390,6 +417,10 @@ module.exports = cls => class Builder extends cls {
+@@ -410,6 +437,10 @@ module.exports = cls => class Builder extends cls {
        force: this.options.force,
        global: !!node.globalTop,
      }).catch(/* istanbul ignore next - Windows-only transient antivirus locks */ err => {

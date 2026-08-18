@@ -148,7 +148,8 @@ MODNPM_VENDOR?=		${PKGNAME}${MODNPM_VENDOR_REV:%=.%}-vendor.tgz
 # env is required and can be extended
 MODNPM_ENV+=		PATH='${PORTPATH}:./node_modules/.bin' \
 			TMP=${WRKDIR}/tmp \
-			HOME=${PORTHOME}
+			HOME=${PORTHOME} \
+			NPM_CONFIG_UPDATE_NOTIFIER=false
 # specific build & gen env are configurable (ex: replace npm_config_nodedir)
 MODNPM_ENV_BUILD?=	npm_config_nodedir=${LOCALBASE}
 MODNPM_ENV_TEST?=

@@ -1,7 +1,7 @@
 Index: workspaces/arborist/lib/arborist/reify.js
 --- workspaces/arborist/lib/arborist/reify.js.orig
 +++ workspaces/arborist/lib/arborist/reify.js
-@@ -723,6 +723,28 @@ module.exports = cls => class Reifier extends cls {
+@@ -762,6 +762,28 @@ module.exports = cls => class Reifier extends cls {
          this[_addNodeToTrashList](node)
          return
        }

@@ -1,0 +1,36 @@
+SIGSEV on _rthread_tls_destructors
+
+Index: src/lib.rs
+--- src/lib.rs.orig
++++ src/lib.rs
+@@ -29,6 +29,7 @@ use oxc_resolver::{
+ use phf::Set;
+ 
+ #[cfg(all(
++    not(target_os = "openbsd"),
+     not(target_arch = "x86"),
+     not(target_arch = "arm"),
+     not(target_family = "wasm")
+@@ -130,7 +131,11 @@ pub fn init_tracing() {
+ #[napi]
+ pub fn init_tracing() {}
+ 
+-#[cfg_attr(not(target_family = "wasm"), napi_derive::module_init)]
++#[cfg_attr(
++    all(not(target_family = "wasm"), not(target_os = "openbsd")),
++    napi_derive::module_init
++)]
++#[cfg(not(target_os = "openbsd"))]
+ fn init() {
+     use tracing_subscriber::filter::Targets;
+     use tracing_subscriber::prelude::__tracing_subscriber_SubscriberExt;
+@@ -149,6 +154,9 @@ fn init() {
+         .with(tracing_subscriber::fmt::layer())
+         .init();
+ }
++
++#[cfg(target_os = "openbsd")]
++fn init() {}
+ 
+ #[napi]
+ pub struct Output(CodegenReturn);

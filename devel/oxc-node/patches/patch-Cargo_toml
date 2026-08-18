@@ -1,0 +1,21 @@
+SIGSEV on _rthread_tls_destructors
+
+Index: Cargo.toml
+--- Cargo.toml.orig
++++ Cargo.toml
+@@ -20,12 +20,14 @@ oxc_resolver = { version = "11.13.1" }
+ phf = "0.13"
+ serde_json = "1"
+ tracing = "0.1"
++
++[target.'cfg(not(target_os = "openbsd"))'.dependencies]
+ tracing-subscriber = { version = "0.3", default-features = false, features = [
+   "std",
+   "fmt",
+ ] } # Omit the `regex` feature
+ 
+-[target.'cfg(all(not(target_os = "linux"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "x86"), not(target_family = "wasm")))'.dependencies]
++[target.'cfg(all(not(target_os = "linux"), not(target_os = "freebsd"), not(target_os = "openbsd"), not(target_arch = "arm"), not(target_arch = "x86"), not(target_family = "wasm")))'.dependencies]
+ mimalloc-safe = { version = "0.1", features = ["skip_collect_on_exit"] }
+ 
+ [target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]

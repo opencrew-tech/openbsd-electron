@@ -1,0 +1,18 @@
+oxc-node is a fast and developer-friendly set of Node.js development
+tools built on top of Oxc, the Rust-based JavaScript and TypeScript
+toolchain. Oxc provides shared compiler infrastructure and end-user
+tools for parsing, transforming, linting, formatting, minifying,
+and resolving JavaScript/TypeScript code. Its main components include
+Oxlint for linting, Oxfmt for formatting, the Parser for building
+ASTs, the Transformer for TypeScript/JSX/modern JavaScript compilation,
+the Minifier for production output, and the Resolver for module
+resolution.
+
+Within that ecosystem, oxc-node focuses specifically on the Node.js
+development runtime. Its current main package, @oxc-node/core,
+provides a transformer and Node.js register hook, allowing Node.js
+projects to use Oxc's fast transformation pipeline during
+development. In other words, Oxc is the broader compiler/tooling
+stack, while oxc-node is the Node.js integration layer that brings
+Oxc's speed and transformation capabilities directly into Node.js
+workflows.

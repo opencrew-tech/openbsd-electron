@@ -1,0 +1,46 @@
+{
+  "name": "oxc-node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "bench": "pnpm --filter=bench bench",
+    "fmt": "oxfmt && cargo fmt",
+    "lint": "oxlint",
+    "test": "pnpm --sequential --filter=integrate* run test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "catalog:",
+    "@napi-rs/wasm-runtime": "^1.0.1",
+    "@oxc-node/cli": "workspace:*",
+    "@oxc-node/core": "workspace:*",
+    "@oxc-project/runtime": "^0.123.0",
+    "@swc/wasm": "^1.16.0",
+    "@types/node": "^25.0.0",
+    "ava": "^7.0.0",
+    "cross-env": "^10.0.0",
+    "emnapi": "^1.4.5",
+    "husky": "^9.1.7",
+    "lerna": "^9.0.0",
+    "lint-staged": "^16.1.2",
+    "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.43.0",
+    "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "^0.19.0",
+    "typescript": "^6.0.0"
+  },
+  "lint-staged": {
+    "*": [
+      "oxfmt --no-error-on-unmatched-pattern"
+    ],
+    "*.@(js|ts|tsx)": [
+      "oxlint --fix"
+    ]
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "link:../node/esbuild/node_modules/esbuild",
+      "graceful-fs": "link:../node/graceful-fs/node_modules/graceful-fs"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+packages:
+  - packages/*
+
+catalog:
+  "@napi-rs/cli": 3.6.0
+
+verifyDepsBeforeRun: install

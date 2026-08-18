@@ -1,0 +1,13 @@
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -6,8 +6,7 @@
+     "bench": "pnpm --filter=bench bench",
+     "fmt": "oxfmt && cargo fmt",
+     "lint": "oxlint",
+-    "test": "pnpm --sequential --filter=integrate* run test",
+-    "prepare": "husky"
++    "test": "pnpm --sequential --filter=integrate* run test"
+   },
+   "devDependencies": {
+     "@napi-rs/cli": "catalog:",

@@ -1,0 +1,24 @@
+@napi-rs/tar doesn't support OpenBSD
+
+Index: packages/integrate-module-bundler/src/index.ts
+--- packages/integrate-module-bundler/src/index.ts.orig
++++ packages/integrate-module-bundler/src/index.ts
+@@ -5,7 +5,6 @@ import assert from "node:assert";
+ import { createRequire } from "node:module";
+ import test from "node:test";
+ 
+-import { EntryType } from "@napi-rs/tar";
+ import { bar as subBar } from "@subdirectory/bar";
+ import { supportedExtensions } from "file-type";
+ import { renderToString } from "react-dom/server";
+@@ -58,10 +57,6 @@ await test("compiled js file with .d.ts", () => {
+ 
+ await test("jsx should work", () => {
+   assert.equal(renderToString(Component()), "<div>Component</div>");
+-});
+-
+-await test("resolve @napi-rs projects", () => {
+-  assert.equal(EntryType.GNUSparse, 10);
+ });
+ 
+ await test("resolve simple-git", () => {

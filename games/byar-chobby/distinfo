@@ -1,6 +1,5 @@
 SHA256 (beyond-all-reason-BYAR-Chobby-v1.2988.0.tar.gz) = bS0e04vuqPX4GSHNoDpMAhcUkIymIc538bWwHpWjvV8=
 SHA256 (beyond-all-reason-spring-launcher-2c0a6e17b50ab04ea592c53963c571e5ccb071ba.tar.gz) = exUXR/FfoqNNH9HbufZmX/46EVgewn3pM5CwUV1MgVo=
-SHA256 (npm_modules/7zip-bin-5.2.0.tgz) = BPlzjuAL6L5T9dBiVKnm5LURexf4t0BYR32HDmJ2Sn0=
 SHA256 (npm_modules/7zip-min-1.4.4.tgz) = 5W5+zS3wjlQoMNVOWkn6HeEN4dUKQjJFrDgII/uJnHw=
 SHA256 (npm_modules/@aashutoshrathi-word-wrap-1.2.6.tgz) = ZyOBCClO0EwMA473qCedk92uJzw62REitgyshooI9PI=
 SHA256 (npm_modules/@electron-get-2.0.3.tgz) = pTcEzCYEj8BjkBFN8HCcVJ/Efq9j/iwEaE03JzVIudM=
@@ -97,7 +96,6 @@ SHA256 (npm_modules/discord-rpc-4.0.1.tgz) = jyX509JApIEcKgvwmigp5AATU3m5ImvnAti
 SHA256 (npm_modules/doctrine-3.0.0.tgz) = EATfiEX5wm1mROTZvxB2o9T/dYaQyB7p9IXb+chXHSA=
 SHA256 (npm_modules/dom-walk-0.1.2.tgz) = +LeGPrSRnNNKGTmcrIHvH2mzvBhx2+mcykBznlpBTXg=
 SHA256 (npm_modules/electron-29.1.0.tgz) = iYIEIwoqOpm3E4/7X2Gp4xYT4X8BpTDZfv58A06LH7o=
-SHA256 (npm_modules/electron-builder-26.8.2.tgz) = +PCQCQEGi1VLm5lM3L3aPYvYRb4pgH5X7qVKLNdBWcE=
 SHA256 (npm_modules/electron-log-5.1.1.tgz) = 0/LE9X3rdef8+AZiJL0ElCLDkumTTlcsw3w5H0ZUYpM=
 SHA256 (npm_modules/electron-settings-4.0.2.tgz) = obwCIO5sw9PyD837vInAJ1IbcBjQ69t3nen7UBGRtrU=
 SHA256 (npm_modules/electron-updater-6.1.8.tgz) = muruHFKkFr4rc+nV2YV6v1eCOf3bE+iPI6hN0Zqy4Sg=
@@ -144,7 +142,6 @@ SHA256 (npm_modules/global-4.4.0.tgz) = XftG0Q8U19JbZFWu0tmxFXPQHeCNWBUjSyPsrzqK
 SHA256 (npm_modules/globals-13.24.0.tgz) = on1XK9HiJa+5B0CTTZnlwYYXao4/QmtseOoM/y0MoDI=
 SHA256 (npm_modules/gopd-1.0.1.tgz) = nJAQ2dOH7Mkq68AorKXOipVABidKYF+WtV4VpX9MJkM=
 SHA256 (npm_modules/got-11.8.6.tgz) = As++1xsfpZ6HKiGDY8HzsNydhoVij/+EhbO22EkVpQM=
-SHA256 (npm_modules/graceful-fs-4.2.11.tgz) = OWE3SqFh5v7YDW9Laq8vt+r9LJ5b406GWzdfARTdCZw=
 SHA256 (npm_modules/graphemer-1.4.0.tgz) = Z5l1gphzfgXW1qKrMtd92MGt7qcMw6iTH/xI6ZWu1BE=
 SHA256 (npm_modules/has-flag-4.0.0.tgz) = d6frFBHZJ7uKXKcGnb4WiIbWPIj0RvC4FQCizyPdtbE=
 SHA256 (npm_modules/has-property-descriptors-1.0.2.tgz) = Ahm72PMuJo7rbv/1Wixv8tUCCY9JxYP/AjstnVqL+oc=
@@ -317,7 +314,6 @@ SHA256 (npm_modules/yauzl-2.10.0.tgz) = VQ8xg117ZABzCQM9+zNXGCW0zP2S0xcpdJE5tQTC
 SHA256 (npm_modules/yocto-queue-0.1.0.tgz) = x3K87KWPIPDqCKxhIbo4X1XbcVzTwsRrKzjQbTxhKfE=
 SIZE (beyond-all-reason-BYAR-Chobby-v1.2988.0.tar.gz) = 273844919
 SIZE (beyond-all-reason-spring-launcher-2c0a6e17b50ab04ea592c53963c571e5ccb071ba.tar.gz) = 8859090
-SIZE (npm_modules/7zip-bin-5.2.0.tgz) = 5625880
 SIZE (npm_modules/7zip-min-1.4.4.tgz) = 6077
 SIZE (npm_modules/@aashutoshrathi-word-wrap-1.2.6.tgz) = 4124
 SIZE (npm_modules/@electron-get-2.0.3.tgz) = 17544
@@ -414,7 +410,6 @@ SIZE (npm_modules/discord-rpc-4.0.1.tgz) = 27918
 SIZE (npm_modules/doctrine-3.0.0.tgz) = 22354
 SIZE (npm_modules/dom-walk-0.1.2.tgz) = 1576
 SIZE (npm_modules/electron-29.1.0.tgz) = 152964
-SIZE (npm_modules/electron-builder-26.8.2.tgz) = 20449
 SIZE (npm_modules/electron-log-5.1.1.tgz) = 33758
 SIZE (npm_modules/electron-settings-4.0.2.tgz) = 11746
 SIZE (npm_modules/electron-updater-6.1.8.tgz) = 110544
@@ -461,7 +456,6 @@ SIZE (npm_modules/global-4.4.0.tgz) = 1896
 SIZE (npm_modules/globals-13.24.0.tgz) = 9574
 SIZE (npm_modules/gopd-1.0.1.tgz) = 3631
 SIZE (npm_modules/got-11.8.6.tgz) = 67729
-SIZE (npm_modules/graceful-fs-4.2.11.tgz) = 9804
 SIZE (npm_modules/graphemer-1.4.0.tgz) = 58380
 SIZE (npm_modules/has-flag-4.0.0.tgz) = 2206
 SIZE (npm_modules/has-property-descriptors-1.0.2.tgz) = 4429

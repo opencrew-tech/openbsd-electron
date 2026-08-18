@@ -72,7 +72,7 @@ pre-build:
 			beyond-all-reason/BYAR-Chobby ${V}
 
 post-install:
-	# wraper
+	# wrapper
 	${SUBST_PROGRAM} ${FILESDIR}/${MODELECTRON_TARGET} \
 		${PREFIX}/bin/${MODELECTRON_TARGET}
 	# menu

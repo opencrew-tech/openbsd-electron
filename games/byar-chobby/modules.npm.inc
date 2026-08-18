@@ -57,7 +57,6 @@ ${MODNPM_DIST}/@types-{@types/node/-/}node-16.9.1.tgz \
 ${MODNPM_DIST}/@types-{@types/node/-/}node-20.11.24.tgz \
 ${MODNPM_DIST}/@types-{@types/responselike/-/}responselike-1.0.3.tgz \
 ${MODNPM_DIST}/@ungap-{@ungap/structured-clone/-/}structured-clone-1.2.0.tgz \
-${MODNPM_DIST}/{7zip-bin/-/}7zip-bin-5.2.0.tgz \
 ${MODNPM_DIST}/{7zip-min/-/}7zip-min-1.4.4.tgz \
 ${MODNPM_DIST}/{acorn-jsx/-/}acorn-jsx-5.3.2.tgz \
 ${MODNPM_DIST}/{acorn/-/}acorn-8.11.3.tgz \
@@ -99,7 +98,6 @@ ${MODNPM_DIST}/{define-data-property/-/}define-data-property-1.1.4.tgz \
 ${MODNPM_DIST}/{discord-rpc/-/}discord-rpc-4.0.1.tgz \
 ${MODNPM_DIST}/{doctrine/-/}doctrine-3.0.0.tgz \
 ${MODNPM_DIST}/{dom-walk/-/}dom-walk-0.1.2.tgz \
-${MODNPM_DIST}/{electron-builder/-/}electron-builder-26.8.2.tgz \
 ${MODNPM_DIST}/{electron-log/-/}electron-log-5.1.1.tgz \
 ${MODNPM_DIST}/{electron-settings/-/}electron-settings-4.0.2.tgz \
 ${MODNPM_DIST}/{electron-updater/-/}electron-updater-6.1.8.tgz \
@@ -147,7 +145,6 @@ ${MODNPM_DIST}/{global/-/}global-4.4.0.tgz \
 ${MODNPM_DIST}/{globals/-/}globals-13.24.0.tgz \
 ${MODNPM_DIST}/{gopd/-/}gopd-1.0.1.tgz \
 ${MODNPM_DIST}/{got/-/}got-11.8.6.tgz \
-${MODNPM_DIST}/{graceful-fs/-/}graceful-fs-4.2.11.tgz \
 ${MODNPM_DIST}/{graphemer/-/}graphemer-1.4.0.tgz \
 ${MODNPM_DIST}/{has-flag/-/}has-flag-4.0.0.tgz \
 ${MODNPM_DIST}/{has-property-descriptors/-/}has-property-descriptors-1.0.2.tgz \
@@ -632,7 +629,4 @@ https://registry.npmjs.org/@electron/remote/-/remote-2.1.2.tgz;@electron-remote-
 https://registry.npmjs.org/@electron/get/-/get-2.0.3.tgz;@electron-get-2.0.3.tgz \
 https://registry.npmjs.org/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz;@aashutoshrathi-word-wrap-1.2.6.tgz \
 https://registry.npmjs.org/7zip-min/-/7zip-min-1.4.4.tgz;7zip-min-1.4.4.tgz \
-graceful-fs@4.2.11;graceful-fs-4.2.11.tgz \
-electron-builder@26.8.2;electron-builder-26.8.2.tgz \
-7zip-bin@5.2.0;7zip-bin-5.2.0.tgz \
 

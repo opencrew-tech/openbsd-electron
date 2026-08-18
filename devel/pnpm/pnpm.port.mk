@@ -159,6 +159,8 @@ MODPNPM_CMD_BUILD?=\
 MODPNPM_CMD_TEST?=\
 	${SETENV} ${MODPNPM_ENV}  CI=true ${MODPNPM_ENV_TEST} ${MODPNPM_BIN}
 MODPNPM_CMD_GEN?=\
+	ulimit -d `ulimit -H -d`; \
+	ulimit -m `ulimit -H -m`; \
 	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_GEN} ${MODPNPM_BIN}
 
 # common args

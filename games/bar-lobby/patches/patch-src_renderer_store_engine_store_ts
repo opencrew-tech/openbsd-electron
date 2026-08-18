@@ -1,17 +1,25 @@
 Index: src/renderer/store/engine.store.ts
 --- src/renderer/store/engine.store.ts.orig
 +++ src/renderer/store/engine.store.ts
-@@ -40,9 +40,11 @@ export async function initEnginesStore() {
+@@ -21,7 +21,9 @@ export const installedEngineVersions = computed(() => 
+ 
+ export async function refreshEnginesStore() {
+     enginesStore.availableEngineVersions = await window.engine.listAvailableVersions();
+-    enginesStore.selectedEngineVersion = enginesStore.availableEngineVersions.find((e) => e.id === DEFAULT_ENGINE_VERSION);
++    enginesStore.selectedEngineVersion =
++      enginesStore.availableEngineVersions.find((e) => e.id === DEFAULT_ENGINE_VERSION) ||
++      enginesStore.availableEngineVersions.find((e) => e.installed);
+ }
+ 
+ export async function downloadEngine(engineString: string) {
+@@ -47,7 +49,9 @@ export async function initEnginesStore() {
      });
  
      enginesStore.availableEngineVersions = await window.engine.listAvailableVersions();
 -    enginesStore.selectedEngineVersion = enginesStore.availableEngineVersions.find((e) => e.id === DEFAULT_ENGINE_VERSION);
 +    enginesStore.selectedEngineVersion =
-+        enginesStore.availableEngineVersions.find((e) => e.id === DEFAULT_ENGINE_VERSION) ||
-+        enginesStore.availableEngineVersions.find((e) => e.installed);
++      enginesStore.availableEngineVersions.find((e) => e.id === DEFAULT_ENGINE_VERSION) ||
++      enginesStore.availableEngineVersions.find((e) => e.installed);
      if (!enginesStore.selectedEngineVersion) {
--        throw new Error(`Default engine version ${DEFAULT_ENGINE_VERSION} not found in available versions.`);
-+        throw new Error(`No installed engine found (default ${DEFAULT_ENGINE_VERSION} is missing).`);
+         console.warn(`Default engine version ${DEFAULT_ENGINE_VERSION} not found in available versions — engine download required.`);
      }
- 
-     enginesStore.isInitialized = true;

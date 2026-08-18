@@ -5,40 +5,38 @@ Index: src/main/game/game.ts
  
  const log = logger("main/game/game.ts");
  const engineLogger = logger("[RECOIL ENGINE]", { separator: "\n", level: "info" });
-+const systemSpringBinary = process.env.BAR_SYSTEM_SPRING_BIN || "/usr/local/bin/spring";
++const systemSpringBinary = process.env.BAR_SYSTEM_SPRING_BIN || "${LOCALBASE}/bin/spring";
  
  export interface ScriptLaunchSettings {
      engineVersion: string;
-@@ -89,15 +90,22 @@ export class GameAPI {
- 
-         log.info(`Launching game with engine: ${engineVersion}, game: ${gameVersion}`);
+@@ -91,15 +92,22 @@ export class GameAPI {
          await this.fetchMissingContent(engineVersion, gameVersion); // TODO preload anything needed through the UI before launching. Remove this step
--        const enginePath = path.join(ENGINE_PATH, engineVersion).replaceAll("\\", "/");
+ 
+         applyDefaultSpringsettings();
+-        const enginePath = path.join(getEnginePath(), engineVersion).replaceAll("\\", "/");
 -        const args = ["--write-dir", WRITE_DATA_PATH, "--isolation", launchArg];
 -        const binaryName = process.platform === "win32" ? "spring.exe" : "./spring";
--        log.debug(`Running binary: ${path.join(enginePath, binaryName)}, args: ${args}`);
-+        const enginePath = process.platform === "openbsd" ? undefined : path.join(ENGINE_PATH, engineVersion).replaceAll("\\", "/");
-+        const args = ["--write-dir", WRITE_DATA_PATH];
++        const enginePath = process.platform === "openbsd" ? ""
++          : path.join(getEnginePath(), engineVersion).replaceAll("\\", "/");
++        const args = ["--write-dir", WRITE_DATA_PATH, "--isolation"];
 +        if (process.platform === "openbsd") {
 +            args.push('--isolation-dir', '/usr/local/share/games/spring/');
 +        } else {
 +            args.push('--isolation');
 +        }
 +        args.push(launchArg);
-+        const command = process.platform === "openbsd" ? systemSpringBinary :
-+            process.platform === "win32" ? "spring.exe" : "./spring";
-+        log.debug(`Running command: ${command}, cwd: ${enginePath || "<none>"}, args: ${args}`);
++        const binaryName = process.platform === "win32" ? "spring.exe" : systemSpringBinary;
+         log.debug(`Running binary: ${path.join(enginePath, binaryName)}, args: ${args}`);
  
          return new Promise<void>((resolve, reject) => {
              try {
--                this.gameProcess = spawn(binaryName, args, {
+                 this.gameProcess = spawn(binaryName, args, {
 -                    cwd: enginePath,
-+                this.gameProcess = spawn(command, args, {
 +                    ...(enginePath ? { cwd: enginePath } : {}),
                      stdio: "pipe",
                      detached: true,
                      env: {
-@@ -165,7 +173,7 @@ export class GameAPI {
+@@ -167,7 +175,7 @@ export class GameAPI {
              throw new Error("Engine Version and Game Version need to be specified");
          }
  
@@ -47,7 +45,7 @@ Index: src/main/game/game.ts
          const isGameInstalled = gameContentAPI.isVersionInstalled(gameVersion);
          if (!isEngineInstalled || !isGameInstalled) {
              //|| !isMapInstalled) {
-@@ -173,6 +181,9 @@ export class GameAPI {
+@@ -175,6 +183,9 @@ export class GameAPI {
              // api.notifications.alert({
              //     text: "Downloading missing content - the game will auto-launch when downloads complete",
              // });

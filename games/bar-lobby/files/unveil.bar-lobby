@@ -1,6 +1,7 @@
 /usr/local/bin/7za			rx
 /usr/local/bin/pr-downloader		rx
 /usr/local/bin/spring			rx
+/usr/local/bin/spring-headless		rx
 
 ~/.local/state/BeyondAllReason		rwc
 ~/.local/share/BeyondAllReason		rwc

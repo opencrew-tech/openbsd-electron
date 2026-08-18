@@ -1,7 +1,7 @@
 Index: src/main/config/app.ts
 --- src/main/config/app.ts.orig
 +++ src/main/config/app.ts
-@@ -68,7 +68,7 @@ function getDefaultLocations(): { state: string; asset
+@@ -70,7 +70,7 @@ function getDefaultLocations(): { state: string; asset
              state: path.join(appData, APP_NAME),
          };
      }

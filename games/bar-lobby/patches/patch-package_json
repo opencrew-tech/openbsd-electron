@@ -2,10 +2,10 @@ Index: package.json
 --- package.json.orig
 +++ package.json
 @@ -22,7 +22,6 @@
-     "build:unpack": "electron-builder --config electron-builder.config.ts --dir",
+     "build:unpack": "electron-builder --dir",
      "dev-cert": "electron-builder create-self-signed-cert -p \"BAR Team\"",
      "build:win:dev-cert": "cross-env CSC_LINK=\"./BAR Team.pfx\" npm run build:win",
 -    "postinstall": "electron-builder install-app-deps",
-     "release": "electron-builder --config electron-builder.config.ts",
+     "release": "electron-builder --publish always",
      "lint": "eslint --cache",
      "test": "vitest run tests",

@@ -1,8 +1,6 @@
 COMMENT =	BAR Lobby Client
 
-H =		bc1131016e4124ce4439eb4a33b5d31e9cf1dd6a
-PKGNAME =	bar-lobby-0.15.2pl20260222
-DIST_TUPLE =	github beyond-all-reason bar-lobby ${H} .
+DIST_TUPLE =	github beyond-all-reason bar-lobby v0.16.2 .
 
 CATEGORIES =	games
 
@@ -32,11 +30,11 @@ MODELECTRON_BUILDER =	Yes
 MODELECTRON_WRAPPER =	Yes
 
 MODNPM_MODS+=7zip-bin
-MODNPM_MODS+=app-builder-bin
 MODNPM_MODS+=electron-builder
 MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
 MODNPM_MODS+=@parcel/watcher
+MODNPM_MODS+=@rolldown/pluginutils
 MODNPM_MODS+=rollup
 
 MODNPM_BUILD =		No
@@ -47,10 +45,11 @@ RUN_DEPENDS+=	archivers/p7zip \
 		devel/desktop-file-utils
 
 post-patch:
-	${SUBST_CMD} ${WRKSRC}/src/main/game/game.ts
+	${SUBST_CMD} ${WRKSRC}/src/main/game/game.ts \
+		${WRKSRC}/src/main/utils/checksums.ts
 
 do-build:
-# XXX @electron/packager unsupported OS, may brake tests (todo)
+# XXX @electron/packager unsupported OS, may break tests (todo)
 # XXX arch ? only for ?
 	# electron-forge, ignore packaging issues
 	cd ${WRKSRC} && ${MODNPM_CMD_BUILD} \
@@ -59,7 +58,7 @@ do-build:
 	${MODELECTRON_BUILDER_BUILD}
 
 post-install:
-	# wraper
+	# wrapper
 	${SUBST_PROGRAM} ${FILESDIR}/${MODELECTRON_TARGET} \
 		${PREFIX}/bin/${MODELECTRON_TARGET}
 	# menu
@@ -69,10 +68,6 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps
 	${INSTALL_DATA} ${WRKSRC}/buildResources/icon.png \
 		${PREFIX}/share/pixmaps/${MODELECTRON_TARGET}.png
-	# remove uneded files
-	cd ${PREFIX}/${MODELECTRON_DIST_T}.asar.unpacked/ && \
-		rm -rf node_modules/7zip-bin/linux && \
-		rm -rf node_modules/7zip-bin/mac
 
 .include "modules.npm.inc"
 

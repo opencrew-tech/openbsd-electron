@@ -92,10 +92,34 @@ MODBERRY_MODULES+=\
 		esbuild/node_modules/esbuild \
 	graceful-fs devel/node-graceful-fs \
 		graceful-fs/node_modules/graceful-fs \
+	oxc-minify devel/oxc-apps \
+		oxc-apps/node_modules/oxc-minify \
+	@oxc-node/core devel/oxc-node \
+		oxc-node/node_modules/@oxc-node/core \
+	oxc-parser devel/oxc-apps \
+		oxc-apps/node_modules/oxc-parser \
+	@oxc-project/runtime devel/oxc-apps \
+		oxc-apps/node_modules/@oxc-project/runtime \
+	@oxc-project/types devel/oxc-apps \
+		oxc-apps/node_modules/@oxc-project/types \
+	oxc-transform devel/oxc-apps \
+		oxc-apps/node_modules/oxc-transform \
+	oxfmt devel/oxc-apps \
+		oxc-apps/node_modules/oxfmt \
+	oxlint devel/oxc-apps \
+		oxc-apps/node_modules/oxlint \
+	@oxlint/plugins devel/oxc-apps \
+		oxc-apps/node_modules/@oxlint/plugins \
+	oxlint-plugin-eslint devel/oxc-apps \
+		oxc-apps/node_modules/oxlint-plugin-eslint \
 	@parcel/watcher devel/parcel-watcher \
 		parcel-watcher/node_modules/@parcel/watcher \
 	puppeteer www/puppeteer \
 		puppeteer/node_modules/puppeteer \
+	rolldown devel/rolldown \
+		rolldown/node_modules/rolldown \
+	@rolldown/pluginutils devel/rolldown \
+		rolldown/node_modules/@rolldown/pluginutils \
 	rollup devel/rollup \
 		rollup/node_modules/rollup \
 	tailwindcss www/tailwindcss \
@@ -114,12 +138,7 @@ MODBERRY_MODULES+=\
 		tailwindcss/node_modules/@tailwindcss/upgrade \
 	@tailwindcss/vite www/tailwindcss \
 		tailwindcss/node_modules/@tailwindcss/vite \
-	@typescript/api lang/typescript-go \
-		typescript-go/node_modules/@typescript/api \
-	@typescript/ast lang/typescript-go \
-		typescript-go/node_modules/@typescript/ast \
-	@typescript/native-preview lang/typescript-go \
-		typescript-go/node_modules/@typescript/native-preview
+
 # module . override : modules redirects without ports
 MODBERRY_MODULES+=\
 	lightningcss . npm:lightningcss-wasm@latest \

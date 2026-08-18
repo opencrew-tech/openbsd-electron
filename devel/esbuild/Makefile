@@ -1,8 +1,7 @@
 COMMENT =	fast bundler for the web
 
-# remember to update pnpm also
-V=0.28.0
-REVISION=0
+V=0.28.1
+REVISION=1
 
 MODGO_MODNAME =	github.com/evanw/esbuild
 MODGO_VERSION =	v${V}

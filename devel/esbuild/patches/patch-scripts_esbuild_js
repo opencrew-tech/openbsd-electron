@@ -1,7 +1,7 @@
 Index: scripts/esbuild.js
 --- scripts/esbuild.js.orig
 +++ scripts/esbuild.js
-@@ -326,8 +326,7 @@ exports.writeFileAtomic = (where, contents) => {
+@@ -328,8 +328,7 @@ exports.writeFileAtomic = (where, contents) => {
  }
  
  exports.buildBinary = () => {
@@ -11,7 +11,7 @@ Index: scripts/esbuild.js
  }
  
  exports.removeRecursiveSync = path => {
-@@ -359,16 +358,7 @@ const updateVersionPackageJSON = pathToPackageJSON => 
+@@ -361,16 +360,7 @@ const updateVersionPackageJSON = pathToPackageJSON => 
  exports.installForTests = () => {
    // Build the "esbuild" binary and library
    const esbuildPath = exports.buildBinary()

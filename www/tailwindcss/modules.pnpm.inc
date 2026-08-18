@@ -9,8 +9,6 @@ ${MODPNPM_DIST}/@emnapi-{@emnapi/core/-/}core-1.7.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/runtime/-/}runtime-1.7.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/runtime/-/}runtime-1.8.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/wasi-threads/-/}wasi-threads-1.1.0.tgz \
-${MODPNPM_DIST}/@esbuild-{@esbuild/openbsd-arm64/-/}openbsd-arm64-0.27.0.tgz \
-${MODPNPM_DIST}/@esbuild-{@esbuild/openbsd-x64/-/}openbsd-x64-0.27.0.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/ansi/-/}ansi-1.0.2.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/checkbox/-/}checkbox-4.3.2.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/confirm/-/}confirm-5.1.21.tgz \
@@ -162,7 +160,6 @@ ${MODPNPM_DIST}/{enhanced-resolve/-/}enhanced-resolve-5.19.0.tgz \
 ${MODPNPM_DIST}/{es-module-lexer/-/}es-module-lexer-1.7.0.tgz \
 ${MODPNPM_DIST}/{es-module-lexer/-/}es-module-lexer-2.0.0.tgz \
 ${MODPNPM_DIST}/{es-toolkit/-/}es-toolkit-1.43.0.tgz \
-${MODPNPM_DIST}/{esbuild/-/}esbuild-0.27.0.tgz \
 ${MODPNPM_DIST}/{escalade/-/}escalade-3.2.0.tgz \
 ${MODPNPM_DIST}/{eslint-scope/-/}eslint-scope-5.1.1.tgz \
 ${MODPNPM_DIST}/{esrecurse/-/}esrecurse-4.3.0.tgz \
@@ -220,7 +217,7 @@ ${MODPNPM_DIST}/{joycon/-/}joycon-3.1.1.tgz \
 ${MODPNPM_DIST}/{js-yaml/-/}js-yaml-4.1.0.tgz \
 ${MODPNPM_DIST}/{json-parse-even-better-errors/-/}json-parse-even-better-errors-2.3.1.tgz \
 ${MODPNPM_DIST}/{json-schema-traverse/-/}json-schema-traverse-1.0.0.tgz \
-${MODPNPM_DIST}/{lightningcss-wasm/-/}lightningcss-wasm-1.32.0.tgz \
+${MODPNPM_DIST}/{lightningcss-wasm/-/}lightningcss-wasm-1.33.0.tgz \
 ${MODPNPM_DIST}/{lightningcss/-/}lightningcss-1.32.0.tgz \
 ${MODPNPM_DIST}/{lilconfig/-/}lilconfig-3.1.2.tgz \
 ${MODPNPM_DIST}/{lines-and-columns/-/}lines-and-columns-1.2.4.tgz \
@@ -381,8 +378,6 @@ MODPNPM_PKGS += \
 @emnapi/runtime@1.7.1;@emnapi-runtime-1.7.1.tgz \
 @emnapi/runtime@1.8.1;@emnapi-runtime-1.8.1.tgz \
 @emnapi/wasi-threads@1.1.0;@emnapi-wasi-threads-1.1.0.tgz \
-@esbuild/openbsd-arm64@0.27.0;@esbuild-openbsd-arm64-0.27.0.tgz \
-@esbuild/openbsd-x64@0.27.0;@esbuild-openbsd-x64-0.27.0.tgz \
 @inquirer/ansi@1.0.2;@inquirer-ansi-1.0.2.tgz \
 @inquirer/checkbox@4.3.2;@inquirer-checkbox-4.3.2.tgz \
 @inquirer/confirm@5.1.21;@inquirer-confirm-5.1.21.tgz \
@@ -534,7 +529,6 @@ enhanced-resolve@5.19.0;enhanced-resolve-5.19.0.tgz \
 es-module-lexer@1.7.0;es-module-lexer-1.7.0.tgz \
 es-module-lexer@2.0.0;es-module-lexer-2.0.0.tgz \
 es-toolkit@1.43.0;es-toolkit-1.43.0.tgz \
-esbuild@0.27.0;esbuild-0.27.0.tgz \
 escalade@3.2.0;escalade-3.2.0.tgz \
 eslint-scope@5.1.1;eslint-scope-5.1.1.tgz \
 esrecurse@4.3.0;esrecurse-4.3.0.tgz \
@@ -592,7 +586,7 @@ joycon@3.1.1;joycon-3.1.1.tgz \
 js-yaml@4.1.0;js-yaml-4.1.0.tgz \
 json-parse-even-better-errors@2.3.1;json-parse-even-better-errors-2.3.1.tgz \
 json-schema-traverse@1.0.0;json-schema-traverse-1.0.0.tgz \
-lightningcss-wasm@1.32.0;lightningcss-wasm-1.32.0.tgz \
+lightningcss-wasm@1.33.0;lightningcss-wasm-1.33.0.tgz \
 lightningcss@1.32.0;lightningcss-1.32.0.tgz \
 lilconfig@3.1.2;lilconfig-3.1.2.tgz \
 lines-and-columns@1.2.4;lines-and-columns-1.2.4.tgz \

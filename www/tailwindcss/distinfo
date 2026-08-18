@@ -95,8 +95,6 @@ SHA256 (npm_modules/@emnapi-core-1.7.1.tgz) = ss2KS6D6g/f/lbMNVOW3qh5Sx83bdAvX03
 SHA256 (npm_modules/@emnapi-runtime-1.7.1.tgz) = kEwrYCuvzp9mMPtI4KBBsRkH4CaM0MQSYg0jRmNARqk=
 SHA256 (npm_modules/@emnapi-runtime-1.8.1.tgz) = MZ1ve84qASPDCMd5CExDXFvgz7QjHLul7ipok+EjTxc=
 SHA256 (npm_modules/@emnapi-wasi-threads-1.1.0.tgz) = bDf3SDtAVfcK50Nlp/FA51PK9GYvfHeZ6tyFbq3hSYo=
-SHA256 (npm_modules/@esbuild-openbsd-arm64-0.27.0.tgz) = zJPYbvLl3YgDMrxrP671IdibqkleleULseVKKtzdOxs=
-SHA256 (npm_modules/@esbuild-openbsd-x64-0.27.0.tgz) = PTAOrdDH+nupIqYzR95riUoHYs+uKSuzl2PBf4Fy+mM=
 SHA256 (npm_modules/@inquirer-ansi-1.0.2.tgz) = TvTqPJbUP2SBfVq2xXIZTi+47ZYDbqg9AElRLz0Zi+w=
 SHA256 (npm_modules/@inquirer-checkbox-4.3.2.tgz) = YDg8hIhhdahrcHTPJAXaCoQkNJ8eWPrejtLOcR3470Q=
 SHA256 (npm_modules/@inquirer-confirm-5.1.21.tgz) = 9FOSiu7bMNjnn7W16TXRAQQKVwt3UV/1mDfOnqD7zM0=
@@ -248,7 +246,6 @@ SHA256 (npm_modules/enhanced-resolve-5.19.0.tgz) = WYFWtWDNnUvfU+YwHKjIiSMd9NxLj
 SHA256 (npm_modules/es-module-lexer-1.7.0.tgz) = 5BsudKw8xYcfxb+8EIwRT5X090Olt7seB5PQu1f+Jfk=
 SHA256 (npm_modules/es-module-lexer-2.0.0.tgz) = cj8ZWXS+Y2PgtcdYJLKsJKne0g3pjimPPsM7jH8XtDo=
 SHA256 (npm_modules/es-toolkit-1.43.0.tgz) = 8YhfhFg9s1MsJY4PoUVlrIxRj3NjG1NHpvolLJb0Ci8=
-SHA256 (npm_modules/esbuild-0.27.0.tgz) = RodVz9/rpt99fXpdYwWGFukZ6qFClWYWJ7GbwUv5ThI=
 SHA256 (npm_modules/escalade-3.2.0.tgz) = uidVr8DmxnBTJnEf0hjr4QelJ+zL1khRVf3pjtAAvuc=
 SHA256 (npm_modules/eslint-scope-5.1.1.tgz) = tdJiVcyZT6OapJpwofBozgJydDtLit2o1/Y5nxX0MRg=
 SHA256 (npm_modules/esrecurse-4.3.0.tgz) = Ps+TcNcpa0e1cMiKEfcLNbuWWvjVNlNrJZ61X5t5O2E=
@@ -307,7 +304,7 @@ SHA256 (npm_modules/js-yaml-4.1.0.tgz) = Da4zJVnPIrIcJupw5zKv2DA/+ZQS+cPZ0gn6qIg
 SHA256 (npm_modules/json-parse-even-better-errors-2.3.1.tgz) = Kod30mGrCBzUzLQbedJtSOh326FLpK4S3sLUtu+FJWk=
 SHA256 (npm_modules/json-schema-traverse-1.0.0.tgz) = AjIiYi3yn8J0veXTWQ5Hqh1Kjjwdbiq6AplI7Xl5myE=
 SHA256 (npm_modules/lightningcss-1.32.0.tgz) = yD6B6iE8nkGcWHdGCmeI8NCTHVikqp/qkvrBqZoVUOg=
-SHA256 (npm_modules/lightningcss-wasm-1.32.0.tgz) = 6hQZ5XfdlDkHx+F6mfp6dhQ9mcYnmmEx55+0sbCYrIk=
+SHA256 (npm_modules/lightningcss-wasm-1.33.0.tgz) = JmhmwbDv18pTB/4xJBHk8YlbmXCG+3bzkuxbYKrfMcg=
 SHA256 (npm_modules/lilconfig-3.1.2.tgz) = cl0v1y9A1LuSdh+iPjyOqZsjefIWPS4OCD7Kitc0dLc=
 SHA256 (npm_modules/lines-and-columns-1.2.4.tgz) = Rx+S0SOFGS88EgBilaJc7zNacRsHH5oUYEf/rFOimpw=
 SHA256 (npm_modules/listhen-1.9.0.tgz) = XxF0KhyhkoCDYN7RRn6VaEr7lNdCF73TmDATV9BTGzU=
@@ -558,8 +555,6 @@ SIZE (npm_modules/@emnapi-core-1.7.1.tgz) = 216363
 SIZE (npm_modules/@emnapi-runtime-1.7.1.tgz) = 65407
 SIZE (npm_modules/@emnapi-runtime-1.8.1.tgz) = 65421
 SIZE (npm_modules/@emnapi-wasi-threads-1.1.0.tgz) = 39274
-SIZE (npm_modules/@esbuild-openbsd-arm64-0.27.0.tgz) = 4180622
-SIZE (npm_modules/@esbuild-openbsd-x64-0.27.0.tgz) = 4613761
 SIZE (npm_modules/@inquirer-ansi-1.0.2.tgz) = 2980
 SIZE (npm_modules/@inquirer-checkbox-4.3.2.tgz) = 7242
 SIZE (npm_modules/@inquirer-confirm-5.1.21.tgz) = 3424
@@ -711,7 +706,6 @@ SIZE (npm_modules/enhanced-resolve-5.19.0.tgz) = 48034
 SIZE (npm_modules/es-module-lexer-1.7.0.tgz) = 31183
 SIZE (npm_modules/es-module-lexer-2.0.0.tgz) = 32377
 SIZE (npm_modules/es-toolkit-1.43.0.tgz) = 338797
-SIZE (npm_modules/esbuild-0.27.0.tgz) = 30946
 SIZE (npm_modules/escalade-3.2.0.tgz) = 4483
 SIZE (npm_modules/eslint-scope-5.1.1.tgz) = 16718
 SIZE (npm_modules/esrecurse-4.3.0.tgz) = 4053
@@ -770,7 +764,7 @@ SIZE (npm_modules/js-yaml-4.1.0.tgz) = 102356
 SIZE (npm_modules/json-parse-even-better-errors-2.3.1.tgz) = 4553
 SIZE (npm_modules/json-schema-traverse-1.0.0.tgz) = 6074
 SIZE (npm_modules/lightningcss-1.32.0.tgz) = 86978
-SIZE (npm_modules/lightningcss-wasm-1.32.0.tgz) = 3821302
+SIZE (npm_modules/lightningcss-wasm-1.33.0.tgz) = 3826518
 SIZE (npm_modules/lilconfig-3.1.2.tgz) = 5226
 SIZE (npm_modules/lines-and-columns-1.2.4.tgz) = 2270
 SIZE (npm_modules/listhen-1.9.0.tgz) = 45041

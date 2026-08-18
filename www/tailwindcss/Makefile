@@ -48,6 +48,14 @@ MODPNPM_MODS+=@parcel/watcher
 MODPNPM_MODS+=rollup
 MODPNPM_MODS+=lightningcss
 
+# devel/oxc-apps depends on tailwindcss, avoid recursive dependency
+MODPNPM_MODS_SKIP+=@oxc-project/runtime
+MODPNPM_MODS_SKIP+=@oxc-project/types
+
+# devel/rolldown depends on tailwindcss, avoid recursive dependency
+MODPNPM_MODS_SKIP+=rolldown
+MODPNPM_MODS_SKIP+=@rolldown/pluginutils
+
 CONFIGURE_STYLE =	cargo
 
 TAILWINDCSS_OXIDE_DIST=	${MODPNPM_INSTALL_DIR}/@tailwindcss/oxide/

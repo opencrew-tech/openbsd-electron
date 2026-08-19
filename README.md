@@ -190,14 +190,17 @@ System-wide rebuild handling still needs work and currently relies on `REV` rath
 - `devel/app-builder`: helper for legacy `electron-builder` support
 - `devel/esbuild`: convenience system module
 - `devel/gclient`: Google's repository sync tool for `DEPS`
-- `devel/gn`: originally added for Electron builds, likely removable now
+- `devel/gn`: GN update to build `net/signal-desktop` (its bundle webrtc)
 - `devel/go-bindata`: required by `sysutils/facette`
 - `devel/node-graceful-fs`: hardened `gracefulify` for promise-heavy workloads; helps with `_pbuild` limits
+- `devel/oxc-apps`: convenience module, N-API prebuilt, oxc-transform needed for `net/signal-desktop`
+- `devel/oxc-node`: convenience module, N-API prebuilt, needed for `devel/rolldown`
 - `devel/parcel-watcher`: convenience module, N-API prebuilt, `kqueue`-only; OpenBSD behavior fixes added, tests still failing
 - `devel/py-dbusmock`: test dependency for `www/electron`
+- `devel/rolldown`: convenience module, N-API prebuilt
 - `devel/rollup`: convenience module, N-API prebuilt
 - `games/butler`: command-line helper for `games/itch`
-- `lang/typescript`: convenience module; adds `gracefulify(fs)` support, possibly no longer needed
+- `lang/typescript-go`: convenience module, prebuilt binary, no consumers atm because mod*-gen-modules can't handle both tsc 6 & 7, thus `editors/vscode` rely on upstream binary
 - `www/electron-builder`: convenience module with system override support fixes
 - `www/puppeteer`: convenience module with OpenBSD Chromium fixes, tests still failing
 - `www/tailwindcss`: convenience module, N-API prebuilt
@@ -206,7 +209,7 @@ System-wide rebuild handling still needs work and currently relies on `REV` rath
 
 - `comms/zigbee2mqtt`: existing port migrated to `modpnpm`; needs testing
 - `editors/grist-desktop`: lightly tested
-- `editors/vscode`: appears functional; Kerberos support is untested; ESM plugin freezes are still under investigation and may be Electron-related
+- `editors/vscode`: appears functional; use agent `devel/codex`; Kerberos support is untested
 - `games/bar-lobby`: OK
 - `games/byar-chobby`: OK
 - `games/itch`: installs and runs as `kitch`; some runtime dependencies are still missing

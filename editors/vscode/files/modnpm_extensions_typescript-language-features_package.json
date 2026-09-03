@@ -3129,17 +3129,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [
-    "@vscode/extension-telemetry",
-    "@vscode/sync-api-client",
-    "@vscode/sync-api-common",
-    "@vscode/sync-api-service",
-    "@vscode/ts-package-manager",
-    "jsonc-parser",
-    "semver",
-    "vscode-tas-client",
-    "vscode-uri"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

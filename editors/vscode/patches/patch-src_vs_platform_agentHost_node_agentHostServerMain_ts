@@ -1,12 +1,38 @@
 Index: src/vs/platform/agentHost/node/agentHostServerMain.ts
 --- src/vs/platform/agentHost/node/agentHostServerMain.ts.orig
 +++ src/vs/platform/agentHost/node/agentHostServerMain.ts
-@@ -335,7 +335,7 @@ async function main(): Promise<void> {
+@@ -35,10 +35,7 @@ import { InstantiationService } from '../../instantiat
+ import { ServiceCollection } from '../../instantiation/common/serviceCollection.js';
+ import { registerAgentHostNetworkServices } from './agentHostBootstrap.js';
+ import { BANG_COMMAND_PREFIX } from './agentHostBangCommand.js';
+-import { CopilotAgent } from './copilot/copilotAgent.js';
+ import { INetworkDiagnosticsService, NetworkDiagnosticsService } from './networkDiagnosticsService.js';
+-import { IByokLmBridgeRegistry, NullByokLmBridgeRegistry } from './byokLmBridgeRegistry.js';
+-import { IByokLmProxyService, NullByokLmProxyService } from './copilot/byokLmProxyService.js';
+ import { IAgentHostWorktreeIsolation, WorktreeIsolation } from './shared/worktreeIsolation.js';
+ import { CopilotApiService, ICopilotApiService } from './shared/copilotApiService.js';
+ import { ClaudeAgent } from './claude/claudeAgent.js';
+@@ -330,14 +327,6 @@ async function main(): Promise<void> {
+ 		diServices.set(ICodexProxyService, codexProxyService);
+ 		const agentHostOTelService = disposables.add(instantiationService.createInstance(AgentHostOTelService, fetchFn));
+ 		diServices.set(IAgentHostOTelService, agentHostOTelService);
+-		// BYOK is unsupported in the remote agent host (no extension host runs
+-		// next to it to serve the renderer LM API). Inject null implementations
+-		// to satisfy CopilotAgent / CopilotSessionLauncher DI.
+-		diServices.set(IByokLmBridgeRegistry, new NullByokLmBridgeRegistry());
+-		diServices.set(IByokLmProxyService, new NullByokLmProxyService());
+-		const copilotAgent = disposables.add(instantiationService.createInstance(CopilotAgent));
+-		agentService.registerProvider(copilotAgent);
+-		log('CopilotAgent registered');
+ 		// Claude and Codex providers are gated on two things:
+ 		//  1. The user-facing enable toggle (`chat.agentHost.<x>Agent.enabled`,
+ 		//     forwarded as an env var by the renderer-side starters; the remote
+@@ -356,7 +345,7 @@ async function main(): Promise<void> {
  			agentService.registerProvider(claudeAgent);
  			log('ClaudeAgent registered');
  		}
--		if (isAgentEnabled(process.env[AgentHostCodexAgentEnabledEnvVar], false) && (!environmentService.isBuilt || agentSdkDownloader.isAvailable(CodexSdkPackage))) {
-+		if (isAgentEnabled(process.env[AgentHostCodexAgentEnabledEnvVar], false) && (process.platform === 'openbsd' || !environmentService.isBuilt || agentSdkDownloader.isAvailable(CodexSdkPackage))) {
- 			const codexAgent = disposables.add(instantiationService.createInstance(CodexAgent));
- 			agentService.registerProvider(codexAgent);
- 			log('CodexAgent registered');
+-		if (!environmentService.isBuilt || agentSdkDownloader.isAvailable(CodexSdkPackage)) {
++		if (process.platform === 'openbsd' || !environmentService.isBuilt || agentSdkDownloader.isAvailable(CodexSdkPackage)) {
+ 			const agentConfigurationService = agentService.configurationService;
+ 			let codexRegistered = false;
+ 			const registerCodexIfEnabled = () => {

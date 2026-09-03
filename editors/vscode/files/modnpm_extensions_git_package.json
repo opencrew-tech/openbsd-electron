@@ -4401,16 +4401,6 @@
   "allowScripts": {
     "@vscode/fs-copyfile@2.0.0": true
   },
-  "bundleDependencies": [
-    "@joaomoreno/unique-names-generator",
-    "@vscode/extension-telemetry",
-    "@vscode/fs-copyfile",
-    "byline",
-    "file-type",
-    "picomatch",
-    "vscode-uri",
-    "which"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

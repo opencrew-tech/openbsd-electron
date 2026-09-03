@@ -388,16 +388,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [
-    "find-up",
-    "find-yarn-workspace-root",
-    "jsonc-parser",
-    "minimatch",
-    "request-light",
-    "which",
-    "which-pm",
-    "vscode-uri"
-  ],
   "overrides": {
     "archiver": "npm:noop-package",
     "graceful-fs": "file:../../../node/graceful-fs/node_modules/graceful-fs"

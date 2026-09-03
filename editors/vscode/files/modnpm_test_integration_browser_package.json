@@ -15,7 +15,6 @@
     "tree-kill": "1.2.2",
     "vscode-uri": "^3.0.2"
   },
-  "bundleDependencies": [],
   "overrides": {
     "archiver": "npm:noop-package"
   }

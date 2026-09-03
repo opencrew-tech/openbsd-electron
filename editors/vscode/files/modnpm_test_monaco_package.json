@@ -24,9 +24,6 @@
   "dependencies": {
     "postcss": "^8.5.12"
   },
-  "bundleDependencies": [
-    "postcss"
-  ],
   "overrides": {
     "archiver": "npm:noop-package",
     "graceful-fs": "file:../../../node/graceful-fs/node_modules/graceful-fs"

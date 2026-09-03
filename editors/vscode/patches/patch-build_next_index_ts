@@ -1,0 +1,21 @@
+Index: build/next/index.ts
+--- build/next/index.ts.orig
++++ build/next/index.ts
+@@ -768,7 +768,7 @@ ${tslib}`,
+ 	const contentMapperPlugin = fileContentMapperPlugin(outDir, target);
+ 
+ 	// Bundle each entry point directly from TypeScript source
+-	await Promise.all(allEntryPoints.map(async (entryPoint) => {
++	for (const entryPoint of allEntryPoints) {
+ 		const entryPath = path.join(REPO_ROOT, SRC_DIR, `${entryPoint}.ts`);
+ 		const outPath = path.join(REPO_ROOT, outDir, `${entryPoint}.js`);
+ 
+@@ -823,7 +823,7 @@ ${tslib}`,
+ 		const result = await esbuild.build(buildOptions);
+ 
+ 		buildResults.push({ outPath, result });
+-	}));
++	}
+ 
+ 	// Bundle bootstrap files (with minimist inlined) directly from TypeScript source
+ 	for (const entry of bootstrapEntryPoints) {

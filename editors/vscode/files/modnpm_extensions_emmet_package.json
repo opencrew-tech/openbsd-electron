@@ -501,14 +501,6 @@
       "supported": true
     }
   },
-  "bundleDependencies": [
-    "@emmetio/css-parser",
-    "@emmetio/html-matcher",
-    "@emmetio/math-expression",
-    "@vscode/emmet-helper",
-    "image-size",
-    "vscode-languageserver-textdocument"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

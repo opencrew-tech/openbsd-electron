@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@vscode/component-explorer": "^0.2.1-58",
-    "@vscode/component-explorer-vite-plugin": "^0.2.1-58",
+    "@vscode/component-explorer": "^0.2.1-94",
+    "@vscode/component-explorer-vite-plugin": "^0.2.1-94",
     "@vscode/rollup-plugin-esm-url": "^1.0.1-1",
     "rollup": "file:../../../node/rollup/node_modules/rollup",
     "vite": "npm:rolldown-vite@latest"
@@ -18,7 +18,6 @@
   "allowScripts": {
     "fsevents@2.3.3": true
   },
-  "bundleDependencies": [],
   "overrides": {
     "archiver": "npm:noop-package",
     "@oxc-project/runtime": "file:../../../node/oxc-apps/node_modules/@oxc-project/runtime",

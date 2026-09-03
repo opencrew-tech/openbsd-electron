@@ -23,12 +23,6 @@
     "@types/node-fetch": "^2.5.10",
     "npm-run-all2": "^8.0.4"
   },
-  "bundleDependencies": [
-    "@modelcontextprotocol/sdk",
-    "minimist",
-    "ncp",
-    "node-fetch"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

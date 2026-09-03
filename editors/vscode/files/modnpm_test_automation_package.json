@@ -35,13 +35,6 @@
   "allowScripts": {
     "fsevents@2.3.3": true
   },
-  "bundleDependencies": [
-    "axe-core",
-    "ncp",
-    "tmp",
-    "tree-kill",
-    "vscode-uri"
-  ],
   "overrides": {
     "archiver": "npm:noop-package",
     "graceful-fs": "file:../../../node/graceful-fs/node_modules/graceful-fs"

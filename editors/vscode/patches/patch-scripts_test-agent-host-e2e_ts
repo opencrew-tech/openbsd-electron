@@ -1,0 +1,12 @@
+Index: scripts/test-agent-host-e2e.ts
+--- scripts/test-agent-host-e2e.ts.orig
++++ scripts/test-agent-host-e2e.ts
+@@ -62,7 +62,7 @@ const suites: readonly ISuite[] = [
+ 		label: 'Copilot',
+ 		file: 'src/vs/platform/agentHost/test/node/e2e/providers/copilotAgentHostE2E.integrationTest.ts',
+ 	},
+-];
++].filter(suite => process.platform !== 'openbsd' || suite.id === 'codex');
+ 
+ async function main(): Promise<void> {
+ 	validateEnvironment();

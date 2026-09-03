@@ -10,7 +10,7 @@ Index: build/gulpfile.vscode.ts
  import { ensureOSProxyResolverPlatformPackage, getOSProxyResolverExcludeFilter, getOSProxyResolverPlatformFiles } from './lib/osProxyResolver.ts';
  import { readAgentSdkResults } from './agent-sdk/common.ts';
  import { readDictationRuntimeResults } from './dictation-runtime/common.ts';
-@@ -256,6 +256,104 @@ function getFoundryLocalExcludeFilter(): string[] {
+@@ -268,6 +268,104 @@ function getFoundryLocalExcludeFilter(): string[] {
  	];
  }
  
@@ -115,7 +115,7 @@ Index: build/gulpfile.vscode.ts
  function packageTask(platform: string, arch: string, sourceFolderName: string, destinationFolderName: string, _opts?: { stats?: boolean }) {
  	const destination = path.join(path.dirname(root), destinationFolderName);
  	platform = platform || process.platform;
-@@ -358,7 +456,12 @@ function packageTask(platform: string, arch: string, s
+@@ -374,7 +472,12 @@ function packageTask(platform: string, arch: string, s
  		const jsFilter = util.filter(data => !data.isDirectory() && /\.js$/.test(data.path));
  		const root = path.resolve(path.join(import.meta.dirname, '..'));
  		const productionDependencies = getProductionDependencies(root);
@@ -129,7 +129,7 @@ Index: build/gulpfile.vscode.ts
  
  		const depFilterPattern = ['**', `!**/${config.version}/**`, '!**/bin/darwin-arm64-87/**', '!**/package-lock.json', '!**/yarn.lock'];
  		if (stripSourceMapsInPackagingTasks) {
-@@ -366,18 +469,14 @@ function packageTask(platform: string, arch: string, s
+@@ -382,18 +485,14 @@ function packageTask(platform: string, arch: string, s
  		}
  
  		const cleanedDeps = gulp.src(dependenciesSrc, { base: '.', dot: true })
@@ -150,7 +150,7 @@ Index: build/gulpfile.vscode.ts
  			.pipe(filter(getFoundryLocalExcludeFilter()))
  			.pipe(filter(getOSProxyResolverExcludeFilter(platform, arch)))
  			.pipe(jsFilter)
-@@ -491,7 +590,7 @@ function packageTask(platform: string, arch: string, s
+@@ -507,7 +606,7 @@ function packageTask(platform: string, arch: string, s
  			.pipe(util.skipDirectories())
  			.pipe(util.fixWin32DirectoryPermissions())
  			.pipe(filter(['**', '!**/.github/**'], { dot: true })) // https://github.com/microsoft/vscode/issues/116523
@@ -159,7 +159,7 @@ Index: build/gulpfile.vscode.ts
  			.pipe(filter([
  				'**',
  				'!LICENSE',
-@@ -668,10 +767,6 @@ function prepareCopilotRipgrepShimTask(platform: strin
+@@ -684,10 +783,6 @@ function prepareCopilotRipgrepShimTask(platform: strin
  		const appBase = platform === 'darwin'
  			? path.join(outputDir, `${product.nameLong}.app`, 'Contents', 'Resources', 'app')
  			: path.join(outputDir, versionedResourcesFolder, 'resources', 'app');

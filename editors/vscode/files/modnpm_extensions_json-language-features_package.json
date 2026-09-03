@@ -204,11 +204,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [
-    "@vscode/extension-telemetry",
-    "request-light",
-    "vscode-languageclient"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

@@ -32,14 +32,6 @@
     "install-server-local": "npm link vscode-languageserver-server",
     "version": "git commit -m \"JSON Language Server $npm_package_version\" package.json"
   },
-  "bundleDependencies": [
-    "@vscode/l10n",
-    "jsonc-parser",
-    "request-light",
-    "vscode-json-languageservice",
-    "vscode-languageserver",
-    "vscode-uri"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

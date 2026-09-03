@@ -26,14 +26,6 @@
     "install-server-local": "npm install vscode-languageserver",
     "test": "npm run compile && node ./test/index.js"
   },
-  "bundleDependencies": [
-    "@vscode/l10n",
-    "vscode-css-languageservice",
-    "vscode-html-languageservice",
-    "vscode-languageserver",
-    "vscode-languageserver-textdocument",
-    "vscode-uri"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

@@ -30,11 +30,5 @@
     "install-server-next": "npm install vscode-languageserver@next",
     "install-server-local": "npm install vscode-languageserver",
     "test": "node ./test/index.js"
-  },
-  "bundleDependencies": [
-    "@vscode/l10n",
-    "vscode-css-languageservice",
-    "vscode-languageserver",
-    "vscode-uri"
-  ]
+  }
 }

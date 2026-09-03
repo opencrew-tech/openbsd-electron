@@ -65,7 +65,6 @@
   "devDependencies": {
     "@types/node": "24.x"
   },
-  "bundleDependencies": [],
   "overrides": {
     "archiver": "npm:noop-package"
   }

@@ -13,7 +13,7 @@ Index: test/unit/electron/index.js
  const path = require('path');
  const mocha = require('mocha');
  const events = require('events');
-@@ -87,8 +87,31 @@ Options:
+@@ -89,8 +89,31 @@ Options:
  	process.exit(0);
  }
  

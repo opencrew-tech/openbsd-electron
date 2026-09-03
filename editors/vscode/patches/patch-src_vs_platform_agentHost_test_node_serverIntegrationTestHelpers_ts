@@ -1,0 +1,103 @@
+Index: src/vs/platform/agentHost/test/node/serverIntegrationTestHelpers.ts
+--- src/vs/platform/agentHost/test/node/serverIntegrationTestHelpers.ts.orig
++++ src/vs/platform/agentHost/test/node/serverIntegrationTestHelpers.ts
+@@ -8,7 +8,7 @@ import { cp, lstat, mkdir, readFile, readdir, realpath
+ import { raceTimeout } from '../../../../base/common/async.js';
+ import { Schemas } from '../../../../base/common/network.js';
+ import { createRequire } from 'module';
+-import { mkdirSync } from 'fs';
++import { existsSync, mkdirSync } from 'fs';
+ import { userInfo } from 'os';
+ import { fileURLToPath } from 'url';
+ import { WebSocket } from 'ws';
+@@ -67,6 +67,11 @@ import { createIsolatedProviderEnvironment } from './p
+ 
+ const AGENT_HOST_E2E_COVERAGE = process.env['AGENT_HOST_E2E_COVERAGE'] === '1';
+ 
++function getAgentHostExecArgv(): string[] {
++	const nlsMessagesPath = fileURLToPath(new URL('../../../../../nls.messages.js', import.meta.url));
++	return existsSync(nlsMessagesPath) ? [...process.execArgv, '--import', nlsMessagesPath] : process.execArgv;
++}
++
+ // ---- JSON-RPC test client ---------------------------------------------------
+ 
+ interface IPendingCall {
+@@ -746,6 +751,7 @@ export async function startServer(options?: { readonly
+ 		const child = fork(serverPath, args, {
+ 			stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+ 			env: withAgentHostCoverage({ ...process.env, ...options?.env }),
++			execArgv: getAgentHostExecArgv(),
+ 		});
+ 
+ 		const timer = setTimeout(() => {
+@@ -778,6 +784,27 @@ export async function startServer(options?: { readonly
+ 	});
+ }
+ 
++async function readLatestAgentHostServerLog(userDataDir: string | undefined): Promise<string | undefined> {
++	if (!userDataDir) {
++		return undefined;
++	}
++	const logsDir = resolvePath(userDataDir, 'logs');
++	try {
++		const entries = await readdir(logsDir, { withFileTypes: true });
++		const logDirs = entries
++			.filter(entry => entry.isDirectory())
++			.sort((a, b) => b.name.localeCompare(a.name));
++		for (const entry of logDirs) {
++			const logPath = resolvePath(logsDir, entry.name, 'agenthost-server.log');
++			try {
++				const content = await readFile(logPath, 'utf8');
++				return `Agent host log (${logPath}):\n${content.trimEnd()}`;
++			} catch { }
++		}
++	} catch { }
++	return `Agent host logs: ${logsDir}`;
++}
++
+ /**
+  * Start the agent host server with the Copilot SDK agent with either a real or mocked LLM.
+  * The server is started with logging enabled so the CopilotAgent is registered.
+@@ -873,6 +900,7 @@ export async function startRealServer(options: { reado
+ 			child = fork(serverPath, args, {
+ 				stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+ 				env: childEnv,
++				execArgv: getAgentHostExecArgv(),
+ 			});
+ 		} catch (err) {
+ 			void mockLlmServer?.close();
+@@ -914,11 +942,9 @@ export async function startRealServer(options: { reado
+ 			}
+ 		});
+ 
+-		child.stderr!.on('data', () => {
+-			// Intentionally swallowed - the test runner fails if console.error is used.
+-			// Server logs go to the agent host's logger (under
+-			// `<userDataPath>/logs/<timestamp>/agenthost-server.log`); check
+-			// there when investigating agent host e2e test failures.
++		let stderr = '';
++		child.stderr!.on('data', (data: Buffer) => {
++			stderr += data.toString();
+ 		});
+ 
+ 		child.on('error', err => {
+@@ -930,7 +956,18 @@ export async function startRealServer(options: { reado
+ 		child.on('exit', code => {
+ 			clearTimeout(timer);
+ 			void closeMockServer();
+-			reject(new Error(`Real server exited prematurely with code ${code}`));
++			void (async () => {
++				const diagnostics = stderr.trim();
++				const serverLog = await readLatestAgentHostServerLog(options.userDataDir);
++				let message = `Real server exited prematurely with code ${code}`;
++				if (diagnostics) {
++					message += `\nServer stderr:\n${diagnostics}`;
++				}
++				if (serverLog) {
++					message += `\n${serverLog}`;
++				}
++				reject(new Error(message));
++			})();
+ 		});
+ 	});
+ }

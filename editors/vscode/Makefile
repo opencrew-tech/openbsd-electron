@@ -7,8 +7,8 @@ PORTROACH =		skipv:1.999.0
 
 COMMENT=		Visual Studio Code - Open Source ("Code - OSS")
 
-V=			1.132.0
-COMMIT=			df53daabb18cd157bdb08c7f01c34df936cf12f4
+V=			1.134.0
+COMMIT=			474a349ad5b745e512ef86b864d1c74f7264dd7a
 PKGNAME=		vscode-${V}
 
 DIST_TUPLE=		github microsoft vscode ${V} .
@@ -37,7 +37,7 @@ EXTRACT_CASES+=		*.vsix) \
 	${UNZIP} -oq ${FULLDISTDIR}/$$archive \
 		-d ${WRKDIR}/$${_filename%.vsix} ;;
 
-WANTLIB += ${COMPILER_LIBCXX} X11 c m xkbfile
+WANTLIB += ${COMPILER_LIBCXX} c m
 
 COMPILER=		base-clang ports-gcc
 
@@ -54,6 +54,9 @@ MODPY_RUNDEP=		No
 
 MODNPM_TARGETS=		${WRKSRC} \
 			${VSCODE_TARGETS:=${WRKSRC}/%}
+
+# VS Code uses its own Gulp/ASAR packaging instead of MODNPM's npm pack.
+MODNPM_GEN_BUNDLE=	No
 
 # optional depends keytar for @vscode/vsce, which is not installed
 # keytar needs x11/gnome/libsecret to build
@@ -73,6 +76,8 @@ MODNPM_MODS+=rollup
 MODNPM_MODS+=tailwindcss
 MODNPM_MODS+=lightningcss
 
+MODNPM_ENV_TEST=	NODE_OPTIONS=--v8-pool-size=1
+
 MODELECTRON_TARGET=	code-oss
 MODELECTRON_APP_NAME=	Code - OSS
 MODELECTRON_UNVEIL=	Yes
@@ -89,6 +94,7 @@ RUN_DEPENDS=		devel/codex \
 			shells/bash
 LIB_DEPENDS=		devel/libnotify \
 			security/openssl/3.5
+TEST_DEPENDS=		devel/codex
 
 USE_GMAKE=		Yes
 
@@ -283,14 +289,27 @@ pre-test:
 	# setup electron dependency for unit tests
 	mkdir -p ${WRKSRC}/.build/electron
 	mkdir -p ${WRKDIR}/.config/electron
-# XXX not ok 95 app module sandbox options
-# Unhandled exception in main spec runner:... to not include '--no-sandbox'
-# XXX "<args>" break tests ?
-	cat ${TRUEPREFIX}/bin/electron \
-		| sed -e 's/"$${@}"/$${@}/' \
-		> ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
-	chmod 755 ${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
+	${INSTALL_SCRIPT} ${TRUEPREFIX}/bin/electron \
+		${WRKSRC}/.build/electron/${MODELECTRON_TARGET}
 
+# openbsd port build without copilot
+ELECTRON_TEST_EXCLUDE = \
+	--excludeRunGlob 'vs/platform/agentHost/test/node/copilotAgent.test.js'
+NODE_TEST_EXCLUDES+= \
+	! -path '**/vs/platform/agentHost/test/node/copilotAgent.test.js'
+
+# check test/unit/node/index.js excludeGlobs
+NODE_TEST_EXCLUDES+= \
+	! -path '*/browser/*' \
+	! -path '*/electron-browser/*' \
+	! -path '*/electron-main/*' \
+	! -path '*/electron-utility/*' \
+	! -path '*/vs/platform/environment/test/node/nativeModules.test.js' \
+	! -path '*/vs/base/parts/storage/test/node/storage.test.js' \
+	! -path '*/vs/workbench/contrib/testing/test/*' \
+	! -path '*/vs/sessions/test/web.test.js'
+
+# integration & smoke tests
 APP_ROOT=${WRKDIR}/VSCode-linux-${ELECTRON_ARCH}
 APP_NAME=${MODELECTRON_TARGET}
 
@@ -300,29 +319,39 @@ do-test:
 # build/azure-pipelines/linux/steps/product-build-linux-test.yml
 # XXX no browser or remote version built
 	# Run unit tests (Electron)
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} VSCODE_PID=1 \
-		./scripts/test.sh --build
+	-cd ${WRKSRC} && ${SETENV} ${TEST_ENV} VSCODE_PID=1 \
+		./scripts/test.sh --build --timeout 30000 --disable-unveil \
+		${ELECTRON_TEST_EXCLUDE}
 	# Run unit tests (node.js)
-	cd ${WRKSRC} && ${MODNPM_CMD_TEST} run test-node -- --build
+# XXX some test fail with oom which prevent the whole test suite to run
+#	-ulimit -d $$(ulimit -H -d) && cd ${WRKSRC} && \
+#		${MODNPM_CMD_TEST} run test-node -- --build
+	-ulimit -d $$(ulimit -H -d) && cd ${WRKSRC} && \
+		find out-build -type f -path '*/test/*' -name '*.test.js' \
+		    ${NODE_TEST_EXCLUDES} -print | sort | \
+		while IFS= read -r _test ; do \
+			echo "===> Node test: $$_test" ; \
+			${MODNPM_CMD_TEST} run test-node -- --build \
+			    --run "$$_test" || true ; \
+		done
 	# Run integration tests (Electron)
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} \
+	-cd ${WRKSRC} && ${SETENV} ${TEST_ENV} \
 		INTEGRATION_TEST_APP_NAME="${APP_NAME}" \
 		INTEGRATION_TEST_ELECTRON_PATH="${APP_ROOT}/${APP_NAME}" \
-		./scripts/test-integration.sh --build
+		./scripts/test-integration.sh --build --timeout 30000 \
+		    --disable-unveil
 	# Run smoke tests (Electron)
-# XXX Error: Unsupported platform: openbsd
-# node_modules/playwright-core/lib/server/registry/index.js
-#	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} DISPLAY=:1 \
-#		ELECTRON_PATH=${LOCALBASE}/bin/electron \
-#		npm run smoketest
-	cd ${WRKSRC} && ${MODNPM_CMD_TEST} run smoketest-no-compile -- \
-		--tracing --build "${APP_ROOT}"
+# XXX need internet or more restricted tests (--skip-stable-build)
+	-cd ${WRKSRC} && \
+		${MODNPM_CMD_TEST} run smoketest-no-compile -- \
+		--tracing --electronArgs="--disable-unveil" \
+		--skip-stable-build --build "${APP_ROOT}"
 
 ### targets for port maintainer(s)
 
 modnpm-pre-gen-modules:
 	cd ${WRKSRC} && \
-		${MODNPM_CMD_GEN} install --ignore-script node-ovsx-sign
+		${MODNPM_CMD_GEN} install --ignore-scripts node-ovsx-sign
 
 # npm drops the lockfile placeholder for ssh2's disabled optional dependency.
 _OPT =	node_modules/ssh2/node_modules/cpu-features

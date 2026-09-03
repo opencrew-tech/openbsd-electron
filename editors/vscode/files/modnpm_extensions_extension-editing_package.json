@@ -73,11 +73,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [
-    "jsonc-parser",
-    "markdown-it",
-    "parse5"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

@@ -1,0 +1,32 @@
+Index: scripts/test-integration.sh
+--- scripts/test-integration.sh.orig
++++ scripts/test-integration.sh
+@@ -18,6 +18,9 @@ GREP_PATTERN=""
+ SUITE_FILTER=""
+ HELP=false
+ AGENT_HOST_E2E_GLOB="**/agentHost/test/node/e2e/{providers/*AgentHostE2E,conformance/*}.integrationTest.js"
++if [[ "$OSTYPE" == "openbsd"* ]]; then
++	AGENT_HOST_E2E_GLOB="{**/*copilot*.integrationTest.js,${AGENT_HOST_E2E_GLOB}}"
++fi
+ 
+ while [[ $# -gt 0 ]]; do
+ 	case "$1" in
+@@ -53,6 +56,9 @@ done
+ 
+ # Known suite names (used for help text and validation)
+ KNOWN_SUITES="api-folder api-workspace colorize terminal-suggest typescript markdown emmet git git-base ipynb notebook-renderers configuration-editing github-authentication copilot css html"
++if [[ "$OSTYPE" == "openbsd"* ]]; then
++	KNOWN_SUITES="${KNOWN_SUITES/ copilot/}"
++fi
+ 
+ if $HELP; then
+ 	echo "Usage: $0 [options]"
+@@ -314,7 +320,7 @@ npm run test-extension -- -l github-authentication "${
+ kill_app
+ fi
+ 
+-if should_run_suite copilot; then
++if [[ "$OSTYPE" != "openbsd"* ]] && should_run_suite copilot; then
+ echo
+ echo "### Copilot tests"
+ echo

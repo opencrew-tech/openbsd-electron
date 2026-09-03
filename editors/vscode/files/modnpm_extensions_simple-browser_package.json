@@ -89,9 +89,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [
-    "@vscode/extension-telemetry"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

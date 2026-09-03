@@ -14,13 +14,9 @@
     "source-map-loader": "^5.0.0"
   },
   "dependencies": {
-    "@vscode/component-explorer": "^0.2.1-58",
-    "@vscode/component-explorer-webpack-plugin": "^0.3.1-53"
+    "@vscode/component-explorer": "^0.2.1-94",
+    "@vscode/component-explorer-webpack-plugin": "^0.3.1-89"
   },
-  "bundleDependencies": [
-    "@vscode/component-explorer",
-    "@vscode/component-explorer-webpack-plugin"
-  ],
   "overrides": {
     "archiver": "npm:noop-package",
     "graceful-fs": "file:../../../node/graceful-fs/node_modules/graceful-fs"

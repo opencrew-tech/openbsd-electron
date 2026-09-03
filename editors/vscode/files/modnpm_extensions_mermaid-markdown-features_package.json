@@ -14,7 +14,8 @@
     "vscode": "^1.104.0"
   },
   "enabledApiProposals": [
-    "chatOutputRenderer"
+    "chatOutputRenderer",
+    "chatParticipantPrivate"
   ],
   "capabilities": {
     "virtualWorkspaces": true,
@@ -270,14 +271,5 @@
   },
   "allowScripts": {
     "fsevents@2.3.3": true
-  },
-  "bundleDependencies": [
-    "@iconify-json/logos",
-    "@iconify-json/mdi",
-    "@mermaid-js/layout-elk",
-    "@mermaid-js/layout-tidy-tree",
-    "@mermaid-js/mermaid-zenuml",
-    "dompurify",
-    "mermaid"
-  ]
+  }
 }

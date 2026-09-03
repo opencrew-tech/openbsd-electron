@@ -39,9 +39,6 @@
   "dependencies": {
     "@octokit/graphql": "^5.0.1"
   },
-  "bundleDependencies": [
-    "@octokit/graphql"
-  ],
   "overrides": {
     "archiver": "npm:noop-package"
   }

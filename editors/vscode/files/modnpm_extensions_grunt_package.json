@@ -77,7 +77,6 @@
     "type": "git",
     "url": "https://github.com/microsoft/vscode.git"
   },
-  "bundleDependencies": [],
   "overrides": {
     "archiver": "npm:noop-package"
   }

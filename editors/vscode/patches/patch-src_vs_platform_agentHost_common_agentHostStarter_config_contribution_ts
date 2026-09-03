@@ -1,12 +1,12 @@
 Index: src/vs/platform/agentHost/common/agentHostStarter.config.contribution.ts
 --- src/vs/platform/agentHost/common/agentHostStarter.config.contribution.ts.orig
 +++ src/vs/platform/agentHost/common/agentHostStarter.config.contribution.ts
-@@ -152,7 +152,7 @@ configurationRegistry.registerConfiguration({
+@@ -253,7 +253,7 @@ configurationRegistry.registerConfiguration({
  		[AgentHostCodexAgentEnabledSettingId]: {
  			type: 'boolean',
- 			description: nls.localize('chat.agentHost.codexAgent.enabled', "When enabled, the agent host registers the Codex provider (subject to the Codex SDK being reachable). Requires `#chat.agentHost.enabled#`. The agent host process must be restarted for changes to take effect."),
+ 			description: nls.localize('chat.agentHost.codexAgent.enabled', "When enabled, the agent host registers the Codex provider (subject to the Codex SDK being reachable). Enabling takes effect without restarting the agent host."),
 -			default: false,
 +			default: true,
  			tags: ['experimental', 'advanced'],
  			// Allow the default to be overridden by an experiment. Uses `startup`
- 			// (matching the sibling agent-host settings) since the agent host
+ 			// to match the sibling agent-host provider settings.

@@ -5,8 +5,8 @@ see pre-build target which replaces postinstall.js
 Index: package.json
 --- package.json.orig
 +++ package.json
-@@ -18,9 +18,7 @@
-     "test-build-scripts": "cd build && npm run test",
+@@ -20,9 +20,7 @@
+     "markdown-editor-package-json-check": "npm --prefix extensions/markdown-language-features run check-markdown-editor-package-json",
      "test-agent-host-e2e-coverage": "node scripts/agent-host-e2e-coverage.ts",
      "check-cyclic-dependencies": "node build/lib/checkCyclicDependencies.ts out",
 -    "preinstall": "node build/npm/preinstall.ts",
@@ -15,4 +15,4 @@ Index: package.json
 +    "compile": "npm run compile-client",
      "compile-client": "npm run gulp compile",
      "compile-copilot": "npm --prefix extensions/copilot run compile",
-     "build-fast": "npm-run-all2 -lp transpile-client build-fast-extensions compile-copilot",
+     "build-fast": "node build/next/index.ts build-fast",

@@ -1,0 +1,12 @@
+Index: build/next/transpile.ts
+--- build/next/transpile.ts.orig
++++ build/next/transpile.ts
+@@ -10,7 +10,7 @@ import * as path from 'path';
+ const UTF8_BOM = Buffer.from([0xef, 0xbb, 0xbf]);
+ 
+ /** Keeps build I/O comfortably below the Windows CRT's 8192 file-handle limit. */
+-export const MAX_CONCURRENT_FILE_OPERATIONS = 256;
++export const MAX_CONCURRENT_FILE_OPERATIONS = 32;
+ 
+ const transformOptions: esbuild.TransformOptions = {
+ 	loader: 'ts',

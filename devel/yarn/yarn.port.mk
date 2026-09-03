@@ -131,6 +131,8 @@ MODYARN_MODULES+=\
 # module . override : modules redirects without ports
 MODYARN_MODULES+=\
 	lightningcss . npm:lightningcss-wasm \
+	yuku-codegen . npm:@yuku-codegen/wasm \
+	yuku-parser . npm:@yuku-parser/wasm \
 # module module . : modules fallback to add
 MODYARN_MODULES+=\
 	@swc/core @swc/wasm . \

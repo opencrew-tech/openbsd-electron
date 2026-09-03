@@ -142,6 +142,8 @@ MODBERRY_MODULES+=\
 # module . override : modules redirects without ports
 MODBERRY_MODULES+=\
 	lightningcss . npm:lightningcss-wasm@latest \
+	yuku-codegen . npm:@yuku-codegen/wasm@latest \
+	yuku-parser . npm:@yuku-parser/wasm@latest \
 # module module . : modules fallback to add
 MODBERRY_MODULES+=\
 	@swc/core @swc/wasm . \

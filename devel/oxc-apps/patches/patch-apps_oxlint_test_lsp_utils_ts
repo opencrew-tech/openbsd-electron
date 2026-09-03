@@ -1,7 +1,7 @@
 Index: apps/oxlint/test/lsp/utils.ts
 --- apps/oxlint/test/lsp/utils.ts.orig
 +++ apps/oxlint/test/lsp/utils.ts
-@@ -47,7 +47,7 @@ const PULL_DIAGNOSTICS_CAPABILITY = {
+@@ -51,7 +51,7 @@ const PULL_DIAGNOSTICS_CAPABILITY = {
  };
  
  export function createLspConnection(env: Record<string, string> = {}) {
@@ -10,7 +10,7 @@ Index: apps/oxlint/test/lsp/utils.ts
      env: {
        ...process.env,
        OXC_LOG: "debug",
-@@ -301,27 +301,24 @@ export async function lintMultiWorkspaceFixtureWithFil
+@@ -308,27 +308,24 @@ export async function lintMultiWorkspaceFixtureWithFil
      );
    }
  
@@ -53,7 +53,7 @@ Index: apps/oxlint/test/lsp/utils.ts
      const workspaceRefreshPromise = client.getWorkspaceRefresh();
      await client.didChangeWatchedFiles(refreshedUris);
      // Wait for the server to process the file change and ask for refreshed diagnostics
-@@ -331,13 +328,11 @@ export async function lintMultiWorkspaceFixtureWithFil
+@@ -338,13 +335,11 @@ export async function lintMultiWorkspaceFixtureWithFil
  
      snapshots.push("=== After Config Change ===");
    } finally {

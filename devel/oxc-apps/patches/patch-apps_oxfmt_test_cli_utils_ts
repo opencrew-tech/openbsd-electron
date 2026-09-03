@@ -1,9 +1,9 @@
-node doesn't implement RegExp.escape() yet.
+Ignore patch(1) backup files created by the ports infrastructure.
 
 Index: apps/oxfmt/test/cli/utils.ts
 --- apps/oxfmt/test/cli/utils.ts.orig
 +++ apps/oxfmt/test/cli/utils.ts
-@@ -132,6 +132,10 @@ export async function runFixture(fixture: Fixture, tes
+@@ -140,6 +140,10 @@ export async function runFixture(fixture: Fixture, tes
  
  // --- File reading ---
  
@@ -14,7 +14,7 @@ Index: apps/oxfmt/test/cli/utils.ts
  async function readAllFiles(dir: string): Promise<Map<string, string>> {
    const files = new Map<string, string>();
    const entries = await fs.readdir(dir, { withFileTypes: true, recursive: true });
-@@ -140,6 +144,7 @@ async function readAllFiles(dir: string): Promise<Map<
+@@ -148,6 +152,7 @@ async function readAllFiles(dir: string): Promise<Map<
      if (!entry.isFile()) continue;
      const fullPath = join(entry.parentPath, entry.name);
      const relPath = relative(dir, fullPath).replace(/\\/g, "/");
@@ -22,7 +22,7 @@ Index: apps/oxfmt/test/cli/utils.ts
      files.set(relPath, await fs.readFile(fullPath, "utf8"));
    }
  
-@@ -188,6 +193,7 @@ async function detectAndRestoreChanges(
+@@ -196,6 +201,7 @@ async function detectAndRestoreChanges(
      if (!entry.isFile()) continue;
      const fullPath = join(entry.parentPath, entry.name);
      const relPath = relative(dir, fullPath).replace(/\\/g, "/");
@@ -30,25 +30,3 @@ Index: apps/oxfmt/test/cli/utils.ts
      if (!filesBefore.has(relPath)) {
        const content = await fs.readFile(fullPath, "utf8");
        created.push({ path: relPath, content });
-@@ -305,6 +311,10 @@ function buildTreeView(files: string[], cwdRelative: s
- 
- // --- Output normalization ---
- 
-+function escapeRegExp(value: string): string {
-+  return RegExp.escape ? RegExp.escape(value) : value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-+}
-+
- function normalizeOutput(output: string, cwd: string): string {
-   if (!output) return "";
- 
-@@ -316,8 +326,8 @@ function normalizeOutput(output: string, cwd: string):
-     output
-       .replace(/\d+(?:\.\d+)?s|\d+ms/g, "<time>")
-       .replace(/\\/g, "/")
--      .replace(new RegExp(RegExp.escape(cwdPath), "g"), "<cwd>")
--      .replace(new RegExp(RegExp.escape(rootPath), "g"), "<root>")
-+      .replace(new RegExp(escapeRegExp(cwdPath), "g"), "<cwd>")
-+      .replace(new RegExp(escapeRegExp(rootPath), "g"), "<root>")
-       // oxlint-disable-next-line no-control-regex
-       .replace(/\x1b\[[0-9;]*m/g, "")
-       .replace(/×/g, "x")

@@ -1,16 +1,16 @@
 Index: apps/oxlint/test/e2e.test.ts
 --- apps/oxlint/test/e2e.test.ts.orig
 +++ apps/oxlint/test/e2e.test.ts
-@@ -26,7 +26,7 @@ const NODE_BIN_PATH = process.execPath;
+@@ -25,7 +25,7 @@ const NODE_BIN_PATH = process.execPath;
+  *
   * Fixtures with an `options.json` file containing `"oxlint": false` are skipped.
   */
- // oxlint-disable-next-line valid-describe-callback
 -describe("oxlint CLI", { concurrent: process.platform !== "win32" }, () => {
 +describe("oxlint CLI", { concurrent: false }, () => {
    const fixtures = getFixtures();
    for (const fixture of fixtures) {
      if (!fixture.options.oxlint) continue;
-@@ -35,7 +35,7 @@ describe("oxlint CLI", { concurrent: process.platform 
+@@ -34,7 +34,7 @@ describe("oxlint CLI", { concurrent: process.platform 
      it(
        `fixture: ${fixture.name}`,
        {

@@ -1,6 +1,6 @@
 COMMENT =	collection of high-performance JavaScript tools
 
-V =		1.62.0
+V =		1.79.0
 PKGNAME =	oxc-apps-${V}
 DIST_TUPLE =	github oxc-project oxc apps_v${V} .
 
@@ -14,11 +14,10 @@ MAINTAINER=	Fabien Romano <fabien@openbsd.org>
 PERMIT_PACKAGE =	Yes
 
 #https://github.com/oxc-project/oxc/blob/main/.github/scripts/clone-parallel.mjs
-TEST262_SHA = 2b2ecead6e828dd9af13a9ec72065e645724a50f
-BABEL_SHA = c543b03170260d02138857dc09877d0af71a7931
-TYPESCRIPT_SHA = c7a0ae102dfb030c534a7bc31fbbd61a707dc9cf
-PRETTIER_SHA = d7108a79ec745c04292aabf22c4c1adbd690b191
-ESTREE_CONFORMANCE_SHA = e4104a13904df535b4571c6d1308bea0974ee860
+TEST262_SHA = be13516fb6441b950ba8a3df97eb34062c186972
+BABEL_SHA = 1eac4481473df52fbbcb452c4dca8d79039dbb63
+TYPESCRIPT_SHA = b465fdbfe175304d9b977da137b2c178ae1091d3
+ESTREE_CONFORMANCE_SHA = 8d4e1faac9f350f914af9b8a6ec02c2d31ca799c
 NODE_COMPAT_TABLE_SHA = 499beb6f1daa36f10c26b85a7f3ec3b3448ded23
 # test262, Official ECMAScript Conformance Test Suite, BSD
 DIST_TUPLE+=	github tc39 test262 ${TEST262_SHA} tasks/coverage/test262
@@ -28,8 +27,6 @@ DIST_TUPLE+=	github babel babel ${BABEL_SHA} tasks/coverage/babel
 DIST_TUPLE+=	github microsoft TypeScript ${TYPESCRIPT_SHA} \
 		tasks/coverage/typescript
 # pretier, opinionated code formatter, MIT
-DIST_TUPLE+=	github prettier prettier ${PRETTIER_SHA} \
-		tasks/prettier_conformance/prettier
 # ESTree Conformance Test Suite, MIT
 DIST_TUPLE+=	github oxc-project estree-conformance \
 		${ESTREE_CONFORMANCE_SHA} \
@@ -55,14 +52,19 @@ MODPNPM_ENV+=		${MODCARGO_ENV}
 MODPNPM_INSTALL =	oxc-apps
 MODPNPM_MODS_SKIP+=oxc-parser
 MODPNPM_MODS_SKIP+=@oxc-project/types
+MODPNPM_MODS_SKIP+=@oxc-project/runtime
 MODPNPM_MODS_SKIP+=oxfmt
 MODPNPM_MODS_SKIP+=oxlint
+MODPNPM_MODS_SKIP+=@oxlint/plugins
 
 MODPNPM_MODS+=esbuild
+MODPNPM_MODS+=lightningcss
 MODPNPM_MODS+=rolldown
 MODPNPM_MODS+=@rolldown/pluginutils
 MODPNPM_MODS+=rollup
 MODPNPM_MODS+=tailwindcss
+MODPNPM_MODS+=yuku-codegen
+MODPNPM_MODS+=yuku-parser
 
 MODPNPM_ARGS_WORKSPACE = -r \
 	--filter './napi/minify' \
@@ -102,14 +104,14 @@ do-build:
 	${MODPNPM_CMD_BUILD} run build-js
 .  endif
 .  if "${_node}" == "parser"
-	# override ${_dir} into node_modules/.pnpm/oxc-parser
-	cd ${WRKSRC}/node_modules/.pnpm/oxc-parser@*/node_modules/oxc-parser &&\
+	# override ${_dir} into apps/oxlint/node_modules/oxc-parser
+	cd ${WRKSRC}/apps/oxlint/node_modules/oxc-parser && \
 	rm -rf src-js && \
 	cp -r ${WRKSRC}/${_dir}/src-js ./
 .  endif
 .  if "${_node}" == "oxfmt"
-	# override ${_dir} into node_modules/.pnpm/oxfmt
-	cd ${WRKSRC}/node_modules/.pnpm/oxfmt@*/node_modules/oxfmt && \
+	# override ${_dir} into node_modules/oxfmt
+	cd ${WRKSRC}/node_modules/oxfmt && \
 	rm -rf dist && \
 	cp -r ${WRKSRC}/${_dir}/dist ./
 .  endif
@@ -129,7 +131,7 @@ pre-test:
 	cd ${WRKSRC}/${_dir} ; \
 	${MODPNPM_CMD_BUILD} run build-test ; \
 	cp ${FILESDIR}/${_dir:S/\//_/}_${_binding:S/\//_/} ${_binding} ; \
-	cd ${_subdir} && ln -fs ${_node}.*.node ${_node}.node ; \
+	( cd ${_subdir} && ln -fs ${_node}.*.node ${_node}.node ) ; \
 	${MODPNPM_CMD_BUILD} run build-js
 .endfor
 

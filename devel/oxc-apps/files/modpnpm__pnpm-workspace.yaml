@@ -1,29 +1,65 @@
 packages:
   - apps/*
   - napi/*
+  - packages/*
   - wasm/*
   - npm/*
+  - tasks/codegen_conformance
   - tasks/e2e
   - tasks/transform_conformance
   - tasks/compat_data
-
 catalog:
-  "@emnapi/core": 1.10.0
-  "@emnapi/runtime": 1.10.0
-  "@arethetypeswrong/core": 0.18.2
-  "@napi-rs/cli": 3.6.2
-  "@napi-rs/wasm-runtime": 1.1.4
-  "@types/node": 24.1.0
+  '@emnapi/core': 2.0.0-alpha.3
+  '@emnapi/runtime': 2.0.0-alpha.3
+  emnapi: 2.0.0-alpha.3
+  '@arethetypeswrong/core': 0.18.5
+  '@napi-rs/cli': 3.8.6
+  '@napi-rs/wasm-runtime': 1.2.3
+  '@types/node': 24.1.0
   cross-env: ^10.1.0
-  eslint: 9.39.4
+  degit: 3.7.0
+  eslint: 10.8.1
   json-schema-to-typescript: ^15.0.4
-  publint: 0.3.18
-  rolldown: 1.0.0-rc.17
-  tsdown: 0.21.10
-  vitest: 4.1.5
-
-onlyBuiltDependencies:
-  - "@vscode/vsce-sign@2.0.8"
-  - esbuild@0.25.11
-
+  publint: 0.3.23
+  rolldown: 1.2.4
+  tsdown: 0.22.14
+  vite-plus: 0.2.9
+  vitest: 4.1.10
+overrides:
+  rolldown: link:../node/rolldown/node_modules/rolldown
+  emnapi: 'catalog:'
+  esbuild: link:../node/esbuild/node_modules/esbuild
+  '@rolldown/pluginutils': link:../node/rolldown/node_modules/@rolldown/pluginutils
+  rollup: link:../node/rollup/node_modules/rollup
+  tailwindcss: link:../node/tailwindcss/node_modules/tailwindcss
+  lightningcss: npm:lightningcss-wasm
+  yuku-codegen: npm:@yuku-codegen/wasm
+  yuku-parser: npm:@yuku-parser/wasm
+allowBuilds:
+  '@vscode/vsce-sign@2.0.8': true
+  esbuild@0.27.7: true
+  esbuild@0.28.2: true
+  '@nestjs/core@11.1.9': false
 verifyDepsBeforeRun: install
+minimumReleaseAgeExclude:
+  - '@napi-rs/*'
+  - '@oxc-parser/*'
+  - '@oxc-project/*'
+  - '@oxfmt/*'
+  - '@oxlint-tsgolint/*'
+  - '@oxlint/*'
+  - '@rolldown/*'
+  - '@tsdown/*'
+  - '@vitejs/devtools'
+  - '@vitest/*'
+  - '@voidzero-dev/*'
+  - oxc-parser
+  - oxfmt
+  - oxlint
+  - oxlint-tsgolint
+  - rolldown
+  - tsdown
+  - vite
+  - vite-plus
+  - vitest
+trustLockfile: true

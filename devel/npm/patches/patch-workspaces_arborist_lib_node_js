@@ -5,7 +5,7 @@ only raises EOVERRIDE when they resolve to different actual paths.
 Index: workspaces/arborist/lib/node.js
 --- workspaces/arborist/lib/node.js.orig
 +++ workspaces/arborist/lib/node.js
-@@ -792,8 +792,11 @@ class Node {
+@@ -801,8 +801,11 @@ class Node {
  
          if (this.isLink) {
            const target = node.target
@@ -18,7 +18,7 @@ Index: workspaces/arborist/lib/node.js
            target.linksIn.add(this)
            // reload edges here, because now we have a target
            if (this.parent) {
-@@ -1392,10 +1395,42 @@ class Node {
+@@ -1396,10 +1399,42 @@ class Node {
        return
      }
  

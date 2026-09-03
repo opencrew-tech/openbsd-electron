@@ -1,8 +1,6 @@
-# XXX npm need npm to build
-
 COMMENT =	package manager for JavaScript
 
-V=		11.18.0
+V=		12.0.2
 PKGNAME =	npm-${V}
 DIST_TUPLE =	github npm cli v${V} .
 
@@ -29,7 +27,7 @@ MODULES =		devel/npm \
 			lang/python
 
 # gracefull-fs depends on npm, bundle patch in make tarball
-MODNPM_SKIP_GEN_MODS=	Yes
+MODNPM_MODS_SKIP+=graceful-fs
 
 # using modnpm workspace install, do not bundle
 # XXX root + bundle may be better if this could be done for all ports but in the

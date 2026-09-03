@@ -1,4 +1,5 @@
-Stops bypassing override evaluation for bundled or shrinkwrapped dependencies.
+Evaluates overrides for dependencies bundled inside another dependency,
+while retaining the raw spec fallback when no override applies.
 Normalizes file: overrides against the correct workspace/root base path,
 equivalent relative paths are resolved to the same canonical spec.
 
@@ -10,15 +11,15 @@ Index: workspaces/arborist/lib/edge.js
      }
  
 -    // NOTE: this condition means we explicitly do not support overriding
--    // bundled or shrinkwrapped dependencies
--    if (node.hasShrinkwrap || node.inShrinkwrap || node.inBundle) {
-+    // For shrinkwrapped nodes we still accept the raw spec when no override
-+    // applies, but we must evaluate override rules when present.
-+    if ((node.hasShrinkwrap || node.inShrinkwrap) && !this.overrides?.keySpec) {
+-    // bundled dependencies
+-    if (node.inDepBundle) {
++    // Keep the raw spec for dependencies bundled inside another dependency
++    // only when no override applies; otherwise evaluate the override rules.
++    if (node.inDepBundle && !this.overrides?.keySpec) {
        return depValid(node, this.rawSpec, this.#accept, this.#from)
      }
  
-@@ -219,13 +219,41 @@ class Edge {
+@@ -239,13 +239,41 @@ class Edge {
          }
  
          if (specValue) {

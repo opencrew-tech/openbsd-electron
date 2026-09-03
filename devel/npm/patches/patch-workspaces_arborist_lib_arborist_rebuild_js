@@ -5,7 +5,7 @@ Treats chmod failures during bin-link creation as non-fatal.
 Index: workspaces/arborist/lib/arborist/rebuild.js
 --- workspaces/arborist/lib/arborist/rebuild.js.orig
 +++ workspaces/arborist/lib/arborist/rebuild.js
-@@ -17,6 +17,21 @@ const { isScriptAllowed } = require('../script-allowed
+@@ -17,6 +17,90 @@ const { isScriptAllowed } = require('../script-allowed
  const boolEnv = b => b ? '1' : ''
  const sortNodes = (a, b) => (a.depth - b.depth) || localeCompare(a.path, b.path)
  
@@ -13,21 +13,90 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
 +  er.syscall === 'chmod' &&
 +  (er.code === 'EPERM' || er.code === 'EACCES' || er.code === 'EROFS')
 +
-+const isExternalOverrideNode = node => {
-+  const root = node && node.root && node.root.target
-+  if (!root) {
++const isFileOverrideEdge = edge => {
++  if (!edge?.overrides || edge.overrides.name !== edge.name) {
 +    return false
 +  }
-+  if (node.isLink) {
-+    return !!node.target && !node.target.isDescendantOf(root)
++
++  try {
++    return typeof edge.spec === 'string' && edge.spec.startsWith('file:')
++  } catch {
++    return false
 +  }
-+  return !node.isDescendantOf(root)
++}
++
++const isNodeDescendantOf = (node, root) => {
++  if (typeof node?.isDescendantOf === 'function') {
++    return node.isDescendantOf(root)
++  }
++
++  // IsolatedNode deliberately implements only a subset of Node. Walk its
++  // parent chain instead of assuming that isDescendantOf() is available.
++  for (let current = node; current; current = current.resolveParent || current.parent) {
++    if (current === root) {
++      return true
++    }
++  }
++  return false
++}
++
++const externalOverrideRoots = new WeakMap()
++
++const getExternalOverrideRoots = node => {
++  const root = node?.root?.target
++  if (!root) {
++    return new Set()
++  }
++  if (externalOverrideRoots.has(root)) {
++    return externalOverrideRoots.get(root)
++  }
++
++  const roots = new Set()
++  for (const candidate of node.root.inventory.values()) {
++    const hasFileOverride = [...(candidate.edgesIn || [])].some(isFileOverrideEdge)
++    const target = candidate.isLink ? candidate.target : candidate
++    if (!hasFileOverride || !target || isNodeDescendantOf(target, root)) {
++      continue
++    }
++
++    let externalRoot = target
++    const seen = new Set()
++    for (
++      let current = target;
++      current && !seen.has(current);
++      current = current.resolveParent || current.parent
++    ) {
++      seen.add(current)
++      if (isNodeDescendantOf(current, root)) {
++        break
++      }
++      externalRoot = current
++    }
++    roots.add(externalRoot)
++  }
++
++  externalOverrideRoots.set(root, roots)
++  return roots
++}
++
++const isExternalOverrideNode = node => {
++  const root = node?.root?.target
++  const target = node?.isLink ? node.target : node
++
++  if (!root || !target) {
++    return false
++  }
++  if (isNodeDescendantOf(target, root)) {
++    return false
++  }
++  return [...getExternalOverrideRoots(node)].some(externalRoot =>
++    isNodeDescendantOf(node, externalRoot) || isNodeDescendantOf(target, externalRoot))
 +}
 +
  const _checkBins = Symbol.for('checkBins')
  
  // defined by reify mixin
-@@ -237,6 +252,13 @@ module.exports = cls => class Builder extends cls {
+@@ -244,6 +328,13 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
@@ -41,7 +110,7 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
      if (this.#oldMeta === null) {
        const { root: { meta } } = node
        this.#oldMeta = meta && meta.loadedFromDisk &&
-@@ -400,6 +422,11 @@ module.exports = cls => class Builder extends cls {
+@@ -407,6 +498,11 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
@@ -53,7 +122,7 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
      const timeEnd = time.start(`build:link:${node.location}`)
  
      // On Windows, antivirus/indexer can transiently lock files, causing EPERM/EACCES/EBUSY on the rename inside write-file-atomic (used by bin-links/fix-bin.js), so, retry with backoff.
-@@ -410,6 +437,10 @@ module.exports = cls => class Builder extends cls {
+@@ -417,6 +513,10 @@ module.exports = cls => class Builder extends cls {
        force: this.options.force,
        global: !!node.globalTop,
      }).catch(/* istanbul ignore next - Windows-only transient antivirus locks */ err => {

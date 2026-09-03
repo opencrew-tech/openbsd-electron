@@ -13,7 +13,7 @@ MODPNPM_GEN_EXCLUDES?= 	# exclude modules
 MODPNPM_GEN_FORCE?=	# force all modules even wrong os
 
 # modpnpm-gen-modules configuration
-# pnpm overrides, https://pnpm.io/package_json#pnpmoverrides
+# pnpm overrides, https://pnpm.io/settings#overrides
 MODPNPM_GEN_OVERRIDES?=
 
 # modpnpm-gen-modules helpers : empty/no, package@version
@@ -72,6 +72,8 @@ MODPNPM_MODULES+=\
 		7zip-bin/node_modules/7zip-bin \
 	app-builder-bin devel/app-builder \
 		app-builder-bin/node_modules/app-builder-bin \
+	@ast-grep/napi devel/ast-grep \
+		ast-grep/node_modules/@ast-grep/napi \
 	electron-builder www/electron-builder \
 		electron-builder/node_modules/electron-builder \
 	esbuild devel/esbuild \
@@ -243,7 +245,9 @@ MODPNPM_post-extract += \
 	mkdir -p ${PORTHOME} ; \
 	mkdir -p ${WRKDIR}/tmp ; \
 	mkdir -p ${MODPNPM_BUILD_DIST} ; \
-	ln -fs ${MODPNPM_INSTALL_DIST} ${WRKDIR}/ ;
+	ln -fs ${MODPNPM_INSTALL_DIST} ${WRKDIR}/ ; \
+	ulimit -d `ulimit -H -d` ; \
+	ulimit -m `ulimit -H -m` ;
 
 .if empty(_GEN_MODULES)
 
@@ -320,6 +324,14 @@ MODPNPM_PREBUILD_TARGET=\
 		echo "MODPNPM: rebuild $${target}" ; \
 		cd $${target} && \
 		${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_REBUILD} ; \
+		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
+			cd $${target} && \
+			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \
+				${MODPNPM_ARGS_REBUILD} ; \
+		else \
+			cd $${target} && \
+			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_REBUILD} ; \
+		fi ; \
 	done
 
 MODPNPM_BUILD_TARGET=\
@@ -474,9 +486,16 @@ modpnpm-diff:
 # OpenBSD use system node, ignore any version requirement
 .if ${MODPNPM_GEN_ENGINES:L} != "no"
 MODPNPM_gen-configfiles += \
-	jq 'del(.engines,.packageManager)' ${MODPNPM_PACKAGE} \
+	jq 'del(.engines,.packageManager,.devEngines)' ${MODPNPM_PACKAGE} \
 		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
 .endif
+
+# Trust bundled lockfiles during offline installs.
+MODPNPM_gen-configfiles += \
+	if [ -f ${MODPNPM_WORKSPACE} ]; then \
+		yq -y '.trustLockfile = true' ${MODPNPM_WORKSPACE} \
+			> tmp.yaml && mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
+	fi ;
 
 # Setup overrides customisation before modpnpm-gen-configfiles (w/patches), ex:
 # MODPNPM_GEN_OVERRIDES =	"foo" "npm:foo@x.y.z" "bar" "npm:@cutom/bar"
@@ -485,8 +504,9 @@ _MODPNPM_OVERRIDES:=${_MODPNPM_OVERRIDES:%=%,}${_mod}:${_spec}
 .endfor
 .if !empty(_MODPNPM_OVERRIDES)
 MODPNPM_gen-configfiles += \
-	jq '.pnpm.overrides += {${_MODPNPM_OVERRIDES}}' ${MODPNPM_PACKAGE} \
-		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
+	yq -y '.overrides += {${_MODPNPM_OVERRIDES}}' \
+		${MODPNPM_WORKSPACE} > tmp.yaml && \
+		mv tmp.yaml ${MODPNPM_WORKSPACE} ;
 .endif
 
 # skip generating modules.pnpm.inc, vendor store in $HOME ($WRKDIR/vendor)
@@ -585,8 +605,9 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		override=$$( \
 			echo '"${_mod}":"link:__wrkdir__/node/${_override}"' | \
 			sed "s:__wrkdir__:$${wrkdir}:g" ) ; \
-		jq ".pnpm.overrides += {$${override}}" ${MODPNPM_PACKAGE} \
-			> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ; \
+		yq -y ".overrides += {$${override}}" \
+			${MODPNPM_WORKSPACE} > tmp.yaml && \
+			mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
 		true ; \
 	done
 .    else
@@ -595,8 +616,9 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		echo "MODPNPM: mod ${_mod} -> ${_override} to $${target}" ; \
 		cd $${target} ; \
 		override='"${_mod}":"${_override}"' ; \
-		jq ".pnpm.overrides += {$${override}}" ${MODPNPM_PACKAGE} \
-			> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ; \
+		yq -y ".overrides += {$${override}}" \
+			${MODPNPM_WORKSPACE} > tmp.yaml && \
+			mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
 		true ; \
 	done
 .    endif

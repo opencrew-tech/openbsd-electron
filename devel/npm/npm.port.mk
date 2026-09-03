@@ -167,8 +167,7 @@ MODNPM_VENDOR?=		${PKGNAME}${MODNPM_VENDOR_REV:%=.%}-vendor.tgz
 # env is required and can be extended
 MODNPM_ENV+=		PATH='${PORTPATH}:./node_modules/.bin' \
 			TMP=${WRKDIR}/tmp \
-			HOME=${PORTHOME} \
-			NPM_CONFIG_UPDATE_NOTIFIER=false
+			HOME=${PORTHOME}
 # specific build & gen env are configurable (ex: replace npm_config_nodedir)
 MODNPM_ENV_BUILD?=	npm_config_nodedir=${LOCALBASE}
 MODNPM_ENV_TEST?=
@@ -181,10 +180,10 @@ MODNPM_BIN?=		onpm
 MODNPM_CMD?=\
 	${SETENV} ${MODNPM_ENV} CI=true ${MODNPM_BIN}
 MODNPM_CMD_BUILD?=\
-	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true  ${MODNPM_ENV_BUILD} \
+	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true ${MODNPM_ENV_BUILD} \
 	    ${MODNPM_BIN}
 MODNPM_CMD_TEST?=\
-	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true  ${MODNPM_ENV_TEST} \
+	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true ${MODNPM_ENV_TEST} \
 	    ${MODNPM_BIN}
 MODNPM_CMD_GEN?=\
 	${SETENV} ${MODNPM_ENV} ${MODNPM_ENV_GEN} ${MODNPM_BIN}
@@ -258,7 +257,7 @@ TEST_DEPENDS+=		devel/npm
 
 # link to MODNPM_INSTALL_DIST needed for modules overrides with ports
 # link to onpm needed to override missues of npm (w/patch) instead of onpm
-# XXX ulimit still needed after gracefull-fs patch on promises ?
+# graceful-fs retries EMFILE but does not limit concurrent operations.
 MODNPM_post-extract += \
 	mkdir -p ${PORTHOME} ; \
 	mkdir -p ${WRKDIR}/tmp ; \

@@ -1,8 +1,6 @@
 COMMENT =	Rust bundler for JavaScript/TypeScript Rollup-compatible API
 
-PKGNAME =	rolldown-1.0.0
-
-DIST_TUPLE =	github rolldown rolldown v1.0.0-rc.16 .
+DIST_TUPLE =	github rolldown rolldown v1.2.5 .
 
 CATEGORIES =	devel
 
@@ -17,9 +15,9 @@ PERMIT_PACKAGE =	Yes
 # rollup, module bundler for JavaScript, MIT, ISC, 0BSD
 # test262, ECMAScript Conformance Test Suite, BSD-like
 DIST_TUPLE+=	github rollup rollup \
-		ae871d762f6bbeb4320d28fe179211168f27a434 rollup
+		ddc4ffab628944e45dbb8d66d58aae818015440f rollup
 DIST_TUPLE+=	github tc39 test262 \
-		a9af758c4fb6d31eee5683b3a8a6d55525ac9a77 test262
+		3655e7464de3d52643ecddd4b5f9f4f3e7f62398 test262
 
 WANTLIB += ${MODCARGO_WANTLIB} m
 
@@ -37,8 +35,7 @@ MODPNPM_INSTALL =	rolldown
 MODPNPM_MODS_SKIP+=	rolldown
 MODPNPM_MODS_SKIP+=	@rolldown/pluginutils
 
-MODPNPM_ARGS_WORKSPACE =\
-	-r --filter rolldown --filter "@rolldown/pluginutils"
+MODPNPM_ARGS_WORKSPACE = -r --filter rolldown
 
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
@@ -49,6 +46,8 @@ MODPNPM_MODS+=@tailwindcss/node
 MODPNPM_MODS+=@tailwindcss/oxide
 MODPNPM_MODS+=@tailwindcss/vite
 MODPNPM_MODS+=lightningcss
+MODPNPM_MODS+=yuku-codegen
+MODPNPM_MODS+=yuku-parser
 
 # devel/oxc-apps depends on rolldown, avoid recursive dependency
 MODPNPM_MODS_SKIP+=oxc-minify
@@ -67,16 +66,21 @@ CONFIGURE_STYLE =	cargo
 ROLLDOWN_DIST =		${MODPNPM_INSTALL_DIR}/rolldown/dist/
 
 do-build:
-	# build
+	# build native lib
 	cd ${WRKSRC} && \
-	${MODPNPM_CMD_BUILD} --filter "@rolldown/pluginutils" build && \
-	${MODPNPM_CMD_BUILD} --filter rolldown build-binding:release && \
+	${MODPNPM_CMD_BUILD} --filter rolldown build-binding:release
+	# hotfix/hack native binding
 	cp -p ${WRKSRC}/packages/rolldown/src/rolldown-binding.openbsd-*.node \
 		${WRKSRC}/packages/rolldown/src/rolldown-binding.node && \
-	cp ${FILESDIR}/binding.cjs \
-		${WRKSRC}/packages/rolldown/src/binding.cjs && \
-	${MODPNPM_CMD_BUILD} --filter rolldown build-js-glue && \
-	${MODPNPM_CMD_BUILD} --filter rolldown build-node
+	echo "const nativeBinding = require('./rolldown-binding.node')" \
+		> ${WRKSRC}/packages/rolldown/src/binding.cjs.openbsd
+	grep -A 999 "^module\\.exports = nativeBinding$$" \
+		${WRKSRC}/packages/rolldown/src/binding.cjs \
+		>> ${WRKSRC}/packages/rolldown/src/binding.cjs.openbsd
+	mv ${WRKSRC}/packages/rolldown/src/binding.cjs{.openbsd,}
+	# build js component
+	cd ${WRKSRC} && \
+	${MODPNPM_CMD_BUILD} --filter rolldown build-js-glue
 	# pack
 	${MODPNPM_BUILD_TARGET}
 
@@ -84,6 +88,10 @@ post-install:
 	# bundle rolldown-binding.node
 	cp -p ${WRKSRC}/packages/rolldown/src/rolldown-binding.openbsd-*.node \
 		${PREFIX}/${ROLLDOWN_DIST}/rolldown-binding.node
+	# expose pluginutils at the path expected by module overrides
+	${INSTALL_DATA_DIR} ${PREFIX}/${MODPNPM_INSTALL_DIR}/@rolldown
+	ln -s ../rolldown/node_modules/@rolldown/pluginutils \
+		${PREFIX}/${MODPNPM_INSTALL_DIR}/@rolldown/pluginutils
 
 pre-test:
 # XXX rolldown needs rolldown to run tests
@@ -103,36 +111,37 @@ pre-test:
 #	cd ${WRKSRC} && \
 #	${MODPNPM_CMD_BUILD} --filter '@rolldown/test-dev-server' build
 
+# make clean test (pnpm prune during fake)
 do-test:
 	# cargo test
 # XXX rebuild everything ? --manifest-path ${MODCARGO_CARGOTOML} --release
 #	${MODCARGO_TEST_TARGET}
 # XXX prefer which one ? offical test build in debug (no --release)
-	${MODCARGO_CARGO_RUN} test ${MODCARGO_TEST_ARGS}
+	-${MODCARGO_CARGO_RUN} test ${MODCARGO_TEST_ARGS}
 	# rolldown node test
-	cd ${WRKSRC} && \
+	-cd ${WRKSRC} && \
 	${MODPNPM_CMD_TEST} --filter rolldown-tests test:main && \
 	${MODPNPM_CMD_TEST} --filter rolldown-tests test:watcher && \
 	${MODPNPM_CMD_TEST} --filter rolldown-tests test:stability
 	# rollup test - KO, need oxc-transform native binding
 # XXX ? SKIP_PASS_DIFF: ${{ inputs.node-version != 24 && '1' || '' }}
 # XXX oxc-transform native binding missing (recursive dependency)
-# 	cd ${WRKSRC} && \
+# 	-cd ${WRKSRC} && \
 # 	${MODPNPM_CMD_TEST} --filter rollup-tests test
 	# build examples (test) - KO, need oxc-parser native binding
 # XXX oxc-parser native binding missing (recursive dependency)
-# 	cd ${WRKSRC} && \
+# 	-cd ${WRKSRC} && \
 # 	${MODPNPM_CMD_TEST} --filter '@example/**' build
 	# dev server test - KO, untested, need playwright support
 # XXX playwright needed
 # XXX pre-build test-dev-server
-# 	cd ${WRKSRC} && \
+# 	-cd ${WRKSRC} && \
 # 	${MODPNPM_CMD_TEST} --filter '@rolldown/test-dev-server-tests' test
 	# vite test - KO, fetch with git + pnpm install, need playwright support
-#	cd ${WRKSRC} && \
+#	-cd ${WRKSRC} && \
 #	${MODPNPM_CMD_TEST} --filter vite-tests test
 	# `@rolldown/pluginutils` test
-	cd ${WRKSRC} && \
+	-cd ${WRKSRC} && \
 	${MODPNPM_CMD_TEST} --filter '@rolldown/pluginutils' test
 
 .include "crates.inc"

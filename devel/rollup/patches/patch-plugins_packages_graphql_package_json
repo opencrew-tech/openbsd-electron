@@ -1,0 +1,15 @@
+pnpm 11 is more strict about dependencies.
+correct fix is to add prettier in devDependencies.
+
+Index: plugins/packages/graphql/package.json
+--- plugins/packages/graphql/package.json.orig
++++ plugins/packages/graphql/package.json
+@@ -30,7 +30,7 @@
+     "ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
+     "ci:test": "pnpm test -- --reporter=verbose && pnpm test:ts",
+     "lint:graphql": "prettier --write \"test/fixtures/**/*.graphql\"",
+-    "prebuild": "del-cli dist && pnpm lint:graphql",
++    "prebuild": "del-cli dist",
+     "prepare": "if [ ! -d 'dist' ]; then pnpm build; fi",
+     "prerelease": "pnpm build",
+     "pretest": "pnpm build",

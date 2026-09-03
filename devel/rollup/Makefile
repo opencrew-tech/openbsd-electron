@@ -1,6 +1,6 @@
 COMMENT =	next-generation ES module bundler
 
-DIST_TUPLE+=	github rollup rollup v4.62.2 rollup
+DIST_TUPLE+=	github rollup rollup v4.62.4 rollup
 
 # need a custom @rollup/plugin-typescript to overcome fd limit issue
 DIST_TUPLE+=	github rollup plugins \
@@ -94,6 +94,9 @@ post-install:
 
 pre-test:
 	ln -fs ${WRKSRC}/rollup/rollup.*.node ${WRKSRC}/rollup/dist/rollup.node
+
+do-test:
+	cd ${WRKSRC}/rollup && ${MODNPM_CMD_TEST} ${MODNPM_ARGS_TEST}
 
 modnpm-pre-gen-modules:
 	# drop wasm-pack

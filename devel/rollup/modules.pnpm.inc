@@ -163,7 +163,7 @@ ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.0.1.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.0.4.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.1.0.tgz \
 ${MODPNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.3.0.tgz \
-${MODPNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.62.2.tgz \
+${MODPNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.62.4.tgz \
 ${MODPNPM_DIST}/@sindresorhus-{@sindresorhus/is/-/}is-4.6.0.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/commons/-/}commons-1.8.3.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/fake-timers/-/}fake-timers-9.1.2.tgz \
@@ -171,7 +171,7 @@ ${MODPNPM_DIST}/@sinonjs-{@sinonjs/samsam/-/}samsam-6.1.1.tgz \
 ${MODPNPM_DIST}/@sinonjs-{@sinonjs/text-encoding/-/}text-encoding-0.7.2.tgz \
 ${MODPNPM_DIST}/@standard-schema-{@standard-schema/spec/-/}spec-1.0.0.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/core/-/}core-1.3.78.tgz \
-${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.15.46.tgz \
+${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.1.tgz \
 ${MODPNPM_DIST}/@szmarczak-{@szmarczak/http-timer/-/}http-timer-4.0.6.tgz \
 ${MODPNPM_DIST}/@trysound-{@trysound/sax/-/}sax-0.2.0.tgz \
 ${MODPNPM_DIST}/@tsconfig-{@tsconfig/node10/-/}node10-1.0.9.tgz \
@@ -1124,7 +1124,7 @@ MODPNPM_PKGS += \
 @rollup/pluginutils@5.0.4;@rollup-pluginutils-5.0.4.tgz \
 @rollup/pluginutils@5.1.0;@rollup-pluginutils-5.1.0.tgz \
 @rollup/pluginutils@5.3.0;@rollup-pluginutils-5.3.0.tgz \
-@rollup/wasm-node@4.62.2;@rollup-wasm-node-4.62.2.tgz \
+@rollup/wasm-node@4.62.4;@rollup-wasm-node-4.62.4.tgz \
 @sindresorhus/is@4.6.0;@sindresorhus-is-4.6.0.tgz \
 @sinonjs/commons@1.8.3;@sinonjs-commons-1.8.3.tgz \
 @sinonjs/fake-timers@9.1.2;@sinonjs-fake-timers-9.1.2.tgz \
@@ -1132,7 +1132,7 @@ MODPNPM_PKGS += \
 @sinonjs/text-encoding@0.7.2;@sinonjs-text-encoding-0.7.2.tgz \
 @standard-schema/spec@1.0.0;@standard-schema-spec-1.0.0.tgz \
 @swc/core@1.3.78;@swc-core-1.3.78.tgz \
-@swc/wasm@1.15.46;@swc-wasm-1.15.46.tgz \
+@swc/wasm@1.16.1;@swc-wasm-1.16.1.tgz \
 @szmarczak/http-timer@4.0.6;@szmarczak-http-timer-4.0.6.tgz \
 @trysound/sax@0.2.0;@trysound-sax-0.2.0.tgz \
 @tsconfig/node10@1.0.9;@tsconfig-node10-1.0.9.tgz \

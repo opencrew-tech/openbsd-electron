@@ -17,8 +17,8 @@ SHA256 (grist-stack_data-0.5.1-cp313-none-any.whl) = O4WIt3FEG3nMyeOiLggV1O2jHTt
 SHA256 (grist-typing_extensions-4.4.0-cp313-none-any.whl) = vRok21/V47GZfvO5YFURRHgI+uYN14ZvuQ52vP0GHPE=
 SHA256 (grist-unittest_xml_reporting-2.0.0-cp313-none-any.whl) = vPynYp9ljoMAlfJSOjDL1DPgadc2VX6pUOK8mb24MtE=
 SHA256 (grist-wrapt-1.15.0-cp313-none-any.whl) = 6I/k3lBtBYWaMQFQUj0VWF7wpj6rPIoPgv32GQGx7Q8=
-SHA256 (gristlabs-grist-core-0408b156e7e2ea30a84f49392d1984bcd2748e25.tar.gz) = Ys3ZPIV9MJ+Ff7Zr3PKfQFzOmZ2tUYTwhLuj/pagDCQ=
-SHA256 (gristlabs-grist-desktop-v0.3.13.tar.gz) = qL9O9H0IHyBgvdFZpR4UkayvCas54AizF58uN8IjQRY=
+SHA256 (gristlabs-grist-core-fe672818f879c86d2d145f3f30cb30f106e15f1a.tar.gz) = hZplN1pG5iaQvspT4sh0UGQLJWI6M5o0Kb92bh3kZZ0=
+SHA256 (gristlabs-grist-desktop-v0.3.14.tar.gz) = 9kt/2R5FQJF7zyTMmUyFWKHBRlLQ0PBjmgD8+4ksIVE=
 SHA256 (npm_modules/@asamuzakjp-css-color-3.2.0.tgz) = tlvTdwZR+vCwgarXwrS31OxXX0ZsTMiBMT5KPtCjh1k=
 SHA256 (npm_modules/@azure-abort-controller-1.1.0.tgz) = NF6iYXlyv9X0T65TMoWET4GFfBAna/oPP9GHmPF7Tmk=
 SHA256 (npm_modules/@azure-abort-controller-2.1.2.tgz) = 2Y/6dmKOoWLd91Obe4SrhR74iWibFtRUSDRWui4WbYQ=
@@ -436,7 +436,6 @@ SHA256 (npm_modules/acorn-static-class-features-0.2.4.tgz) = 4Uj4fzsgEmGNvKMN/6n
 SHA256 (npm_modules/acorn-walk-7.2.0.tgz) = kcmxJs6+v7MjHJ3d4UkDeXrPJfFYdbrPBOzluGR8aJY=
 SHA256 (npm_modules/acorn-walk-8.3.2.tgz) = avkrqzld3jF4y9QXVTQVAvZF162fgtm5rikbPRwMjQ8=
 SHA256 (npm_modules/acorn-walk-8.3.4.tgz) = JXYswO5Pifw+spRsI858jU5PyEkqX5M/up0Z/80tOPs=
-SHA256 (npm_modules/agent-base-6.0.2.tgz) = vG2gbyoua8gPpYeL1yJ70DGIEpdtRfR/F+Gq/Owr6DE=
 SHA256 (npm_modules/agent-base-7.1.1.tgz) = bW2yEYMn14YaWJUWQSmgZAwJN4m0Rxk6VRI3MuH/dV4=
 SHA256 (npm_modules/agent-base-7.1.3.tgz) = mUmLHGbF+A5fSv3WhzVmqt3oHPkn1fDl35fs/sAmTGQ=
 SHA256 (npm_modules/airtable-0.12.2.tgz) = fJWcXT8XxyDGMoMwv654306OiLp5shtcC3uCiQn7+ho=
@@ -490,7 +489,6 @@ SHA256 (npm_modules/at-least-node-1.0.0.tgz) = cu0naD3StoxIp+456WqJL4YhlWsXw7Vg2
 SHA256 (npm_modules/available-typed-arrays-1.0.7.tgz) = ixQOD6P+3j2B0d/8xADJdV1ziOikrdIoSH9eIMnPeGM=
 SHA256 (npm_modules/aws-sdk-2.1061.0.tgz) = /0n/Kux3dXUaNZ6JQOo5HKyU+A0PM80zcRsFg1OnrWo=
 SHA256 (npm_modules/axios-1.16.0.tgz) = GJegQ60GydlnhN1ymzDW0W3GOOn+7ph8bOmHxd/drNQ=
-SHA256 (npm_modules/axios-1.7.2.tgz) = 7g1gVuHqNK70l58baMZPuXjU+PZnzcmF1znqcMrra6Y=
 SHA256 (npm_modules/b4a-1.6.6.tgz) = e+f3N7HTPpKGzGM44lsMPhipJOizKRB16f46YCPnHAA=
 SHA256 (npm_modules/backbone-1.3.3.tgz) = i1rDrocVXF03go02hb0oWHH9G43xxnOHqzjLgb4J9eQ=
 SHA256 (npm_modules/balanced-match-1.0.2.tgz) = 2FT3q90MeoEgzzgeCtX5csvQJV9dmHQkvWcsjE/OvME=
@@ -598,7 +596,7 @@ SHA256 (npm_modules/chokidar-cli-3.0.0.tgz) = NknnLi6bEIC98HQmsp0/e2otteFrsLRW1P
 SHA256 (npm_modules/chownr-1.1.4.tgz) = coY+BdNNAx3vaJy8Ngmv8EQ/qwxk4OboG/htiF1Zgz4=
 SHA256 (npm_modules/chownr-3.0.0.tgz) = TCT12qYwFCJS2oneZV998JDqR5RQqIJYl3UdeDIbE2A=
 SHA256 (npm_modules/chrome-trace-event-1.0.4.tgz) = nUuweIkQVXRKsMKmFWX6WPPiCUXbY8CurJBIP51ec+I=
-SHA256 (npm_modules/chromedriver-110.0.0.tgz) = x3RTVTAipRdcxi0Vn6p27U5A97THydZsBrP9tj8e494=
+SHA256 (npm_modules/chromedriver-146.0.6.tgz) = tOApj5Igy2xfxiDB0MnoGRJhJCwvm96pDk0YTyphvXg=
 SHA256 (npm_modules/chromium-pickle-js-0.2.0.tgz) = sifN8kIl0D5fIvYwfVB79r2YY/S3AuflRXrz/wNj4W4=
 SHA256 (npm_modules/ci-info-4.3.1.tgz) = V/lVLxSQfibCrCIWgMjYq5tdDEWOJVCMysRdFp20ef8=
 SHA256 (npm_modules/ci-info-4.4.0.tgz) = kNyRQEry8DVPyK8eYZXt3D30oha5Su19pgIia0zaWR8=
@@ -634,7 +632,7 @@ SHA256 (npm_modules/commander-9.3.0.tgz) = oW31Tabl5ISH55zlObjDMtYH6OO1ZEt1O9f8j
 SHA256 (npm_modules/commander-9.5.0.tgz) = tklIv2jbOMJgAqGktjuOy5qA5JfjCP2sy7F5zwUUL1I=
 SHA256 (npm_modules/comment-parser-1.4.1.tgz) = eDS7ed0+96lHGDp+9epIWMW/U37Q/3xez63RpZPErqk=
 SHA256 (npm_modules/compare-version-0.1.2.tgz) = YZHmL+JnO2/IIwBEsJS7W++uhK05Zxtxa2Fc46FLDTw=
-SHA256 (npm_modules/compare-versions-5.0.3.tgz) = 4XP4ggnTI8qFizu5SjafxPmVx+pOvhxSEBvHt1GC6M4=
+SHA256 (npm_modules/compare-versions-6.1.1.tgz) = BoSzQnA3jK6d6Vc/zQ4Gd+3pxQygmmbwldACmH3xkds=
 SHA256 (npm_modules/components-jqueryui-1.12.1.tgz) = VmGrOLT85J8TtmFD4GIHQkcFy7PItgvELRJ/ExS+jyY=
 SHA256 (npm_modules/compress-commons-4.1.2.tgz) = qBdyzLRYUBZXlFEBkWCLWoWVKgUjf7fEhY6B9uz/OcU=
 SHA256 (npm_modules/compress-commons-6.0.2.tgz) = T66y4WDNv2D9t60kSRMoVNMmlognRgEQ/Y8R+LMDa3Q=
@@ -989,14 +987,13 @@ SHA256 (npm_modules/http-proxy-middleware-2.0.9.tgz) = 3AID7dh3piW05HDL++Vl/GFRZ
 SHA256 (npm_modules/http-server-14.1.1.tgz) = nhzrJl0JpNhtz1CctLptzS4DJUsdEwMBmHZv44l/16U=
 SHA256 (npm_modules/http2-wrapper-1.0.3.tgz) = /R2eJ3u4tB8Hq56ij2CsS7ABlOHMqXJOydT2KFA2gh4=
 SHA256 (npm_modules/https-browserify-1.0.0.tgz) = 1PFNBnbtPAxDos3QgbsuI1XbEW1MRuB0k+o9SZyBB7w=
-SHA256 (npm_modules/https-proxy-agent-5.0.1.tgz) = baFvtEMx8uXTC9Ib+ICqk0wa1P59pxh5EO8rJQlxIBk=
 SHA256 (npm_modules/https-proxy-agent-7.0.6.tgz) = lg+J6OUkCIL2QknQSlOEId051i/6zBOFRGR8wyUbwOA=
 SHA256 (npm_modules/hyperdyperid-1.2.0.tgz) = PCdUONaVWUwXKI9K/ELgafYqtHv/7GqLQEuFkEWc5Rc=
 SHA256 (npm_modules/i18n-iso-countries-6.1.0.tgz) = JKnFUCtImgqUylKpbPHjAmC6tsOOCxn+kg0wQmmzEYE=
 SHA256 (npm_modules/i18next-21.10.0.tgz) = v5y4yuM7jrbGYoa9fEwqG0thmofPPnF2tRGuwczhEpw=
 SHA256 (npm_modules/i18next-21.9.1.tgz) = WY0IQWknh8Y51QS1SIAwZFFmfUcDhDz4VSBeSn6eFqQ=
 SHA256 (npm_modules/i18next-23.11.5.tgz) = kwN/F/O7XqCYKtwDjet7mvkz57+ZTtEDNUUutxhde0E=
-SHA256 (npm_modules/i18next-http-middleware-3.9.3.tgz) = iZfAUj9n/KJyppJuVRbTzMWTqSoMO8BBMRImxTgDbB8=
+SHA256 (npm_modules/i18next-http-middleware-3.9.7.tgz) = O0MuAGhIpsO196e2NJlMSTPkgmu0nfzaMaeE0ZkVBEA=
 SHA256 (npm_modules/i18next-scanner-4.4.0.tgz) = edUp8+TyZNobfSRhsMHyP6hTftyfLJ4lYq5fQ71Jog0=
 SHA256 (npm_modules/iconv-lite-0.4.24.tgz) = V2xk8gmO1Ew9XkjXqdxlUScAwdapaacadNR02o5zRjU=
 SHA256 (npm_modules/iconv-lite-0.6.3.tgz) = cSfsFI+ZTwMe/2WKUNwGKfYBB3WoICITsFJuxeMPyPQ=
@@ -1589,6 +1586,7 @@ SHA256 (npm_modules/symbol-tree-3.2.4.tgz) = imlwCgDQC9u63xFvlDmMw3847N2lWdxiIOF
 SHA256 (npm_modules/syntax-error-1.4.0.tgz) = 9rUNTlrKF6vLlJv525isQs8h3Sl/1KxSEo03Ojgqo7c=
 SHA256 (npm_modules/tapable-2.3.0.tgz) = 2sDGUC6NpbJW1b4E/7abqNg1Q+SicRyWIDScnXsunQs=
 SHA256 (npm_modules/tapable-2.3.2.tgz) = aUG44lOpz+PG8j0kNCs8MwnQRKYnUfFf1EU4QHNNQ2I=
+SHA256 (npm_modules/tar-7.5.16.tgz) = v/eIqbwtKsCEznjqEgaAQPvFm4t2J9mcEYTxMA9Zegk=
 SHA256 (npm_modules/tar-7.5.19.tgz) = GRZE+Ix9vWESH5EyMasyjR/GIfBY6MozRFGxfK2F364=
 SHA256 (npm_modules/tar-7.5.22.tgz) = t5LC0cf8dwkQUiyh/8Ke7gLuON5Po6AeeDLrcFh5xsY=
 SHA256 (npm_modules/tar-fs-2.1.5.tgz) = rTKDw/H0RLvhuNgHNztoK+vw4UWJPMoWS7O2onE15eA=
@@ -1816,8 +1814,8 @@ SIZE (grist-stack_data-0.5.1-cp313-none-any.whl) = 45551
 SIZE (grist-typing_extensions-4.4.0-cp313-none-any.whl) = 43281
 SIZE (grist-unittest_xml_reporting-2.0.0-cp313-none-any.whl) = 24509
 SIZE (grist-wrapt-1.15.0-cp313-none-any.whl) = 28845
-SIZE (gristlabs-grist-core-0408b156e7e2ea30a84f49392d1984bcd2748e25.tar.gz) = 21615880
-SIZE (gristlabs-grist-desktop-v0.3.13.tar.gz) = 3093688
+SIZE (gristlabs-grist-core-fe672818f879c86d2d145f3f30cb30f106e15f1a.tar.gz) = 21776077
+SIZE (gristlabs-grist-desktop-v0.3.14.tar.gz) = 3100106
 SIZE (npm_modules/@asamuzakjp-css-color-3.2.0.tgz) = 387190
 SIZE (npm_modules/@azure-abort-controller-1.1.0.tgz) = 12235
 SIZE (npm_modules/@azure-abort-controller-2.1.2.tgz) = 6415
@@ -2235,7 +2233,6 @@ SIZE (npm_modules/acorn-static-class-features-0.2.4.tgz) = 7035
 SIZE (npm_modules/acorn-walk-7.2.0.tgz) = 14853
 SIZE (npm_modules/acorn-walk-8.3.2.tgz) = 9512
 SIZE (npm_modules/acorn-walk-8.3.4.tgz) = 9567
-SIZE (npm_modules/agent-base-6.0.2.tgz) = 9273
 SIZE (npm_modules/agent-base-7.1.1.tgz) = 7797
 SIZE (npm_modules/agent-base-7.1.3.tgz) = 7840
 SIZE (npm_modules/airtable-0.12.2.tgz) = 79853
@@ -2289,7 +2286,6 @@ SIZE (npm_modules/at-least-node-1.0.0.tgz) = 1558
 SIZE (npm_modules/available-typed-arrays-1.0.7.tgz) = 7360
 SIZE (npm_modules/aws-sdk-2.1061.0.tgz) = 8734158
 SIZE (npm_modules/axios-1.16.0.tgz) = 728266
-SIZE (npm_modules/axios-1.7.2.tgz) = 533267
 SIZE (npm_modules/b4a-1.6.6.tgz) = 9686
 SIZE (npm_modules/backbone-1.3.3.tgz) = 41783
 SIZE (npm_modules/balanced-match-1.0.2.tgz) = 2668
@@ -2397,7 +2393,7 @@ SIZE (npm_modules/chokidar-cli-3.0.0.tgz) = 6087
 SIZE (npm_modules/chownr-1.1.4.tgz) = 2226
 SIZE (npm_modules/chownr-3.0.0.tgz) = 4405
 SIZE (npm_modules/chrome-trace-event-1.0.4.tgz) = 3700
-SIZE (npm_modules/chromedriver-110.0.0.tgz) = 12120
+SIZE (npm_modules/chromedriver-146.0.6.tgz) = 14505
 SIZE (npm_modules/chromium-pickle-js-0.2.0.tgz) = 2915
 SIZE (npm_modules/ci-info-4.3.1.tgz) = 8079
 SIZE (npm_modules/ci-info-4.4.0.tgz) = 8185
@@ -2433,7 +2429,7 @@ SIZE (npm_modules/commander-9.3.0.tgz) = 43692
 SIZE (npm_modules/commander-9.5.0.tgz) = 44526
 SIZE (npm_modules/comment-parser-1.4.1.tgz) = 69071
 SIZE (npm_modules/compare-version-0.1.2.tgz) = 1015
-SIZE (npm_modules/compare-versions-5.0.3.tgz) = 8734
+SIZE (npm_modules/compare-versions-6.1.1.tgz) = 11531
 SIZE (npm_modules/components-jqueryui-1.12.1.tgz) = 1499558
 SIZE (npm_modules/compress-commons-4.1.2.tgz) = 9233
 SIZE (npm_modules/compress-commons-6.0.2.tgz) = 8465
@@ -2788,14 +2784,13 @@ SIZE (npm_modules/http-proxy-middleware-2.0.9.tgz) = 18693
 SIZE (npm_modules/http-server-14.1.1.tgz) = 59618
 SIZE (npm_modules/http2-wrapper-1.0.3.tgz) = 16062
 SIZE (npm_modules/https-browserify-1.0.0.tgz) = 1586
-SIZE (npm_modules/https-proxy-agent-5.0.1.tgz) = 8412
 SIZE (npm_modules/https-proxy-agent-7.0.6.tgz) = 8998
 SIZE (npm_modules/hyperdyperid-1.2.0.tgz) = 215490
 SIZE (npm_modules/i18n-iso-countries-6.1.0.tgz) = 111666
 SIZE (npm_modules/i18next-21.10.0.tgz) = 143118
 SIZE (npm_modules/i18next-21.9.1.tgz) = 141340
 SIZE (npm_modules/i18next-23.11.5.tgz) = 137456
-SIZE (npm_modules/i18next-http-middleware-3.9.3.tgz) = 23502
+SIZE (npm_modules/i18next-http-middleware-3.9.7.tgz) = 25623
 SIZE (npm_modules/i18next-scanner-4.4.0.tgz) = 24147
 SIZE (npm_modules/iconv-lite-0.4.24.tgz) = 185241
 SIZE (npm_modules/iconv-lite-0.6.3.tgz) = 190667
@@ -3388,6 +3383,7 @@ SIZE (npm_modules/symbol-tree-3.2.4.tgz) = 8805
 SIZE (npm_modules/syntax-error-1.4.0.tgz) = 3792
 SIZE (npm_modules/tapable-2.3.0.tgz) = 11386
 SIZE (npm_modules/tapable-2.3.2.tgz) = 11390
+SIZE (npm_modules/tar-7.5.16.tgz) = 465650
 SIZE (npm_modules/tar-7.5.19.tgz) = 469687
 SIZE (npm_modules/tar-7.5.22.tgz) = 471090
 SIZE (npm_modules/tar-fs-2.1.5.tgz) = 8198

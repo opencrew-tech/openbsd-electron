@@ -1,7 +1,7 @@
 COMMENT =	easily open and edit Grist spreadsheets
 
-V=		v0.3.13
-CORE_ID=0408b156e7e2ea30a84f49392d1984bcd2748e25
+V=		v0.3.14
+CORE_ID=fe672818f879c86d2d145f3f30cb30f106e15f1a
 DIST_TUPLE =	github gristlabs grist-desktop ${V} .
 DIST_TUPLE+=	github gristlabs grist-core ${CORE_ID} core
 
@@ -69,10 +69,6 @@ MODYARN_TARGETS =	${WRKSRC} \
 MODYARN_BUILD =		No
 MODYARN_INSTALL =	No
 
-MODYARN_ENV_BUILD =	npm_config_nodedir=${LOCALBASE} \
-			DENO_INSTALL_BIN=${LOCALBASE}/bin/deno \
-			GRIST_SKIP_EXT_AUTOSETUP=1
-
 MODYARN_MODS+=7zip-bin
 MODYARN_MODS+=app-builder-bin
 MODYARN_MODS+=electron-builder
@@ -92,6 +88,10 @@ BUILD_DEPENDS+=		devel/npm
 
 # XXX needs unveil tweeks & DISPLAY
 #NO_TEST =		Yes
+
+MAKE_ENV+=		CHROMEDRIVER_SKIP_DOWNLOAD=true \
+			DENO_INSTALL_BIN=${LOCALBASE}/bin/deno \
+			GRIST_SKIP_EXT_AUTOSETUP=1
 
 do-configure:
 	# Workaround openfiles-max limit hit by electron-builder (npm list)

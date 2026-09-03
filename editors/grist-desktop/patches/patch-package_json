@@ -18,7 +18,7 @@ Index: package.json
    "devDependencies": {
      "@types/trusted-types": "2.0.7",
      "@unrs/resolver-binding-wasm32-wasi": "^1.12.2",
-@@ -59,7 +63,6 @@
+@@ -62,7 +66,6 @@
      "appId": "com.getgrist.grist",
      "npmRebuild": false,
      "compression": "normal",
@@ -26,7 +26,7 @@ Index: package.json
      "icon": "core/static/icons/grist.png",
      "win": {
        "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
-@@ -98,78 +101,6 @@
+@@ -101,78 +104,6 @@
          "flatpak"
        ]
      },
@@ -105,7 +105,15 @@ Index: package.json
      "afterSign": "./scripts/notarize.js",
      "asarUnpack": [
        "core/plugins",
-@@ -207,6 +138,7 @@
+@@ -194,6 +125,7 @@
+       "core/python/**/*",
+       "core/node_modules/**/*",
+       "node_modules/**/*",
++      "core/sandbox/pyodide/worker/node_modules/**/*",
+       "!**/*.map",
+       "!**/*.ts",
+       "!**/*.tar.gz",
+@@ -210,6 +142,7 @@
        "!**/{appveyor.yml,.travis.yml,circle.yml}",
        "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
        "!node_modules/ext",

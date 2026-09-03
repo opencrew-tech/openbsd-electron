@@ -417,7 +417,6 @@ ${MODYARN_DIST}/{acorn/-/}acorn-8.11.3.tgz \
 ${MODYARN_DIST}/{acorn/-/}acorn-8.14.1.tgz \
 ${MODYARN_DIST}/{acorn/-/}acorn-8.15.0.tgz \
 ${MODYARN_DIST}/{acorn/-/}acorn-8.16.0.tgz \
-${MODYARN_DIST}/{agent-base/-/}agent-base-6.0.2.tgz \
 ${MODYARN_DIST}/{agent-base/-/}agent-base-7.1.1.tgz \
 ${MODYARN_DIST}/{agent-base/-/}agent-base-7.1.3.tgz \
 ${MODYARN_DIST}/{airtable/-/}airtable-0.12.2.tgz \
@@ -471,7 +470,6 @@ ${MODYARN_DIST}/{at-least-node/-/}at-least-node-1.0.0.tgz \
 ${MODYARN_DIST}/{available-typed-arrays/-/}available-typed-arrays-1.0.7.tgz \
 ${MODYARN_DIST}/{aws-sdk/-/}aws-sdk-2.1061.0.tgz \
 ${MODYARN_DIST}/{axios/-/}axios-1.16.0.tgz \
-${MODYARN_DIST}/{axios/-/}axios-1.7.2.tgz \
 ${MODYARN_DIST}/{b4a/-/}b4a-1.6.6.tgz \
 ${MODYARN_DIST}/{backbone/-/}backbone-1.3.3.tgz \
 ${MODYARN_DIST}/{balanced-match/-/}balanced-match-1.0.2.tgz \
@@ -579,7 +577,7 @@ ${MODYARN_DIST}/{chokidar/-/}chokidar-4.0.3.tgz \
 ${MODYARN_DIST}/{chownr/-/}chownr-1.1.4.tgz \
 ${MODYARN_DIST}/{chownr/-/}chownr-3.0.0.tgz \
 ${MODYARN_DIST}/{chrome-trace-event/-/}chrome-trace-event-1.0.4.tgz \
-${MODYARN_DIST}/{chromedriver/-/}chromedriver-110.0.0.tgz \
+${MODYARN_DIST}/{chromedriver/-/}chromedriver-146.0.6.tgz \
 ${MODYARN_DIST}/{chromium-pickle-js/-/}chromium-pickle-js-0.2.0.tgz \
 ${MODYARN_DIST}/{ci-info/-/}ci-info-4.3.1.tgz \
 ${MODYARN_DIST}/{ci-info/-/}ci-info-4.4.0.tgz \
@@ -615,7 +613,7 @@ ${MODYARN_DIST}/{commander/-/}commander-9.3.0.tgz \
 ${MODYARN_DIST}/{commander/-/}commander-9.5.0.tgz \
 ${MODYARN_DIST}/{comment-parser/-/}comment-parser-1.4.1.tgz \
 ${MODYARN_DIST}/{compare-version/-/}compare-version-0.1.2.tgz \
-${MODYARN_DIST}/{compare-versions/-/}compare-versions-5.0.3.tgz \
+${MODYARN_DIST}/{compare-versions/-/}compare-versions-6.1.1.tgz \
 ${MODYARN_DIST}/{components-jqueryui/-/}components-jqueryui-1.12.1.tgz \
 ${MODYARN_DIST}/{compress-commons/-/}compress-commons-4.1.2.tgz \
 ${MODYARN_DIST}/{compress-commons/-/}compress-commons-6.0.2.tgz \
@@ -970,11 +968,10 @@ ${MODYARN_DIST}/{http-proxy/-/}http-proxy-1.18.1.tgz \
 ${MODYARN_DIST}/{http-server/-/}http-server-14.1.1.tgz \
 ${MODYARN_DIST}/{http2-wrapper/-/}http2-wrapper-1.0.3.tgz \
 ${MODYARN_DIST}/{https-browserify/-/}https-browserify-1.0.0.tgz \
-${MODYARN_DIST}/{https-proxy-agent/-/}https-proxy-agent-5.0.1.tgz \
 ${MODYARN_DIST}/{https-proxy-agent/-/}https-proxy-agent-7.0.6.tgz \
 ${MODYARN_DIST}/{hyperdyperid/-/}hyperdyperid-1.2.0.tgz \
 ${MODYARN_DIST}/{i18n-iso-countries/-/}i18n-iso-countries-6.1.0.tgz \
-${MODYARN_DIST}/{i18next-http-middleware/-/}i18next-http-middleware-3.9.3.tgz \
+${MODYARN_DIST}/{i18next-http-middleware/-/}i18next-http-middleware-3.9.7.tgz \
 ${MODYARN_DIST}/{i18next-scanner/-/}i18next-scanner-4.4.0.tgz \
 ${MODYARN_DIST}/{i18next/-/}i18next-21.10.0.tgz \
 ${MODYARN_DIST}/{i18next/-/}i18next-21.9.1.tgz \
@@ -1574,6 +1571,7 @@ ${MODYARN_DIST}/{tar-fs/-/}tar-fs-2.1.5.tgz \
 ${MODYARN_DIST}/{tar-stream/-/}tar-stream-1.6.2.tgz \
 ${MODYARN_DIST}/{tar-stream/-/}tar-stream-2.2.0.tgz \
 ${MODYARN_DIST}/{tar-stream/-/}tar-stream-3.1.7.tgz \
+${MODYARN_DIST}/{tar/-/}tar-7.5.16.tgz \
 ${MODYARN_DIST}/{tar/-/}tar-7.5.19.tgz \
 ${MODYARN_DIST}/{tar/-/}tar-7.5.22.tgz \
 ${MODYARN_DIST}/{tcp-port-used/-/}tcp-port-used-1.0.2.tgz \

@@ -83,7 +83,25 @@ Index: src/kqueue/KqueueBackend.cc
    #endif
  
    DIR *dir = fdopendir(fd);
-@@ -279,7 +313,7 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
+@@ -246,6 +280,17 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
+             }
+           }
+         }
++
++        // The directory may already contain entries by the time its watch is
++        // installed. Scan it after installing the watch so changes racing
++        // with the scan cause another NOTE_WRITE notification.
++        DirEntry *newEntry = tree->find(fullpath);
++        if (newEntry && newEntry->isDir && newEntry->state) {
++          int childFd = (int)(size_t)newEntry->state;
++          if (!compareDir(childFd, newEntry->path, watchers)) {
++            return false;
++          }
++        }
+       }
+     }
+   }
+@@ -279,7 +324,7 @@ bool KqueueBackend::compareDir(int fd, std::string &pa
      }
    }
  

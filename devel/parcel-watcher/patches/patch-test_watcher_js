@@ -10,7 +10,7 @@ Index: test/watcher.js
  }
  
  if (process.env.TEST_WASM) {
-@@ -164,6 +166,59 @@ describe('watcher', () => {
+@@ -170,6 +172,59 @@ describe('watcher', () => {
            let res = await nextEvent();
            assert.deepEqual(res, [{type: 'delete', path: f}]);
          });
@@ -70,7 +70,7 @@ Index: test/watcher.js
        });
  
        describe('directories', () => {
-@@ -208,6 +263,58 @@ describe('watcher', () => {
+@@ -214,6 +269,58 @@ describe('watcher', () => {
            let res = await nextEvent();
  
            assert.deepEqual(res, [{type: 'delete', path: f}]);

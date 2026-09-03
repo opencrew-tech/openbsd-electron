@@ -158,7 +158,7 @@ ${MODYARN_DIST}/{path-key/-/}path-key-3.1.1.tgz \
 ${MODYARN_DIST}/{path-type/-/}path-type-4.0.0.tgz \
 ${MODYARN_DIST}/{picomatch/-/}picomatch-2.2.2.tgz \
 ${MODYARN_DIST}/{picomatch/-/}picomatch-2.3.0.tgz \
-${MODYARN_DIST}/{picomatch/-/}picomatch-4.0.3.tgz \
+${MODYARN_DIST}/{picomatch/-/}picomatch-4.0.4.tgz \
 ${MODYARN_DIST}/{please-upgrade-node/-/}please-upgrade-node-3.2.0.tgz \
 ${MODYARN_DIST}/{prebuildify/-/}prebuildify-6.0.1.tgz \
 ${MODYARN_DIST}/{prettier/-/}prettier-2.3.2.tgz \

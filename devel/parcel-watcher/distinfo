@@ -156,7 +156,7 @@ SHA256 (npm_modules/path-key-3.1.1.tgz) = S4mZrLkUgw7c08W4/sYysyxrx1msPtyGM29ang
 SHA256 (npm_modules/path-type-4.0.0.tgz) = wCXo+PsVJ5UVaEoVjCPre4/fNtdFyRCgyHAU8Phjm5c=
 SHA256 (npm_modules/picomatch-2.2.2.tgz) = ALoIltsAO7pZP/RAXXzRSIfrQagcCcnrO/ZlFo3rhsg=
 SHA256 (npm_modules/picomatch-2.3.0.tgz) = 7IHLs2VGNYtDab5lIRSLEpVp3ApR/QFUr2GDJviaNZY=
-SHA256 (npm_modules/picomatch-4.0.3.tgz) = rWIR/RWd5ndko73OUXSXaI7d9dof0daPMRXyATwQipw=
+SHA256 (npm_modules/picomatch-4.0.4.tgz) = UVtatmZVjtmhF0g6MQiSrt5Upo3Xjy2NtmBFE+V4Vxw=
 SHA256 (npm_modules/please-upgrade-node-3.2.0.tgz) = Z5WtYfgW6LpNs0Cvq23TDTYWspJKI0wQZK4B3NMYDEw=
 SHA256 (npm_modules/prebuildify-6.0.1.tgz) = GyWq20Yavx6x3nRx2Cp/1Zmx8S4UvvMhC//oC7h04HI=
 SHA256 (npm_modules/prettier-2.3.2.tgz) = +cmECqwJ3k2I99ivKVepPdi8V+9bwfjVs5hMfCpQn48=
@@ -211,7 +211,7 @@ SHA256 (npm_modules/yargs-16.2.0.tgz) = Rh39FIyoZdrqqsSSLmuP/ZmfgCWJ0M03OjK7Tdx2
 SHA256 (npm_modules/yargs-parser-20.2.4.tgz) = T+YWUqflN1Uw7xn5QSOP7JJfNMfK149FvHOvrWa9ASE=
 SHA256 (npm_modules/yargs-parser-20.2.9.tgz) = mUBG8uYEVzsiQl45qSb2D8U/d4AgFE3kYdOytqisEQU=
 SHA256 (npm_modules/yargs-unparser-2.0.0.tgz) = ySJNU4OQIriFIW7RgScZirwV44okLO0U10sR+vwLqXw=
-SHA256 (parcel-bundler-watcher-v2.5.6.tar.gz) = wgDTauct5Qk14fk2ecjDYnipHu4JQ80tAd1e5CF+8Cw=
+SHA256 (parcel-bundler-watcher-v2.6.0.tar.gz) = 8hGlj9ESl/GHtPISDqYOS2N85cVEkhgpRKjuib6890c=
 SIZE (npm_modules/@babel-code-frame-7.10.4.tgz) = 3147
 SIZE (npm_modules/@babel-helper-validator-identifier-7.10.4.tgz) = 7071
 SIZE (npm_modules/@babel-highlight-7.10.4.tgz) = 2585
@@ -370,7 +370,7 @@ SIZE (npm_modules/path-key-3.1.1.tgz) = 2258
 SIZE (npm_modules/path-type-4.0.0.tgz) = 2018
 SIZE (npm_modules/picomatch-2.2.2.tgz) = 23357
 SIZE (npm_modules/picomatch-2.3.0.tgz) = 23519
-SIZE (npm_modules/picomatch-4.0.3.tgz) = 22248
+SIZE (npm_modules/picomatch-4.0.4.tgz) = 23662
 SIZE (npm_modules/please-upgrade-node-3.2.0.tgz) = 2800
 SIZE (npm_modules/prebuildify-6.0.1.tgz) = 7427
 SIZE (npm_modules/prettier-2.3.2.tgz) = 4400209
@@ -425,4 +425,4 @@ SIZE (npm_modules/yargs-16.2.0.tgz) = 62776
 SIZE (npm_modules/yargs-parser-20.2.4.tgz) = 26472
 SIZE (npm_modules/yargs-parser-20.2.9.tgz) = 27625
 SIZE (npm_modules/yargs-unparser-2.0.0.tgz) = 5115
-SIZE (parcel-bundler-watcher-v2.5.6.tar.gz) = 1828068
+SIZE (parcel-bundler-watcher-v2.6.0.tar.gz) = 1828918

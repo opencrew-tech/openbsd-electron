@@ -19,10 +19,10 @@ importers:
         version: 6.26.1
       eslint:
         specifier: 8.57.0
-        version: 8.57.0
+        version: 8.57.0(supports-color@7.2.0)
       eslint-plugin-unicorn:
         specifier: 51.0.1
-        version: 51.0.1(eslint@8.57.0)
+        version: 51.0.1(eslint@8.57.0(supports-color@7.2.0))(supports-color@7.2.0)
       fs-extra:
         specifier: 11.2.0
         version: 11.2.0
@@ -43,7 +43,7 @@ importers:
         version: 3.3.3
       simple-git:
         specifier: 3.27.0
-        version: 3.27.0
+        version: 3.27.0(supports-color@7.2.0)
       targz:
         specifier: 1.0.1
         version: 1.0.1
@@ -1049,17 +1049,17 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.13.11
 
-  '@eslint-community/eslint-utils@4.4.0(eslint@8.57.0)':
+  '@eslint-community/eslint-utils@4.4.0(eslint@8.57.0(supports-color@7.2.0))':
     dependencies:
-      eslint: 8.57.0
+      eslint: 8.57.0(supports-color@7.2.0)
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.6.1': {}
 
-  '@eslint/eslintrc@2.1.4':
+  '@eslint/eslintrc@2.1.4(supports-color@7.2.0)':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@7.2.0)
       espree: 9.6.1
       globals: 13.20.0
       ignore: 5.2.4
@@ -1072,10 +1072,10 @@ snapshots:
 
   '@eslint/js@8.57.0': {}
 
-  '@humanwhocodes/config-array@0.11.14':
+  '@humanwhocodes/config-array@0.11.14(supports-color@7.2.0)':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.2
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@7.2.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -1084,9 +1084,9 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.2': {}
 
-  '@kwsites/file-exists@1.1.1':
+  '@kwsites/file-exists@1.1.1(supports-color@7.2.0)':
     dependencies:
-      debug: 4.3.5
+      debug: 4.3.5(supports-color@7.2.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -1272,13 +1272,17 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  debug@4.3.4:
+  debug@4.3.4(supports-color@7.2.0):
     dependencies:
       ms: 2.1.2
+    optionalDependencies:
+      supports-color: 7.2.0
 
-  debug@4.3.5:
+  debug@4.3.5(supports-color@7.2.0):
     dependencies:
       ms: 2.1.2
+    optionalDependencies:
+      supports-color: 7.2.0
 
   decamelize@1.2.0: {}
 
@@ -1317,15 +1321,15 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-unicorn@51.0.1(eslint@8.57.0):
+  eslint-plugin-unicorn@51.0.1(eslint@8.57.0(supports-color@7.2.0))(supports-color@7.2.0):
     dependencies:
       '@babel/helper-validator-identifier': 7.22.20
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@eslint/eslintrc': 2.1.4
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0(supports-color@7.2.0))
+      '@eslint/eslintrc': 2.1.4(supports-color@7.2.0)
       ci-info: 4.0.0
       clean-regexp: 1.0.0
       core-js-compat: 3.36.1
-      eslint: 8.57.0
+      eslint: 8.57.0(supports-color@7.2.0)
       esquery: 1.5.0
       indent-string: 4.0.0
       is-builtin-module: 3.2.1
@@ -1346,20 +1350,20 @@ snapshots:
 
   eslint-visitor-keys@3.4.3: {}
 
-  eslint@8.57.0:
+  eslint@8.57.0(supports-color@7.2.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0(supports-color@7.2.0))
       '@eslint-community/regexpp': 4.6.1
-      '@eslint/eslintrc': 2.1.4
+      '@eslint/eslintrc': 2.1.4(supports-color@7.2.0)
       '@eslint/js': 8.57.0
-      '@humanwhocodes/config-array': 0.11.14
+      '@humanwhocodes/config-array': 0.11.14(supports-color@7.2.0)
       '@humanwhocodes/module-importer': 1.0.1
       '@nodelib/fs.walk': 1.2.8
       '@ungap/structured-clone': 1.2.0
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@7.2.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -1838,11 +1842,11 @@ snapshots:
 
   signal-exit@3.0.7: {}
 
-  simple-git@3.27.0:
+  simple-git@3.27.0(supports-color@7.2.0):
     dependencies:
-      '@kwsites/file-exists': 1.1.1
+      '@kwsites/file-exists': 1.1.1(supports-color@7.2.0)
       '@kwsites/promise-deferred': 1.1.1
-      debug: 4.3.5
+      debug: 4.3.5(supports-color@7.2.0)
     transitivePeerDependencies:
       - supports-color
 

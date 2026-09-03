@@ -1,0 +1,5 @@
+packages:
+  - .
+trustLockfile: true
+overrides:
+  graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs

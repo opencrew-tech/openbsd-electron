@@ -5,8 +5,8 @@
     "doc": "docs"
   },
   "volta": {
-    "node": "22.18.0",
-    "pnpm": "10.14.0"
+    "node": "24.18.1",
+    "pnpm": "11.20.0"
   },
   "engine-strict": true,
   "scripts": {
@@ -47,10 +47,5 @@
     "prettier": "3.3.3",
     "simple-git": "3.27.0",
     "targz": "1.0.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "graceful-fs": "link:../../node/graceful-fs/node_modules/graceful-fs"
-    }
   }
 }

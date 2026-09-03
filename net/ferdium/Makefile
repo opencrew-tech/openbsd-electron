@@ -1,7 +1,6 @@
 COMMENT =	all your web-services in one place
 
-DIST_TUPLE =	github ferdium ferdium-app v7.1.2 .
-REVIVION =	0
+DIST_TUPLE =	github ferdium ferdium-app v7.2.1 .
 
 CATEGORIES =	net
 
@@ -17,11 +16,11 @@ WANTLIB += ${COMPILER_LIBCXX} m
 # bundle node_sqlite3.node
 COMPILER =		base-clang ports-gcc
 
-RECIPES_ID =	785591facd25563dc2354e6f97088511e9cdfac8
+RECIPES_ID =	fc4675ab5724e83d59d92f38a63dcc503615a7c9
 DIST_TUPLE+=	github ferdium ferdium-recipes ${RECIPES_ID} recipes
 
 BUILD_TIMESTAMP =	$$(date +%s)
-BUILD_SHORTHASH =	c503018
+BUILD_SHORTHASH =	9cc159c
 
 MODULES =		devel/pnpm \
 			www/electron
@@ -36,11 +35,13 @@ MODPNPM_TARGETS =	${WRKSRC} ${WRKSRC}/recipes
 MODPNPM_BUILD =		No
 MODPNPM_INSTALL =	No
 
-MODPNPM_MODS+=7zip-bin
-MODPNPM_MODS+=app-builder-bin
 MODPNPM_MODS+=electron-builder
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
+MODPNPM_MODS+=@parcel/watcher
+
+MODPNPM_ENV_TEST+= \
+	ELECTRON_OVERRIDE_DIST_PATH=${LOCALBASE}/electron/${ELECTRON_V}
 
 # fix build, to revisit on next update
 MODPNPM_GEN_UPDATE=sqlite3@5.1.7

@@ -387,6 +387,8 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-deep1-d
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-deep2-dep-bins-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-deep2-dep-bins-1.0.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-deep2-dep-bins-1.0.0/package.json
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-dep-alias-bins-1.0.0/
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-dep-alias-bins-1.0.0/package.json
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-dep-scripted-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-dep-scripted-1.0.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/one-dep-scripted-1.0.0/package.json
@@ -462,6 +464,12 @@ lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prefer-unpl
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prefer-unplugged-true-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prefer-unplugged-true-1.0.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prefer-unplugged-true-1.0.0/package.json
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.1/
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.1/index.js
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.1/package.json
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.2/
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.2/index.js
+lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/prerelease-only-1.0.0-rc.2/package.json
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/private-package-1.0.0/
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/private-package-1.0.0/index.js
 lib/node/berry/packages/acceptance-tests/pkg-tests-fixtures/packages/private-package-1.0.0/package.json

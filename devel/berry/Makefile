@@ -1,6 +1,6 @@
 COMMENT =	fast, reliable, and secure dependency management for node.js
 
-V =		4.17.1
+V =		4.18.0
 DISTNAME =	berry--yarnpkg-cli-${V}
 PKGNAME =	berry-${V}
 DIST_TUPLE =	github yarnpkg berry @yarnpkg/cli/${V} .

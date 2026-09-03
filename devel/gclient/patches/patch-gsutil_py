@@ -1,34 +1,43 @@
 Index: gsutil.py
 --- gsutil.py.orig
 +++ gsutil.py
-@@ -94,6 +94,10 @@ def temporary_directory(base):
- def ensure_gsutil(version, target, clean):
-     bin_dir = os.path.join(target, 'gsutil_%s' % version)
-     gsutil_bin = os.path.join(bin_dir, 'gsutil', 'gsutil')
-+
-+    # XXX gsutil_flag tricks does not work (why?)
-+    return gsutil_bin
-+
-     gsutil_flag = os.path.join(bin_dir, 'gsutil', 'install.flag')
-     # We assume that if gsutil_flag exists, then we have a good version
-     # of the gsutil package.
-@@ -256,8 +260,7 @@ def run_gsutil(target, args, clean=False):
-     assert sys.platform != 'cygwin'
+@@ -38,7 +38,7 @@ LUCI_AUTH_SCOPES = [
+ PREFER_LUCI_AUTH = True
  
-     cmd = [
--        'vpython3', '-vpython-spec',
--        os.path.join(THIS_DIR, 'gsutil.py.vpython3'), '--', gsutil_bin
-+        'gsutil',
-     ] + args_opt + args
+ # Platforms unsupported by luci-auth.
+-LUCI_AUTH_UNSUPPORTED_PLATFORMS = ["aix", "zos"]
++LUCI_AUTH_UNSUPPORTED_PLATFORMS = ["aix", "zos", "openbsd"]
+ 
+ 
+ class InvalidGsutilError(Exception):
+@@ -233,10 +233,9 @@ def get_boto_path():
+ 
+ def run_gsutil(target, args, clean=False):
+     # Redirect gsutil config calls to luci-auth.
+-    if "config" in args:
++    if "config" in args and _is_luci_auth_supported_platform():
+         return luci_login().returncode
+ 
+-    gsutil_bin = ensure_gsutil(VERSION, target, clean)
+     args_opt = ["-o", "GSUtil:software_update_check_period=0"]
+ 
+     if sys.platform == "darwin":
+@@ -258,17 +257,7 @@ def run_gsutil(target, args, clean=False):
+         sys.exit(subprocess.call(cmd))
+     assert sys.platform != "cygwin"
+ 
+-    cmd = (
+-        [
+-            "vpython3",
+-            "-vpython-spec",
+-            os.path.join(THIS_DIR, "gsutil.py.vpython3"),
+-            "--",
+-            gsutil_bin,
+-        ]
+-        + args_opt
+-        + args
+-    )
++    cmd = ["gsutil"] + args_opt + args
  
      boto_path = get_boto_path()
-@@ -309,6 +312,9 @@ def run_gsutil(target, args, clean=False):
  
-         _print_subprocess_result(p)
-         return p.returncode
-+
-+    # XXX skip luci_auth
-+    return _run_subprocess(cmd, interactive=True).returncode
- 
-     # Skip wrapping commands if luci-auth is already being used or if the
-     # platform is unsupported by luci-auth.

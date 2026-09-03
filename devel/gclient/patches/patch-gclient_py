@@ -1,13 +1,12 @@
 Index: gclient.py
 --- gclient.py.orig
 +++ gclient.py
-@@ -786,6 +786,9 @@ class Dependency(gclient_utils.WorkItem, DependencySet
-                     continue
-                 cipd_root = self.GetCipdRoot()
-                 for package in dep_value.get('packages', []):
-+                    package["package"] = package["package"].replace(
-+                        '${platform}', 'linux-${arch}'
-+                    )
-                     deps_to_add.append(
-                         CipdDependency(parent=self,
-                                        name=name,
+@@ -3333,6 +3333,8 @@ class CipdDependency(Dependency):
+         condition,
+     ):
+         package = dep_value["package"]
++        if sys.platform.startswith("openbsd"):
++            package = package.replace("${platform}", "linux-${arch}")
+         if dep_value.get("version_file"):
+             fp = os.path.join(
+                 parent.root.root_dir, parent.name, dep_value["version_file"]

@@ -33,6 +33,8 @@ libexec/gclient/${MODPY_PYCACHE}download_from_google_storage.${MODPY_PYC_MAGIC_T
 libexec/gclient/${MODPY_PYCACHE}download_from_google_storage.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}fetch.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}fetch.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}from_third_party.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}from_third_party.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gclient-new-workdir.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}gclient-new-workdir.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gclient.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -103,6 +105,8 @@ libexec/gclient/${MODPY_PYCACHE}google_java_format.${MODPY_PYC_MAGIC_TAG}${MODPY
 libexec/gclient/${MODPY_PYCACHE}google_java_format.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}gsutil.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}gsutil.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}ktfmt.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}ktfmt.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}lockfile.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}luci_auth_fido2_plugin.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -147,6 +151,10 @@ libexec/gclient/${MODPY_PYCACHE}roll_dep.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENS
 libexec/gclient/${MODPY_PYCACHE}roll_dep.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}roll_downstream_gcs_deps.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}roll_downstream_gcs_deps.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}run_alint.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}run_alint.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}run_in_virtual_path.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}run_in_virtual_path.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}rustfmt.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}rustfmt.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}scm.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -173,6 +181,8 @@ libexec/gclient/${MODPY_PYCACHE}upload_to_google_storage_first_class.${MODPY_PYC
 libexec/gclient/${MODPY_PYCACHE}upload_to_google_storage_first_class.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}utils.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}utils.${MODPY_PYC_MAGIC_TAG}pyc
+libexec/gclient/${MODPY_PYCACHE}verify_lockfile.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
+libexec/gclient/${MODPY_PYCACHE}verify_lockfile.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}watchlists.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/${MODPY_PYCACHE}watchlists.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/${MODPY_PYCACHE}win32imports.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
@@ -192,6 +202,7 @@ libexec/gclient/create_temp_file.py
 libexec/gclient/detect_host_arch.py
 libexec/gclient/download_from_google_storage.py
 libexec/gclient/fetch.py
+libexec/gclient/from_third_party.py
 libexec/gclient/gclient-new-workdir.py
 libexec/gclient/gclient.py
 libexec/gclient/gclient_eval.py
@@ -234,6 +245,7 @@ libexec/gclient/jj/${MODPY_PYCACHE}/
 libexec/gclient/jj/${MODPY_PYCACHE}scm.${MODPY_PYC_MAGIC_TAG}${MODPY_PYOEXTENSION}
 libexec/gclient/jj/${MODPY_PYCACHE}scm.${MODPY_PYC_MAGIC_TAG}pyc
 libexec/gclient/jj/scm.py
+libexec/gclient/ktfmt.py
 libexec/gclient/lockfile.py
 libexec/gclient/luci_auth_fido2_plugin.py
 libexec/gclient/markdown_format.py
@@ -256,6 +268,8 @@ libexec/gclient/reclient_helper.py
 libexec/gclient/reclientreport.py
 libexec/gclient/roll_dep.py
 libexec/gclient/roll_downstream_gcs_deps.py
+libexec/gclient/run_alint.py
+libexec/gclient/run_in_virtual_path.py
 libexec/gclient/rustfmt.py
 libexec/gclient/scm.py
 libexec/gclient/setup_color.py
@@ -330,5 +344,6 @@ libexec/gclient/upload_metrics.py
 libexec/gclient/upload_to_google_storage.py
 libexec/gclient/upload_to_google_storage_first_class.py
 libexec/gclient/utils.py
+libexec/gclient/verify_lockfile.py
 libexec/gclient/watchlists.py
 libexec/gclient/win32imports.py

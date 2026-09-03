@@ -1,12 +1,12 @@
 COMMENT =	google's tool to sync repository (DEPS)
 
-COMMIT =	75b9d88b8f86450b41f9313f27d620981a2a0981
-V =		0.20260428
+COMMIT =	9f4b1bd59d29f5b9f4acd37733bd10fab3641204
+V =		0.20260822
 DISTNAME =	depot_tools-${COMMIT}
 PKGNAME =	gclient-${V}
 
 # see cipd_client_version
-CIPD_COMMIT =	4048470b2263eb1bfee6134ea4b3b4b7da2e14b4
+CIPD_COMMIT =	2947bd98a9c59d4f552df3a043c5883651448e0a
 CIPD_PLATFORM =	openbsd-${MACHINE_ARCH}
 
 CATEGORIES =	devel

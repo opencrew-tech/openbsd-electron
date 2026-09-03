@@ -1,0 +1,40 @@
+Cover pre-fetched archive fetcher selection.
+
+Index: pnpm11/fetching/pick-fetcher/test/pickFetcher.ts
+--- pnpm11/fetching/pick-fetcher/test/pickFetcher.ts.orig
++++ pnpm11/fetching/pick-fetcher/test/pickFetcher.ts
+@@ -10,6 +10,7 @@ function createMockFetchers (partial: Partial<Fetchers
+     localTarball: noop,
+     remoteTarball: noop,
+     gitHostedTarball: noop,
++    gitMirrorTarball: noop,
+     directory: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+     git: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+     binary: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+@@ -38,6 +39,26 @@ test.each([
+   const gitHostedTarball = jest.fn() as FetchFunction
+   const fetcher = await pickFetcher(createMockFetchers({ gitHostedTarball }), { tarball })
+   expect(fetcher).toBe(gitHostedTarball)
++})
++
++test('should pick localTarball fetcher for a pre-fetched registry tarball', async () => {
++  const localTarball = jest.fn() as FetchFunction
++  const resolution = {
++    tarball: 'mirror:is-positive@1.0.0|file:/distfiles/is-positive-1.0.0.tgz',
++  }
++  const fetcher = await pickFetcher(createMockFetchers({ localTarball }), resolution)
++  expect(fetcher).toBe(localTarball)
++  expect(resolution.tarball).toBe('file:/distfiles/is-positive-1.0.0.tgz')
++})
++
++test('should pick gitMirrorTarball fetcher for a pre-fetched git-hosted tarball', async () => {
++  const gitMirrorTarball = jest.fn() as FetchFunction
++  const resolution = {
++    tarball: 'mirror:https://codeload.github.com/zkochan/is-negative/tar.gz/6dcce91c268805d456b8a575b67d7febc7ae2933|file:/distfiles/is-negative.tar.gz',
++  }
++  const fetcher = await pickFetcher(createMockFetchers({ gitMirrorTarball }), resolution)
++  expect(fetcher).toBe(gitMirrorTarball)
++  expect(resolution.tarball).toBe('file:/distfiles/is-negative.tar.gz')
+ })
+ 
+ test('should fail to pick fetcher if the type is not defined', async () => {

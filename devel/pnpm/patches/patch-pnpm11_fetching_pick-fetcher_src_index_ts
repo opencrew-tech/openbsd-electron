@@ -1,0 +1,36 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/fetching/pick-fetcher/src/index.ts
+--- pnpm11/fetching/pick-fetcher/src/index.ts.orig
++++ pnpm11/fetching/pick-fetcher/src/index.ts
+@@ -9,7 +9,7 @@ import type {
+   GitFetcher,
+ } from '@pnpm/fetching.fetcher-base'
+ import type { CustomFetcher, CustomFetcherDelegation } from '@pnpm/hooks.types'
+-import { type AtomicResolution, classifyResolution } from '@pnpm/resolving.resolver-base'
++import { type AtomicResolution, classifyResolution, isGitHostedTarballUrl } from '@pnpm/resolving.resolver-base'
+ import type { Cafs } from '@pnpm/store.cafs-types'
+ 
+ export type PickedFetcher = FetchFunction | DirectoryFetcher | GitFetcher | BinaryFetcher
+@@ -67,7 +67,20 @@ function isCustomFetcherDelegation (result: FetchResul
+ }
+ 
+ function pickBuiltinFetcher (fetcherByHostingType: Fetchers, resolution: AtomicResolution): PickedFetcher {
+-  const fetcherType = classifyResolution(resolution)
++  let fetcherType: keyof Fetchers | 'custom'
++  if (resolution.type == null && resolution.tarball.startsWith('mirror:')) {
++    const mirrorDelimiter = resolution.tarball.indexOf('|', 'mirror:'.length)
++    if (mirrorDelimiter === -1) {
++      throw new PnpmError('INVALID_MIRROR_TARBALL', `Invalid mirror tarball resolution "${resolution.tarball}"`)
++    }
++    const mirror = resolution.tarball.slice('mirror:'.length, mirrorDelimiter)
++    resolution.tarball = resolution.tarball.slice(mirrorDelimiter + 1)
++    fetcherType = isGitHostedTarballUrl(mirror)
++      ? 'gitMirrorTarball'
++      : 'localTarball'
++  } else {
++    fetcherType = classifyResolution(resolution)
++  }
+   if (fetcherType === 'custom') {
+     throw new PnpmError(
+       'UNSUPPORTED_RESOLUTION_TYPE',

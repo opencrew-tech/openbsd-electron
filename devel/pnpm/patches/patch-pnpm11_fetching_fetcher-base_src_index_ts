@@ -1,0 +1,13 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/fetching/fetcher-base/src/index.ts
+--- pnpm11/fetching/fetcher-base/src/index.ts.orig
++++ pnpm11/fetching/fetcher-base/src/index.ts
+@@ -86,6 +86,7 @@ export interface Fetchers {
+   localTarball: FetchFunction
+   remoteTarball: FetchFunction
+   gitHostedTarball: FetchFunction
++  gitMirrorTarball: FetchFunction
+   directory: DirectoryFetcher
+   git: GitFetcher
+   binary: BinaryFetcher

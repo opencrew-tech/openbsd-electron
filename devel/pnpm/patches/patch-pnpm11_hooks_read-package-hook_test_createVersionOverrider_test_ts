@@ -1,9 +1,9 @@
 Allow peer dependencies link: overrides.
 
-Index: hooks/read-package-hook/test/createVersionOverrider.test.ts
---- hooks/read-package-hook/test/createVersionOverrider.test.ts.orig
-+++ hooks/read-package-hook/test/createVersionOverrider.test.ts
-@@ -691,7 +691,7 @@ test('createVersionsOverrider() removes dependencies',
+Index: pnpm11/hooks/read-package-hook/test/createVersionOverrider.test.ts
+--- pnpm11/hooks/read-package-hook/test/createVersionOverrider.test.ts.orig
++++ pnpm11/hooks/read-package-hook/test/createVersionOverrider.test.ts
+@@ -695,7 +695,7 @@ test('createVersionsOverrider() removes dependencies',
    })
  })
  
@@ -12,7 +12,7 @@ Index: hooks/read-package-hook/test/createVersionOverrider.test.ts
    const overrider = createVersionsOverrider([
      {
        targetPkg: {
-@@ -723,13 +723,12 @@ test('createVersionsOverrider() moves invalid versions
+@@ -727,13 +727,12 @@ test('createVersionsOverrider() moves invalid versions
      })
    ).toStrictEqual({
      dependencies: {
@@ -27,7 +27,7 @@ Index: hooks/read-package-hook/test/createVersionOverrider.test.ts
        qux: '^1.0.0 || ^2.0.0',
      },
    })
-@@ -756,9 +755,9 @@ test('createVersionsOverrider() moves invalid versions
+@@ -760,9 +759,9 @@ test('createVersionsOverrider() moves invalid versions
        qux: '^2.1.0',
      },
      peerDependencies: {

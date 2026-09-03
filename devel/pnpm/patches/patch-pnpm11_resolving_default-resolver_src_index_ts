@@ -1,0 +1,38 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/resolving/default-resolver/src/index.ts
+--- pnpm11/resolving/default-resolver/src/index.ts.orig
++++ pnpm11/resolving/default-resolver/src/index.ts
+@@ -24,13 +24,15 @@ import {
+ import type {
+   LatestInfo,
+   LatestQuery,
++  PkgResolutionId,
+   ResolutionVerifier,
+   ResolveFunction,
+   ResolveOptions,
+   ResolveResult,
++  TarballResolution,
+   WantedDependency,
+ } from '@pnpm/resolving.resolver-base'
+-import { resolveFromTarball, resolveLatestFromTarball, type TarballResolveResult } from '@pnpm/resolving.tarball-resolver'
++import { resolveFromMirrorTarball, resolveFromTarball, resolveLatestFromTarball, type TarballResolveResult } from '@pnpm/resolving.tarball-resolver'
+ import type { RegistryConfig } from '@pnpm/types'
+ 
+ export {
+@@ -158,6 +160,15 @@ export function createResolver (
+         throw new PnpmError(
+           'SPEC_NOT_SUPPORTED_BY_ANY_RESOLVER',
+           `${specifier} isn't supported by any available resolver.`)
++      }
++      if (wantedDependency.mirror) {
++        const mirrorResolution = await resolveFromMirrorTarball({ bareSpecifier: wantedDependency.mirror })
++        if (mirrorResolution) {
++          const originalTarball = (resolution.resolution as TarballResolution).tarball
++          mirrorResolution.resolution = { tarball: `mirror:${wantedDependency.mirror}|${originalTarball}` }
++          return mirrorResolution
++        }
++        resolution.id = wantedDependency.mirror as PkgResolutionId
+       }
+       return resolution
+     },

@@ -1,0 +1,48 @@
+Keep a regression test for the OpenBSD offline git-hosted store behaviour.
+
+https://github.com/pnpm/pnpm/issues/10158
+
+Index: pnpm11/installing/package-requester/test/index.ts
+--- pnpm11/installing/package-requester/test/index.ts.orig
++++ pnpm11/installing/package-requester/test/index.ts
+@@ -10,7 +10,7 @@ import { streamParser } from '@pnpm/logger'
+ import type { PackageFilesIndex } from '@pnpm/store.cafs'
+ import type { PkgRequestFetchResult, PkgResolutionId, RequestPackageOptions, Resolution } from '@pnpm/store.controller-types'
+ import { createCafsStore } from '@pnpm/store.create-cafs-store'
+-import { StoreIndex } from '@pnpm/store.index'
++import { gitHostedStoreIndexKey, StoreIndex } from '@pnpm/store.index'
+ import { fixtures } from '@pnpm/test-fixtures'
+ import { setupMockAgent, teardownMockAgent } from '@pnpm/testing.mock-agent'
+ import { REGISTRY_MOCK_PORT } from '@pnpm/testing.registry-mock'
+@@ -637,6 +637,31 @@ test('fetchPackageToStore()', async () => {
+       version: '1.0.0',
+     }
+   )
++})
++
++test('git-hosted package uses the built store entry when scripts are ignored', () => {
++  const storeDir = temporaryDirectory()
++  const packageRequester = createPackageRequester({
++    resolve,
++    fetchers,
++    cafs: createCafsStore(storeDir),
++    storeDir,
++    verifyStoreIntegrity: true,
++    virtualStoreDirMaxLength: 120,
++  })
++  const pkgId = 'https://codeload.github.com/example/example/tar.gz/commit'
++  const { filesIndexFile } = packageRequester.getFilesIndexFilePath({
++    ignoreScripts: true,
++    pkg: {
++      id: pkgId,
++      resolution: {
++        gitHosted: true,
++        integrity: 'sha512-test',
++        tarball: pkgId,
++      },
++    },
++  })
++  expect(filesIndexFile).toBe(gitHostedStoreIndexKey(pkgId, { built: true }))
+ })
+ 
+ test('fetchPackageToStore() rejects remote tarballs without integrity by default', async () => {

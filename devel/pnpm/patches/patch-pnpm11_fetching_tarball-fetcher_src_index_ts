@@ -1,0 +1,21 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/fetching/tarball-fetcher/src/index.ts
+--- pnpm11/fetching/tarball-fetcher/src/index.ts.orig
++++ pnpm11/fetching/tarball-fetcher/src/index.ts
+@@ -34,6 +34,7 @@ export interface TarballFetchers {
+   localTarball: FetchFunction
+   remoteTarball: FetchFunction
+   gitHostedTarball: FetchFunction
++  gitMirrorTarball: FetchFunction
+ }
+ 
+ export function createTarballFetcher (
+@@ -69,6 +70,7 @@ export function createTarballFetcher (
+     localTarball: createLocalTarballFetcher(opts.storeIndex),
+     remoteTarball: remoteTarballFetcher,
+     gitHostedTarball: createGitHostedTarballFetcher(remoteTarballFetcher, opts),
++    gitMirrorTarball: createGitHostedTarballFetcher(createLocalTarballFetcher(opts.storeIndex), opts),
+   }
+ }
+ 

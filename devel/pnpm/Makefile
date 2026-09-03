@@ -12,13 +12,9 @@
 # We need a pre-made cache, but this cache may depend on targeted installs.
 # It looks like pnpm is not concerned when using --force.
 
-# The list of depends must be known in advance and the only solution is to use
-# a frozen lockfile. Thus, ports may have to override such locks.
-# See net/signal-desktop for such example using system esbuild.
-
 COMMENT=	fast, disk space efficient package manager
 
-V=		10.33.2
+V=		11.22.0
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
 CATEGORIES=	devel
@@ -61,18 +57,29 @@ MODPNPM_SKIP_GEN_MODS=	Yes
 # XXX use system esbuild, version to keep in sync manually
 # [ERROR] Cannot start service:
 # Host version "x.y.z" does not match binary version "x.y.z"
-ESBUILD_V=		0.28.0
+ESBUILD_V=		0.28.1
 MODPNPM_GEN_UPDATE=	esbuild@${ESBUILD_V}
 MODPNPM_GEN_OVERRIDES=	"esbuild" "${ESBUILD_V}"
 MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild
 
+TEST_ENV=		${MAKE_ENV} ${MODPNPM_ENV} PNPM_WORKERS=3
+
 post-extract:
+	chmod +x ${WRKDIR}/package/bin/pnpm.cjs
 	cd ${WRKDIR} && \
 	ln -fs ./devel/esbuild/github.com/evanw/esbuild*/npm/esbuild \
 		esbuild
 
 pre-configure:
 	ln -fs ${WRKDIR}/package/bin/pnpm.cjs ${WRKDIR}/bin/pnpm
+	ln -fs ${WRKDIR}/package/bin/pnpm.cjs ${WRKDIR}/bin/pn
+	ln -fs ${WRKDIR}/package/bin/pnpx.cjs ${WRKDIR}/bin/pnpx
+	ln -fs ${WRKDIR}/package/bin/pnpx.cjs ${WRKDIR}/bin/pnx
+# Keep the JavaScript TypeScript 6 compiler as tsc and expose the native
+# TypeScript 7 compiler under the tsgo name expected by the pnpm sources.
+	ln -fs ../typescript/bin/tsc ${WRKSRC}/node_modules/.bin/tsc
+	ln -fs ../@typescript/native-preview/bin/tsc \
+		${WRKSRC}/node_modules/.bin/tsgo
 
 do-build:
 	cd ${WRKSRC} && ${MODPNPM_CMD} compile
@@ -80,29 +87,38 @@ do-build:
 # XXX modpnpm hoisted+bundle+pack / npm install
 # XXX pnpm deploy does not work
 # XXX publish-packed incompatibility with node v22.x (assertion failed in esm)
-# copy official pakcage then override pnpm.cjs with custom build
+# Copy the official package then override pnpm.mjs with the custom build.
 do-install:
 	${MODPY_COMPILEALL} ${WRKDIR}/package/dist/node_modules/node-gyp/gyp
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/node/pnpm
 	cp -Rp ${WRKDIR}/package/* ${PREFIX}/lib/node/pnpm
-	cp -p ${WRKSRC}/pnpm/dist/pnpm.cjs ${PREFIX}/lib/node/pnpm/dist/
+	cp -p ${WRKSRC}/pnpm11/pnpm/dist/pnpm.mjs \
+		${PREFIX}/lib/node/pnpm/dist/
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/lib/node
 	ln -s ../lib/node/pnpm/bin/pnpm.cjs ${PREFIX}/bin/pnpm
 	rm -rf ${PREFIX}/lib/node/pnpm/dist/vendor
 	rm -rf ${PREFIX}/lib/node/pnpm/dist/reflink*
 
-TEST_ENV=	${MAKE_ENV} ${MODPNPM_ENV} PNPM_WORKERS=3
-
 do-test:
-# lint error, skip 'pnpm lint --quiet'
+# lint error, skip 'pn lint'
 # pnpm run stop on first _test failure, add --no-bail to keep it going
-# "test-main": "pnpm pretest && pnpm lint --quiet && pnpm run test-pkgs-main"
-# "test-pkgs-main": "pnpm remove-temp-dir && pnpm run \
-#	--no-sort --workspace-concurrency=1 -r _test"
+# "test-all": "pn pretest && pn lint && pn test-pkgs-all"
 	cd ${WRKSRC} && \
 		${SETENV} ${TEST_ENV} ${MODPNPM_BIN} pretest && \
-		${SETENV} ${TEST_ENV} ${MODPNPM_BIN} remove-temp-dir && \
-		${SETENV} ${TEST_ENV} ${MODPNPM_BIN} run --no-sort \
-			--workspace-concurrency=1 --no-bail -r _test
+		${SETENV} ${TEST_ENV} ${MODPNPM_BIN} test-pkgs-all
+
+# unrs-resolver: use the bundled WASI binding, avoid the network fallback.
+# @eslint-community/eslint-utils: generated artifacts are already shipped.
+# @typescript/native-preview: use the portable upstream TypeScript 7 package.
+TYPESCRIPT_NATIVE_V=	7.0.2
+modpnpm-pre-gen-modules:
+	@cd ${WRKSRC} && \
+	yq -y '\
+		.allowBuilds["unrs-resolver"] = false | \
+		.allowBuilds["@eslint-community/eslint-utils"] = false | \
+		.catalog["@typescript/native-preview"] = \
+		    "npm:typescript@${TYPESCRIPT_NATIVE_V}"' \
+	    ${MODPNPM_WORKSPACE} > tmp.yaml && \
+	mv tmp.yaml ${MODPNPM_WORKSPACE}
 
 .include <bsd.port.mk>

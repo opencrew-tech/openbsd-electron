@@ -1,0 +1,13 @@
+Keep custom fetcher test fixtures compatible with the mirror fetcher.
+
+Index: pnpm11/fetching/pick-fetcher/test/customFetch.ts
+--- pnpm11/fetching/pick-fetcher/test/customFetch.ts.orig
++++ pnpm11/fetching/pick-fetcher/test/customFetch.ts
+@@ -37,6 +37,7 @@ function createMockFetchers (partial: Partial<Fetchers
+     localTarball: noop,
+     remoteTarball: noop,
+     gitHostedTarball: noop,
++    gitMirrorTarball: noop,
+     directory: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+     git: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+     binary: noop as any, // eslint-disable-line @typescript-eslint/no-explicit-any

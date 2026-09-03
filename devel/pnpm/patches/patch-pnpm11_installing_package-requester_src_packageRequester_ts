@@ -1,0 +1,18 @@
+Always use the built store entry for git-hosted packages.  A store populated
+without --ignore-scripts otherwise cannot be reused by an offline install with
+--ignore-scripts because pnpm selects the separate not-built entry.
+
+https://github.com/pnpm/pnpm/issues/10158
+
+Index: pnpm11/installing/package-requester/src/packageRequester.ts
+--- pnpm11/installing/package-requester/src/packageRequester.ts.orig
++++ pnpm11/installing/package-requester/src/packageRequester.ts
+@@ -406,7 +406,7 @@ function getFilesIndexFilePath (
+ ): GetFilesIndexFilePathResult {
+   const targetRelative = depPathToFilename(opts.pkg.id, ctx.virtualStoreDirMaxLength)
+   const target = path.join(ctx.storeDir, targetRelative)
+-  const built = !opts.ignoreScripts
++  const built = true
+   let resolution: AtomicResolution
+   if (opts.pkg.resolution.type === 'variations') {
+     resolution = findResolution(opts.pkg.resolution.variants, opts.supportedArchitectures)

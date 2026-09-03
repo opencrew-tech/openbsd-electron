@@ -1,0 +1,24 @@
+Allow peer dependencies link: overrides.
+
+Index: pnpm11/hooks/read-package-hook/src/createVersionsOverrider.ts
+--- pnpm11/hooks/read-package-hook/src/createVersionsOverrider.ts.orig
++++ pnpm11/hooks/read-package-hook/src/createVersionsOverrider.ts
+@@ -177,12 +177,16 @@ function overrideDeps (
+     }
+ 
+     const newBareSpecifier = resolveOverriddenBareSpecifier(versionOverride, dir)
+-    if (peerDeps == null || !isValidPeerRange(newBareSpecifier)) {
++    if (peerDeps == null || !isPeerRangeOverride(newBareSpecifier)) {
+       deps[versionOverride.targetPkg.name] = newBareSpecifier
+-    } else if (isValidPeerRange(newBareSpecifier)) {
++    } else {
+       peerDeps[versionOverride.targetPkg.name] = newBareSpecifier
+     }
+   }
++}
++
++function isPeerRangeOverride (newBareSpecifier: string): boolean {
++  return isValidPeerRange(newBareSpecifier) || newBareSpecifier.startsWith('link:')
+ }
+ 
+ function convergeDep (

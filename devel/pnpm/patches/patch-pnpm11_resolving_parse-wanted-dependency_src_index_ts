@@ -1,0 +1,13 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/resolving/parse-wanted-dependency/src/index.ts
+--- pnpm11/resolving/parse-wanted-dependency/src/index.ts.orig
++++ pnpm11/resolving/parse-wanted-dependency/src/index.ts
+@@ -3,6 +3,7 @@ import validateNpmPackageName from 'validate-npm-packa
+ export interface ParsedWantedDependency {
+   alias: string
+   bareSpecifier: string
++  mirror?: string
+ }
+ 
+ export type ParseWantedDependencyResult = Partial<ParsedWantedDependency> &

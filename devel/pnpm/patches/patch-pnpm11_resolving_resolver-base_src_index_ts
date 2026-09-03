@@ -1,9 +1,9 @@
 Implement pre-fetched archive loading into store.
 
-Index: resolving/resolver-base/src/index.ts
---- resolving/resolver-base/src/index.ts.orig
-+++ resolving/resolver-base/src/index.ts
-@@ -131,10 +131,16 @@ export type WantedDependency = {
+Index: pnpm11/resolving/resolver-base/src/index.ts
+--- pnpm11/resolving/resolver-base/src/index.ts.orig
++++ pnpm11/resolving/resolver-base/src/index.ts
+@@ -425,10 +425,16 @@ export type WantedDependency = {
    prevSpecifier?: string
  } & ({
    alias?: string

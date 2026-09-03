@@ -1,0 +1,21 @@
+pnpm run stop on first _test failure, add --no-bail to keep it going
+use system node instead of pnx node@runtime:26.7.0
+
+Index: package.json
+--- package.json.orig
++++ package.json
+@@ -12,12 +12,12 @@
+     "test-all": "pn pretest && pn lint && pn test-pkgs-all",
+     "ci:test-all": "pn prepare-fixtures && pn test-pkgs-all-report-summary",
+     "remove-temp-dir": "shx rm -rf ../pnpm_tmp",
+-    "test-pkgs-all": "pn remove-temp-dir && pn --no-sort --workspace-concurrency=1 -r .test",
++    "test-pkgs-all": "pn remove-temp-dir && pn --no-sort --workspace-concurrency=1 --no-bail -r .test",
+     "test-pkgs-all-report-summary": "pn remove-temp-dir && pn --no-sort --workspace-concurrency=1 -r --report-summary .test",
+     "test-branch": "pn pretest && pn lint && git remote set-branches --add origin main && git fetch origin main && pn test-pkgs-branch",
+     "ci:test-branch": "pn prepare-fixtures && pn test-pkgs-branch",
+     "test-pkgs-branch": "pn remove-temp-dir && pn --workspace-concurrency=1 --filter=...[origin/main] --no-sort --if-present .test",
+-    "compile-only": "tsgo --build pnpm11/workspace/workspace-manifest-reader pnpm11/workspace/projects-reader && pnx node@runtime:26.7.0 pnpm11/__utils__/scripts/src/typecheck-only.ts && pn -F=pnpm compile",
++    "compile-only": "tsgo --build pnpm11/workspace/workspace-manifest-reader pnpm11/workspace/projects-reader && node pnpm11/__utils__/scripts/src/typecheck-only.ts && pn -F=pnpm compile",
+     "compile": "pn compile-only && pn update-manifests",
+     "build:pnpm": "cargo build --release --bin pnpm",
+     "make-lcov": "shx mkdir -p coverage && lcov-result-merger 'pnpm11/**/coverage/lcov.info' 'coverage/lcov.info'",

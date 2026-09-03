@@ -1,0 +1,21 @@
+Implement pre-fetched archive loading into store.
+
+Index: pnpm11/store/commands/src/store/storeAdd.ts
+--- pnpm11/store/commands/src/store/storeAdd.ts.orig
++++ pnpm11/store/commands/src/store/storeAdd.ts
+@@ -21,7 +21,14 @@ export async function storeAdd (
+     streamParser.on('data', reporter)
+   }
+ 
+-  const deps = fuzzyDeps.map((dep) => parseWantedDependency(dep))
++  const deps = fuzzyDeps.map((dep) => {
++    const mirrorDelimiter = dep.indexOf('|', 1)
++    if (mirrorDelimiter === -1) return parseWantedDependency(dep)
++    return {
++      ...parseWantedDependency(dep.slice(mirrorDelimiter + 1)),
++      mirror: dep.slice(0, mirrorDelimiter),
++    }
++  })
+ 
+   let hasFailures = false
+   const prefix = opts.prefix ?? process.cwd()

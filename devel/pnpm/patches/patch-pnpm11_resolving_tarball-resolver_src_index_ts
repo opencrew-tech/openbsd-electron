@@ -1,8 +1,8 @@
 Implement pre-fetched archive loading into store.
 
-Index: resolving/tarball-resolver/src/index.ts
---- resolving/tarball-resolver/src/index.ts.orig
-+++ resolving/tarball-resolver/src/index.ts
+Index: pnpm11/resolving/tarball-resolver/src/index.ts
+--- pnpm11/resolving/tarball-resolver/src/index.ts.orig
++++ pnpm11/resolving/tarball-resolver/src/index.ts
 @@ -7,6 +7,23 @@ export interface TarballResolveResult extends ResolveR
    resolvedVia: 'url'
  }

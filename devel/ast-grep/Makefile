@@ -1,6 +1,6 @@
 COMMENT =	cli tool for code structural search, lint and rewriting
 
-DIST_TUPLE =	github ast-grep ast-grep 0.44.1 .
+DIST_TUPLE =	github ast-grep ast-grep 0.45.1 .
 
 CATEGORIES =	devel
 
@@ -27,6 +27,8 @@ MODYARN_MODS_SKIP+=	@ast-grep/napi
 
 MODYARN_MODS+=graceful-fs
 MODYARN_MODS+=oxlint
+
+MODYARN_GEN_ADD =	typescript@6.0.3
 
 CONFIGURE_STYLE =	cargo
 

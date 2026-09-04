@@ -13,7 +13,7 @@ DPB_PROPERTIES+=	lonesome
 COMMENT=		cross-platform desktop applications
 
 # sync with electron.port.mk
-ELECTRON_V=		41.10.2
+ELECTRON_V=		41.10.6
 ELECTRON_DIST=		electron/resources
 
 # make update-patches happy
@@ -31,7 +31,7 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 PERMIT_PACKAGE=		Yes
 
 # make versions
-# electron/v41.10.2/DEPS
+# electron/v41.10.6/DEPS
 CHROMIUM_V=	146.0.7680.216
 NODE_V=		24.18.0
 NAN_V=		675cefebca42410733da8a454c8d9391fcebfbc2

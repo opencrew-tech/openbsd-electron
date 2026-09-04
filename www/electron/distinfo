@@ -4,7 +4,7 @@ SHA256 (ReactiveCocoa-ReactiveObjC-74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76.tar.
 SHA256 (Squirrel-Squirrel.Mac-0e5d146ba13101a1302d59ea6e6e0b3cace4ae38.tar.gz) = 9Ou0Co2F27fvAqoFcbL44iGCxtc7aZJISlPJAEd3nQE=
 SHA256 (chromium-146.0.7680.216.tgz) = HnThA9ZmECbKczxlm3LWtsoyKf1BAP7fLrzp9p8kHjs=
 SHA256 (chromium-nodejs-93c8d9925d573861d892cec96b2b6c00fcf4659a) = Cx8qdrG/+C7Xiwkxl28zr00HFWLAepNMtKGfNlnefS0=
-SHA256 (electron-electron-v41.10.2.tar.gz) = cT658OP3tveu+e1XvUWs9onAKToh6a9ancp7wk+lUYg=
+SHA256 (electron-electron-v41.10.6.tar.gz) = fngamS9liywM/xanKP4mCMFpC6Hs5sVT5F53/pE1Ic4=
 SHA256 (nodejs-nan-675cefebca42410733da8a454c8d9391fcebfbc2.tar.gz) = OYPGjxntdd033CKOqzhQk64lMxMnMPJT8MPRn/EHiOM=
 SHA256 (nodejs-node-v24.18.0.tar.gz) = 4H3UGe/jCom5DYcqlW0HT0GX/RA3gbwG4PzpnQEwrQE=
 SHA256 (npm_modules/@actions-cache-4.1.0.tgz) = xh2gqCoK6PBw16/3KFRzzOba1m0UsDpOIoSpLGsHO8I=
@@ -1325,7 +1325,7 @@ SIZE (ReactiveCocoa-ReactiveObjC-74ab5baccc6f7202c8ac69a8d1e152c29dc1ea76.tar.gz
 SIZE (Squirrel-Squirrel.Mac-0e5d146ba13101a1302d59ea6e6e0b3cace4ae38.tar.gz) = 2112918
 SIZE (chromium-146.0.7680.216.tgz) = 2534761437
 SIZE (chromium-nodejs-93c8d9925d573861d892cec96b2b6c00fcf4659a) = 11046574
-SIZE (electron-electron-v41.10.2.tar.gz) = 19196631
+SIZE (electron-electron-v41.10.6.tar.gz) = 19386882
 SIZE (nodejs-nan-675cefebca42410733da8a454c8d9391fcebfbc2.tar.gz) = 111323
 SIZE (nodejs-node-v24.18.0.tar.gz) = 127522062
 SIZE (npm_modules/@actions-cache-4.1.0.tgz) = 58358

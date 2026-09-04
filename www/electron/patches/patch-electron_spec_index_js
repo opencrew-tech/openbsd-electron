@@ -1,7 +1,7 @@
 Index: electron/spec/index.js
 --- electron/spec/index.js.orig
 +++ electron/spec/index.js
-@@ -91,6 +91,23 @@ function isDescendantOfCurrentProcess(pid) {
+@@ -93,6 +93,23 @@ function isDescendantOfCurrentProcess(pid) {
    return false;
  }
  
@@ -25,7 +25,7 @@ Index: electron/spec/index.js
  async function killOrphanedElectronProcesses(suiteName) {
    let killed = 0;
    try {
-@@ -165,6 +182,17 @@ async function killOrphanedElectronProcesses(suiteName
+@@ -167,6 +184,17 @@ async function killOrphanedElectronProcesses(suiteName
          } catch {
            // /proc unavailable — ignore
          }
@@ -43,7 +43,7 @@ Index: electron/spec/index.js
        } else {
          // macOS: pgrep -f is safe here (no wrapper scripts, and helpers use
          // different .app bundles with different executable paths).
-@@ -180,6 +208,7 @@ async function killOrphanedElectronProcesses(suiteName
+@@ -182,6 +210,7 @@ async function killOrphanedElectronProcesses(suiteName
            // On Linux, skip any process that is a descendant of the current
            // Electron instance (GPU, renderer, zygote, crashpad, etc.).
            if (process.platform === 'linux' && isDescendantOfCurrentProcess(pid)) continue;
@@ -51,7 +51,7 @@ Index: electron/spec/index.js
            process.kill(pid, 'SIGKILL');
            killed++;
          } catch {
-@@ -267,7 +296,7 @@ app
+@@ -269,7 +298,7 @@ app
      if (!process.env.MOCHA_REPORTER) {
        mocha.ui('bdd').reporter('tap');
      }

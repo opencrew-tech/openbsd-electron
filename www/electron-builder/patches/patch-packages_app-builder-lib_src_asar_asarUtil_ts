@@ -1,7 +1,7 @@
 Index: packages/app-builder-lib/src/asar/asarUtil.ts
 --- packages/app-builder-lib/src/asar/asarUtil.ts.orig
 +++ packages/app-builder-lib/src/asar/asarUtil.ts
-@@ -37,6 +37,7 @@ const DENYLIST = resolvePaths([
+@@ -38,6 +38,7 @@ const DENYLIST = resolvePaths([
  ])
  
  const ALLOWLIST = resolvePaths([

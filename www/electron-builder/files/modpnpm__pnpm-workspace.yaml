@@ -1,9 +1,25 @@
 packages:
-  - "packages/**"
-  - "test"
-
-# 10080 minutes = 7 days
+  - packages/**
+  - test
+  - website
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': true
+  core-js: false
+  electron: false
+  electron-winstaller: true
+  esbuild: false
 minimumReleaseAge: 10080
-minimumReleaseAgeExclude:
-  - "tar"
-  - "@electron/rebuild"
+patchedDependencies:
+  '@changesets/cli@2.29.7': patches/@changesets__cli@2.29.7.patch
+  '@changesets/assemble-release-plan@6.0.9': patches/@changesets__assemble-release-plan@6.0.9.patch
+overrides:
+  flatted: '>=3.4.2'
+  handlebars: '>=4.7.9'
+  esbuild: link:../node/esbuild/node_modules/esbuild
+  graceful-fs: link:../node/graceful-fs/node_modules/graceful-fs
+  '@parcel/watcher': link:../node/parcel-watcher/node_modules/@parcel/watcher
+  rollup: link:../node/rollup/node_modules/rollup
+  lightningcss: npm:lightningcss-wasm
+packageImportMethod: copy
+trustLockfile: true

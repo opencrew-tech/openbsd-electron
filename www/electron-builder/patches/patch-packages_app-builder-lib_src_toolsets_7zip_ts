@@ -1,0 +1,14 @@
+Index: packages/app-builder-lib/src/toolsets/7zip.ts
+--- packages/app-builder-lib/src/toolsets/7zip.ts.orig
++++ packages/app-builder-lib/src/toolsets/7zip.ts
+@@ -59,6 +59,10 @@ async function resolve(): Promise<string> {
+     return envExec
+   }
+ 
++  if (process.platform === "openbsd") {
++    return "${LOCALBASE}/bin/7za"
++  }
++
+   const filename = getFilename()
+   const toolDir = await downloadBuilderToolset({
+     releaseName: `7zip@1.0.0`,

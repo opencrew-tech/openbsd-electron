@@ -1,7 +1,7 @@
 Index: tsconfig.json
 --- tsconfig.json.orig
 +++ tsconfig.json
-@@ -11,9 +11,6 @@
+@@ -11,16 +11,10 @@
        "path": "./packages/electron-updater"
      },
      {
@@ -9,5 +9,14 @@ Index: tsconfig.json
 -    },
 -    {
        "path": "./test"
+-    },
+-    {
+-      "path": "./website"
      },
      {
+       "path": "./scripts"
+     }
+   ]
+-}
+\ No newline at end of file
++}

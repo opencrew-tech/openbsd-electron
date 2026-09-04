@@ -1,0 +1,19 @@
+Index: test/vitest-scripts/generate-tests.ts
+--- test/vitest-scripts/generate-tests.ts.orig
++++ test/vitest-scripts/generate-tests.ts
+@@ -2,7 +2,6 @@
+ import { existsSync, rmSync } from "fs-extra"
+ import { generateLinuxToolsetTests } from "./generate-toolset-tests-linux"
+ import { GENERATED_TESTS_DIR } from "./generate-toolset-tests-shared"
+-import { generateWindowsToolsetTests } from "./generate-toolset-tests-windows"
+ 
+ const generateTests = () => {
+   if (existsSync(GENERATED_TESTS_DIR)) {
+@@ -10,7 +9,6 @@ const generateTests = () => {
+     rmSync(GENERATED_TESTS_DIR, { recursive: true })
+   }
+   generateLinuxToolsetTests()
+-  generateWindowsToolsetTests()
+ }
+ 
+ if (require.main === module) {

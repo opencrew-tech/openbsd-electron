@@ -1,6 +1,6 @@
 COMMENT =	solution to package and build Electron app
 
-V =		26.8.2
+V =		26.15.7
 DISTNAME =	electron-builder-electron-builder-${V}
 PKGNAME =	electron-builder-${V}
 
@@ -27,12 +27,12 @@ MODULES+=		lang/python
 
 MODULES+=		devel/pnpm
 
-MODPNPM_MODS+=7zip-bin
-MODPNPM_MODS+=app-builder-bin
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
+MODPNPM_MODS+=lightningcss
 MODPNPM_MODS+=@parcel/watcher
 MODPNPM_MODS+=rollup
+MODPNPM_MODS+=@swc/core
 
 MODPNPM_INSTALL =	electron-builder
 
@@ -40,6 +40,7 @@ MODPNPM_CONFIGFILES+=	packages/app-builder-lib/${MODPNPM_PACKAGE} \
 			packages/electron-builder/${MODPNPM_PACKAGE} \
 			test/${MODPNPM_PACKAGE}
 
+MODPNPM_ENV_TEST +=	VITEST_SHARD_COUNT=1
 MODPNPM_ARGS_TEST =	ci:test ${MODPNPM_ARGS}
 
 post-extract:
@@ -51,7 +52,12 @@ post-extract:
 		rm -rf electron-forge-maker-nsis-web ; \
 		rm -rf electron-forge-maker-snap ; \
 	)
+	rm -rf ${WRKSRC}/website
 	rm -rf ${WRKSRC}/test/src/{mac,windows,helpers/CheckingPackager.ts}
+	rm -f ${WRKSRC}/test/vitest-scripts/generate-toolset-tests-windows.ts
+
+post-patch:
+	${SUBST_CMD} ${WRKSRC}/packages/app-builder-lib/src/toolsets/7zip.ts
 
 post-build:
 	# drop test packages
@@ -84,7 +90,10 @@ modpnpm-pre-gen-modules:
 	cd ${WRKSRC}/test && \
 	jq 'del(.dependencies["electron-winstaller"],\
 		.dependencies["electron-builder-squirrel-windows"],\
-		.dependencies["dmg-builder"])' ${MODPNPM_PACKAGE} \
+		.dependencies["dmg-builder"],\
+		.devDependencies["electron-winstaller"],\
+		.devDependencies["electron-builder-squirrel-windows"],\
+		.devDependencies["dmg-builder"])' ${MODPNPM_PACKAGE} \
 		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
 
 .include "modules.pnpm.inc"

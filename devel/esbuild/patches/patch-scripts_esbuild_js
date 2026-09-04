@@ -1,3 +1,6 @@
+The ports framework already builds the Go binary and the npm JavaScript entry
+points. Reuse these artifacts during tests instead of rebuilding them.
+
 Index: scripts/esbuild.js
 --- scripts/esbuild.js.orig
 +++ scripts/esbuild.js

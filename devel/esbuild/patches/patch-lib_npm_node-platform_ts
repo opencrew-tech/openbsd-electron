@@ -1,3 +1,6 @@
+Use the esbuild binary installed by the port instead of looking for an upstream
+platform-specific npm package. ESBUILD_BINARY_PATH still takes precedence.
+
 Index: lib/npm/node-platform.ts
 --- lib/npm/node-platform.ts.orig
 +++ lib/npm/node-platform.ts

@@ -1,7 +1,7 @@
 COMMENT =	fast bundler for the web
 
-V=0.28.1
-REVISION=1
+V=0.28.2
+REVISION=0
 
 MODGO_MODNAME =	github.com/evanw/esbuild
 MODGO_VERSION =	v${V}
@@ -66,12 +66,13 @@ do-test:
 #	js-api-tests plugin-tests register-test node-unref-tests decorator-tests
 # skip no-filepath, check use of "path/filepath", untested
 # skip verify-source-map, cannot find module 'source-map', keep it simple
+	set -e ; \
 	cd ${WRKSRC} ; \
 	ln -fs ${MODGO_WORKSPACE}/bin/esbuild ./esbuild ; \
 	${MODGO_CMD} test ./internal/... ./pkg/... ; \
 	${MODGO_CMD} vet ./cmd/... ./internal/... ./pkg/... ; \
 	${SETENV} ${TEST_ENV} node scripts/end-to-end-tests.js ; \
-	${SETENV} ${TEST_ENV} node scripts/js-api-tests.js || true ; \
+	${SETENV} ${TEST_ENV} node scripts/js-api-tests.js ; \
 	${SETENV} ${TEST_ENV} node scripts/plugin-tests.js ; \
 	${SETENV} ${TEST_ENV} node scripts/register-test.js ; \
 	${SETENV} ${TEST_ENV} node scripts/node-unref-tests.js ; \

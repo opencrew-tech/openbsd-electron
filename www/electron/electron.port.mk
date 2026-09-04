@@ -7,13 +7,6 @@ ELECTRON_DIST_APPS=	${ELECTRON_DIST}/${MODELECTRON_TARGET}
 ELECTRON_WRAPPER=	electron/${ELECTRON_V}/electron.sh
 ELECTRON_NOSANDBOX=	electron/${ELECTRON_V}/electron_nosandbox.sh
 
-# rebuild/update depends if version changed
-ELECTRON_REV=		${ELECTRON_V:S/.//g}
-.if !empty(REVISION)
-REV:=			${REVISION}
-.endif
-REVISION=		${ELECTRON_REV}${REV}
-
 # XXX target based on pkgname ?
 # target application's name
 MODELECTRON_TARGET?=
@@ -69,9 +62,8 @@ SUBST_VARS+=		ELECTRON_DIST_APPS \
 .if ${MODELECTRON_BUILDDEP:L} == "yes"
 BUILD_DEPENDS +=	www/electron
 .endif
-.if ${MODELECTRON_RUNDEP:L} == "yes"
+# there is no reason to use this module without www/electron
 RUN_DEPENDS +=		www/electron
-.endif
 .if ${MODELECTRON_TESTDEP:L} == "yes"
 TEST_DEPENDS +=		www/electron
 .endif

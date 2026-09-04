@@ -7,6 +7,6 @@ Index: ringrtc/src/node/package.json
      "clean": "rimraf dist",
 -    "test": "electron-mocha --renderer --recursive dist/test --timeout 10000 --require source-map-support/register",
 +    "test": "electron-mocha --recursive dist/test --timeout 10000 --require source-map-support/register",
-     "eslint": "eslint .",
-     "lint": "npm run format --list-different && npm run eslint",
+     "oxlint": "oxlint --format=stylish",
+     "lint": "npm run format --list-different && npm run oxlint",
      "format": "prettier --write .",

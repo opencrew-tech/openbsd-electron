@@ -1,0 +1,25 @@
+Index: rolldown.config.ts
+--- rolldown.config.ts.orig
++++ rolldown.config.ts
+@@ -38,7 +38,7 @@ const external = [
+   './preload_test.preload.ts',
+ ];
+ 
+-const isProd = process.argv.some(arg => arg === '--minify');
++const isProd = process.env.SIGNAL_ROLLDOWN_PROD === '1';
+ 
+ const sandboxPreload = {
+   // Preload
+@@ -102,6 +102,12 @@ const defaults = {
+     generatedCode: {
+       symbols: false,
+     },
++    minify: isProd
++      ? {
++          // Electron 41 rejects Unicode 17 property names unquoted by compression.
++          compress: false,
++        }
++      : false,
+     sourcemap: !isProd,
+     sourcemapBaseUrl: 'bundles:///',
+     postBanner: ({ fileName }) => {

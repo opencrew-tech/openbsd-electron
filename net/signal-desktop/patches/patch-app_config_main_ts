@@ -1,7 +1,7 @@
 Index: app/config.main.ts
 --- app/config.main.ts.orig
 +++ app/config.main.ts
-@@ -9,6 +9,7 @@ import type { IConfig } from 'config';
+@@ -9,6 +9,7 @@ import type { Config } from 'config';
  import {
    Environment,
    getEnvironment,

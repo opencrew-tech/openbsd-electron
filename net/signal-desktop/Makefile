@@ -1,6 +1,6 @@
 COMMENT=		Signal Desktop links with Signal
 
-V=			8.7.0
+V=			8.23.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
 
@@ -18,20 +18,19 @@ PERMIT_PACKAGE=		Yes
 WANTLIB += ${MODCARGO_WANTLIB} c++ m vpx
 
 # make versions
-# ELECTRON_V=41.1.1
-# NODE_V=24.14.0
+# ELECTRON_V=43.0.0
+# NODE_V=24.17.0
 # sqlcipher depends
-SQLCIPHER_V=	3.2.1
-FTS5_ID=	a2a00359b1c0987e9b167855ebf0cd93342fd26e
+SQLCIPHER_V=	4.0.3
+FTS5_ID=	02829a2f93595e35bc970433eeaf8654fbbf29d4
 # libsignal depends
-LIBSIGNAL_V=	0.91.0
+LIBSIGNAL_V=	0.99.2
 BORING_ID=	2c157897feea0c54f5eca93407a157fa90703b5f
-CURVE_ID=	7c6d34756355a3566a704da84dce7b1c039a6572
-SPQR_ID=	f2589fef855c10f39d72634dab3d14654dd410bf
+SPQR_ID=	fd320484dcec89004021e6fdc7481825f5f261fa
 BORINGSSL_ID=	91a66a59b6c1435120ff83e245d7719411294386
 # ringrtc depends
-RINGRTC_V=	2.67.0
-WEBRTC_V=	7444h
+RINGRTC_V=	2.70.2
+WEBRTC_V=	7871e
 
 # node-sqlcipher, AGPLv3
 SQLCIPHER_SRC=	${WRKDIR}/node-sqlcipher-${SQLCIPHER_V}
@@ -54,8 +53,6 @@ LIBSIGNAL_T=	${WRKSRC}/node_modules/${LIBSIGNAL_PREB}
 DIST_TUPLE+=	github signalapp libsignal v${LIBSIGNAL_V} libsignal
 # boring (signalapp fork), Apache-2.0
 DIST_TUPLE+=	github signalapp boring ${BORING_ID} boring
-# curve25519-dalek (signalapp fork), BSD 3-Clause|MIT|Apache-2.0
-DIST_TUPLE+=	github signalapp curve25519-dalek ${CURVE_ID} curve25519-dalek
 # SparsePostQuantumRatchet, AGPLv3
 DIST_TUPLE+=	github signalapp SparsePostQuantumRatchet ${SPQR_ID} spqr
 # boring -> boringssl, OpenSSL/ISC
@@ -66,6 +63,7 @@ DIST_TUPLE+=	github google boringssl ${BORINGSSL_ID} .
 RINGRTC_SRC=	${WRKSRC}/ringrtc
 RINGRTC_NODE=	${RINGRTC_SRC}/src/node
 RINGRTC_TOML=	${RINGRTC_SRC}/Cargo.toml
+RINGRTC_LOCK=	${RINGRTC_SRC}/Cargo.lock
 RINGRTC_T=	${WRKSRC}/node_modules/@signalapp/ringrtc/build
 DIST_TUPLE+=	github signalapp ringrtc v${RINGRTC_V} ringrtc
 # webrtc, BSD-3-Clause
@@ -119,6 +117,7 @@ MODELECTRON_BUILDER=	Yes
 MODELECTRON_WRAPPER=	Yes
 
 MODNPM_MODS+=graceful-fs
+MODNPM_MODS+=oxlint
 
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
@@ -135,6 +134,7 @@ MODPNPM_MODS+=electron-builder
 MODPNPM_MODS+=esbuild
 MODPNPM_MODS+=graceful-fs
 MODPNPM_MODS+=@oxc-project/types
+MODPNPM_MODS+=oxc-parser
 MODPNPM_MODS+=oxc-transform
 MODPNPM_MODS+=oxlint
 MODPNPM_MODS+=@parcel/watcher
@@ -150,6 +150,14 @@ MODPNPM_MODS+=@typescript/native-preview
 MODPNPM_MODS+=lightningcss
 MODPNPM_MODS+=@swc/core
 
+# @xmldom/xmldom 0.9.10 is deprecated, bump instead of allowedDeprecatedVersions
+MODPNPM_GEN_OVERRIDES+=	\
+	"plist@5.0.0>@xmldom/xmldom" "0.9.12"
+
+# bump vite to match rolldown system version
+MODPNPM_CONFIGFILES+=	sticker-creator/${MODPNPM_PACKAGE}
+MODPNPM_GEN_UPDATE=	--filter signal-art-creator vite@8.2.1
+
 MODPNPM_BUILD=		No
 MODPNPM_INSTALL=	No
 
@@ -157,7 +165,6 @@ MODPNPM_NO_OPTIONAL=	Yes
 MODPNPM_REBUILD_ENV=	${ELECTRON_REBUILD_ENV}
 # note node-sqlcipher needs modpnpm-pre-gen-modules tweeks
 MODPNPM_TARGETS=	${WRKSRC} \
-			${WRKSRC}/sticker-creator \
 			${WRKSRC}/node-sqlcipher
 
 MODPY_RUNDEP=		No
@@ -166,7 +173,7 @@ MODPY_RUNDEP=		No
 CFLAGS+=		-DOMIT_MEMLOCK
 
 BUILD_DEPENDS+=		devel/esbuild \
-			devel/gn \
+			devel/gn>=0.0.20260526 \
 			devel/libinotify \
 			devel/ninja \
 			devel/protobuf \
@@ -202,7 +209,6 @@ GN_SYSTEM_LIBS=		brotli \
 			fontconfig \
 			freetype \
 			flatbuffers \
-			harfbuzz-ng \
 			highway \
 			icu \
 			jsoncpp \
@@ -273,6 +279,11 @@ GN_ARGS+=		is_debug=false \
 			extra_cxxflags=\"${CXXFLAGS}\"
 
 post-extract:
+	# use the lock generated after replacing RingRTC's libsignal
+.if empty(_GEN_LOCK) && exists(${FILESDIR}/ringrtc.Cargo.lock)
+	[ -f ${RINGRTC_LOCK}.orig ] || cp ${RINGRTC_LOCK}{,.orig}
+	cp ${FILESDIR}/ringrtc.Cargo.lock ${RINGRTC_LOCK}
+.endif
 	# boring-sys
 	mkdir -p ${BORINGSSL_T} && rm -rf ${BORINGSSL_T}/*
 	mv ${WRKDIR}/boringssl-${BORINGSSL_ID} ${BORINGSSL_T}/boringssl
@@ -299,12 +310,13 @@ do-configure:
 	${MODCARGO_configure}
 	${SUBST_DATA} ${FILESDIR}/cargo.toml \
 		${WRKDIR}/cargo.toml
-	cat ${WRKDIR}/cargo.toml >>${WRKDIR}/.cargo/config
+	cat ${WRKDIR}/cargo.toml >>${WRKDIR}/.cargo/config.toml
 
 # node-sqlcipher libsignal ringrtc sticker-creator
 pre-build: node-sqlcipher libsignal ringrtc sticker-creator
 	# rebuild native node modules
-	cd ${WRKSRC} && ${MODPNPM_CMD_BUILD} rebuild -dd
+	cd ${WRKSRC} && \
+	${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} ${MODPNPM_ARGS_REBUILD}
 	# setup build dir with dns-fallback.json
 	mkdir -p ${WRKSRC}/build
 	cp ${FILESDIR}/dns-fallback.json ${WRKSRC}/build/dns-fallback.json
@@ -432,6 +444,7 @@ webrtc-compile_commands:
 	${_PBUILD} make _webrtc-compile_commands
 
 # make versions : download, extract then print versions for depends
+# make ringrtc-lock : regenerate RingRTC lock after local libsignal patches
 # make tarball : gen webrtc-${WEBRTC_V}.tgz with gclient
 # make modpnpm-gen-modules : apply overrides and gen modules, see devel/pnpm
 # * modpnpm-pre-gen-modules : drop patchedDependencies, conflicts with overrides
@@ -442,6 +455,9 @@ webrtc-compile_commands:
 # make gn_args-system : helper to list webrtc gn args and display system one
 
 _TMP=		/tmp/signal-desktop-${V}
+_GEN_VAR?=	BUILD_USER=$$(whoami) WRKOBJDIR=$${t} \
+		PATCH_LIST='patch-*_toml'
+_GEN_DIR?=	$$(realpath `mktemp -d ${_TMP}.ringrtc-lock.XXXXXXX`)
 _SIGNALAPP_GH=	https://raw.githubusercontent.com/signalapp
 _BORING_GIT=	https://github.com/signalapp/boring.git
 _SIGNAL_GH=	${_SIGNALAPP_GH}/Signal-Desktop/
@@ -465,7 +481,7 @@ versions:
 		sed -E 's#("|,| )##g') ;				\
 	printf "# ELECTRON_V=%s\n" $$(awk /'"electron":'/'{print $$2}'	\
 		${_TMP}/package.json | sed -E 's/("|,)//g') ;		\
-	printf "# NODE_V=%s\n" $$(awk /'"node":'/'{print $$2}'		\
+	printf "# NODE_V=%s\n" $$(awk /'"node":'/'{print $$2; exit}'	\
 		${_TMP}/package.json | sed 's/"//g') ;			\
 									\
 	printf "# sqlcipher depends\n" ;				\
@@ -483,14 +499,10 @@ versions:
 	_boring_v=$$(grep "signalapp/boring"				\
 		${_TMP}/libsignal.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
-	_curve_v=$$(grep "signalapp/curve25519-dalek"			\
-		${_TMP}/libsignal.Cargo.lock |				\
-		uniq | awk -F '#|"' '{print $$3}') ;			\
 	_spqr_v=$$(grep "signalapp/SparsePostQuantumRatchet"		\
 		${_TMP}/libsignal.Cargo.lock |				\
 		uniq | awk -F '#|"' '{print $$3}') ;			\
 	printf "BORING_ID=\t%s\n" $$_boring_v ;				\
-	printf "CURVE_ID=\t%s\n" $$_curve_v ;				\
 	printf "SPQR_ID=\t%s\n" $$_spqr_v ;				\
 	mkdir -p ${_TMP}/boring && cd ${_TMP}/boring &&			\
 		git init >/dev/null 2>&1 && git fetch --depth 1		\
@@ -507,6 +519,27 @@ versions:
 	printf "WEBRTC_V=\t%s\n" $$(grep "webrtc.version"		\
 		${_TMP}/version.properties | awk -F "=" '{print $$2}' ) ;
 
+_ringrtc-lock:
+	${SUBST_CMD} ${LIBSIGNAL_TOML} ${RINGRTC_TOML}
+	cd ${RINGRTC_SRC} && ${SETENV} ${MAKE_ENV} HOME=${WRKDIR} \
+		${MODCARGO_CARGO_BIN} update \
+		--manifest-path ${RINGRTC_TOML}
+	cp ${RINGRTC_LOCK} ${FILESDIR}/ringrtc.Cargo.lock
+
+ringrtc-lock:
+	@t=${_GEN_DIR} ; \
+	ulimit -d `ulimit -H -d` ; \
+	ulimit -m `ulimit -H -m` ; \
+	echo "ringrtc-lock: extract in $${t} as $$(whoami)" && \
+	make -D _GEN_LOCK ${_GEN_VAR} patch && \
+	echo "ringrtc-lock: generate lock in $${t} as $$(whoami)" && \
+	make ${_GEN_VAR} _ringrtc-lock && \
+	echo "ringrtc-lock: remove $${t}..." && \
+	[ -d "$${t}" ] && rm -rf $${t} && \
+	echo "ringrtc-lock: remove $${t}, done." || (\
+	echo "ringrtc-lock: FAIL, retry with _GEN_DIR=$${t} or remove it" ; \
+	false )
+
 # prepare custom tarball for stable fetch
 # XXX need ~10G, usualy run with a custom _SRC
 # XXX need custom tar -R (reproducible) diff, use gtar alternative ?
@@ -518,7 +551,7 @@ _FETCH?=	https://github.com/signalapp/webrtc.git \
 # third parties not needed to build ringrtc
 .for _f in breakpad ced clang-format colorama depot_tools ffmpeg flatbuffers \
     fontconfig freetype fuzztest google_benchmark googletest grpc \
-    gtest-parallel harfbuzz-ng jsoncpp libaom libc++ libc++abi libevent \
+    gtest-parallel jsoncpp libaom libc++ libc++abi libevent \
     libFuzzer libunwind lss pipewire ${GN_SYSTEM_LIBS}
 _EXCLUDE_third_party+=-o \( -path '*/third_party/${_f}/*' -a ! -name '*.gn*' \)
 .endfor
@@ -556,11 +589,17 @@ tarball:
 modpnpm-pre-gen-modules:
 	# use an empty workspace to force pnpm install otherwise its too smart
 	touch ${SQLCIPHER_SRC}/${MODPNPM_WORKSPACE}
-	# drop patchedDependencies app-builder-lib and dmg-builder
+	# drop patchedDependencies, conflict with the electron-builder override
 	cd ${WRKSRC} && \
-	jq 'del(.pnpm.patchedDependencies["app-builder-lib"],\
+	jq 'del(.pnpm.patchedDependencies["@electron/universal"],\
+		.pnpm.patchedDependencies["app-builder-lib"],\
 		.pnpm.patchedDependencies["dmg-builder"])' ${MODPNPM_PACKAGE} \
-		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
+		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} && \
+	yq --yaml-output \
+		'del(.patchedDependencies["@electron/universal"],\
+		.patchedDependencies["app-builder-lib"],\
+		.patchedDependencies["dmg-builder"])' ${MODPNPM_WORKSPACE} \
+		> tmp.yaml && mv tmp.yaml ${MODPNPM_WORKSPACE} ;
 
 # handle multiple cargo files
 modcargo-gen-crates:
@@ -580,13 +619,13 @@ modcargo-gen-crates:
 chromium-patches:
 	make extract
 	@mkdir -p ${_TMP}
-	# cvs co -D 20251120 -d chromium ports/www/chromium
+	# cvs co -D 20260728 -d chromium ports/www/chromium
 	# remember to update cvs co -D "..." if you change targeted version
 	@if [ -d ${_TMP}/chromium ]; then \
 		echo "${_TMP}/chromium exists, skip cvs co" ; \
 	else \
 		cd ${_TMP} && \
-		cvs co -D 20251120 -d chromium ports/www/chromium ; \
+		cvs co -D 20260728 -d chromium ports/www/chromium ; \
 	fi
 	# test chromium patches
 	rm -rf ${_TMP}/patches

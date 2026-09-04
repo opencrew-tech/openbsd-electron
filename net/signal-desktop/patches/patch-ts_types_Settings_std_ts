@@ -1,7 +1,7 @@
 Index: ts/types/Settings.std.ts
 --- ts/types/Settings.std.ts.orig
 +++ ts/types/Settings.std.ts
-@@ -31,7 +31,7 @@ export const isDrawAttentionSupported = (OS: OSType): 
+@@ -24,7 +24,7 @@ export const isDrawAttentionSupported = (OS: OSType): 
   * option with a command line flag, but that is not officially supported.
   */
  export const isSystemTraySupported = (OS: OSType): boolean =>
@@ -10,7 +10,7 @@ Index: ts/types/Settings.std.ts
  
  export const isContentProtectionSupported = (OS: OSType): boolean =>
    OS.isWindows();
-@@ -49,7 +49,7 @@ export const getDefaultSystemTraySetting = (
+@@ -42,7 +42,7 @@ export const getDefaultSystemTraySetting = (
  
    // System tray on linux may not be well supported, so we default to it being off in
    // production

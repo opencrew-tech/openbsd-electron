@@ -3,7 +3,7 @@ increase timeout
 Index: ts/test-node/sql/migration_1100_test.node.ts
 --- ts/test-node/sql/migration_1100_test.node.ts.orig
 +++ ts/test-node/sql/migration_1100_test.node.ts
-@@ -31,7 +31,11 @@ describe('SQL/updateToSchemaVersion1100', () => {
+@@ -32,7 +32,11 @@ describe('SQL/updateToSchemaVersion1100', () => {
    });
  
    describe('Optimize markAllCallHistoryReadInConversation', () => {
@@ -16,10 +16,10 @@ Index: ts/test-node/sql/migration_1100_test.node.ts
        const COUNT = 10_000;
        const CONVERSATIONS = 30;
  
-@@ -92,7 +96,7 @@ describe('SQL/updateToSchemaVersion1100', () => {
-       const changes = markAllCallHistoryRead(db, target, true);
+@@ -101,7 +105,7 @@ describe('SQL/updateToSchemaVersion1100', () => {
+       );
        const end = performance.now();
-       assert.equal(changes, Math.ceil(COUNT / CONVERSATIONS));
+       assert.equal(changes.length, Math.ceil(COUNT / CONVERSATIONS));
 -      assert.isBelow(end - start, 50);
 +      assert.isBelow(end - start, process.platform === 'openbsd' ? 250 : 50);
      });

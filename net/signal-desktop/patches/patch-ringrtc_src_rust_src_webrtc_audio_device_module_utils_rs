@@ -1,7 +1,7 @@
 Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
 --- ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs.orig
 +++ ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
-@@ -10,7 +10,7 @@ use std::ffi::{CString, c_uchar};
+@@ -14,7 +14,7 @@ use std::{
  
  use anyhow::anyhow;
  use cubeb::{DeviceCollection, DeviceState};
@@ -9,8 +9,8 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
 +#[cfg(any(target_os = "openbsd", target_os = "linux"))]
  use cubeb_core::DeviceType;
  use cubeb_core::{DeviceId, DevicePref};
- use regex::Regex;
-@@ -22,7 +22,7 @@ pub struct MinimalDeviceInfo {
+ 
+@@ -28,7 +28,7 @@ pub struct MinimalDeviceInfo {
      pub devid: DeviceId,
      pub device_id: Option<String>,
      pub friendly_name: String,
@@ -19,7 +19,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
      device_type: DeviceType,
      preferred: DevicePref,
      state: DeviceState,
-@@ -40,7 +40,7 @@ pub struct DeviceCollectionWrapper {
+@@ -46,7 +46,7 @@ pub struct DeviceCollectionWrapper {
      device_collection: Vec<MinimalDeviceInfo>,
  }
  
@@ -28,7 +28,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
  fn device_is_monitor(device: &MinimalDeviceInfo) -> bool {
      device.device_type == DeviceType::INPUT
          && device
-@@ -58,7 +58,7 @@ impl DeviceCollectionWrapper {
+@@ -64,7 +64,7 @@ impl DeviceCollectionWrapper {
                      devid: device.devid(),
                      device_id: device.device_id().as_ref().map(|s| s.to_string()),
                      friendly_name: friendly.to_string(),
@@ -37,7 +37,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
                      device_type: device.device_type(),
                      preferred: device.preferred(),
                      state: device.state(),
-@@ -83,7 +83,7 @@ impl DeviceCollectionWrapper {
+@@ -89,7 +89,7 @@ impl DeviceCollectionWrapper {
      }
  
      // For linux only, a method that will ignore "monitor" devices.
@@ -46,7 +46,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
      pub fn iter_non_monitor(
          &self,
      ) -> std::iter::Filter<std::slice::Iter<'_, MinimalDeviceInfo>, fn(&&MinimalDeviceInfo) -> bool>
-@@ -125,7 +125,7 @@ impl DeviceCollectionWrapper {
+@@ -131,7 +131,7 @@ impl DeviceCollectionWrapper {
              {
                  self.iter().nth(idx - 1)
              }
@@ -55,7 +55,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
              {
                  // filter out "monitor" devices.
                  self.iter_non_monitor().nth(idx - 1)
-@@ -153,12 +153,12 @@ impl DeviceCollectionWrapper {
+@@ -159,12 +159,12 @@ impl DeviceCollectionWrapper {
      pub fn count(&self) -> usize {
          #[cfg(target_os = "macos")]
          let count = self.iter().count();
@@ -70,16 +70,16 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
              return
                  // edge case: if there are only monitor devices, and one is the default,
                  // allow it.
-@@ -291,7 +291,7 @@ pub fn redact_by_regex(re: &Regex, s: &str) -> Option<
+@@ -487,7 +487,7 @@ pub fn do_cubeb_redactions(text: Cow<str>) -> Cow<str>
  
  #[cfg(test)]
  mod audio_device_module_tests {
 -    #[cfg(target_os = "linux")]
 +    #[cfg(any(target_os = "openbsd", target_os = "linux"))]
      use cubeb_core::DeviceType;
-     use lazy_static::lazy_static;
  
-@@ -430,7 +430,7 @@ mod audio_device_module_tests {
+     use super::*;
+@@ -825,7 +825,7 @@ mod audio_device_module_tests {
                      devid: std::ptr::null(),
                      device_id: Some("devid1".to_string()),
                      friendly_name: "Device 1".to_string(),
@@ -88,7 +88,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
                      device_type: DeviceType::INPUT,
                      preferred: DevicePref::all(),
                      state: DeviceState::Enabled,
-@@ -439,7 +439,7 @@ mod audio_device_module_tests {
+@@ -834,7 +834,7 @@ mod audio_device_module_tests {
                      devid: std::ptr::null(),
                      device_id: Some("devid2".to_string()),
                      friendly_name: "Device 2".to_string(),
@@ -97,7 +97,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
                      device_type: DeviceType::INPUT,
                      preferred: DevicePref::empty(),
                      state: DeviceState::Enabled,
-@@ -506,7 +506,7 @@ mod audio_device_module_tests {
+@@ -901,7 +901,7 @@ mod audio_device_module_tests {
                      devid: std::ptr::null(),
                      device_id: Some("devid1".to_string()),
                      friendly_name: "Device 1".to_string(),
@@ -106,7 +106,7 @@ Index: ringrtc/src/rust/src/webrtc/audio_device_module_utils.rs
                      device_type: DeviceType::INPUT,
                      preferred: DevicePref::empty(),
                      state: DeviceState::Enabled,
-@@ -515,7 +515,7 @@ mod audio_device_module_tests {
+@@ -910,7 +910,7 @@ mod audio_device_module_tests {
                      devid: std::ptr::null(),
                      device_id: Some("devid2".to_string()),
                      friendly_name: "Device 2".to_string(),

@@ -1,7 +1,7 @@
 Index: sticker-creator/vite.config.ts
 --- sticker-creator/vite.config.ts.orig
 +++ sticker-creator/vite.config.ts
-@@ -17,6 +17,10 @@ export default defineConfig({
+@@ -14,5 +14,9 @@ export default defineConfig({
    worker: {
      format: 'es',
    },
@@ -9,6 +9,5 @@ Index: sticker-creator/vite.config.ts
 +    // Avoid Vite 4.5.3 / esbuild 0.28 downleveling issues on the bundled output.
 +    target: 'esnext',
 +  },
-   test: {
-     environment: 'happy-dom',
-   },
+   plugins: [react()],
+ });

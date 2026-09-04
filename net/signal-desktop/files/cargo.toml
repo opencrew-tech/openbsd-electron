@@ -4,13 +4,10 @@ boring = { path = '${WRKSRC}/boring/boring' }
 boring-sys = { path = '${WRKSRC}/boring/boring-sys' }
 tokio-boring = { path = '${WRKSRC}/boring/tokio-boring' }
 
-[patch.'https://github.com/signalapp/curve25519-dalek']
-curve25519-dalek = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek' }
-curve25519-dalek-derive = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek-derive' }
-
 [patch.'https://github.com/signalapp/libsignal']
 libsignal-account-keys = { path = '${WRKSRC}/libsignal/rust/account-keys' }
 libsignal-core = { path = '${WRKSRC}/libsignal/rust/core' }
+libsignal-debug = { path = '${WRKSRC}/libsignal/rust/debug' }
 poksho = { path = '${WRKSRC}/libsignal/rust/poksho' }
 signal-crypto = { path = '${WRKSRC}/libsignal/rust/crypto' }
 zkcredential = { path = '${WRKSRC}/libsignal/rust/zkcredential' }

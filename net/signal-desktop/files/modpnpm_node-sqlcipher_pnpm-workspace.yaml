@@ -1,0 +1,11 @@
+patchedDependencies:
+  prebuildify: patches/prebuildify.patch
+allowBuilds:
+  '@signalapp/better-sqlite3': true
+  esbuild: true
+trustLockfile: true
+overrides:
+  plist@5.0.0>@xmldom/xmldom: 0.9.12
+  esbuild: link:../../node/esbuild/node_modules/esbuild
+  graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs
+  rollup: link:../../node/rollup/node_modules/rollup

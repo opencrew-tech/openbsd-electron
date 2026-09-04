@@ -1,7 +1,7 @@
 Index: ts/state/getInitialState.preload.ts
 --- ts/state/getInitialState.preload.ts.orig
 +++ ts/state/getInitialState.preload.ts
-@@ -213,7 +213,7 @@ export function generateUserState({
+@@ -215,7 +215,7 @@ function generateUserState({
      window.ConversationController.getOurConversationId();
    const ourDeviceId = itemStorage.user.getDeviceId();
  
@@ -10,7 +10,7 @@ Index: ts/state/getInitialState.preload.ts
  
    if (OS.isWindows()) {
      osName = 'windows';
-@@ -221,6 +221,10 @@ export function generateUserState({
+@@ -223,6 +223,10 @@ function generateUserState({
      osName = 'macos';
    } else if (OS.isLinux()) {
      osName = 'linux';

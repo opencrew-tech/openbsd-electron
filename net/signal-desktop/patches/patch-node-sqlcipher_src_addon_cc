@@ -1,7 +1,7 @@
 Index: node-sqlcipher/src/addon.cc
 --- node-sqlcipher/src/addon.cc.orig
 +++ node-sqlcipher/src/addon.cc
-@@ -160,16 +160,35 @@ class FunctionWrap {
+@@ -192,16 +192,35 @@ class WalHookWrap {
  
  // Global Settings
  
@@ -40,7 +40,7 @@ Index: node-sqlcipher/src/addon.cc
  #define CODE_STR(NAME) \
    case NAME:           \
      code_name = #NAME; \
-@@ -185,7 +204,7 @@ static void LoggerWrapper(void* _ctx, int code, const 
+@@ -217,7 +236,7 @@ static void LoggerWrapper(void* _ctx, int code, const 
  
  #undef CODE_STR
  
@@ -49,7 +49,7 @@ Index: node-sqlcipher/src/addon.cc
        Napi::String::New(env, code_name),
        Napi::String::New(env, msg),
    });
-@@ -200,8 +219,12 @@ static void SetLogger(const Napi::CallbackInfo& info) 
+@@ -232,8 +251,12 @@ static void SetLogger(const Napi::CallbackInfo& info) 
    auto callback = info[0].As<Napi::Function>();
    assert(callback.IsFunction());
  
@@ -63,7 +63,7 @@ Index: node-sqlcipher/src/addon.cc
    sqlite3_config(SQLITE_CONFIG_LOG, LoggerWrapper);
  }
  
-@@ -1018,6 +1041,7 @@ AutoResetStatement::~AutoResetStatement() {
+@@ -1084,6 +1107,7 @@ AutoResetStatement::~AutoResetStatement() {
  
  Napi::Object Init(Napi::Env env, Napi::Object exports) {
    sqlite3_initialize();

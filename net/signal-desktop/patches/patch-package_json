@@ -1,7 +1,7 @@
 Index: package.json
 --- package.json.orig
 +++ package.json
-@@ -14,12 +14,11 @@
+@@ -15,12 +15,11 @@
    "browserslist": "last 1 chrome versions",
    "main": "bundles/main.js",
    "scripts": {
@@ -9,9 +9,26 @@ Index: package.json
      "postuninstall": "pnpm run build:acknowledgments",
      "start": "electron .",
      "generate": "run-s generate:phase-0 generate:phase-1",
-     "generate:phase-0": "run-s build:protobuf build:rolldown:prod",
--    "generate:phase-1": "run-p --aggregate-output --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:webaudio-recorder build:policy-files",
-+    "generate:phase-1": "run-s --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:webaudio-recorder build:policy-files",
+     "generate:phase-0": "run-s build:protobuf build:emoji-data build:rolldown:prod",
+-    "generate:phase-1": "run-p --aggregate-output --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:policy-files build:db-schema",
++    "generate:phase-1": "run-s --print-label build:icu-types build:compact-locales build:styles:prod get-expire-time build:policy-files build:db-schema",
      "build-release": "pnpm run build",
      "notarize": "echo 'No longer necessary'",
      "get-strings": "node scripts/get-strings.mjs && node scripts/gen-nsis-script.mjs && node scripts/gen-locales-config.mjs && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",
+@@ -94,7 +93,7 @@
+     "build:tray-icons": "node scripts/generate-tray-icons.mjs",
+     "build:dev": "run-s --print-label generate build:rolldown:prod",
+     "build:rolldown": "rolldown -c",
+-    "build:rolldown:prod": "pnpm build:rolldown --minify",
++    "build:rolldown:prod": "cross-env SIGNAL_ROLLDOWN_PROD=1 pnpm build:rolldown",
+     "build:esbuild:prod": "pnpm build:rolldown:prod",
+     "build:policy-files": "node scripts/gen-policy-files.mjs",
+     "build:styles": "pnpm run \"/^build:styles:(sass|tailwind)$/\"",
+@@ -365,7 +364,6 @@
+       ],
+       "mergeASARs": true,
+       "sign": "scripts/sign-macos.mjs",
+-      "signInstaller": "scripts/sign-mas-installer.mjs",
+       "releaseInfo": {
+         "vendor": {
+           "minOSVersion": "21.0.1"

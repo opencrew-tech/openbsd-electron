@@ -1,7 +1,7 @@
-Index: modcargo-crates/cubeb-sys-0.34.0/build.rs
---- modcargo-crates/cubeb-sys-0.34.0/build.rs.orig
-+++ modcargo-crates/cubeb-sys-0.34.0/build.rs
-@@ -33,7 +33,7 @@ fn main() {
+Index: modcargo-crates/cubeb-sys-0.36.0/build.rs
+--- modcargo-crates/cubeb-sys-0.36.0/build.rs.orig
++++ modcargo-crates/cubeb-sys-0.36.0/build.rs
+@@ -41,7 +41,7 @@ fn main() {
      }
  
      let out_dir = env::var("OUT_DIR").unwrap();
@@ -10,7 +10,7 @@ Index: modcargo-crates/cubeb-sys-0.34.0/build.rs
  
      env::remove_var("DESTDIR");
  
-@@ -93,6 +93,7 @@ fn main() {
+@@ -109,6 +109,7 @@ fn main() {
      let windows = target.contains("windows");
      let darwin = target.contains("darwin");
      let freebsd = target.contains("freebsd");
@@ -18,16 +18,16 @@ Index: modcargo-crates/cubeb-sys-0.34.0/build.rs
      let android = target.contains("android");
      let mut cfg = cmake::Config::new(&libcubeb_path);
  
-@@ -160,7 +161,7 @@ fn main() {
+@@ -192,7 +193,7 @@ fn main() {
  
          println!("cargo:rustc-link-search=native={}/lib", dst.display());
      } else {
 -        if freebsd || android {
-+        if freebsd || android || openbsd {
++        if freebsd || openbsd || android {
              println!("cargo:rustc-link-lib=dylib=c++");
          } else {
              println!("cargo:rustc-link-lib=dylib=stdc++");
-@@ -171,22 +172,6 @@ fn main() {
+@@ -203,19 +204,6 @@ fn main() {
          // Ignore the result of find_library. We don't care if the
          // libraries are missing.
          let _ = pkg_config::find_library("alsa");
@@ -36,15 +36,12 @@ Index: modcargo-crates/cubeb-sys-0.34.0/build.rs
 -            // symbol definitions.
 -            if build_rust_libs {
 -                println!("cargo:rustc-link-lib=static=cubeb_pulse");
--                let mut search_path = std::env::current_dir().unwrap();
--                search_path.push(&(libcubeb_path + "/src/cubeb-pulse-rs/target"));
--                search_path.push(&target);
--                if debug {
--                    search_path.push("debug");
--                } else {
--                    search_path.push("release");
+-                // The nested build's profile subdir (debug vs release) follows the
+-                // CMake build type, which is derived from opt-level and can differ
+-                // from this crate's PROFILE; search both so either one lands the lib.
+-                for profile in ["debug", "release"] {
+-                    println!("cargo:rustc-link-search=native={rust_target_dir}/{target}/{profile}");
 -                }
--                println!("cargo:rustc-link-search=native={}", search_path.display());
 -            }
 -        }
          let _ = pkg_config::find_library("jack");

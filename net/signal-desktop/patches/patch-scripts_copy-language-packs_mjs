@@ -1,7 +1,7 @@
 Index: scripts/copy-language-packs.mjs
 --- scripts/copy-language-packs.mjs.orig
 +++ scripts/copy-language-packs.mjs
-@@ -34,8 +34,7 @@ export async function afterPack({ appOutDir, packager,
+@@ -41,8 +41,7 @@ export async function afterPack({ appOutDir, packager,
        'Resources'
      );
    } else if (

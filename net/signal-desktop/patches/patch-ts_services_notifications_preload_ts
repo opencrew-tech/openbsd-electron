@@ -1,7 +1,7 @@
 Index: ts/services/notifications.preload.ts
 --- ts/services/notifications.preload.ts.orig
 +++ ts/services/notifications.preload.ts
-@@ -202,7 +202,7 @@ class NotificationService extends EventEmitter {
+@@ -203,7 +203,7 @@ class NotificationService extends EventEmitter {
        this.#lastNotification?.close();
  
        const notification = new window.Notification(title, {

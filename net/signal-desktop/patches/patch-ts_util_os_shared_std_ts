@@ -1,9 +1,9 @@
 Index: ts/util/os/shared.std.ts
 --- ts/util/os/shared.std.ts.orig
 +++ ts/util/os/shared.std.ts
-@@ -26,12 +26,20 @@ export type OSType = {
-   isLinuxAppImage: () => boolean;
+@@ -27,12 +27,20 @@ export type OSType = {
    isMacOS: (minVersion?: string) => boolean;
+   isMAS: () => boolean;
    isWindows: (minVersion?: string) => boolean;
 +  isFreeBSD: (minVersion?: string) => boolean;
 +  isOpenBSD: (minVersion?: string) => boolean;
@@ -22,7 +22,7 @@ Index: ts/util/os/shared.std.ts
  
    const isLinuxAppImage = (): boolean => {
      return process.platform === 'linux' && process.env.APPIMAGE != null;
-@@ -44,6 +52,12 @@ export function getOSFunctions(osRelease: string): OST
+@@ -45,6 +53,12 @@ export function getOSFunctions(osRelease: string): OST
      if (isWindows()) {
        return 'Windows';
      }
@@ -35,7 +35,7 @@ Index: ts/util/os/shared.std.ts
      return 'Linux';
    };
  
-@@ -54,6 +68,12 @@ export function getOSFunctions(osRelease: string): OST
+@@ -55,6 +69,12 @@ export function getOSFunctions(osRelease: string): OST
      if (isWindows()) {
        return 'os-windows';
      }
@@ -48,9 +48,9 @@ Index: ts/util/os/shared.std.ts
      return 'os-linux';
    };
  
-@@ -64,5 +84,8 @@ export function getOSFunctions(osRelease: string): OST
-     isLinuxAppImage,
+@@ -66,5 +86,8 @@ export function getOSFunctions(osRelease: string): OST
      isMacOS,
+     isMAS: () => process.mas,
      isWindows,
 +    isFreeBSD,
 +    isOpenBSD,

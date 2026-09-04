@@ -1,20 +1,27 @@
 Index: libsignal/Cargo.toml
 --- libsignal/Cargo.toml.orig
 +++ libsignal/Cargo.toml
-@@ -230,11 +230,11 @@ zerocopy = "0.8.24"
- zeroize = "1.8.2"
+@@ -92,9 +92,9 @@ signal-neon-futures = { path = "rust/bridge/node/futur
+ # Our forks of some dependencies, accessible as xxx_signal so that usages of them are obvious in source code. Crates
+ # that want to use the real things can depend on those directly.
  
+-boring-signal = { git = "https://github.com/signalapp/boring", tag = "signal-v5.0.2", package = "boring", default-features = false }
+-spqr = { git = "https://github.com/signalapp/SparsePostQuantumRatchet.git", tag = "v1.5.3" }
+-tokio-boring-signal = { git = "https://github.com/signalapp/boring", tag = "signal-v5.0.2", package = "tokio-boring" }
++boring-signal = { path = '${WRKSRC}/boring/boring', package = "boring", default-features = false }
++spqr = { path = '${WRKSRC}/spqr', package = "spqr" }
++tokio-boring-signal = { path = '${WRKSRC}/boring/tokio-boring', package = "tokio-boring" }
+ 
+ aes = "0.9.1"
+ aes-gcm-siv = "0.11.1"
+@@ -240,8 +240,8 @@ zeroize = "1.8.2"
  [patch.crates-io]
--# When building libsignal, just use our forks so we don't end up with two different versions of the libraries.
--
+ # When building libsignal, just use our forks so we don't end up with two different versions of the libraries.
+ 
 -boring = { git = 'https://github.com/signalapp/boring', tag = "signal-v5.0.2" }
 -boring-sys = { git = 'https://github.com/signalapp/boring', tag = "signal-v5.0.2" }
--curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.1.3' }
-+boring-signal = { path = '${WRKSRC}/boring/boring', package = "boring" }
-+boring-sys = { path = '${WRKSRC}/boring/boring-sys', package = "boring-sys" }
-+curve25519-dalek-signal = { path = '${WRKSRC}/curve25519-dalek/curve25519-dalek', package = "curve25519-dalek" }
-+tokio-boring-signal = { path = '${WRKSRC}/boring/tokio-boring', package = "tokio-boring" }
-+spqr = { path = '${WRKSRC}/spqr', package = "spqr" }
++boring = { path = '${WRKSRC}/boring/boring' }
++boring-sys = { path = '${WRKSRC}/boring/boring-sys' }
  
  [profile.dev.package.argon2]
  opt-level = 2 # libsignal-account-keys unit tests are too slow with an unoptimized argon2

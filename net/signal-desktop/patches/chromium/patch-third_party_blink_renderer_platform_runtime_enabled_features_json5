@@ -1,43 +1,52 @@
 Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
 --- third_party/blink/renderer/platform/runtime_enabled_features.json5.orig
 +++ third_party/blink/renderer/platform/runtime_enabled_features.json5
-@@ -340,7 +340,7 @@
-         "default": "",
-       },
-       origin_trial_feature_name: "AIPromptAPIMultimodalInput",
--      origin_trial_os: ["win", "mac", "linux"],
-+      origin_trial_os: ["win", "mac", "linux", "openbsd", "freebsd"],
+@@ -431,7 +431,7 @@
+       name: "AIPromptAPILegacyParams",
+       public: true,
+       origin_trial_feature_name: "AIPromptAPIParams",
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        origin_trial_allows_third_party: true,
-       implied_by: ["AIPromptAPIMultimodalInput"],
+       implied_by: ["AIPromptAPIParams"],
      },
-@@ -370,7 +370,7 @@
+@@ -457,7 +457,7 @@
          "default": "",
        },
-       origin_trial_feature_name: "AIPromptAPIMultimodalInput",
--      origin_trial_os: ["win", "mac", "linux"],
-+      origin_trial_os: ["win", "mac", "linux", "openbsd", "freebsd"],
+       origin_trial_feature_name: "AIPromptAPIParams",
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
+       origin_trial_allows_third_party: true,
+     },
+     {
+@@ -489,7 +489,7 @@
+         "default": "",
+       },
+       origin_trial_feature_name: "AIProofreaderAPI",
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        origin_trial_allows_third_party: true,
        base_feature_status: "enabled",
        copied_from_base_feature_if: "overridden",
-@@ -406,7 +406,7 @@
+@@ -504,7 +504,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIRewriterAPI",
--      origin_trial_os: ["win", "mac", "linux"],
-+      origin_trial_os: ["win", "mac", "linux", "openbsd", "freebsd"],
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        origin_trial_allows_third_party: true,
        base_feature_status: "enabled",
        copied_from_base_feature_if: "overridden",
-@@ -439,7 +439,7 @@
+@@ -540,7 +540,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIWriterAPI",
--      origin_trial_os: ["win", "mac", "linux"],
-+      origin_trial_os: ["win", "mac", "linux", "openbsd", "freebsd"],
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        origin_trial_allows_third_party: true,
        base_feature_status: "enabled",
        copied_from_base_feature_if: "overridden",
-@@ -553,7 +553,7 @@
+@@ -686,7 +686,7 @@
        name: "AppTitle",
        status: "experimental",
        origin_trial_feature_name: "AppTitle",
@@ -46,25 +55,16 @@ Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
        base_feature: "WebAppEnableAppTitle",
      },
      {
-@@ -1781,7 +1781,7 @@
-     {
-       name: "DeviceBoundSessionCredentials",
-       origin_trial_feature_name: "DeviceBoundSessionCredentials",
--      origin_trial_os: ["win", "linux", "mac"],
-+      origin_trial_os: ["win", "linux", "mac", "openbsd", "freebsd"],
-       status: "experimental",
-       // Killswitch is net::features::kDeviceBoundSessions
+@@ -1454,7 +1454,7 @@
+       name: "CSPHashesV1",
        base_feature: "none",
-@@ -1789,7 +1789,7 @@
-     {
-       name: "DeviceBoundSessionCredentials2",
-       origin_trial_feature_name: "DeviceBoundSessionCredentials2",
--      origin_trial_os: ["win", "linux", "mac"],
-+      origin_trial_os: ["win", "linux", "mac", "openbsd", "freebsd"],
+       origin_trial_feature_name: "CSPExtendedScriptSrcHashes",
+-      origin_trial_os: ["win", "linux", "mac", "android", "chromeos"],
++      origin_trial_os: ["win", "linux", "mac", "android", "chromeos", "openbsd", "freebsd"],
        status: "experimental",
-       // Killswitch is net::features::kDeviceBoundSessions
-       base_feature: "none",
-@@ -1932,7 +1932,7 @@
+       public: true,
+     },
+@@ -2364,7 +2364,7 @@
        name: "DocumentIsolationPolicy",
        status: "experimental",
        origin_trial_feature_name: "DocumentIsolationPolicy",
@@ -73,7 +73,7 @@ Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
        base_feature: "none",
      },
      {
-@@ -2175,7 +2175,7 @@
+@@ -2711,7 +2711,7 @@
        base_feature: "none",
        public: true,
        origin_trial_feature_name: "FedCmMultipleIdentityProviders",
@@ -82,16 +82,16 @@ Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
        origin_trial_allows_third_party: true,
      },
      {
-@@ -3721,7 +3721,7 @@
-       // Tracking bug for the implementation: https://crbug.com/1462930
-       name: "PermissionElement",
-       origin_trial_feature_name: "PermissionElement",
--      origin_trial_os: ["win", "mac", "linux", "fuchsia", "chromeos", "android"],
-+      origin_trial_os: ["win", "mac", "linux", "fuchsia", "chromeos", "android", "openbsd", "freebsd"],
-       status: "experimental",
+@@ -3545,7 +3545,7 @@
+       name: "InstallElement",
+       status: {"Android": "", "default": "test"},
+       origin_trial_feature_name: "InstallElement",
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        public: true,
        base_feature_status: "enabled",
-@@ -5312,7 +5312,7 @@
+       copied_from_base_feature_if: "overridden",
+@@ -6291,7 +6291,7 @@
        name: "UnrestrictedSharedArrayBuffer",
        base_feature: "none",
        origin_trial_feature_name: "UnrestrictedSharedArrayBuffer",
@@ -100,7 +100,25 @@ Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
      },
      // Enables using policy-controlled feature "usb-unrestricted" to allow
      // isolated context to access protected USB interface classes and to
-@@ -5506,7 +5506,7 @@
+@@ -6389,7 +6389,7 @@
+       status: "experimental",
+       origin_trial_feature_name: "UserMediaElement",
+       public: true,
+-      origin_trial_os: ["win", "mac", "linux", "fuchsia", "chromeos", "android"],
++      origin_trial_os: ["win", "mac", "linux", "fuchsia", "chromeos", "android", "openbsd", "freebsd"],
+       base_feature_status: "enabled",
+       copied_from_base_feature_if: "overridden",
+     },
+@@ -6504,7 +6504,7 @@
+       name: "WebAppInstallation",
+       status: {"Android": "", "default": "test"},
+       origin_trial_feature_name: "WebAppInstallation",
+-      origin_trial_os: ["win", "mac", "linux", "chromeos"],
++      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
+       public: true,
+       base_feature_status: "enabled",
+       copied_from_base_feature_if: "overridden",
+@@ -6518,7 +6518,7 @@
      {
        name: "WebAppScopeExtensions",
        origin_trial_feature_name: "WebAppScopeExtensions",
@@ -108,13 +126,4 @@ Index: third_party/blink/renderer/platform/runtime_enabled_features.json5
 +      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
        status: "experimental",
        base_feature: "none",
-     },
-@@ -5614,7 +5614,7 @@
-     {
-       name: "WebAuthenticationImmediateGet",
-       origin_trial_feature_name: "WebAuthenticationImmediateGet",
--      origin_trial_os: ["win", "mac", "linux", "chromeos"],
-+      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
-       base_feature: "none",
-       public: true,
      },

@@ -166,7 +166,9 @@ MODYARN_VENDOR?=	${PKGNAME}${MODYARN_VENDOR_REV:%=.%}-vendor.tgz
 # env is required and can be extended
 MODYARN_ENV+=		PATH='${PORTPATH}:./node_modules/.bin' \
 			TMP=${WRKDIR}/tmp \
-			HOME=${PORTHOME}
+			HOME=${PORTHOME} \
+			YARN_CACHE_FOLDER=${PORTHOME}/.cache/yarn \
+			YARN_GLOBAL_FOLDER=${PORTHOME}/.config/yarn/global
 # specific build & gen env are configurable (ex: replace npm_config_nodedir)
 MODYARN_ENV_BUILD?=	npm_config_nodedir=${LOCALBASE}
 MODYARN_ENV_TEST?=

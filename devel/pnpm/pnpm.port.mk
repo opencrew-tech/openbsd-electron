@@ -198,14 +198,16 @@ MODPNPM_ARGS_DEV?=\
 # ports args
 # XXX fake, --dangerously-allow-all-builds
 MODPNPM_ARGS_EXTRACT?=\
-	install ${MODPNPM_ARGS} --offline --frozen-lockfile --ignore-scripts \
+	install ${MODPNPM_ARGS} --offline --frozen-lockfile --trust-lockfile \
+	    --ignore-scripts \
 	    ${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
 MODPNPM_ARGS_REBUILD?=\
 	rebuild ${MODPNPM_ARGS}
 MODPNPM_ARGS_BUILD?=\
 	pack ${MODPNPM_ARGS}
 MODPNPM_ARGS_FAKE?=\
-	install ${MODPNPM_ARGS} --offline --prod ${MODPNPM_ARGS_OPTIONAL}
+	install ${MODPNPM_ARGS} --offline --trust-lockfile --prod \
+	    ${MODPNPM_ARGS_OPTIONAL}
 MODPNPM_ARGS_TEST?=\
 	test --verbose
 # maintener args

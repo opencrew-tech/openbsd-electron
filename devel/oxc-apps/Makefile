@@ -26,7 +26,6 @@ DIST_TUPLE+=	github babel babel ${BABEL_SHA} tasks/coverage/babel
 # typescript, superset of JavaScript, Apache-2.0
 DIST_TUPLE+=	github microsoft TypeScript ${TYPESCRIPT_SHA} \
 		tasks/coverage/typescript
-# pretier, opinionated code formatter, MIT
 # ESTree Conformance Test Suite, MIT
 DIST_TUPLE+=	github oxc-project estree-conformance \
 		${ESTREE_CONFORMANCE_SHA} \

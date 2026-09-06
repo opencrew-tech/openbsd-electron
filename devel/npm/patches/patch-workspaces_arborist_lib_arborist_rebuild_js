@@ -5,7 +5,14 @@ Treats chmod failures during bin-link creation as non-fatal.
 Index: workspaces/arborist/lib/arborist/rebuild.js
 --- workspaces/arborist/lib/arborist/rebuild.js.orig
 +++ workspaces/arborist/lib/arborist/rebuild.js
-@@ -17,6 +17,90 @@ const { isScriptAllowed } = require('../script-allowed
+@@ -11,12 +11,155 @@ const { depth: dfwalk } = require('treeverse')
+ const { isNodeGypPackage, defaultGypInstallScript } = require('@npmcli/node-gyp')
+ const { promiseRetry } = require('@gar/promise-retry')
+ const { log, time } = require('proc-log')
+-const { resolve, delimiter } = require('node:path')
++const { resolve, relative, isAbsolute, sep, delimiter } = require('node:path')
+ const { isScriptAllowed } = require('../script-allowed.js')
+ 
  const boolEnv = b => b ? '1' : ''
  const sortNodes = (a, b) => (a.depth - b.depth) || localeCompare(a.path, b.path)
  
@@ -25,58 +32,98 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
 +  }
 +}
 +
-+const isNodeDescendantOf = (node, root) => {
-+  if (typeof node?.isDescendantOf === 'function') {
-+    return node.isDescendantOf(root)
++const isPathInside = (path, root) => {
++  if (!path || !root) {
++    return false
 +  }
-+
-+  // IsolatedNode deliberately implements only a subset of Node. Walk its
-+  // parent chain instead of assuming that isDescendantOf() is available.
-+  for (let current = node; current; current = current.resolveParent || current.parent) {
-+    if (current === root) {
-+      return true
-+    }
-+  }
-+  return false
++  const rel = relative(root, path)
++  return rel === '' ||
++    (!isAbsolute(rel) && rel !== '..' && !rel.startsWith(`..${sep}`))
 +}
 +
-+const externalOverrideRoots = new WeakMap()
++const isNodeOutsideRoot = (node, root) => {
++  const paths = new Set([node?.path, node?.realpath].filter(Boolean))
++  const roots = new Set([root?.path, root?.realpath].filter(Boolean))
++  return paths.size > 0 && [...paths].some(path =>
++    ![...roots].some(rootPath => isPathInside(path, rootPath)))
++}
 +
-+const getExternalOverrideRoots = node => {
++const externalOverrideData = new WeakMap()
++
++const getExternalOverrideData = node => {
 +  const root = node?.root?.target
 +  if (!root) {
-+    return new Set()
++    return { nodes: new Set(), prefixes: new Set() }
 +  }
-+  if (externalOverrideRoots.has(root)) {
-+    return externalOverrideRoots.get(root)
++  if (externalOverrideData.has(root)) {
++    return externalOverrideData.get(root)
 +  }
 +
-+  const roots = new Set()
++  const nodes = new Set()
++  const prefixes = new Set()
++  const queue = []
++  const add = candidate => {
++    if (!candidate || nodes.has(candidate) || !isNodeOutsideRoot(candidate, root)) {
++      return
++    }
++    nodes.add(candidate)
++    queue.push(candidate)
++  }
++
++  // Seed the protected graph with file: overrides whose targets live outside
++  // the project.  A regular file: dependency is deliberately not enough: it
++  // still has the normal npm linked-package rebuild semantics.
 +  for (const candidate of node.root.inventory.values()) {
 +    const hasFileOverride = [...(candidate.edgesIn || [])].some(isFileOverrideEdge)
 +    const target = candidate.isLink ? candidate.target : candidate
-+    if (!hasFileOverride || !target || isNodeDescendantOf(target, root)) {
++    if (!hasFileOverride || !target || !isNodeOutsideRoot(target, root)) {
 +      continue
 +    }
 +
-+    let externalRoot = target
-+    const seen = new Set()
-+    for (
-+      let current = target;
-+      current && !seen.has(current);
-+      current = current.resolveParent || current.parent
-+    ) {
-+      seen.add(current)
-+      if (isNodeDescendantOf(current, root)) {
-+        break
-+      }
-+      externalRoot = current
++    // Packages installed by another package manager can hoist dependencies
++    // next to the target or into a virtual store.  Protect that provider root
++    // as a conservative fallback for nodes whose Arborist ancestry is broken
++    // by those links.
++    let prefix
++    try {
++      prefix = typeof target.inNodeModules === 'function' && target.inNodeModules()
++    } catch {
++      prefix = null
 +    }
-+    roots.add(externalRoot)
++    prefix = prefix || target.realpath || target.path
++    if (prefix) {
++      prefixes.add(prefix)
++    }
++
++    add(candidate)
++    add(target)
 +  }
 +
-+  externalOverrideRoots.set(root, roots)
-+  return roots
++  // Follow both the logical dependency graph and the physical/link graph.
++  // pnpm-style layouts detach hoisted targets from their referring parent, so
++  // parent/resolveParent ancestry alone cannot identify the whole system tree.
++  while (queue.length) {
++    const current = queue.pop()
++    if (current.isLink) {
++      add(current.target)
++    }
++    for (const child of current.children?.values() || []) {
++      add(child)
++    }
++    for (const child of current.fsChildren || []) {
++      add(child)
++    }
++    for (const edge of current.edgesOut?.values() || []) {
++      add(edge.to)
++    }
++    for (const link of current.linksIn || []) {
++      add(link)
++    }
++  }
++
++  const data = { nodes, prefixes }
++  externalOverrideData.set(root, data)
++  return data
 +}
 +
 +const isExternalOverrideNode = node => {
@@ -86,43 +133,62 @@ Index: workspaces/arborist/lib/arborist/rebuild.js
 +  if (!root || !target) {
 +    return false
 +  }
-+  if (isNodeDescendantOf(target, root)) {
++  const data = getExternalOverrideData(node)
++  if (data.nodes.has(node) || data.nodes.has(target)) {
++    return true
++  }
++  if (!isNodeOutsideRoot(node, root) && !isNodeOutsideRoot(target, root)) {
 +    return false
 +  }
-+  return [...getExternalOverrideRoots(node)].some(externalRoot =>
-+    isNodeDescendantOf(node, externalRoot) || isNodeDescendantOf(target, externalRoot))
++  const paths = new Set([
++    node.path,
++    node.realpath,
++    target.path,
++    target.realpath,
++  ].filter(Boolean))
++  return [...paths].some(path =>
++    [...data.prefixes].some(prefix => isPathInside(path, prefix)))
++}
++
++const logExternalOverride = (action, node) => {
++  const message = `skipping ${action} for external override: ${node.path}`
++  if ([...(node.edgesIn || [])].some(isFileOverrideEdge)) {
++    log.warn('overrides', message)
++  } else {
++    log.silly('overrides', message)
++  }
 +}
 +
  const _checkBins = Symbol.for('checkBins')
  
  // defined by reify mixin
-@@ -244,6 +328,13 @@ module.exports = cls => class Builder extends cls {
+@@ -244,6 +387,13 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
 +    // External file: overrides (eg. /usr/local/node/...) are system-provided.
 +    // Do not run lifecycle/build/bin-link steps on them.
 +    if (isExternalOverrideNode(node)) {
-+      log.warn('overrides', `skipping rebuild for external override: ${node.path}`)
++      logExternalOverride('rebuild', node)
 +      return
 +    }
 +
      if (this.#oldMeta === null) {
        const { root: { meta } } = node
        this.#oldMeta = meta && meta.loadedFromDisk &&
-@@ -407,6 +498,11 @@ module.exports = cls => class Builder extends cls {
+@@ -407,6 +557,11 @@ module.exports = cls => class Builder extends cls {
        return
      }
  
 +    if (isExternalOverrideNode(node)) {
-+      log.warn('overrides', `skipping bin-links for external override: ${node.path}`)
++      logExternalOverride('bin-links', node)
 +      return
 +    }
 +
      const timeEnd = time.start(`build:link:${node.location}`)
  
      // On Windows, antivirus/indexer can transiently lock files, causing EPERM/EACCES/EBUSY on the rename inside write-file-atomic (used by bin-links/fix-bin.js), so, retry with backoff.
-@@ -417,6 +513,10 @@ module.exports = cls => class Builder extends cls {
+@@ -417,6 +572,10 @@ module.exports = cls => class Builder extends cls {
        force: this.options.force,
        global: !!node.globalTop,
      }).catch(/* istanbul ignore next - Windows-only transient antivirus locks */ err => {

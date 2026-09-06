@@ -3,6 +3,7 @@ COMMENT =	package manager for JavaScript
 V=		12.0.2
 PKGNAME =	npm-${V}
 DIST_TUPLE =	github npm cli v${V} .
+REVISION =	0
 
 CATEGORIES =	devel
 

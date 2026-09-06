@@ -57,7 +57,7 @@ MODPNPM_SKIP_GEN_MODS=	Yes
 # XXX use system esbuild, version to keep in sync manually
 # [ERROR] Cannot start service:
 # Host version "x.y.z" does not match binary version "x.y.z"
-ESBUILD_V=		0.28.1
+ESBUILD_V=		0.28.2
 MODPNPM_GEN_UPDATE=	esbuild@${ESBUILD_V}
 MODPNPM_GEN_OVERRIDES=	"esbuild" "${ESBUILD_V}"
 MAKE_ENV+=		ESBUILD_BINARY_PATH=${LOCALBASE}/bin/esbuild

@@ -436,7 +436,7 @@ overrides:
   validator@<13.15.22: '>=13.15.22'
   yaml@<2.2.2: '>=2.2.2'
   http-proxy-middleware@>=0.16.0 <3.0.6: ^3.0.6
-  esbuild: 0.28.1
+  esbuild: 0.28.2
 packageExtensions:
   '@babel/parser':
     peerDependencies:

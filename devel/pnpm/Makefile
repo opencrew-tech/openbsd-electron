@@ -17,6 +17,10 @@ COMMENT=	fast, disk space efficient package manager
 V=		11.22.0
 DIST_TUPLE=	github pnpm pnpm v${V} .
 
+# esbuild bump
+MODPNPM_VENDOR_REV=	0
+REVISION=		0
+
 CATEGORIES=	devel
 
 HOMEPAGE=	https://pnpm.io/

@@ -202,7 +202,7 @@ MODPNPM_ARGS_EXTRACT?=\
 	    --ignore-scripts \
 	    ${MODPNPM_ARGS_OPTIONAL} ${MODPNPM_ARGS_DEV}
 MODPNPM_ARGS_REBUILD?=\
-	rebuild ${MODPNPM_ARGS}
+	rebuild ${MODPNPM_ARGS} --pending
 MODPNPM_ARGS_BUILD?=\
 	pack ${MODPNPM_ARGS}
 MODPNPM_ARGS_FAKE?=\
@@ -326,8 +326,6 @@ MODPNPM_post-extract += \
 MODPNPM_PREBUILD_TARGET=\
 	for target in ${MODPNPM_TARGETS} ; do \
 		echo "MODPNPM: rebuild $${target}" ; \
-		cd $${target} && \
-		${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_REBUILD} ; \
 		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \

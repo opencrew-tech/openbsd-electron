@@ -141,7 +141,7 @@ SHA256 (npm_modules/@microsoft-tsdoc-config-0.18.0.tgz) = qN9XeS9YgWfLM7scoogmMF
 SHA256 (npm_modules/@microsoft-tsdoc-config-0.18.1.tgz) = poqn82M4V1OL1tRMteXYuCVq4Q+unSirXTQ7+MW1lgo=
 SHA256 (npm_modules/@modelcontextprotocol-sdk-1.26.0.tgz) = 2TJZetaNq/VPw4mcta+3STlEPjavZdUOpwnJvQ6h6ag=
 SHA256 (npm_modules/@napi-rs-wasm-runtime-0.2.11.tgz) = SJYLOmbXNmUVEJaI6PfkpeGSnc5mT9dFCSRWIP8cAs4=
-SHA256 (npm_modules/@napi-rs-wasm-runtime-0.2.12.tgz) = icdjvUU8y1S3EkWc1hWkFXVlqR35jAaEs20bAL04I2w=
+SHA256 (npm_modules/@napi-rs-wasm-runtime-1.2.3.tgz) = Q04fRTLO8ulQWtWXc1za0Oqws8/jtnCPnfs5n3NzRrI=
 SHA256 (npm_modules/@nodelib-fs.scandir-2.1.5.tgz) = qSS/oxfHjovbsL02FSKrpDH//gh4vzaZqMs1puUM+Uw=
 SHA256 (npm_modules/@nodelib-fs.stat-2.0.5.tgz) = 2PhTNVHyGsqHs/wtS8LizHqyIRBJAsB9o98guq9SE2s=
 SHA256 (npm_modules/@nodelib-fs.walk-1.2.8.tgz) = y/liH2m4Is6X9x6EL+qOe/nH6YbwEoVont4oIJJyfT0=
@@ -160,7 +160,7 @@ SHA256 (npm_modules/@prettier-sync-0.6.1.tgz) = 8S1Qsdi90KJI//vPJuUzmRblhLbBzL5t
 SHA256 (npm_modules/@rollup-plugin-babel-6.1.0.tgz) = QYNVrcq4e4ioR6qQywEx6mulPMydZAjhRfm8Epu2U9A=
 SHA256 (npm_modules/@rollup-plugin-node-resolve-16.0.3.tgz) = fSXispfs9zVCZz6M5MoVBEPDyvQCaUBjcblNiD4KfO0=
 SHA256 (npm_modules/@rollup-pluginutils-5.1.4.tgz) = 8Q4yu4Yp/3ed2xThFJ4OV4pZZOm+uZ6dk+6Kb7YeGt4=
-SHA256 (npm_modules/@rollup-wasm-node-4.60.2.tgz) = ppQvLuHyc2hxRbHLckUgcViwlxbz/fGrhpYIieN+Bnw=
+SHA256 (npm_modules/@rollup-wasm-node-4.63.1.tgz) = kFT4cVpwGDd/TQFJZUfJhPiONshagTspzYVID6w16WQ=
 SHA256 (npm_modules/@rtsao-scc-1.1.0.tgz) = fJqjCF0htVQpdtAutwQal5Mxhduig/tRFftoOxMzf34=
 SHA256 (npm_modules/@rushstack-node-core-library-5.19.1.tgz) = O+EXSiE05FHTUCfTMmPcWZHvKkF5r3J7doemegy4MFM=
 SHA256 (npm_modules/@rushstack-problem-matcher-0.1.1.tgz) = UmXnDuVtkdUhaO+eC7Bkefff9FUNuLu1nMDDkv/4ESE=
@@ -186,12 +186,12 @@ SHA256 (npm_modules/@stylistic-eslint-plugin-5.9.0.tgz) = cZ/jxxHKSIWVGct/m++f50
 SHA256 (npm_modules/@swc-core-1.15.18.tgz) = PW1De29zNl/rwRBG8aP7BtqL4FgDTl4lQn9rQxH1smA=
 SHA256 (npm_modules/@swc-counter-0.1.3.tgz) = MdIYsOn2f/nLKgO2Qp+pTofdjqRwoYa82TZSqtEEsBk=
 SHA256 (npm_modules/@swc-types-0.1.25.tgz) = lOdUHaX0abFDQyn+JF8UD4mqbVD5OqHTTU8TSR7dFXc=
-SHA256 (npm_modules/@swc-wasm-1.15.30.tgz) = RKw9AjPpFxNLELwQ6yrd0knWfq+woK8k9AsLyhFite8=
+SHA256 (npm_modules/@swc-wasm-1.16.2.tgz) = YT1vY/50aeAoBICi/v8ee+gG2MkHjwG4wicJL3KgyI4=
 SHA256 (npm_modules/@tootallnate-quickjs-emscripten-0.23.0.tgz) = ybLL3SpvhfGIJjuPoV0SVRu72KAYTWW8XxPvvbJaQN4=
 SHA256 (npm_modules/@tsd-typescript-5.9.2.tgz) = pcOApbjHfure1tVSCw3bxRro99kkYu7fHZQCBTpZWLo=
 SHA256 (npm_modules/@tufjs-canonical-json-2.0.0.tgz) = ZpeDnacqT4/eVM8DfZhM47UpYkZq8oNUjiRVVSVrZs0=
 SHA256 (npm_modules/@tufjs-models-4.1.0.tgz) = FqSOQaQfuJLFPBcZfnGXLdmPv9x9lyrw8SUaMuTV3GQ=
-SHA256 (npm_modules/@tybys-wasm-util-0.10.1.tgz) = Lci95ggdREl4LWkwbgL2hljc2DFVWqOOkfazwvCy37s=
+SHA256 (npm_modules/@tybys-wasm-util-0.10.3.tgz) = UJ9rj4/KSRGNuyp/13JuW2/ktaIjRMnOke792NzTR2E=
 SHA256 (npm_modules/@tybys-wasm-util-0.9.0.tgz) = mDAd5dn7iHtQniTVQdz5IhCRNAlIkh/xmmFCmeTZmV8=
 SHA256 (npm_modules/@types-argparse-1.0.38.tgz) = AHVrPwa1waULlQj9V/GQr7xxLNKeRTFk4SZUsIMFa0w=
 SHA256 (npm_modules/@types-chrome-0.1.37.tgz) = vI/5u0zfui6WN9NoUjuACnFUPnBFo6yHaPEQwi2aR1M=
@@ -200,7 +200,7 @@ SHA256 (npm_modules/@types-doctrine-0.0.9.tgz) = MNqiUEfdfOGkq8ReSDxdy+XEjKOY61+
 SHA256 (npm_modules/@types-eslint-7.29.0.tgz) = J4JCgvY9phehDhRlwXrf/85yY9aNPRAHH4n9987DmCA=
 SHA256 (npm_modules/@types-estree-1.0.5.tgz) = GNc9Oapcka8vYnw1Vb2XOCznhshL8ksW+aDn34cEBIo=
 SHA256 (npm_modules/@types-estree-1.0.6.tgz) = tGsOoSD1musivazfFSnYCV8YBVjn0xZftN6IjqTojfM=
-SHA256 (npm_modules/@types-estree-1.0.8.tgz) = OQRT63Ey2mqSI4WJpPSbXU9dwM7na3xEqRXYJKRA1Uo=
+SHA256 (npm_modules/@types-estree-1.0.9.tgz) = 7I88DfshSX21o0gMRabPb5sY07M3supNA+PvKpwrs1g=
 SHA256 (npm_modules/@types-filesystem-0.0.36.tgz) = wEvD06FgJ8YNMLCgteB8utC/HGW5BoKToE0/Ru70iys=
 SHA256 (npm_modules/@types-filewriter-0.0.33.tgz) = dG69ADInYZdZxoLPzN2vDGDhaJ/uIJzO0LEwkbfiybU=
 SHA256 (npm_modules/@types-har-format-1.2.16.tgz) = cAvuX9xUpk7RQiBGLFfIBTHC4CgXggCCi/JkVqeIhbE=
@@ -245,7 +245,7 @@ SHA256 (npm_modules/@typescript-eslint-utils-8.26.1.tgz) = g5DTdwMFxpCrzYUmgJYqK
 SHA256 (npm_modules/@typescript-eslint-utils-8.56.1.tgz) = lYhqMNwDBxT+KTiYBUjOMFUb/W7ki+/HgFK6wZl/zf4=
 SHA256 (npm_modules/@typescript-eslint-visitor-keys-8.26.1.tgz) = AvpAqd6fumO4dYL3sex/TLvoFDDkRlmn1YSpluOmfAE=
 SHA256 (npm_modules/@typescript-eslint-visitor-keys-8.56.1.tgz) = FdgWJBf7VdV61VRW/x6a/VTNtn9zdHqlcXC311p1VlM=
-SHA256 (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.11.1.tgz) = q4XVrm+1T4XxUpYjPtcLwdwBkyluXC+XK2eiSPJ9vhs=
+SHA256 (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.12.2.tgz) = HGvWQyfaJ4fPOGf3AMObCXmnHkP0kcy8TVQeh0hPpO8=
 SHA256 (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.9.1.tgz) = lPmzds2u89ohIWvBwAOevyP9OPi7bTuPqmd7Wsk7r64=
 SHA256 (npm_modules/@yarnpkg-lockfile-1.1.0.tgz) = H8b9r3AyN1U1GunhDHGYkaIMA+bRLU/JQId67OGZOUQ=
 SHA256 (npm_modules/abbrev-1.1.1.tgz) = DMGdIqX5pU/0X2RQnFbHrts1ghWkG+mpx8C+jIZzum0=
@@ -409,7 +409,6 @@ SHA256 (npm_modules/es-object-atoms-1.1.1.tgz) = Phjk11eBiu578ZIWhsbD5/lnbRfFxv7
 SHA256 (npm_modules/es-set-tostringtag-2.1.0.tgz) = VnX1Glwz7kAr/4oqNBoDkPhegtPBmYWSRNL2cJGwuT0=
 SHA256 (npm_modules/es-shim-unscopables-1.1.0.tgz) = O1xD+d7hgtTnwyQgae6KXAPFo7yo4t92OmBE8dyETQc=
 SHA256 (npm_modules/es-to-primitive-1.3.0.tgz) = RA1WEzynRqd/Sme6pXkswtEjImjF5O8gPFS7Y83V06c=
-SHA256 (npm_modules/esbuild-0.28.0.tgz) = omEp3ZHdTPAobKXjX5jBkBvdZxdcDNxcpmXPujgtK34=
 SHA256 (npm_modules/escalade-3.1.2.tgz) = E8BQDMFCz31ehKr/kbqv8txz7UKtfuI2e7tUExPyI5Y=
 SHA256 (npm_modules/escape-html-1.0.3.tgz) = oQEVXDy9+x5PmPL4PIteOS22rM+mBt8OuouHpXYrA2Y=
 SHA256 (npm_modules/escape-string-regexp-1.0.5.tgz) = 5Qx5LnZ2PQx0UGKXrdd5dVlnypu9KI4md5Zqa3OUw0c=
@@ -510,7 +509,6 @@ SHA256 (npm_modules/globalthis-1.0.4.tgz) = 3pjaODxvXCrjnIR87dKi5P1Lo0QxLEMJ2M7m
 SHA256 (npm_modules/globby-11.1.0.tgz) = hnTYE1hHdXzIF6onNpIBkw2Yk3Q7Bdbh8UQKLf6V6/Q=
 SHA256 (npm_modules/gopd-1.0.1.tgz) = nJAQ2dOH7Mkq68AorKXOipVABidKYF+WtV4VpX9MJkM=
 SHA256 (npm_modules/gopd-1.2.0.tgz) = 1TbQ3k3ShdwUaPu385M0pH7g7snCf5tiam5xRmyf2oI=
-SHA256 (npm_modules/graceful-fs-4.2.11.tgz) = OWE3SqFh5v7YDW9Laq8vt+r9LJ5b406GWzdfARTdCZw=
 SHA256 (npm_modules/hard-rejection-2.1.0.tgz) = przrgIyObYhjNQ0IwAWrP226A69MychbDTxCCNjkXFQ=
 SHA256 (npm_modules/has-bigints-1.0.2.tgz) = IHuC8fowcExc1IgHSilYL2TiDDzrKdePIpXWgmhXDOM=
 SHA256 (npm_modules/has-flag-3.0.0.tgz) = 7UtxMiDcIq4C0GPCECJe4idKeQXJzX2wQbpu9RGp4Oo=
@@ -1130,7 +1128,7 @@ SIZE (npm_modules/@microsoft-tsdoc-config-0.18.0.tgz) = 23702
 SIZE (npm_modules/@microsoft-tsdoc-config-0.18.1.tgz) = 23828
 SIZE (npm_modules/@modelcontextprotocol-sdk-1.26.0.tgz) = 547632
 SIZE (npm_modules/@napi-rs-wasm-runtime-0.2.11.tgz) = 985634
-SIZE (npm_modules/@napi-rs-wasm-runtime-0.2.12.tgz) = 979383
+SIZE (npm_modules/@napi-rs-wasm-runtime-1.2.3.tgz) = 156767
 SIZE (npm_modules/@nodelib-fs.scandir-2.1.5.tgz) = 6586
 SIZE (npm_modules/@nodelib-fs.stat-2.0.5.tgz) = 4182
 SIZE (npm_modules/@nodelib-fs.walk-1.2.8.tgz) = 7360
@@ -1149,7 +1147,7 @@ SIZE (npm_modules/@prettier-sync-0.6.1.tgz) = 2854
 SIZE (npm_modules/@rollup-plugin-babel-6.1.0.tgz) = 13069
 SIZE (npm_modules/@rollup-plugin-node-resolve-16.0.3.tgz) = 39973
 SIZE (npm_modules/@rollup-pluginutils-5.1.4.tgz) = 9622
-SIZE (npm_modules/@rollup-wasm-node-4.60.2.tgz) = 805469
+SIZE (npm_modules/@rollup-wasm-node-4.63.1.tgz) = 821634
 SIZE (npm_modules/@rtsao-scc-1.1.0.tgz) = 1862
 SIZE (npm_modules/@rushstack-node-core-library-5.19.1.tgz) = 286224
 SIZE (npm_modules/@rushstack-problem-matcher-0.1.1.tgz) = 9902
@@ -1175,12 +1173,12 @@ SIZE (npm_modules/@stylistic-eslint-plugin-5.9.0.tgz) = 134262
 SIZE (npm_modules/@swc-core-1.15.18.tgz) = 20970
 SIZE (npm_modules/@swc-counter-0.1.3.tgz) = 841
 SIZE (npm_modules/@swc-types-0.1.25.tgz) = 19087
-SIZE (npm_modules/@swc-wasm-1.15.30.tgz) = 3931312
+SIZE (npm_modules/@swc-wasm-1.16.2.tgz) = 5391430
 SIZE (npm_modules/@tootallnate-quickjs-emscripten-0.23.0.tgz) = 663737
 SIZE (npm_modules/@tsd-typescript-5.9.2.tgz) = 6726331
 SIZE (npm_modules/@tufjs-canonical-json-2.0.0.tgz) = 2691
 SIZE (npm_modules/@tufjs-models-4.1.0.tgz) = 17890
-SIZE (npm_modules/@tybys-wasm-util-0.10.1.tgz) = 125759
+SIZE (npm_modules/@tybys-wasm-util-0.10.3.tgz) = 139395
 SIZE (npm_modules/@tybys-wasm-util-0.9.0.tgz) = 124037
 SIZE (npm_modules/@types-argparse-1.0.38.tgz) = 2764
 SIZE (npm_modules/@types-chrome-0.1.37.tgz) = 153866
@@ -1189,7 +1187,7 @@ SIZE (npm_modules/@types-doctrine-0.0.9.tgz) = 3050
 SIZE (npm_modules/@types-eslint-7.29.0.tgz) = 22791
 SIZE (npm_modules/@types-estree-1.0.5.tgz) = 5850
 SIZE (npm_modules/@types-estree-1.0.6.tgz) = 5883
-SIZE (npm_modules/@types-estree-1.0.8.tgz) = 5928
+SIZE (npm_modules/@types-estree-1.0.9.tgz) = 5930
 SIZE (npm_modules/@types-filesystem-0.0.36.tgz) = 5083
 SIZE (npm_modules/@types-filewriter-0.0.33.tgz) = 3118
 SIZE (npm_modules/@types-har-format-1.2.16.tgz) = 7079
@@ -1234,7 +1232,7 @@ SIZE (npm_modules/@typescript-eslint-utils-8.26.1.tgz) = 55409
 SIZE (npm_modules/@typescript-eslint-utils-8.56.1.tgz) = 67216
 SIZE (npm_modules/@typescript-eslint-visitor-keys-8.26.1.tgz) = 4627
 SIZE (npm_modules/@typescript-eslint-visitor-keys-8.56.1.tgz) = 20797
-SIZE (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.11.1.tgz) = 569761
+SIZE (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.12.2.tgz) = 563512
 SIZE (npm_modules/@unrs-resolver-binding-wasm32-wasi-1.9.1.tgz) = 811480
 SIZE (npm_modules/@yarnpkg-lockfile-1.1.0.tgz) = 75114
 SIZE (npm_modules/abbrev-1.1.1.tgz) = 2301
@@ -1398,7 +1396,6 @@ SIZE (npm_modules/es-object-atoms-1.1.1.tgz) = 4658
 SIZE (npm_modules/es-set-tostringtag-2.1.0.tgz) = 5583
 SIZE (npm_modules/es-shim-unscopables-1.1.0.tgz) = 5058
 SIZE (npm_modules/es-to-primitive-1.3.0.tgz) = 10059
-SIZE (npm_modules/esbuild-0.28.0.tgz) = 34124
 SIZE (npm_modules/escalade-3.1.2.tgz) = 4347
 SIZE (npm_modules/escape-html-1.0.3.tgz) = 1917
 SIZE (npm_modules/escape-string-regexp-1.0.5.tgz) = 1578
@@ -1499,7 +1496,6 @@ SIZE (npm_modules/globalthis-1.0.4.tgz) = 8504
 SIZE (npm_modules/globby-11.1.0.tgz) = 6381
 SIZE (npm_modules/gopd-1.0.1.tgz) = 3631
 SIZE (npm_modules/gopd-1.2.0.tgz) = 4584
-SIZE (npm_modules/graceful-fs-4.2.11.tgz) = 9804
 SIZE (npm_modules/hard-rejection-2.1.0.tgz) = 2485
 SIZE (npm_modules/has-bigints-1.0.2.tgz) = 5049
 SIZE (npm_modules/has-flag-3.0.0.tgz) = 1751

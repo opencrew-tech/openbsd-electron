@@ -146,7 +146,7 @@ ${MODNPM_DIST}/@microsoft-{@microsoft/tsdoc-config/-/}tsdoc-config-0.18.1.tgz \
 ${MODNPM_DIST}/@microsoft-{@microsoft/tsdoc/-/}tsdoc-0.16.0.tgz \
 ${MODNPM_DIST}/@modelcontextprotocol-{@modelcontextprotocol/sdk/-/}sdk-1.26.0.tgz \
 ${MODNPM_DIST}/@napi-rs-{@napi-rs/wasm-runtime/-/}wasm-runtime-0.2.11.tgz \
-${MODNPM_DIST}/@napi-rs-{@napi-rs/wasm-runtime/-/}wasm-runtime-0.2.12.tgz \
+${MODNPM_DIST}/@napi-rs-{@napi-rs/wasm-runtime/-/}wasm-runtime-1.2.3.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.scandir/-/}fs.scandir-2.1.5.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.stat/-/}fs.stat-2.0.5.tgz \
 ${MODNPM_DIST}/@nodelib-{@nodelib/fs.walk/-/}fs.walk-1.2.8.tgz \
@@ -165,7 +165,7 @@ ${MODNPM_DIST}/@prettier-{@prettier/sync/-/}sync-0.6.1.tgz \
 ${MODNPM_DIST}/@rollup-{@rollup/plugin-babel/-/}plugin-babel-6.1.0.tgz \
 ${MODNPM_DIST}/@rollup-{@rollup/plugin-node-resolve/-/}plugin-node-resolve-16.0.3.tgz \
 ${MODNPM_DIST}/@rollup-{@rollup/pluginutils/-/}pluginutils-5.1.4.tgz \
-${MODNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.60.2.tgz \
+${MODNPM_DIST}/@rollup-{@rollup/wasm-node/-/}wasm-node-4.63.1.tgz \
 ${MODNPM_DIST}/@rtsao-{@rtsao/scc/-/}scc-1.1.0.tgz \
 ${MODNPM_DIST}/@rushstack-{@rushstack/node-core-library/-/}node-core-library-5.19.1.tgz \
 ${MODNPM_DIST}/@rushstack-{@rushstack/problem-matcher/-/}problem-matcher-0.1.1.tgz \
@@ -191,12 +191,12 @@ ${MODNPM_DIST}/@stylistic-{@stylistic/eslint-plugin/-/}eslint-plugin-5.9.0.tgz \
 ${MODNPM_DIST}/@swc-{@swc/core/-/}core-1.15.18.tgz \
 ${MODNPM_DIST}/@swc-{@swc/counter/-/}counter-0.1.3.tgz \
 ${MODNPM_DIST}/@swc-{@swc/types/-/}types-0.1.25.tgz \
-${MODNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.15.30.tgz \
+${MODNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.2.tgz \
 ${MODNPM_DIST}/@tootallnate-{@tootallnate/quickjs-emscripten/-/}quickjs-emscripten-0.23.0.tgz \
 ${MODNPM_DIST}/@tsd-{@tsd/typescript/-/}typescript-5.9.2.tgz \
 ${MODNPM_DIST}/@tufjs-{@tufjs/canonical-json/-/}canonical-json-2.0.0.tgz \
 ${MODNPM_DIST}/@tufjs-{@tufjs/models/-/}models-4.1.0.tgz \
-${MODNPM_DIST}/@tybys-{@tybys/wasm-util/-/}wasm-util-0.10.1.tgz \
+${MODNPM_DIST}/@tybys-{@tybys/wasm-util/-/}wasm-util-0.10.3.tgz \
 ${MODNPM_DIST}/@tybys-{@tybys/wasm-util/-/}wasm-util-0.9.0.tgz \
 ${MODNPM_DIST}/@types-{@types/argparse/-/}argparse-1.0.38.tgz \
 ${MODNPM_DIST}/@types-{@types/chrome/-/}chrome-0.1.37.tgz \
@@ -205,7 +205,7 @@ ${MODNPM_DIST}/@types-{@types/doctrine/-/}doctrine-0.0.9.tgz \
 ${MODNPM_DIST}/@types-{@types/eslint/-/}eslint-7.29.0.tgz \
 ${MODNPM_DIST}/@types-{@types/estree/-/}estree-1.0.5.tgz \
 ${MODNPM_DIST}/@types-{@types/estree/-/}estree-1.0.6.tgz \
-${MODNPM_DIST}/@types-{@types/estree/-/}estree-1.0.8.tgz \
+${MODNPM_DIST}/@types-{@types/estree/-/}estree-1.0.9.tgz \
 ${MODNPM_DIST}/@types-{@types/filesystem/-/}filesystem-0.0.36.tgz \
 ${MODNPM_DIST}/@types-{@types/filewriter/-/}filewriter-0.0.33.tgz \
 ${MODNPM_DIST}/@types-{@types/har-format/-/}har-format-1.2.16.tgz \
@@ -250,7 +250,7 @@ ${MODNPM_DIST}/@typescript-eslint-{@typescript-eslint/utils/-/}utils-8.26.1.tgz 
 ${MODNPM_DIST}/@typescript-eslint-{@typescript-eslint/utils/-/}utils-8.56.1.tgz \
 ${MODNPM_DIST}/@typescript-eslint-{@typescript-eslint/visitor-keys/-/}visitor-keys-8.26.1.tgz \
 ${MODNPM_DIST}/@typescript-eslint-{@typescript-eslint/visitor-keys/-/}visitor-keys-8.56.1.tgz \
-${MODNPM_DIST}/@unrs-{@unrs/resolver-binding-wasm32-wasi/-/}resolver-binding-wasm32-wasi-1.11.1.tgz \
+${MODNPM_DIST}/@unrs-{@unrs/resolver-binding-wasm32-wasi/-/}resolver-binding-wasm32-wasi-1.12.2.tgz \
 ${MODNPM_DIST}/@unrs-{@unrs/resolver-binding-wasm32-wasi/-/}resolver-binding-wasm32-wasi-1.9.1.tgz \
 ${MODNPM_DIST}/@yarnpkg-{@yarnpkg/lockfile/-/}lockfile-1.1.0.tgz \
 ${MODNPM_DIST}/{abbrev/-/}abbrev-1.1.1.tgz \
@@ -414,7 +414,6 @@ ${MODNPM_DIST}/{es-object-atoms/-/}es-object-atoms-1.1.1.tgz \
 ${MODNPM_DIST}/{es-set-tostringtag/-/}es-set-tostringtag-2.1.0.tgz \
 ${MODNPM_DIST}/{es-shim-unscopables/-/}es-shim-unscopables-1.1.0.tgz \
 ${MODNPM_DIST}/{es-to-primitive/-/}es-to-primitive-1.3.0.tgz \
-${MODNPM_DIST}/{esbuild/-/}esbuild-0.28.0.tgz \
 ${MODNPM_DIST}/{escalade/-/}escalade-3.1.2.tgz \
 ${MODNPM_DIST}/{escape-html/-/}escape-html-1.0.3.tgz \
 ${MODNPM_DIST}/{escape-string-regexp/-/}escape-string-regexp-1.0.5.tgz \
@@ -515,7 +514,6 @@ ${MODNPM_DIST}/{globalthis/-/}globalthis-1.0.4.tgz \
 ${MODNPM_DIST}/{globby/-/}globby-11.1.0.tgz \
 ${MODNPM_DIST}/{gopd/-/}gopd-1.0.1.tgz \
 ${MODNPM_DIST}/{gopd/-/}gopd-1.2.0.tgz \
-${MODNPM_DIST}/{graceful-fs/-/}graceful-fs-4.2.11.tgz \
 ${MODNPM_DIST}/{hard-rejection/-/}hard-rejection-2.1.0.tgz \
 ${MODNPM_DIST}/{has-bigints/-/}has-bigints-1.0.2.tgz \
 ${MODNPM_DIST}/{has-flag/-/}has-flag-3.0.0.tgz \
@@ -1468,7 +1466,6 @@ https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz;has-flag-4.0.0.tgz \
 https://registry.npmjs.org/has-flag/-/has-flag-3.0.0.tgz;has-flag-3.0.0.tgz \
 https://registry.npmjs.org/has-bigints/-/has-bigints-1.0.2.tgz;has-bigints-1.0.2.tgz \
 https://registry.npmjs.org/hard-rejection/-/hard-rejection-2.1.0.tgz;hard-rejection-2.1.0.tgz \
-https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz;graceful-fs-4.2.11.tgz \
 https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz;gopd-1.2.0.tgz \
 https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz;gopd-1.0.1.tgz \
 https://registry.npmjs.org/globby/-/globby-11.1.0.tgz;globby-11.1.0.tgz \
@@ -1732,7 +1729,7 @@ https://registry.npmjs.org/abbrev/-/abbrev-4.0.0.tgz;abbrev-4.0.0.tgz \
 https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz;abbrev-1.1.1.tgz \
 https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz;@yarnpkg-lockfile-1.1.0.tgz \
 https://registry.npmjs.org/@unrs/resolver-binding-wasm32-wasi/-/resolver-binding-wasm32-wasi-1.9.1.tgz;@unrs-resolver-binding-wasm32-wasi-1.9.1.tgz \
-https://registry.npmjs.org/@unrs/resolver-binding-wasm32-wasi/-/resolver-binding-wasm32-wasi-1.11.1.tgz;@unrs-resolver-binding-wasm32-wasi-1.11.1.tgz \
+https://registry.npmjs.org/@unrs/resolver-binding-wasm32-wasi/-/resolver-binding-wasm32-wasi-1.12.2.tgz;@unrs-resolver-binding-wasm32-wasi-1.12.2.tgz \
 https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.56.1.tgz;@typescript-eslint-visitor-keys-8.56.1.tgz \
 https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.26.1.tgz;@typescript-eslint-visitor-keys-8.26.1.tgz \
 https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.56.1.tgz;@typescript-eslint-utils-8.56.1.tgz \
@@ -1777,7 +1774,7 @@ https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-
 https://registry.npmjs.org/@types/har-format/-/har-format-1.2.16.tgz;@types-har-format-1.2.16.tgz \
 https://registry.npmjs.org/@types/filewriter/-/filewriter-0.0.33.tgz;@types-filewriter-0.0.33.tgz \
 https://registry.npmjs.org/@types/filesystem/-/filesystem-0.0.36.tgz;@types-filesystem-0.0.36.tgz \
-https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz;@types-estree-1.0.8.tgz \
+https://registry.npmjs.org/@types/estree/-/estree-1.0.9.tgz;@types-estree-1.0.9.tgz \
 https://registry.npmjs.org/@types/estree/-/estree-1.0.6.tgz;@types-estree-1.0.6.tgz \
 https://registry.npmjs.org/@types/estree/-/estree-1.0.5.tgz;@types-estree-1.0.5.tgz \
 https://registry.npmjs.org/@types/eslint/-/eslint-7.29.0.tgz;@types-eslint-7.29.0.tgz \
@@ -1786,12 +1783,12 @@ https://registry.npmjs.org/@types/debug/-/debug-4.1.12.tgz;@types-debug-4.1.12.t
 https://registry.npmjs.org/@types/chrome/-/chrome-0.1.37.tgz;@types-chrome-0.1.37.tgz \
 https://registry.npmjs.org/@types/argparse/-/argparse-1.0.38.tgz;@types-argparse-1.0.38.tgz \
 https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.9.0.tgz;@tybys-wasm-util-0.9.0.tgz \
-https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.1.tgz;@tybys-wasm-util-0.10.1.tgz \
+https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.3.tgz;@tybys-wasm-util-0.10.3.tgz \
 https://registry.npmjs.org/@tufjs/models/-/models-4.1.0.tgz;@tufjs-models-4.1.0.tgz \
 https://registry.npmjs.org/@tufjs/canonical-json/-/canonical-json-2.0.0.tgz;@tufjs-canonical-json-2.0.0.tgz \
 https://registry.npmjs.org/@tsd/typescript/-/typescript-5.9.2.tgz;@tsd-typescript-5.9.2.tgz \
 https://registry.npmjs.org/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz;@tootallnate-quickjs-emscripten-0.23.0.tgz \
-https://registry.npmjs.org/@swc/wasm/-/wasm-1.15.30.tgz;@swc-wasm-1.15.30.tgz \
+https://registry.npmjs.org/@swc/wasm/-/wasm-1.16.2.tgz;@swc-wasm-1.16.2.tgz \
 https://registry.npmjs.org/@swc/types/-/types-0.1.25.tgz;@swc-types-0.1.25.tgz \
 https://registry.npmjs.org/@swc/counter/-/counter-0.1.3.tgz;@swc-counter-0.1.3.tgz \
 https://registry.npmjs.org/@swc/core/-/core-1.15.18.tgz;@swc-core-1.15.18.tgz \
@@ -1817,7 +1814,7 @@ https://registry.npmjs.org/@rushstack/rig-package/-/rig-package-0.6.0.tgz;@rushs
 https://registry.npmjs.org/@rushstack/problem-matcher/-/problem-matcher-0.1.1.tgz;@rushstack-problem-matcher-0.1.1.tgz \
 https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-5.19.1.tgz;@rushstack-node-core-library-5.19.1.tgz \
 https://registry.npmjs.org/@rtsao/scc/-/scc-1.1.0.tgz;@rtsao-scc-1.1.0.tgz \
-https://registry.npmjs.org/@rollup/wasm-node/-/wasm-node-4.60.2.tgz;@rollup-wasm-node-4.60.2.tgz \
+https://registry.npmjs.org/@rollup/wasm-node/-/wasm-node-4.63.1.tgz;@rollup-wasm-node-4.63.1.tgz \
 https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.1.4.tgz;@rollup-pluginutils-5.1.4.tgz \
 https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-16.0.3.tgz;@rollup-plugin-node-resolve-16.0.3.tgz \
 https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-6.1.0.tgz;@rollup-plugin-babel-6.1.0.tgz \
@@ -1836,7 +1833,7 @@ https://registry.npmjs.org/@npmcli/agent/-/agent-4.0.0.tgz;@npmcli-agent-4.0.0.t
 https://registry.npmjs.org/@nodelib/fs.walk/-/fs.walk-1.2.8.tgz;@nodelib-fs.walk-1.2.8.tgz \
 https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-2.0.5.tgz;@nodelib-fs.stat-2.0.5.tgz \
 https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz;@nodelib-fs.scandir-2.1.5.tgz \
-https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-0.2.12.tgz;@napi-rs-wasm-runtime-0.2.12.tgz \
+https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.2.3.tgz;@napi-rs-wasm-runtime-1.2.3.tgz \
 https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-0.2.11.tgz;@napi-rs-wasm-runtime-0.2.11.tgz \
 https://registry.npmjs.org/@modelcontextprotocol/sdk/-/sdk-1.26.0.tgz;@modelcontextprotocol-sdk-1.26.0.tgz \
 https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.16.0.tgz;@microsoft-tsdoc-0.16.0.tgz \
@@ -1980,6 +1977,4 @@ https://registry.npmjs.org/@actions/http-client/-/http-client-4.0.0.tgz;@actions
 https://registry.npmjs.org/@actions/exec/-/exec-3.0.0.tgz;@actions-exec-3.0.0.tgz \
 https://registry.npmjs.org/@actions/core/-/core-3.0.0.tgz;@actions-core-3.0.0.tgz \
 https://registry.npmjs.org/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz;@aashutoshrathi-word-wrap-1.2.6.tgz \
-graceful-fs@4.2.11;graceful-fs-4.2.11.tgz \
-esbuild@0.28.0;esbuild-0.28.0.tgz \
 

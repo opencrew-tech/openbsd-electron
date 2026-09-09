@@ -1,0 +1,16 @@
+Follow Link targets so stale dependencies behind workspaces are repaired.
+
+Index: workspaces/arborist/lib/arborist/build-ideal-tree.js
+--- workspaces/arborist/lib/arborist/build-ideal-tree.js.orig
++++ workspaces/arborist/lib/arborist/build-ideal-tree.js
+@@ -478,6 +478,10 @@ module.exports = cls => class IdealTreeBuilder extends
+           tree,
+           getChildren: (node) => {
+             const children = []
++            if (node.isLink && node.target &&
++                (this.#follow || node.target.isDescendantOf(tree.target))) {
++              children.push(node.target)
++            }
+             for (const edge of node.edgesOut.values()) {
+               children.push(edge.to)
+             }

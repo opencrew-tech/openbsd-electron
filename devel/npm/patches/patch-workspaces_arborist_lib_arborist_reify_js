@@ -30,3 +30,18 @@ Index: workspaces/arborist/lib/arborist/reify.js
        await debug(async () => {
          const st = await lstat(node.path).catch(() => null)
          if (st && !st.isDirectory()) {
+@@ -1308,12 +1330,12 @@ module.exports = cls => class Reifier extends cls {
+           (bundleMissing || !node.inDepBundle)
+ 
+         if (doUnpack) {
+-          unpacks.push(this[_reifyNode](node))
++          unpacks.push(() => this[_reifyNode](node))
+         }
+       },
+       getChildren: diff => diff.children,
+     })
+-    return promiseAllRejectLate(unpacks).then(timeEnd)
++    return promiseCallLimit(unpacks, { rejectLate: true }).then(timeEnd)
+   }
+ 
+   // This is the part where we move back the unchanging nodes that were

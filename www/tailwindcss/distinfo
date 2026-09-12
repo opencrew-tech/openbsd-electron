@@ -95,6 +95,8 @@ SHA256 (npm_modules/@emnapi-core-1.7.1.tgz) = ss2KS6D6g/f/lbMNVOW3qh5Sx83bdAvX03
 SHA256 (npm_modules/@emnapi-runtime-1.7.1.tgz) = kEwrYCuvzp9mMPtI4KBBsRkH4CaM0MQSYg0jRmNARqk=
 SHA256 (npm_modules/@emnapi-runtime-1.8.1.tgz) = MZ1ve84qASPDCMd5CExDXFvgz7QjHLul7ipok+EjTxc=
 SHA256 (npm_modules/@emnapi-wasi-threads-1.1.0.tgz) = bDf3SDtAVfcK50Nlp/FA51PK9GYvfHeZ6tyFbq3hSYo=
+SHA256 (npm_modules/@esbuild-openbsd-arm64-0.28.2.tgz) = fAPYX08YLebjjNYzUmPokjD3+3LkojzZ1z2kNX0YwaA=
+SHA256 (npm_modules/@esbuild-openbsd-x64-0.28.2.tgz) = DdnPf9spsJytbSsZEkStzRZUROwl0SzL4JgGfVptLr8=
 SHA256 (npm_modules/@inquirer-ansi-1.0.2.tgz) = TvTqPJbUP2SBfVq2xXIZTi+47ZYDbqg9AElRLz0Zi+w=
 SHA256 (npm_modules/@inquirer-checkbox-4.3.2.tgz) = YDg8hIhhdahrcHTPJAXaCoQkNJ8eWPrejtLOcR3470Q=
 SHA256 (npm_modules/@inquirer-confirm-5.1.21.tgz) = 9FOSiu7bMNjnn7W16TXRAQQKVwt3UV/1mDfOnqD7zM0=
@@ -246,6 +248,7 @@ SHA256 (npm_modules/enhanced-resolve-5.19.0.tgz) = WYFWtWDNnUvfU+YwHKjIiSMd9NxLj
 SHA256 (npm_modules/es-module-lexer-1.7.0.tgz) = 5BsudKw8xYcfxb+8EIwRT5X090Olt7seB5PQu1f+Jfk=
 SHA256 (npm_modules/es-module-lexer-2.0.0.tgz) = cj8ZWXS+Y2PgtcdYJLKsJKne0g3pjimPPsM7jH8XtDo=
 SHA256 (npm_modules/es-toolkit-1.43.0.tgz) = 8YhfhFg9s1MsJY4PoUVlrIxRj3NjG1NHpvolLJb0Ci8=
+SHA256 (npm_modules/esbuild-0.28.2.tgz) = 4EX5TCNcetxQ53uipXnHvsQbSWtrR8OnhF98HhmVmog=
 SHA256 (npm_modules/escalade-3.2.0.tgz) = uidVr8DmxnBTJnEf0hjr4QelJ+zL1khRVf3pjtAAvuc=
 SHA256 (npm_modules/eslint-scope-5.1.1.tgz) = tdJiVcyZT6OapJpwofBozgJydDtLit2o1/Y5nxX0MRg=
 SHA256 (npm_modules/esrecurse-4.3.0.tgz) = Ps+TcNcpa0e1cMiKEfcLNbuWWvjVNlNrJZ61X5t5O2E=
@@ -555,6 +558,8 @@ SIZE (npm_modules/@emnapi-core-1.7.1.tgz) = 216363
 SIZE (npm_modules/@emnapi-runtime-1.7.1.tgz) = 65407
 SIZE (npm_modules/@emnapi-runtime-1.8.1.tgz) = 65421
 SIZE (npm_modules/@emnapi-wasi-threads-1.1.0.tgz) = 39274
+SIZE (npm_modules/@esbuild-openbsd-arm64-0.28.2.tgz) = 4257714
+SIZE (npm_modules/@esbuild-openbsd-x64-0.28.2.tgz) = 4711359
 SIZE (npm_modules/@inquirer-ansi-1.0.2.tgz) = 2980
 SIZE (npm_modules/@inquirer-checkbox-4.3.2.tgz) = 7242
 SIZE (npm_modules/@inquirer-confirm-5.1.21.tgz) = 3424
@@ -706,6 +711,7 @@ SIZE (npm_modules/enhanced-resolve-5.19.0.tgz) = 48034
 SIZE (npm_modules/es-module-lexer-1.7.0.tgz) = 31183
 SIZE (npm_modules/es-module-lexer-2.0.0.tgz) = 32377
 SIZE (npm_modules/es-toolkit-1.43.0.tgz) = 338797
+SIZE (npm_modules/esbuild-0.28.2.tgz) = 34207
 SIZE (npm_modules/escalade-3.2.0.tgz) = 4483
 SIZE (npm_modules/eslint-scope-5.1.1.tgz) = 16718
 SIZE (npm_modules/esrecurse-4.3.0.tgz) = 4053

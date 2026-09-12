@@ -86,6 +86,15 @@ post-install:
 	ln -s ${LOCALBASE}/${MODPNPM_INSTALL_DIR}/${TAILWINDCSS_BIN} \
 		${PREFIX}/bin/tailwindcss
 
+modpnpm-pre-gen-modules:
+	@cd ${WRKSRC} && \
+	yq -y '\
+	    .allowBuilds["tree-sitter@0.22.4"] = true | \
+	    .allowBuilds["tree-sitter-javascript@0.23.1"] = true | \
+	    .allowBuilds["tree-sitter-typescript@0.23.2"] = true' \
+	    ${MODPNPM_WORKSPACE} > tmp.yaml && \
+	mv tmp.yaml ${MODPNPM_WORKSPACE}
+
 .include "crates.inc"
 
 .include "modules.pnpm.inc"

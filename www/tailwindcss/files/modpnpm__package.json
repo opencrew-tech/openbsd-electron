@@ -60,13 +60,5 @@
     "typescript": "^5.5.4",
     "vitest": "^4.0.18"
   },
-  "pnpm": {
-    "overrides": {
-      "esbuild": "link:../node/esbuild/node_modules/esbuild",
-      "graceful-fs": "link:../node/graceful-fs/node_modules/graceful-fs",
-      "@parcel/watcher": "link:../node/parcel-watcher/node_modules/@parcel/watcher",
-      "rollup": "link:../node/rollup/node_modules/rollup",
-      "lightningcss": "npm:lightningcss-wasm"
-    }
-  }
+  "pnpm": {}
 }

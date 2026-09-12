@@ -9,6 +9,8 @@ ${MODPNPM_DIST}/@emnapi-{@emnapi/core/-/}core-1.7.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/runtime/-/}runtime-1.7.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/runtime/-/}runtime-1.8.1.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/wasi-threads/-/}wasi-threads-1.1.0.tgz \
+${MODPNPM_DIST}/@esbuild-{@esbuild/openbsd-arm64/-/}openbsd-arm64-0.28.2.tgz \
+${MODPNPM_DIST}/@esbuild-{@esbuild/openbsd-x64/-/}openbsd-x64-0.28.2.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/ansi/-/}ansi-1.0.2.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/checkbox/-/}checkbox-4.3.2.tgz \
 ${MODPNPM_DIST}/@inquirer-{@inquirer/confirm/-/}confirm-5.1.21.tgz \
@@ -160,6 +162,7 @@ ${MODPNPM_DIST}/{enhanced-resolve/-/}enhanced-resolve-5.19.0.tgz \
 ${MODPNPM_DIST}/{es-module-lexer/-/}es-module-lexer-1.7.0.tgz \
 ${MODPNPM_DIST}/{es-module-lexer/-/}es-module-lexer-2.0.0.tgz \
 ${MODPNPM_DIST}/{es-toolkit/-/}es-toolkit-1.43.0.tgz \
+${MODPNPM_DIST}/{esbuild/-/}esbuild-0.28.2.tgz \
 ${MODPNPM_DIST}/{escalade/-/}escalade-3.2.0.tgz \
 ${MODPNPM_DIST}/{eslint-scope/-/}eslint-scope-5.1.1.tgz \
 ${MODPNPM_DIST}/{esrecurse/-/}esrecurse-4.3.0.tgz \
@@ -378,6 +381,8 @@ MODPNPM_PKGS += \
 @emnapi/runtime@1.7.1;@emnapi-runtime-1.7.1.tgz \
 @emnapi/runtime@1.8.1;@emnapi-runtime-1.8.1.tgz \
 @emnapi/wasi-threads@1.1.0;@emnapi-wasi-threads-1.1.0.tgz \
+@esbuild/openbsd-arm64@0.28.2;@esbuild-openbsd-arm64-0.28.2.tgz \
+@esbuild/openbsd-x64@0.28.2;@esbuild-openbsd-x64-0.28.2.tgz \
 @inquirer/ansi@1.0.2;@inquirer-ansi-1.0.2.tgz \
 @inquirer/checkbox@4.3.2;@inquirer-checkbox-4.3.2.tgz \
 @inquirer/confirm@5.1.21;@inquirer-confirm-5.1.21.tgz \
@@ -529,6 +534,7 @@ enhanced-resolve@5.19.0;enhanced-resolve-5.19.0.tgz \
 es-module-lexer@1.7.0;es-module-lexer-1.7.0.tgz \
 es-module-lexer@2.0.0;es-module-lexer-2.0.0.tgz \
 es-toolkit@1.43.0;es-toolkit-1.43.0.tgz \
+esbuild@0.28.2;esbuild-0.28.2.tgz \
 escalade@3.2.0;escalade-3.2.0.tgz \
 eslint-scope@5.1.1;eslint-scope-5.1.1.tgz \
 esrecurse@4.3.0;esrecurse-4.3.0.tgz \

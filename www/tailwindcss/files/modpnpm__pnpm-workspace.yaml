@@ -1,10 +1,9 @@
 packages:
-  - 'crates/node'
-  - 'crates/node/npm/*'
-  - 'packages/*'
-  - 'playgrounds/*'
-  - 'integrations'
-
+  - crates/node
+  - crates/node/npm/*
+  - packages/*
+  - playgrounds/*
+  - integrations
 catalog:
   '@types/node': ^20.19.0
   prettier: 3.8.1
@@ -18,3 +17,14 @@ catalog:
   lightningcss-linux-x64-gnu: 1.32.0
   lightningcss-linux-x64-musl: 1.32.0
   lightningcss-win32-x64-msvc: 1.32.0
+allowBuilds:
+  tree-sitter@0.22.4: true
+  tree-sitter-javascript@0.23.1: true
+  tree-sitter-typescript@0.23.2: true
+trustLockfile: true
+overrides:
+  esbuild: link:../node/esbuild/node_modules/esbuild
+  graceful-fs: link:../node/graceful-fs/node_modules/graceful-fs
+  '@parcel/watcher': link:../node/parcel-watcher/node_modules/@parcel/watcher
+  rollup: link:../node/rollup/node_modules/rollup
+  lightningcss: npm:lightningcss-wasm

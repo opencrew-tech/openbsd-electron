@@ -1,0 +1,10 @@
+overrides:
+  zigbee-herdsman: $zigbee-herdsman
+  esbuild: link:../node/esbuild/node_modules/esbuild
+  rollup: link:../node/rollup/node_modules/rollup
+allowBuilds:
+  '@biomejs/biome': true
+  '@serialport/bindings-cpp': true
+  esbuild: true
+  unix-dgram: true
+trustLockfile: true

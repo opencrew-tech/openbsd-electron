@@ -1,7 +1,7 @@
 COMMENT=	Zigbee to MQTT bridge
 
-DIST_TUPLE=	github Koenkk zigbee2mqtt 2.9.2 .
-REVISION=	0
+DIST_TUPLE=	github Koenkk zigbee2mqtt 2.14.1 .
+REVISION=	1
 
 CATEGORIES=	comms
 

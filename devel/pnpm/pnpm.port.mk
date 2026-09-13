@@ -381,7 +381,7 @@ MODPNPM_INSTALL_TARGET=\
 			cd $${target} ; \
 			rm -rf node_modules ; \
 			find . -type d -name node_modules -delete ; \
-			${MODPNPM_CMD} ${MODPNPM_ARGS_FAKE} \
+			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_FAKE} \
 				--frozen-lockfile ; \
 			cp -pRP node_modules \
 				${PREFIX}/${MODPNPM_INSTALL_DIR}/ ; \
@@ -408,12 +408,20 @@ MODPNPM_INSTALL_TARGET=\
 				cp -pRP $${srcdir}/node_modules $${pkg}/ ; \
 			else \
 				cd $${pkg} ; \
+				k='overrides|patchedDependencies' ; \
+				sed -E \
+				    -e "/^($${k}):/,/^[^ ]/{" \
+				    -e "/^($${k}):/d" \
+				    -e '/^[^ ]/!d' \
+				    -e '}' \
+				    $${target}/${MODPNPM_WORKSPACE} \
+				    > ./${MODPNPM_WORKSPACE} && \
 				sed \
-					-e '/^overrides:/,/^\s*$$/d' \
-					-e '/^patchedDependencies:/,/^\s*$$/d' \
-					$${target}/${MODPNPM_LOCK} > \
-					./${MODPNPM_LOCK} && \
-				${MODPNPM_CMD} ${MODPNPM_ARGS_FAKE} ; \
+				    -e '/^overrides:/,/^\s*$$/d' \
+				    -e '/^patchedDependencies:/,/^\s*$$/d' \
+				    $${target}/${MODPNPM_LOCK} \
+				    > ./${MODPNPM_LOCK} && \
+				${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_FAKE} ; \
 			fi ; \
 		done ; \
 	done ; \
@@ -506,6 +514,38 @@ MODPNPM_gen-configfiles += \
 		yq -n -y '{}' > tmp.yaml && \
 		mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
 	fi ;
+
+# pnpm 11 reads these settings from pnpm-workspace.yaml, not package.json.
+MODPNPM_gen-configfiles += (\
+	pnpm_migrate=$$(jq -r 'has("pnpm")' \
+		${MODPNPM_PACKAGE}) || exit 1 ; \
+	[ "$${pnpm_migrate}" = "true" ] || exit 0 ; \
+	echo "MODPNPM: migrate pnpm settings to ${MODPNPM_WORKSPACE}" ; \
+	pnpm_settings=$$(jq -c '.pnpm as $$pnpm | \
+		(if $$pnpm | has("overrides") then \
+			{overrides: $$pnpm.overrides} else {} end) * \
+		(if (($$pnpm | has("onlyBuiltDependencies")) or \
+		    ($$pnpm | has("ignoredBuiltDependencies"))) then \
+		{ \
+			allowBuilds: \
+			((reduce (($$pnpm.onlyBuiltDependencies // [])[]) \
+				as $$package ({}; .[$$package] = true)) * \
+			(reduce (($$pnpm.ignoredBuiltDependencies // [])[]) \
+				as $$package ({}; .[$$package] = false))) \
+		} else {} end)' \
+		${MODPNPM_PACKAGE}) || exit 1 ; \
+	yq -y --argjson pnpm_settings "$${pnpm_settings}" \
+		'$$pnpm_settings * .' \
+		${MODPNPM_WORKSPACE} > ${MODPNPM_WORKSPACE}.tmp && \
+		mv ${MODPNPM_WORKSPACE}.tmp ${MODPNPM_WORKSPACE} || \
+		exit 1 ; \
+	jq 'del(.pnpm.overrides, \
+		.pnpm.onlyBuiltDependencies, \
+		.pnpm.ignoredBuiltDependencies) | \
+		if .pnpm == {} then del(.pnpm) else . end' \
+		${MODPNPM_PACKAGE} > ${MODPNPM_PACKAGE}.tmp && \
+		mv ${MODPNPM_PACKAGE}.tmp ${MODPNPM_PACKAGE} || exit 1 ; \
+	) ;
 
 # Trust bundled lockfiles during offline installs.
 MODPNPM_gen-configfiles += \

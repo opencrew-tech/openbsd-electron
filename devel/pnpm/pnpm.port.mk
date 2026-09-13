@@ -3,7 +3,8 @@ MODPNPM_DIST=		npm_modules
 # modpnpm-gen-modules will configure TARGETS & PACKAGES then bundle CONFIGFILES
 # For each PACKAGES folder, apply MODPNPM_gen-configfiles and GEN_OVERRIDES
 # For each TARGETS folder, apply pnpm commands GEN_LOCK|UPDATE|ADD then
-# generate modules.pnpm.inc which contain DISTFILES and MODPNPM_PKGS
+# generate modules.pnpm.inc which contains MODPNPM_MULTI_PROJECT, DISTFILES
+# and MODPNPM_PKGS
 MODPNPM_TARGETS?=	${WRKSRC}
 MODPNPM_PACKAGES?=	${MODPNPM_TARGETS}
 
@@ -58,7 +59,13 @@ MODPNPM_LOCK?=		pnpm-lock.yaml
 MODPNPM_PACKAGE?=	package.json
 MODPNPM_SETTINGS?=	.pnpmrc
 MODPNPM_WORKSPACE?=	pnpm-workspace.yaml
+MODPNPM_MULTI_PROJECT?=	Yes
 MODPNPM_PATCHORIG?=	.orig.modpnpm
+
+.if ${MODPNPM_MULTI_PROJECT:L} != "yes" && \
+    ${MODPNPM_MULTI_PROJECT:L} != "no"
+ERRORS +=	"Fatal: MODPNPM_MULTI_PROJECT must be Yes or No"
+.endif
 
 # config files may be extended (ex: to embed sub-folders package.json tweeks)
 MODPNPM_CONFIGFILES+=	${MODPNPM_LOCK} \
@@ -326,7 +333,7 @@ MODPNPM_post-extract += \
 MODPNPM_PREBUILD_TARGET=\
 	for target in ${MODPNPM_TARGETS} ; do \
 		echo "MODPNPM: rebuild $${target}" ; \
-		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
+		if [ "${MODPNPM_MULTI_PROJECT:L}" == "yes" ] ; then \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \
 				${MODPNPM_ARGS_REBUILD} ; \
@@ -343,7 +350,7 @@ MODPNPM_BUILD_TARGET=\
 		prefix=$${prefix%%_} ; \
 		echo "MODPNPM: pack $${target}" ; \
 		mkdir -p ${MODPNPM_BUILD_DIST}/$${prefix} ; \
-		if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
+		if [ "${MODPNPM_MULTI_PROJECT:L}" == "yes" ] ; then \
 			cd $${target} && \
 			${MODPNPM_CMD_BUILD} ${MODPNPM_ARGS_WORKSPACE} \
 				${MODPNPM_ARGS_BUILD} --out \
@@ -369,7 +376,7 @@ MODPNPM_INSTALL_TARGET=\
 		prefix=$$(echo "$${target\#\#${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix\#\#_} ; \
 		prefix=$${prefix%%_} ; \
-		if [ -f $${target}/${MODPNPM_WORKSPACE} ]; then \
+		if [ "${MODPNPM_MULTI_PROJECT:L}" == "yes" ]; then \
 			echo "MODPNPM: prune $${target}" ; \
 			cd $${target} ; \
 			rm -rf node_modules ; \
@@ -391,7 +398,7 @@ MODPNPM_INSTALL_TARGET=\
 			    grep -m1 name | awk -F\" '{print $$4}') ; \
 			echo "MODPNPM: $$tgz -> $${pkg}" ; \
 			mkdir -p $$(dirname $${pkg}) && mv package $${pkg} ; \
-			if [ -f $${target}/${MODPNPM_WORKSPACE} ] ; then \
+			if [ "${MODPNPM_MULTI_PROJECT:L}" == "yes" ] ; then \
 				srcdir=$$(cd $${target} && \
 					${MODPNPM_CMD} list -r --depth -1 | \
 					grep -m1 "$${pkg}@" | \
@@ -489,15 +496,21 @@ modpnpm-diff:
 .if ${MODPNPM_GEN_ENGINES:L} != "no"
 MODPNPM_gen-configfiles += \
 	jq 'del(.engines,.packageManager,.devEngines)' ${MODPNPM_PACKAGE} \
-		> tmp.json && mv tmp.json ${MODPNPM_PACKAGE} ;
+	    > tmp.json && \
+	mv tmp.json ${MODPNPM_PACKAGE} ;
 .endif
+
+# Newer pnpm always need MODPNPM_WORKSPACE, create one if missing
+MODPNPM_gen-configfiles += \
+	if [ ! -f ${MODPNPM_WORKSPACE} ] ; then \
+		yq -n -y '{}' > tmp.yaml && \
+		mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
+	fi ;
 
 # Trust bundled lockfiles during offline installs.
 MODPNPM_gen-configfiles += \
-	if [ -f ${MODPNPM_WORKSPACE} ]; then \
-		yq -y '.trustLockfile = true' ${MODPNPM_WORKSPACE} \
-			> tmp.yaml && mv tmp.yaml ${MODPNPM_WORKSPACE} ; \
-	fi ;
+	yq -y '.trustLockfile = true' ${MODPNPM_WORKSPACE} > tmp.yaml && \
+	mv tmp.yaml ${MODPNPM_WORKSPACE} ;
 
 # Setup overrides customisation before modpnpm-gen-configfiles (w/patches), ex:
 # MODPNPM_GEN_OVERRIDES =	"foo" "npm:foo@x.y.z" "bar" "npm:@cutom/bar"
@@ -590,7 +603,7 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 # config fix
 	@for target in ${MODPNPM_PACKAGES} ; do \
 		echo "MODPNPM: fix config files $${target}" ; \
-		cd $${target} ; \
+		cd $${target} || exit 1 ; \
 		${MODPNPM_gen-configfiles} \
 	done
 # mods triggered overrides
@@ -688,9 +701,15 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		mv ${.CURDIR}/modules.pnpm.inc{,.orig} || true
 .  if ${_MODPNPM_VENDOR:L} == "no"
 	@echo "MODPNPM: generate modules.pnpm.inc" ; \
-	locks="" ; for target in ${MODPNPM_TARGETS} ; do \
-		[ -f $${target}/${MODPNPM_LOCK} ] && \
-		locks="$${locks} $${target}/${MODPNPM_LOCK}" ; \
+	locks="" ; multi_project=No ; \
+	for target in ${MODPNPM_TARGETS} ; do \
+		if [ -f $${target}/${MODPNPM_LOCK} ] ; then \
+			locks="$${locks} $${target}/${MODPNPM_LOCK}" ; \
+			projects=$$(yq -r \
+				'.importers | keys[] | select(. != ".")' \
+				$${target}/${MODPNPM_LOCK}) || exit 1 ; \
+			[ -n "$${projects}" ] && multi_project=Yes ; \
+		fi ; \
 	done ; \
 	echo "" >> ${.CURDIR}/modules.pnpm.inc ; \
 	echo "#INCLUDES=${MODPNPM_GEN_INCLUDES}" >> \
@@ -698,6 +717,9 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 	echo "#EXCLUDES=${MODPNPM_GEN_EXCLUDES}" >> \
 		${.CURDIR}/modules.pnpm.inc ; \
 	echo "#FORCE=${MODPNPM_GEN_FORCE:L}" >> ${.CURDIR}/modules.pnpm.inc ; \
+	echo "" >> ${.CURDIR}/modules.pnpm.inc ; \
+	echo "MODPNPM_MULTI_PROJECT?=\t$${multi_project}" >> \
+		${.CURDIR}/modules.pnpm.inc ; \
 	echo "" >> ${.CURDIR}/modules.pnpm.inc ; \
 	${_PERLSCRIPT}/modpnpm-gen-modules \
 		${MODPNPM_GEN_INCLUDES:='-i %'} \

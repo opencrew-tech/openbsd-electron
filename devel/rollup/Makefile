@@ -1,6 +1,7 @@
 COMMENT =	next-generation ES module bundler
 
 DIST_TUPLE+=	github rollup rollup v4.62.4 rollup
+REVISION =	0
 
 # need a custom @rollup/plugin-typescript to overcome fd limit issue
 DIST_TUPLE+=	github rollup plugins \

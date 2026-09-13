@@ -630,10 +630,10 @@ SHA256 (npm_modules/@vue-runtime-dom-3.5.25.tgz) = ftpZBITHK65CtsDSlYYqZnNRt0DUp
 SHA256 (npm_modules/@vue-server-renderer-3.5.25.tgz) = DI67aCZXYaku0VYuXJxp5M1x6SggCN3XKqSnE485MV4=
 SHA256 (npm_modules/@vue-shared-3.1.5.tgz) = n7bFNEvu8+hoGhl3GhMoeGs61+i0MelDpU+VTM6OYXs=
 SHA256 (npm_modules/@vue-shared-3.5.25.tgz) = f5hHh1g4snpI3wgWb9+Epe914WGPJxn35JMz5jIiLYk=
-SHA256 (npm_modules/@yuku-codegen-wasm-0.9.1.tgz) = SQ9zZDtUweWftbAmPzHOvNmb7DGYQXd53ugsc9+ZAGE=
-SHA256 (npm_modules/@yuku-parser-wasm-0.9.1.tgz) = brNFp5Omw55K5R8hUajow4Wj/V83PTm9YumMDVQEtwc=
+SHA256 (npm_modules/@yuku-codegen-wasm-0.10.1.tgz) = PeHrQb3xyzv6O4zaZigwsPicYJGHk0pWUXHX8/sFKgk=
+SHA256 (npm_modules/@yuku-parser-wasm-0.10.1.tgz) = jCNKjRAqtmac+2ZE+BKebREjUQQRFtcKT07qak0FwpA=
+SHA256 (npm_modules/@yuku-toolchain-types-0.10.1.tgz) = un2FaueYq/6rlfwBmaGeJJ+ExJhrgQT0RweAC9hpcY0=
 SHA256 (npm_modules/@yuku-toolchain-types-0.7.0.tgz) = hfIiAF3oiLqayL8HDgc3R9O7kaQ9w01QAzOhoNtjsh0=
-SHA256 (npm_modules/@yuku-toolchain-types-0.9.1.tgz) = sMRlSHp1yFqDUS404QrhAQmSCTgg469nITtyuf6Y1mY=
 SHA256 (npm_modules/accepts-2.0.0.tgz) = Fz2RX32I34zU2yEpoDDDscnK/Tt67luJRlvzrRg3JUI=
 SHA256 (npm_modules/acorn-8.17.0.tgz) = r6g//3UebJc57qVS2EMoQU04YECPmM5cfzzH4qOZZCQ=
 SHA256 (npm_modules/acorn-jsx-5.3.2.tgz) = 2WewXkDFOWpW1w4NMVBHe5actswQWNaLwrlasBWRWMw=
@@ -1055,8 +1055,8 @@ SHA256 (npm_modules/xtend-4.0.2.tgz) = vSKgHUPHmb57tT36nndbEyBF45Ul5R77l3UooABBu
 SHA256 (npm_modules/yocto-queue-0.1.0.tgz) = x3K87KWPIPDqCKxhIbo4X1XbcVzTwsRrKzjQbTxhKfE=
 SHA256 (npm_modules/yocto-queue-1.2.2.tgz) = aeexFT/PvBayzvsSx6MbefpPD6KRX3erjKivzKxoC64=
 SHA256 (npm_modules/yoctocolors-2.2.0.tgz) = q7MhRAm81KSLHEk4T3RBVjNoxU+mJRxvtauAgZB/f1w=
+SHA256 (npm_modules/yuku-ast-0.10.1.tgz) = EwSjzApJr0vG4xcd/NlEYkg4eFsfdFAPRKgqw/nW6g0=
 SHA256 (npm_modules/yuku-ast-0.7.0.tgz) = OMjvAtFmeanr9F1x5+8fK7BlQIsjTdQaV6Mak5L48ho=
-SHA256 (npm_modules/yuku-ast-0.9.1.tgz) = qNwgw0HyXXgnBt7Mt1V7qCmz4SyMpkJdQq7/Kq6Ec9I=
 SHA256 (npm_modules/yup-1.7.1.tgz) = KWGWOVsQrCnVpBcxcb8cakKplUHwo2P8OoLpz+0iUvo=
 SHA256 (npm_modules/zimmerframe-1.1.4.tgz) = SAcWBMq7uvlogKjwW4fRSZXjRWjFGk3SWsWGjRTXrYY=
 SHA256 (oxc-project-estree-conformance-8d4e1faac9f350f914af9b8a6ec02c2d31ca799c.tar.gz) = j5szklgXiho7pmBBl9sybGbXfWhFyzKfEpYY2VdLXlk=
@@ -1694,10 +1694,10 @@ SIZE (npm_modules/@vue-runtime-dom-3.5.25.tgz) = 312256
 SIZE (npm_modules/@vue-server-renderer-3.5.25.tgz) = 107004
 SIZE (npm_modules/@vue-shared-3.1.5.tgz) = 17292
 SIZE (npm_modules/@vue-shared-3.5.25.tgz) = 15064
-SIZE (npm_modules/@yuku-codegen-wasm-0.9.1.tgz) = 58019
-SIZE (npm_modules/@yuku-parser-wasm-0.9.1.tgz) = 210906
+SIZE (npm_modules/@yuku-codegen-wasm-0.10.1.tgz) = 57566
+SIZE (npm_modules/@yuku-parser-wasm-0.10.1.tgz) = 234111
+SIZE (npm_modules/@yuku-toolchain-types-0.10.1.tgz) = 11068
 SIZE (npm_modules/@yuku-toolchain-types-0.7.0.tgz) = 8866
-SIZE (npm_modules/@yuku-toolchain-types-0.9.1.tgz) = 8907
 SIZE (npm_modules/accepts-2.0.0.tgz) = 5460
 SIZE (npm_modules/acorn-8.17.0.tgz) = 133027
 SIZE (npm_modules/acorn-jsx-5.3.2.tgz) = 7635
@@ -2119,8 +2119,8 @@ SIZE (npm_modules/xtend-4.0.2.tgz) = 2529
 SIZE (npm_modules/yocto-queue-0.1.0.tgz) = 2765
 SIZE (npm_modules/yocto-queue-1.2.2.tgz) = 3244
 SIZE (npm_modules/yoctocolors-2.2.0.tgz) = 4538
+SIZE (npm_modules/yuku-ast-0.10.1.tgz) = 17375
 SIZE (npm_modules/yuku-ast-0.7.0.tgz) = 17819
-SIZE (npm_modules/yuku-ast-0.9.1.tgz) = 17374
 SIZE (npm_modules/yup-1.7.1.tgz) = 65394
 SIZE (npm_modules/zimmerframe-1.1.4.tgz) = 5021
 SIZE (oxc-project-estree-conformance-8d4e1faac9f350f914af9b8a6ec02c2d31ca799c.tar.gz) = 167901246

@@ -728,10 +728,10 @@ SHA256 (npm_modules/@vueuse-shared-14.4.0.tgz) = NXhzYFRfMMPySLQ5nr9kdTWTT+U0nUX
 SHA256 (npm_modules/@webcontainer-api-1.6.4.tgz) = gn5Bi22BhaEz+KFKLgUm2KNw6UjY/A4N4vQUUwSaBpU=
 SHA256 (npm_modules/@webcontainer-snapshot-0.1.0.tgz) = aVm/omNxcy+ufGQI43/aSr+d62gm5q7wzXyRP5HvbVM=
 SHA256 (npm_modules/@webcontainer-test-0.3.0.tgz) = j6kt+NNzGkZXCCNcQxa5/2ycAoFGEEpisQXUPCG1J/M=
-SHA256 (npm_modules/@yuku-codegen-wasm-0.9.0.tgz) = 3kG/dmZa6fU/vN49o3mPvbj7kmqTbPqO/UCoAUI6m5k=
-SHA256 (npm_modules/@yuku-parser-wasm-0.9.0.tgz) = QjUaheaepjvEr2e6amJ0K9C0ZAD8nyDWKv4FrGmaTc0=
+SHA256 (npm_modules/@yuku-codegen-wasm-0.10.1.tgz) = PeHrQb3xyzv6O4zaZigwsPicYJGHk0pWUXHX8/sFKgk=
+SHA256 (npm_modules/@yuku-parser-wasm-0.10.1.tgz) = jCNKjRAqtmac+2ZE+BKebREjUQQRFtcKT07qak0FwpA=
+SHA256 (npm_modules/@yuku-toolchain-types-0.10.1.tgz) = un2FaueYq/6rlfwBmaGeJJ+ExJhrgQT0RweAC9hpcY0=
 SHA256 (npm_modules/@yuku-toolchain-types-0.8.7.tgz) = 39gd6j5ZXkBpg2I1+eSq6EfWjC2GQHSyofMTEZGBkmc=
-SHA256 (npm_modules/@yuku-toolchain-types-0.9.0.tgz) = x86vMPg6f5WjwPzwoUhohEFBZdgz7eEJqpkhytk8YjU=
 SHA256 (npm_modules/@zkochan-which-2.0.3.tgz) = Uvp20dTd+ujyZFSWkE3Umi8VtjUwVg0REtyA0CPclNE=
 SHA256 (npm_modules/acorn-6.4.2.tgz) = Td/1YtsYjZBJ3wyO3TEfdaoxq54D4hd5w3zJk1rU3GA=
 SHA256 (npm_modules/acorn-8.18.0.tgz) = CtTA8o+bxbtvPrh5tP04Jl3vbX4eXWH5b3juaop76Uo=
@@ -1401,8 +1401,8 @@ SHA256 (npm_modules/yocto-queue-0.1.0.tgz) = x3K87KWPIPDqCKxhIbo4X1XbcVzTwsRrKzj
 SHA256 (npm_modules/yoctocolors-2.1.2.tgz) = PBukC3X8iBeK0mUQHahD1UBThCJN3Kw13c9nzaLqhPA=
 SHA256 (npm_modules/youch-4.1.0-beta.10.tgz) = 3ZE2xVp96dvKfiG9izB7MNWiygDWO71JF/xdgxtjshM=
 SHA256 (npm_modules/youch-core-0.3.3.tgz) = jfOEkrWhE7aWb3Pe/dUHh8Ge6zNKCYOTe/tDfhV0oXo=
+SHA256 (npm_modules/yuku-ast-0.10.1.tgz) = EwSjzApJr0vG4xcd/NlEYkg4eFsfdFAPRKgqw/nW6g0=
 SHA256 (npm_modules/yuku-ast-0.8.7.tgz) = z1bnjx9kOkkPDczBASP1b/4oNt3VftSekmkvkMCH7SM=
-SHA256 (npm_modules/yuku-ast-0.9.0.tgz) = OOv5wkk6Thv4ND7zian9+WDw17TD4wFopWkAUptvcRw=
 SHA256 (npm_modules/zod-4.4.3.tgz) = 7jjxf1M/1QBhBoWkg64vQTwm9OszpRaEMUVjyNYPJ5w=
 SHA256 (npm_modules/zwitch-2.0.4.tgz) = LBYuAA9ftagWmH1viteq0pUgP3d6WZLVFK5GYHeKUaQ=
 SHA256 (npm_modules/zx-8.8.5.tgz) = IN88G2FgNy8CvSYXaJjJt5FpCvRZlXPJmgSyYkpqqrk=
@@ -2139,10 +2139,10 @@ SIZE (npm_modules/@vueuse-shared-14.4.0.tgz) = 53121
 SIZE (npm_modules/@webcontainer-api-1.6.4.tgz) = 35359
 SIZE (npm_modules/@webcontainer-snapshot-0.1.0.tgz) = 3022
 SIZE (npm_modules/@webcontainer-test-0.3.0.tgz) = 7075
-SIZE (npm_modules/@yuku-codegen-wasm-0.9.0.tgz) = 58018
-SIZE (npm_modules/@yuku-parser-wasm-0.9.0.tgz) = 210706
+SIZE (npm_modules/@yuku-codegen-wasm-0.10.1.tgz) = 57566
+SIZE (npm_modules/@yuku-parser-wasm-0.10.1.tgz) = 234111
+SIZE (npm_modules/@yuku-toolchain-types-0.10.1.tgz) = 11068
 SIZE (npm_modules/@yuku-toolchain-types-0.8.7.tgz) = 8906
-SIZE (npm_modules/@yuku-toolchain-types-0.9.0.tgz) = 8906
 SIZE (npm_modules/@zkochan-which-2.0.3.tgz) = 3365
 SIZE (npm_modules/acorn-6.4.2.tgz) = 257557
 SIZE (npm_modules/acorn-8.18.0.tgz) = 133521
@@ -2812,8 +2812,8 @@ SIZE (npm_modules/yocto-queue-0.1.0.tgz) = 2765
 SIZE (npm_modules/yoctocolors-2.1.2.tgz) = 3982
 SIZE (npm_modules/youch-4.1.0-beta.10.tgz) = 24678
 SIZE (npm_modules/youch-core-0.3.3.tgz) = 7627
+SIZE (npm_modules/yuku-ast-0.10.1.tgz) = 17375
 SIZE (npm_modules/yuku-ast-0.8.7.tgz) = 18124
-SIZE (npm_modules/yuku-ast-0.9.0.tgz) = 17374
 SIZE (npm_modules/zod-4.4.3.tgz) = 759588
 SIZE (npm_modules/zwitch-2.0.4.tgz) = 4529
 SIZE (npm_modules/zx-8.8.5.tgz) = 194328

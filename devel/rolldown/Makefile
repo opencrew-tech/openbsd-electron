@@ -1,6 +1,7 @@
 COMMENT =	Rust bundler for JavaScript/TypeScript Rollup-compatible API
 
 DIST_TUPLE =	github rolldown rolldown v1.2.5 .
+REVISION =	0
 
 CATEGORIES =	devel
 

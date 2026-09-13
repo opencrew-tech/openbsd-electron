@@ -3,6 +3,8 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	Yes
+
 DISTFILES.pnpm += \
 ${MODPNPM_DIST}/@andrewbranch-{@andrewbranch/untar.js/-/}untar.js-1.0.3.tgz \
 ${MODPNPM_DIST}/@ant-design-{@ant-design/colors/-/}colors-8.0.0.tgz \
@@ -262,10 +264,10 @@ ${MODPNPM_DIST}/@vue-{@vue/runtime-dom/-/}runtime-dom-3.5.25.tgz \
 ${MODPNPM_DIST}/@vue-{@vue/server-renderer/-/}server-renderer-3.5.25.tgz \
 ${MODPNPM_DIST}/@vue-{@vue/shared/-/}shared-3.1.5.tgz \
 ${MODPNPM_DIST}/@vue-{@vue/shared/-/}shared-3.5.25.tgz \
-${MODPNPM_DIST}/@yuku-codegen-{@yuku-codegen/wasm/-/}wasm-0.9.1.tgz \
-${MODPNPM_DIST}/@yuku-parser-{@yuku-parser/wasm/-/}wasm-0.9.1.tgz \
+${MODPNPM_DIST}/@yuku-codegen-{@yuku-codegen/wasm/-/}wasm-0.10.1.tgz \
+${MODPNPM_DIST}/@yuku-parser-{@yuku-parser/wasm/-/}wasm-0.10.1.tgz \
+${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.10.1.tgz \
 ${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.7.0.tgz \
-${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.9.1.tgz \
 ${MODPNPM_DIST}/{accepts/-/}accepts-2.0.0.tgz \
 ${MODPNPM_DIST}/{acorn-jsx/-/}acorn-jsx-5.3.2.tgz \
 ${MODPNPM_DIST}/{acorn/-/}acorn-8.17.0.tgz \
@@ -686,8 +688,8 @@ ${MODPNPM_DIST}/{xtend/-/}xtend-4.0.2.tgz \
 ${MODPNPM_DIST}/{yocto-queue/-/}yocto-queue-0.1.0.tgz \
 ${MODPNPM_DIST}/{yocto-queue/-/}yocto-queue-1.2.2.tgz \
 ${MODPNPM_DIST}/{yoctocolors/-/}yoctocolors-2.2.0.tgz \
+${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.10.1.tgz \
 ${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.7.0.tgz \
-${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.9.1.tgz \
 ${MODPNPM_DIST}/{yup/-/}yup-1.7.1.tgz \
 ${MODPNPM_DIST}/{zimmerframe/-/}zimmerframe-1.1.4.tgz \
 
@@ -953,10 +955,10 @@ MODPNPM_PKGS += \
 @vue/server-renderer@3.5.25;@vue-server-renderer-3.5.25.tgz \
 @vue/shared@3.1.5;@vue-shared-3.1.5.tgz \
 @vue/shared@3.5.25;@vue-shared-3.5.25.tgz \
-@yuku-codegen/wasm@0.9.1;@yuku-codegen-wasm-0.9.1.tgz \
-@yuku-parser/wasm@0.9.1;@yuku-parser-wasm-0.9.1.tgz \
+@yuku-codegen/wasm@0.10.1;@yuku-codegen-wasm-0.10.1.tgz \
+@yuku-parser/wasm@0.10.1;@yuku-parser-wasm-0.10.1.tgz \
+@yuku-toolchain/types@0.10.1;@yuku-toolchain-types-0.10.1.tgz \
 @yuku-toolchain/types@0.7.0;@yuku-toolchain-types-0.7.0.tgz \
-@yuku-toolchain/types@0.9.1;@yuku-toolchain-types-0.9.1.tgz \
 accepts@2.0.0;accepts-2.0.0.tgz \
 acorn-jsx@5.3.2;acorn-jsx-5.3.2.tgz \
 acorn@8.17.0;acorn-8.17.0.tgz \
@@ -1378,8 +1380,8 @@ xtend@4.0.2;xtend-4.0.2.tgz \
 yocto-queue@0.1.0;yocto-queue-0.1.0.tgz \
 yocto-queue@1.2.2;yocto-queue-1.2.2.tgz \
 yoctocolors@2.2.0;yoctocolors-2.2.0.tgz \
+yuku-ast@0.10.1;yuku-ast-0.10.1.tgz \
 yuku-ast@0.7.0;yuku-ast-0.7.0.tgz \
-yuku-ast@0.9.1;yuku-ast-0.9.1.tgz \
 yup@1.7.1;yup-1.7.1.tgz \
 zimmerframe@1.1.4;zimmerframe-1.1.4.tgz \
 

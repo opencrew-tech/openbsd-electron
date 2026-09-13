@@ -3,6 +3,8 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	Yes
+
 DISTFILES.pnpm += \
 ${MODPNPM_DIST}/@alloc-{@alloc/quick-lru/-/}quick-lru-5.2.0.tgz \
 ${MODPNPM_DIST}/@emnapi-{@emnapi/core/-/}core-1.7.1.tgz \

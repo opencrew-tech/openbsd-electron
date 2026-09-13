@@ -2859,7 +2859,7 @@ packages:
       '@arethetypeswrong/core': ^0.18.1
       '@types/node': ^20.19.0 || >=22.12.0
       '@vitejs/devtools': ^0.4.0
-      esbuild: link:/mnt/ext/tmp/modpnpm.R3Giws5/oxc-apps-1.79.0/node/esbuild/node_modules/esbuild
+      esbuild: link:/mnt/ext/tmp/modpnpm.NzNqGFn/oxc-apps-1.79.0/node/esbuild/node_modules/esbuild
       jiti: '>=1.21.0'
       less: ^4.0.0
       publint: ^0.3.8
@@ -2996,17 +2996,17 @@ packages:
   '@vue/shared@3.5.25':
     resolution: {integrity: sha512-AbOPdQQnAnzs58H2FrrDxYj/TJfmeS2jdfEEhgiKINy+bnOANmVizIEgq1r+C5zsbs6l1CCQxtcj71rwNQ4jWg==}
 
-  '@yuku-codegen/wasm@0.9.1':
-    resolution: {integrity: sha512-Pniy+2dWFDKJjh78wHVX0m+Q7OXlQ8zfAfJDnImVYkz3hV0lnwLrsvc4bflgbGwB8oDRmgFlstOQwHQW36JIKA==}
+  '@yuku-codegen/wasm@0.10.1':
+    resolution: {integrity: sha512-cLgiMBi7ivjx8FP42XHyPyQnzsp8imwCNcegFjjk7WlpwhwM8xYGktv1Qcrr7OBpjKcSwkXB36zo9YkWXS6wzw==}
 
-  '@yuku-parser/wasm@0.9.1':
-    resolution: {integrity: sha512-/LDyPG/jNGZ2OSvVR2PDODop2076FsFx6SGqIgAjLiVw4uLIMGUQ1R0GSfO6jdFPgvxIXZhqONdoh0A9VP8Eyg==}
+  '@yuku-parser/wasm@0.10.1':
+    resolution: {integrity: sha512-aErQbjwSuRnOTvYmf4BxT2+CMvL7LMDt2Z2obz/naqwfc4YGP8xqwZjyyMTSeRrnja/KYZlSjhIs5dFeE0Qacw==}
+
+  '@yuku-toolchain/types@0.10.1':
+    resolution: {integrity: sha512-nZqE/tf118GLFyuPDD68u3Sal9f2w/bS9s2f+UvS9W+31BuZ9EW4xcOVIhZtJcvUSpdBYL3gJVXV6ky2gxuDgg==}
 
   '@yuku-toolchain/types@0.7.0':
     resolution: {integrity: sha512-kKleXJmXcZnJ5LUDTeYvK350SB+BXdpoHUwT78GGyOXOhCZ0tWf+seDPAvVnCrjoJhf+FhqtR5HRUfWW+yILQw==}
-
-  '@yuku-toolchain/types@0.9.1':
-    resolution: {integrity: sha512-GhfAIaKmtC4fCKJVnzP6bdGhWZSd7U9Sk7/lexEfROQPDNzuFE9lZKrcIWqzgGVcIMqKvtvFxnfEIaZ5WiroyQ==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -4437,7 +4437,7 @@ packages:
     peerDependencies:
       '@typescript/native-preview': '*'
       '@volar/typescript': ~2.4.0
-      rolldown: link:/mnt/ext/tmp/modpnpm.R3Giws5/oxc-apps-1.79.0/node/rolldown/node_modules/rolldown
+      rolldown: link:/mnt/ext/tmp/modpnpm.NzNqGFn/oxc-apps-1.79.0/node/rolldown/node_modules/rolldown
       typescript: ^5.0.0 || ^6.0.0 || ~7.0.0
       vue-tsc: ~3.2.0 || ~3.3.0
     peerDependenciesMeta:
@@ -4976,11 +4976,11 @@ packages:
     resolution: {integrity: sha512-xYqdZFUK/VYazNl/oCDYN+3WloWQwMfZxBoiNt6qNyk+xfOdi598muWE42rNZFp1kNOiqW936q5RhUdnpqElSg==}
     engines: {node: '>=18'}
 
+  yuku-ast@0.10.1:
+    resolution: {integrity: sha512-uxQ9wMKPfFmKXwCwrcYUnp8xQ6HltLN3ifzBZfjgoACu9sQrxlqiyibeINSqR3VNoHPJMkUmD69hWOoO5TUqtQ==}
+
   yuku-ast@0.7.0:
     resolution: {integrity: sha512-W5UzqYg/Xuyz41cAyxwo/TIPpDX221OuC9U5f44+NulDAHDwtzvGE3M3Xz3mdcLEutWOmTc/WP/y7NO6ANA2gw==}
-
-  yuku-ast@0.9.1:
-    resolution: {integrity: sha512-JN45kc3sxzv/bDGug063IsIHu6LTkL1vDQUL/m1zvIFBIvMRtYivyRp5LjtMbZtIWnNjV6jaAvHPA1f70yD6gg==}
 
   yup@1.7.1:
     resolution: {integrity: sha512-GKHFX2nXul2/4Dtfxhozv701jLQHdf6J34YDh2cEkpqoo8le5Mg6/LrdseVLrFarmFygZTlfIhHx/QKfb/QWXw==}
@@ -7285,8 +7285,8 @@ snapshots:
       '@oxc-project/types': 0.143.0
       lightningcss: lightningcss-wasm@1.33.0
       postcss: 8.5.23
-      yuku-codegen: '@yuku-codegen/wasm@0.9.1'
-      yuku-parser: '@yuku-parser/wasm@0.9.1'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       '@arethetypeswrong/core': 0.18.5
       '@types/node': 24.1.0
@@ -7310,8 +7310,8 @@ snapshots:
       '@oxc-project/types': 0.143.0
       lightningcss: lightningcss-wasm@1.33.0
       postcss: 8.5.23
-      yuku-codegen: '@yuku-codegen/wasm@0.9.1'
-      yuku-parser: '@yuku-parser/wasm@0.9.1'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       '@arethetypeswrong/core': 0.18.5
       '@types/node': 24.1.0
@@ -7335,8 +7335,8 @@ snapshots:
       '@oxc-project/types': 0.143.0
       lightningcss: lightningcss-wasm@1.33.0
       postcss: 8.5.23
-      yuku-codegen: '@yuku-codegen/wasm@0.9.1'
-      yuku-parser: '@yuku-parser/wasm@0.9.1'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       '@arethetypeswrong/core': 0.18.5
       '@types/node': 25.0.2
@@ -7438,16 +7438,16 @@ snapshots:
 
   '@vue/shared@3.5.25': {}
 
-  '@yuku-codegen/wasm@0.9.1': {}
+  '@yuku-codegen/wasm@0.10.1': {}
 
-  '@yuku-parser/wasm@0.9.1':
+  '@yuku-parser/wasm@0.10.1':
     dependencies:
-      '@yuku-toolchain/types': 0.9.1
-      yuku-ast: 0.9.1
+      '@yuku-toolchain/types': 0.10.1
+      yuku-ast: 0.10.1
+
+  '@yuku-toolchain/types@0.10.1': {}
 
   '@yuku-toolchain/types@0.7.0': {}
-
-  '@yuku-toolchain/types@0.9.1': {}
 
   accepts@2.0.0:
     dependencies:
@@ -8984,8 +8984,8 @@ snapshots:
       obug: 2.1.4
       rolldown: link:../node/rolldown/node_modules/rolldown
       yuku-ast: 0.7.0
-      yuku-codegen: '@yuku-codegen/wasm@0.9.1'
-      yuku-parser: '@yuku-parser/wasm@0.9.1'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       typescript: 5.6.1-rc
     transitivePeerDependencies:
@@ -8998,8 +8998,8 @@ snapshots:
       obug: 2.1.4
       rolldown: link:../node/rolldown/node_modules/rolldown
       yuku-ast: 0.7.0
-      yuku-codegen: '@yuku-codegen/wasm@0.9.1'
-      yuku-parser: '@yuku-parser/wasm@0.9.1'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -9758,13 +9758,13 @@ snapshots:
 
   yoctocolors@2.2.0: {}
 
+  yuku-ast@0.10.1:
+    dependencies:
+      '@yuku-toolchain/types': 0.10.1
+
   yuku-ast@0.7.0:
     dependencies:
       '@yuku-toolchain/types': 0.7.0
-
-  yuku-ast@0.9.1:
-    dependencies:
-      '@yuku-toolchain/types': 0.9.1
 
   yup@1.7.1:
     dependencies:

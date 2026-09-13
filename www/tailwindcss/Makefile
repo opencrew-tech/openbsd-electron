@@ -1,6 +1,7 @@
 COMMENT =	utility-first CSS framework with npm dependencies
 
 DIST_TUPLE =		github tailwindlabs tailwindcss v4.2.2 .
+REVISION =		0
 
 CATEGORIES =		www
 

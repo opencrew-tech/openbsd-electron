@@ -3,6 +3,7 @@ COMMENT =	collection of high-performance JavaScript tools
 V =		1.79.0
 PKGNAME =	oxc-apps-${V}
 DIST_TUPLE =	github oxc-project oxc apps_v${V} .
+REVISION =	0
 
 CATEGORIES =	devel
 

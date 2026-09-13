@@ -8,7 +8,7 @@ MODGO_MODNAME=	github.com/develar/app-builder
 MODGO_VERSION=	v0.0.0-${D}-${H:C/(.{12}).*/\1/}
 
 DISTNAME=	app-builder-v5.0.0pl${D}
-REVISION=	1
+REVISION=	2
 PORTROACH=	limit:^5\.
 
 CATEGORIES=	devel

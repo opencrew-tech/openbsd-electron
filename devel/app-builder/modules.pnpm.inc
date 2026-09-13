@@ -3,20 +3,22 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	No
+
 DISTFILES.pnpm += \
-${MODPNPM_DIST}/@babel-{@babel/code-frame/-/}code-frame-7.29.0.tgz \
-${MODPNPM_DIST}/@babel-{@babel/helper-validator-identifier/-/}helper-validator-identifier-7.28.5.tgz \
-${MODPNPM_DIST}/@babel-{@babel/runtime/-/}runtime-7.29.2.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/apply-release-plan/-/}apply-release-plan-7.1.0.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/assemble-release-plan/-/}assemble-release-plan-6.0.9.tgz \
+${MODPNPM_DIST}/@babel-{@babel/code-frame/-/}code-frame-7.29.7.tgz \
+${MODPNPM_DIST}/@babel-{@babel/helper-validator-identifier/-/}helper-validator-identifier-7.29.7.tgz \
+${MODPNPM_DIST}/@babel-{@babel/runtime/-/}runtime-7.29.7.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/apply-release-plan/-/}apply-release-plan-7.1.1.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/assemble-release-plan/-/}assemble-release-plan-6.0.10.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/changelog-git/-/}changelog-git-0.2.1.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/changelog-github/-/}changelog-github-0.5.2.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/cli/-/}cli-2.30.0.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/config/-/}config-3.1.3.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/cli/-/}cli-2.31.1.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/config/-/}config-3.1.4.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/errors/-/}errors-0.2.0.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/get-dependents-graph/-/}get-dependents-graph-2.1.3.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/get-dependents-graph/-/}get-dependents-graph-2.1.4.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/get-github-info/-/}get-github-info-0.7.0.tgz \
-${MODPNPM_DIST}/@changesets-{@changesets/get-release-plan/-/}get-release-plan-4.0.15.tgz \
+${MODPNPM_DIST}/@changesets-{@changesets/get-release-plan/-/}get-release-plan-4.0.16.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/get-version-range-type/-/}get-version-range-type-0.4.0.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/git/-/}git-3.0.4.tgz \
 ${MODPNPM_DIST}/@changesets-{@changesets/logger/-/}logger-0.1.1.tgz \
@@ -46,7 +48,7 @@ ${MODPNPM_DIST}/{array-ify/-/}array-ify-1.0.0.tgz \
 ${MODPNPM_DIST}/{array-union/-/}array-union-2.1.0.tgz \
 ${MODPNPM_DIST}/{better-path-resolve/-/}better-path-resolve-1.0.0.tgz \
 ${MODPNPM_DIST}/{braces/-/}braces-3.0.3.tgz \
-${MODPNPM_DIST}/{chardet/-/}chardet-2.1.1.tgz \
+${MODPNPM_DIST}/{chardet/-/}chardet-2.2.0.tgz \
 ${MODPNPM_DIST}/{compare-func/-/}compare-func-2.0.0.tgz \
 ${MODPNPM_DIST}/{conventional-changelog-angular/-/}conventional-changelog-angular-7.0.0.tgz \
 ${MODPNPM_DIST}/{conventional-changelog-atom/-/}conventional-changelog-atom-4.0.0.tgz \
@@ -76,7 +78,7 @@ ${MODPNPM_DIST}/{error-ex/-/}error-ex-1.3.4.tgz \
 ${MODPNPM_DIST}/{esprima/-/}esprima-4.0.1.tgz \
 ${MODPNPM_DIST}/{extendable-error/-/}extendable-error-0.1.7.tgz \
 ${MODPNPM_DIST}/{fast-glob/-/}fast-glob-3.3.3.tgz \
-${MODPNPM_DIST}/{fastq/-/}fastq-1.20.1.tgz \
+${MODPNPM_DIST}/{fastq/-/}fastq-1.20.3.tgz \
 ${MODPNPM_DIST}/{fill-range/-/}fill-range-7.1.1.tgz \
 ${MODPNPM_DIST}/{find-up/-/}find-up-4.1.0.tgz \
 ${MODPNPM_DIST}/{find-up/-/}find-up-6.3.0.tgz \
@@ -86,10 +88,10 @@ ${MODPNPM_DIST}/{git-raw-commits/-/}git-raw-commits-4.0.0.tgz \
 ${MODPNPM_DIST}/{git-semver-tags/-/}git-semver-tags-7.0.1.tgz \
 ${MODPNPM_DIST}/{glob-parent/-/}glob-parent-5.1.2.tgz \
 ${MODPNPM_DIST}/{globby/-/}globby-11.1.0.tgz \
-${MODPNPM_DIST}/{handlebars/-/}handlebars-4.7.8.tgz \
+${MODPNPM_DIST}/{handlebars/-/}handlebars-4.7.9.tgz \
 ${MODPNPM_DIST}/{hosted-git-info/-/}hosted-git-info-7.0.2.tgz \
-${MODPNPM_DIST}/{human-id/-/}human-id-4.1.3.tgz \
-${MODPNPM_DIST}/{iconv-lite/-/}iconv-lite-0.7.2.tgz \
+${MODPNPM_DIST}/{human-id/-/}human-id-4.2.1.tgz \
+${MODPNPM_DIST}/{iconv-lite/-/}iconv-lite-0.7.3.tgz \
 ${MODPNPM_DIST}/{ignore/-/}ignore-5.3.2.tgz \
 ${MODPNPM_DIST}/{is-arrayish/-/}is-arrayish-0.2.1.tgz \
 ${MODPNPM_DIST}/{is-extglob/-/}is-extglob-2.1.1.tgz \
@@ -101,8 +103,8 @@ ${MODPNPM_DIST}/{is-text-path/-/}is-text-path-2.0.0.tgz \
 ${MODPNPM_DIST}/{is-windows/-/}is-windows-1.0.2.tgz \
 ${MODPNPM_DIST}/{isexe/-/}isexe-2.0.0.tgz \
 ${MODPNPM_DIST}/{js-tokens/-/}js-tokens-4.0.0.tgz \
-${MODPNPM_DIST}/{js-yaml/-/}js-yaml-3.14.2.tgz \
-${MODPNPM_DIST}/{js-yaml/-/}js-yaml-4.1.1.tgz \
+${MODPNPM_DIST}/{js-yaml/-/}js-yaml-3.15.2.tgz \
+${MODPNPM_DIST}/{js-yaml/-/}js-yaml-4.3.2.tgz \
 ${MODPNPM_DIST}/{json-parse-even-better-errors/-/}json-parse-even-better-errors-3.0.2.tgz \
 ${MODPNPM_DIST}/{json-stringify-safe/-/}json-stringify-safe-5.0.1.tgz \
 ${MODPNPM_DIST}/{jsonfile/-/}jsonfile-4.0.0.tgz \
@@ -135,7 +137,7 @@ ${MODPNPM_DIST}/{path-exists/-/}path-exists-5.0.0.tgz \
 ${MODPNPM_DIST}/{path-key/-/}path-key-3.1.1.tgz \
 ${MODPNPM_DIST}/{path-type/-/}path-type-4.0.0.tgz \
 ${MODPNPM_DIST}/{picocolors/-/}picocolors-1.1.1.tgz \
-${MODPNPM_DIST}/{picomatch/-/}picomatch-2.3.1.tgz \
+${MODPNPM_DIST}/{picomatch/-/}picomatch-2.3.2.tgz \
 ${MODPNPM_DIST}/{pify/-/}pify-4.0.1.tgz \
 ${MODPNPM_DIST}/{prettier/-/}prettier-2.8.8.tgz \
 ${MODPNPM_DIST}/{quansync/-/}quansync-0.2.11.tgz \
@@ -147,7 +149,7 @@ ${MODPNPM_DIST}/{resolve-from/-/}resolve-from-5.0.0.tgz \
 ${MODPNPM_DIST}/{reusify/-/}reusify-1.1.0.tgz \
 ${MODPNPM_DIST}/{run-parallel/-/}run-parallel-1.2.0.tgz \
 ${MODPNPM_DIST}/{safer-buffer/-/}safer-buffer-2.1.2.tgz \
-${MODPNPM_DIST}/{semver/-/}semver-7.7.4.tgz \
+${MODPNPM_DIST}/{semver/-/}semver-7.8.5.tgz \
 ${MODPNPM_DIST}/{shebang-command/-/}shebang-command-2.0.0.tgz \
 ${MODPNPM_DIST}/{shebang-regex/-/}shebang-regex-3.0.0.tgz \
 ${MODPNPM_DIST}/{signal-exit/-/}signal-exit-4.1.0.tgz \
@@ -181,19 +183,19 @@ ${MODPNPM_DIST}/{wordwrap/-/}wordwrap-1.0.0.tgz \
 ${MODPNPM_DIST}/{yocto-queue/-/}yocto-queue-1.2.2.tgz \
 
 MODPNPM_PKGS += \
-@babel/code-frame@7.29.0;@babel-code-frame-7.29.0.tgz \
-@babel/helper-validator-identifier@7.28.5;@babel-helper-validator-identifier-7.28.5.tgz \
-@babel/runtime@7.29.2;@babel-runtime-7.29.2.tgz \
-@changesets/apply-release-plan@7.1.0;@changesets-apply-release-plan-7.1.0.tgz \
-@changesets/assemble-release-plan@6.0.9;@changesets-assemble-release-plan-6.0.9.tgz \
+@babel/code-frame@7.29.7;@babel-code-frame-7.29.7.tgz \
+@babel/helper-validator-identifier@7.29.7;@babel-helper-validator-identifier-7.29.7.tgz \
+@babel/runtime@7.29.7;@babel-runtime-7.29.7.tgz \
+@changesets/apply-release-plan@7.1.1;@changesets-apply-release-plan-7.1.1.tgz \
+@changesets/assemble-release-plan@6.0.10;@changesets-assemble-release-plan-6.0.10.tgz \
 @changesets/changelog-git@0.2.1;@changesets-changelog-git-0.2.1.tgz \
 @changesets/changelog-github@0.5.2;@changesets-changelog-github-0.5.2.tgz \
-@changesets/cli@2.30.0;@changesets-cli-2.30.0.tgz \
-@changesets/config@3.1.3;@changesets-config-3.1.3.tgz \
+@changesets/cli@2.31.1;@changesets-cli-2.31.1.tgz \
+@changesets/config@3.1.4;@changesets-config-3.1.4.tgz \
 @changesets/errors@0.2.0;@changesets-errors-0.2.0.tgz \
-@changesets/get-dependents-graph@2.1.3;@changesets-get-dependents-graph-2.1.3.tgz \
+@changesets/get-dependents-graph@2.1.4;@changesets-get-dependents-graph-2.1.4.tgz \
 @changesets/get-github-info@0.7.0;@changesets-get-github-info-0.7.0.tgz \
-@changesets/get-release-plan@4.0.15;@changesets-get-release-plan-4.0.15.tgz \
+@changesets/get-release-plan@4.0.16;@changesets-get-release-plan-4.0.16.tgz \
 @changesets/get-version-range-type@0.4.0;@changesets-get-version-range-type-0.4.0.tgz \
 @changesets/git@3.0.4;@changesets-git-3.0.4.tgz \
 @changesets/logger@0.1.1;@changesets-logger-0.1.1.tgz \
@@ -223,7 +225,7 @@ array-ify@1.0.0;array-ify-1.0.0.tgz \
 array-union@2.1.0;array-union-2.1.0.tgz \
 better-path-resolve@1.0.0;better-path-resolve-1.0.0.tgz \
 braces@3.0.3;braces-3.0.3.tgz \
-chardet@2.1.1;chardet-2.1.1.tgz \
+chardet@2.2.0;chardet-2.2.0.tgz \
 compare-func@2.0.0;compare-func-2.0.0.tgz \
 conventional-changelog-angular@7.0.0;conventional-changelog-angular-7.0.0.tgz \
 conventional-changelog-atom@4.0.0;conventional-changelog-atom-4.0.0.tgz \
@@ -253,7 +255,7 @@ error-ex@1.3.4;error-ex-1.3.4.tgz \
 esprima@4.0.1;esprima-4.0.1.tgz \
 extendable-error@0.1.7;extendable-error-0.1.7.tgz \
 fast-glob@3.3.3;fast-glob-3.3.3.tgz \
-fastq@1.20.1;fastq-1.20.1.tgz \
+fastq@1.20.3;fastq-1.20.3.tgz \
 fill-range@7.1.1;fill-range-7.1.1.tgz \
 find-up@4.1.0;find-up-4.1.0.tgz \
 find-up@6.3.0;find-up-6.3.0.tgz \
@@ -263,10 +265,10 @@ git-raw-commits@4.0.0;git-raw-commits-4.0.0.tgz \
 git-semver-tags@7.0.1;git-semver-tags-7.0.1.tgz \
 glob-parent@5.1.2;glob-parent-5.1.2.tgz \
 globby@11.1.0;globby-11.1.0.tgz \
-handlebars@4.7.8;handlebars-4.7.8.tgz \
+handlebars@4.7.9;handlebars-4.7.9.tgz \
 hosted-git-info@7.0.2;hosted-git-info-7.0.2.tgz \
-human-id@4.1.3;human-id-4.1.3.tgz \
-iconv-lite@0.7.2;iconv-lite-0.7.2.tgz \
+human-id@4.2.1;human-id-4.2.1.tgz \
+iconv-lite@0.7.3;iconv-lite-0.7.3.tgz \
 ignore@5.3.2;ignore-5.3.2.tgz \
 is-arrayish@0.2.1;is-arrayish-0.2.1.tgz \
 is-extglob@2.1.1;is-extglob-2.1.1.tgz \
@@ -278,8 +280,8 @@ is-text-path@2.0.0;is-text-path-2.0.0.tgz \
 is-windows@1.0.2;is-windows-1.0.2.tgz \
 isexe@2.0.0;isexe-2.0.0.tgz \
 js-tokens@4.0.0;js-tokens-4.0.0.tgz \
-js-yaml@3.14.2;js-yaml-3.14.2.tgz \
-js-yaml@4.1.1;js-yaml-4.1.1.tgz \
+js-yaml@3.15.2;js-yaml-3.15.2.tgz \
+js-yaml@4.3.2;js-yaml-4.3.2.tgz \
 json-parse-even-better-errors@3.0.2;json-parse-even-better-errors-3.0.2.tgz \
 json-stringify-safe@5.0.1;json-stringify-safe-5.0.1.tgz \
 jsonfile@4.0.0;jsonfile-4.0.0.tgz \
@@ -312,7 +314,7 @@ path-exists@5.0.0;path-exists-5.0.0.tgz \
 path-key@3.1.1;path-key-3.1.1.tgz \
 path-type@4.0.0;path-type-4.0.0.tgz \
 picocolors@1.1.1;picocolors-1.1.1.tgz \
-picomatch@2.3.1;picomatch-2.3.1.tgz \
+picomatch@2.3.2;picomatch-2.3.2.tgz \
 pify@4.0.1;pify-4.0.1.tgz \
 prettier@2.8.8;prettier-2.8.8.tgz \
 quansync@0.2.11;quansync-0.2.11.tgz \
@@ -324,7 +326,7 @@ resolve-from@5.0.0;resolve-from-5.0.0.tgz \
 reusify@1.1.0;reusify-1.1.0.tgz \
 run-parallel@1.2.0;run-parallel-1.2.0.tgz \
 safer-buffer@2.1.2;safer-buffer-2.1.2.tgz \
-semver@7.7.4;semver-7.7.4.tgz \
+semver@7.8.5;semver-7.8.5.tgz \
 shebang-command@2.0.0;shebang-command-2.0.0.tgz \
 shebang-regex@3.0.0;shebang-regex-3.0.0.tgz \
 signal-exit@4.1.0;signal-exit-4.1.0.tgz \

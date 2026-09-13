@@ -3,6 +3,8 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	Yes
+
 DISTFILES.pnpm += \
 ${MODPNPM_DIST}/@babel-{@babel/code-frame/-/}code-frame-7.29.0.tgz \
 ${MODPNPM_DIST}/@babel-{@babel/helper-validator-identifier/-/}helper-validator-identifier-7.28.5.tgz \
@@ -140,7 +142,7 @@ ${MODPNPM_DIST}/@sindresorhus-{@sindresorhus/merge-streams/-/}merge-streams-4.0.
 ${MODPNPM_DIST}/@swc-{@swc/core/-/}core-1.15.21.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/counter/-/}counter-0.1.3.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/types/-/}types-0.1.26.tgz \
-${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.0.tgz \
+${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.2.tgz \
 ${MODPNPM_DIST}/@tokenizer-{@tokenizer/inflate/-/}inflate-0.4.1.tgz \
 ${MODPNPM_DIST}/@tokenizer-{@tokenizer/token/-/}token-0.3.0.tgz \
 ${MODPNPM_DIST}/@tsconfig-{@tsconfig/node10/-/}node10-1.0.11.tgz \
@@ -950,7 +952,7 @@ MODPNPM_PKGS += \
 @swc/core@1.15.21;@swc-core-1.15.21.tgz \
 @swc/counter@0.1.3;@swc-counter-0.1.3.tgz \
 @swc/types@0.1.26;@swc-types-0.1.26.tgz \
-@swc/wasm@1.16.0;@swc-wasm-1.16.0.tgz \
+@swc/wasm@1.16.2;@swc-wasm-1.16.2.tgz \
 @tokenizer/inflate@0.4.1;@tokenizer-inflate-0.4.1.tgz \
 @tokenizer/token@0.3.0;@tokenizer-token-0.3.0.tgz \
 @tsconfig/node10@1.0.11;@tsconfig-node10-1.0.11.tgz \

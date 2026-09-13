@@ -2,6 +2,7 @@ COMMENT =	Node.js dev tool based on Oxc
 
 V =		0.1.0
 DIST_TUPLE =	github oxc-project oxc-node v${V} .
+REVISION =	0
 
 CATEGORIES =	devel
 

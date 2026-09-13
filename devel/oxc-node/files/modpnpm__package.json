@@ -15,7 +15,7 @@
     "@oxc-node/cli": "workspace:*",
     "@oxc-node/core": "workspace:*",
     "@oxc-project/runtime": "^0.123.0",
-    "@swc/wasm": "^1.16.0",
+    "@swc/wasm": "^1.16.2",
     "@types/node": "^25.0.0",
     "ava": "^7.0.0",
     "cross-env": "^10.0.0",
@@ -36,11 +36,5 @@
     "*.@(js|ts|tsx)": [
       "oxlint --fix"
     ]
-  },
-  "pnpm": {
-    "overrides": {
-      "esbuild": "link:../node/esbuild/node_modules/esbuild",
-      "graceful-fs": "link:../node/graceful-fs/node_modules/graceful-fs"
-    }
   }
 }

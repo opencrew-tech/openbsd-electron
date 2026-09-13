@@ -16,30 +16,30 @@ importers:
         version: 0.5.2
       '@changesets/cli':
         specifier: ^2.27.1
-        version: 2.30.0
+        version: 2.31.1
       conventional-changelog-cli:
         specifier: ^4.1.0
         version: 4.1.0
 
 packages:
 
-  '@babel/code-frame@7.29.0':
-    resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
+  '@babel/code-frame@7.29.7':
+    resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/helper-validator-identifier@7.28.5':
-    resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
+  '@babel/helper-validator-identifier@7.29.7':
+    resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
-  '@changesets/apply-release-plan@7.1.0':
-    resolution: {integrity: sha512-yq8ML3YS7koKQ/9bk1PqO0HMzApIFNwjlwCnwFEXMzNe8NpzeeYYKCmnhWJGkN8g7E51MnWaSbqRcTcdIxUgnQ==}
+  '@changesets/apply-release-plan@7.1.1':
+    resolution: {integrity: sha512-9qPCm/rLx/xoOFXIHGB229+4GOL76S4MC+7tyOuTsR6+1jYlfFDQORdvwR5hDA6y4FL2BPt3qpbcQIS+dW85LA==}
 
-  '@changesets/assemble-release-plan@6.0.9':
-    resolution: {integrity: sha512-tPgeeqCHIwNo8sypKlS3gOPmsS3wP0zHt67JDuL20P4QcXiw/O4Hl7oXiuLnP9yg+rXLQ2sScdV1Kkzde61iSQ==}
+  '@changesets/assemble-release-plan@6.0.10':
+    resolution: {integrity: sha512-rSDcqdJ9KbVyjpBIuCidhvZNIiVt1XaIYp73ycVQRIA5n/j6wQaEk0ChRLMUQ1vkxZe51PTQ9OIhbg6HQMW45A==}
 
   '@changesets/changelog-git@0.2.1':
     resolution: {integrity: sha512-x/xEleCFLH28c3bQeQIyeZf8lFXyDFVn1SgcBiR2Tw/r4IAWlk1fzxCEZ6NxQAjF2Nwtczoen3OA2qR+UawQ8Q==}
@@ -47,24 +47,24 @@ packages:
   '@changesets/changelog-github@0.5.2':
     resolution: {integrity: sha512-HeGeDl8HaIGj9fQHo/tv5XKQ2SNEi9+9yl1Bss1jttPqeiASRXhfi0A2wv8yFKCp07kR1gpOI5ge6+CWNm1jPw==}
 
-  '@changesets/cli@2.30.0':
-    resolution: {integrity: sha512-5D3Nk2JPqMI1wK25pEymeWRSlSMdo5QOGlyfrKg0AOufrUcjEE3RQgaCpHoBiM31CSNrtSgdJ0U6zL1rLDDfBA==}
+  '@changesets/cli@2.31.1':
+    resolution: {integrity: sha512-uO05WTcRBwuVOJVSW8Cmpqw6q0WDL53ajGCMyszutvOe5toOnunbpM4jZzf+qxBOz7i0AzopZ8diBuewjmF40w==}
     hasBin: true
 
-  '@changesets/config@3.1.3':
-    resolution: {integrity: sha512-vnXjcey8YgBn2L1OPWd3ORs0bGC4LoYcK/ubpgvzNVr53JXV5GiTVj7fWdMRsoKUH7hhhMAQnsJUqLr21EncNw==}
+  '@changesets/config@3.1.4':
+    resolution: {integrity: sha512-pf0bvD/v6WI2cRlZ6hzpjtZdSlXDXMAJ+Iz7xfFzV4ZxJ8OGGAON+1qYc99ZPrijnt4xp3VGG7eNvAOGS24V1Q==}
 
   '@changesets/errors@0.2.0':
     resolution: {integrity: sha512-6BLOQUscTpZeGljvyQXlWOItQyU71kCdGz7Pi8H8zdw6BI0g3m43iL4xKUVPWtG+qrrL9DTjpdn8eYuCQSRpow==}
 
-  '@changesets/get-dependents-graph@2.1.3':
-    resolution: {integrity: sha512-gphr+v0mv2I3Oxt19VdWRRUxq3sseyUpX9DaHpTUmLj92Y10AGy+XOtV+kbM6L/fDcpx7/ISDFK6T8A/P3lOdQ==}
+  '@changesets/get-dependents-graph@2.1.4':
+    resolution: {integrity: sha512-ZsS00x6WvmHq3sQv8oCMwL0f/z3wbXCVuSVTJwCnnmbC/iBdNJGFx1EcbMG4PC6sXRyH69liM4A2WKXzn/kRPg==}
 
   '@changesets/get-github-info@0.7.0':
     resolution: {integrity: sha512-+i67Bmhfj9V4KfDeS1+Tz3iF32btKZB2AAx+cYMqDSRFP7r3/ZdGbjCo+c6qkyViN9ygDuBjzageuPGJtKGe5A==}
 
-  '@changesets/get-release-plan@4.0.15':
-    resolution: {integrity: sha512-Q04ZaRPuEVZtA+auOYgFaVQQSA98dXiVe/yFaZfY7hoSmQICHGvP0TF4u3EDNHWmmCS4ekA/XSpKlSM2PyTS2g==}
+  '@changesets/get-release-plan@4.0.16':
+    resolution: {integrity: sha512-2K5Om6CrMPm45rtvckfzWo7e9jOVCKLCnXia5eUPaURH7/LWzri7pK1TycdzAuAtehLkW7VPbWLCSExTHmiI6g==}
 
   '@changesets/get-version-range-type@0.4.0':
     resolution: {integrity: sha512-hwawtob9DryoGTpixy1D3ZXbGgJu1Rhr+ySH2PvTLHvkZuQ7sRT4oQwMh0hbqZH1weAooedEjRsbrWcGLCeyVQ==}
@@ -169,8 +169,8 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
-  chardet@2.1.1:
-    resolution: {integrity: sha512-PsezH1rqdV9VvyNhxxOW32/d75r01NY7TQCmOqomRo15ZSOKbpTFVsfjghxo6JloQUCGnH4k1LGu0R4yCLlWQQ==}
+  chardet@2.2.0:
+    resolution: {integrity: sha512-rddelWYNPRrXq6PtNEN2S3f6t9ILzvqaN5pVgi4kqt9jHQaXIial9PznB5iSPVlQSLNaaH22ItWz3EJtQ10+OA==}
 
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
@@ -182,6 +182,7 @@ packages:
   conventional-changelog-atom@4.0.0:
     resolution: {integrity: sha512-q2YtiN7rnT1TGwPTwjjBSIPIzDJCRE+XAUahWxnh+buKK99Kks4WLMHoexw38GXx9OUxAsrp44f9qXe5VEMYhw==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-cli@4.1.0:
     resolution: {integrity: sha512-MscvILWZ6nWOoC+p/3Nn3D2cVLkjeQjyZPUr0bQ+vUORE/SPrkClJh8BOoMNpS4yk+zFJ5LlgXACxH6XGQoRXA==}
@@ -192,6 +193,7 @@ packages:
   conventional-changelog-codemirror@4.0.0:
     resolution: {integrity: sha512-hQSojc/5imn1GJK3A75m9hEZZhc3urojA5gMpnar4JHmgLnuM3CUIARPpEk86glEKr3c54Po3WV/vCaO/U8g3Q==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-conventionalcommits@7.0.2:
     resolution: {integrity: sha512-NKXYmMR/Hr1DevQegFB4MwfM5Vv0m4UIxKZTTYuD98lpTknaZlSRrDOG4X7wIXpGkfsYxZTghUN+Qq+T0YQI7w==}
@@ -200,26 +202,32 @@ packages:
   conventional-changelog-core@7.0.0:
     resolution: {integrity: sha512-UYgaB1F/COt7VFjlYKVE/9tTzfU3VUq47r6iWf6lM5T7TlOxr0thI63ojQueRLIpVbrtHK4Ffw+yQGduw2Bhdg==}
     engines: {node: '>=16'}
+    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
 
   conventional-changelog-ember@4.0.0:
     resolution: {integrity: sha512-D0IMhwcJUg1Y8FSry6XAplEJcljkHVlvAZddhhsdbL1rbsqRsMfGx/PIkPYq0ru5aDgn+OxhQ5N5yR7P9mfsvA==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-eslint@5.0.0:
     resolution: {integrity: sha512-6JtLWqAQIeJLn/OzUlYmzd9fKeNSWmQVim9kql+v4GrZwLx807kAJl3IJVc3jTYfVKWLxhC3BGUxYiuVEcVjgA==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-express@4.0.0:
     resolution: {integrity: sha512-yWyy5c7raP9v7aTvPAWzqrztACNO9+FEI1FSYh7UP7YT1AkWgv5UspUeB5v3Ibv4/o60zj2o9GF2tqKQ99lIsw==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jquery@5.0.0:
     resolution: {integrity: sha512-slLjlXLRNa/icMI3+uGLQbtrgEny3RgITeCxevJB+p05ExiTgHACP5p3XiMKzjBn80n+Rzr83XMYfRInEtCPPw==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jshint@4.0.0:
     resolution: {integrity: sha512-LyXq1bbl0yG0Ai1SbLxIk8ZxUOe3AjnlwE6sVRQmMgetBk+4gY9EO3d00zlEt8Y8gwsITytDnPORl8al7InTjg==}
     engines: {node: '>=16'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-preset-loader@4.1.0:
     resolution: {integrity: sha512-HozQjJicZTuRhCRTq4rZbefaiCzRM2pr6u2NL3XhrmQm4RMnDXfESU6JKu/pnKwx5xtdkYfNCsbhN5exhiKGJA==}
@@ -289,8 +297,8 @@ packages:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
 
-  fastq@1.20.1:
-    resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
+  fastq@1.20.3:
+    resolution: {integrity: sha512-XKv5nnLs6nLF71NgiKJLIZFLkPyIEuOselLG7ujZnGrRfQK8HpvY+WqKhAJUAdLomwVHErVS4LfxFlPq0/FTAw==}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -315,13 +323,13 @@ packages:
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-semver-tags@7.0.1:
     resolution: {integrity: sha512-NY0ZHjJzyyNXHTDZmj+GG7PyuAKtMsyWSwh07CR2hOZFa+/yoTsXci/nF2obzL8UDhakFNkD9gNdt/Ed+cxh2Q==}
     engines: {node: '>=16'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@5.1.2:
@@ -332,8 +340,8 @@ packages:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
 
-  handlebars@4.7.8:
-    resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
+  handlebars@4.7.9:
+    resolution: {integrity: sha512-4E71E0rpOaQuJR2A3xDZ+GM1HyWYv1clR58tC8emQNeQe3RH7MAzSbat+V0wG78LQBo6m6bzSG/L4pBuCsgnUQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
 
@@ -341,12 +349,12 @@ packages:
     resolution: {integrity: sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w==}
     engines: {node: ^16.14.0 || >=18.0.0}
 
-  human-id@4.1.3:
-    resolution: {integrity: sha512-tsYlhAYpjCKa//8rXZ9DqKEawhPoSytweBC2eNvcaDK+57RZLHGqNs3PZTQO6yekLFSuvA6AlnAfrw1uBvtb+Q==}
+  human-id@4.2.1:
+    resolution: {integrity: sha512-zPGsiS+dWoTZtZ4AtpA9Y+BdSFSNWvnouNlWNoUFyAM6xHOHmdCvqO3k8AIbdamCOv4gUFUVNPf6rJFfc4UiJw==}
     hasBin: true
 
-  iconv-lite@0.7.2:
-    resolution: {integrity: sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==}
+  iconv-lite@0.7.3:
+    resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
 
   ignore@5.3.2:
@@ -390,12 +398,12 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-yaml@3.14.2:
-    resolution: {integrity: sha512-PMSmkqxr106Xa156c2M265Z+FTrPl+oxd/rgOQy2tijQeK5TxQ43psO1ZCwhVOSdnn+RzkzlRz/eY4BgJBYVpg==}
+  js-yaml@3.15.2:
+    resolution: {integrity: sha512-6EuL879VkRA+1Cz578mKMiKvjPNEuk6+r1JaFzoSWejZmtf7xWbIyw1e3KkxlkzTIt9Taw6JBhEppG7utc1P+w==}
     hasBin: true
 
-  js-yaml@4.1.1:
-    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+  js-yaml@4.3.2:
+    resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
   json-parse-even-better-errors@3.0.2:
@@ -522,8 +530,8 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  picomatch@2.3.1:
-    resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
+  picomatch@2.3.2:
+    resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
     engines: {node: '>=8.6'}
 
   pify@4.0.1:
@@ -567,8 +575,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  semver@7.7.4:
-    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
+  semver@7.8.5:
+    resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -688,19 +696,19 @@ packages:
 
 snapshots:
 
-  '@babel/code-frame@7.29.0':
+  '@babel/code-frame@7.29.7':
     dependencies:
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
-  '@babel/helper-validator-identifier@7.28.5': {}
+  '@babel/helper-validator-identifier@7.29.7': {}
 
-  '@babel/runtime@7.29.2': {}
+  '@babel/runtime@7.29.7': {}
 
-  '@changesets/apply-release-plan@7.1.0':
+  '@changesets/apply-release-plan@7.1.1':
     dependencies:
-      '@changesets/config': 3.1.3
+      '@changesets/config': 3.1.4
       '@changesets/get-version-range-type': 0.4.0
       '@changesets/git': 3.0.4
       '@changesets/should-skip-package': 0.1.2
@@ -712,16 +720,16 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.7.4
+      semver: 7.8.5
 
-  '@changesets/assemble-release-plan@6.0.9':
+  '@changesets/assemble-release-plan@6.0.10':
     dependencies:
       '@changesets/errors': 0.2.0
-      '@changesets/get-dependents-graph': 2.1.3
+      '@changesets/get-dependents-graph': 2.1.4
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.7.4
+      semver: 7.8.5
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -735,15 +743,15 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@changesets/cli@2.30.0':
+  '@changesets/cli@2.31.1':
     dependencies:
-      '@changesets/apply-release-plan': 7.1.0
-      '@changesets/assemble-release-plan': 6.0.9
+      '@changesets/apply-release-plan': 7.1.1
+      '@changesets/assemble-release-plan': 6.0.10
       '@changesets/changelog-git': 0.2.1
-      '@changesets/config': 3.1.3
+      '@changesets/config': 3.1.4
       '@changesets/errors': 0.2.0
-      '@changesets/get-dependents-graph': 2.1.3
-      '@changesets/get-release-plan': 4.0.15
+      '@changesets/get-dependents-graph': 2.1.4
+      '@changesets/get-release-plan': 4.0.16
       '@changesets/git': 3.0.4
       '@changesets/logger': 0.1.1
       '@changesets/pre': 2.0.2
@@ -760,16 +768,16 @@ snapshots:
       package-manager-detector: 0.2.11
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.7.4
+      semver: 7.8.5
       spawndamnit: 3.0.1
       term-size: 2.2.1
     transitivePeerDependencies:
       - '@types/node'
 
-  '@changesets/config@3.1.3':
+  '@changesets/config@3.1.4':
     dependencies:
       '@changesets/errors': 0.2.0
-      '@changesets/get-dependents-graph': 2.1.3
+      '@changesets/get-dependents-graph': 2.1.4
       '@changesets/logger': 0.1.1
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
@@ -781,12 +789,12 @@ snapshots:
     dependencies:
       extendable-error: 0.1.7
 
-  '@changesets/get-dependents-graph@2.1.3':
+  '@changesets/get-dependents-graph@2.1.4':
     dependencies:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.7.4
+      semver: 7.8.5
 
   '@changesets/get-github-info@0.7.0':
     dependencies:
@@ -795,10 +803,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@changesets/get-release-plan@4.0.15':
+  '@changesets/get-release-plan@4.0.16':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.9
-      '@changesets/config': 3.1.3
+      '@changesets/assemble-release-plan': 6.0.10
+      '@changesets/config': 3.1.4
       '@changesets/pre': 2.0.2
       '@changesets/read': 0.6.7
       '@changesets/types': 6.1.0
@@ -821,7 +829,7 @@ snapshots:
   '@changesets/parse@0.4.3':
     dependencies:
       '@changesets/types': 6.1.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.2
 
   '@changesets/pre@2.0.2':
     dependencies:
@@ -853,26 +861,26 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
       fs-extra: 7.0.1
-      human-id: 4.1.3
+      human-id: 4.2.1
       prettier: 2.8.8
 
   '@hutson/parse-repository-url@5.0.0': {}
 
   '@inquirer/external-editor@1.0.3':
     dependencies:
-      chardet: 2.1.1
-      iconv-lite: 0.7.2
+      chardet: 2.2.0
+      iconv-lite: 0.7.3
 
   '@manypkg/find-root@1.1.0':
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
       '@types/node': 12.20.55
       find-up: 4.1.0
       fs-extra: 8.1.0
 
   '@manypkg/get-packages@1.1.3':
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
       '@changesets/types': 4.1.0
       '@manypkg/find-root': 1.1.0
       fs-extra: 8.1.0
@@ -889,7 +897,7 @@ snapshots:
   '@nodelib/fs.walk@1.2.8':
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
-      fastq: 1.20.1
+      fastq: 1.20.3
 
   '@types/node@12.20.55': {}
 
@@ -924,7 +932,7 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
-  chardet@2.1.1: {}
+  chardet@2.2.0: {}
 
   compare-func@2.0.0:
     dependencies:
@@ -980,10 +988,10 @@ snapshots:
   conventional-changelog-writer@7.0.1:
     dependencies:
       conventional-commits-filter: 4.0.0
-      handlebars: 4.7.8
+      handlebars: 4.7.9
       json-stringify-safe: 5.0.1
       meow: 12.1.1
-      semver: 7.7.4
+      semver: 7.8.5
       split2: 4.2.0
 
   conventional-changelog@5.1.0:
@@ -1052,7 +1060,7 @@ snapshots:
       merge2: 1.4.1
       micromatch: 4.0.8
 
-  fastq@1.20.1:
+  fastq@1.20.3:
     dependencies:
       reusify: 1.1.0
 
@@ -1091,7 +1099,7 @@ snapshots:
   git-semver-tags@7.0.1:
     dependencies:
       meow: 12.1.1
-      semver: 7.7.4
+      semver: 7.8.5
 
   glob-parent@5.1.2:
     dependencies:
@@ -1106,7 +1114,7 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
-  handlebars@4.7.8:
+  handlebars@4.7.9:
     dependencies:
       minimist: 1.2.8
       neo-async: 2.6.2
@@ -1119,9 +1127,9 @@ snapshots:
     dependencies:
       lru-cache: 10.4.3
 
-  human-id@4.1.3: {}
+  human-id@4.2.1: {}
 
-  iconv-lite@0.7.2:
+  iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
 
@@ -1153,12 +1161,12 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@3.14.2:
+  js-yaml@3.15.2:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.1.1:
+  js-yaml@4.3.2:
     dependencies:
       argparse: 2.0.1
 
@@ -1193,7 +1201,7 @@ snapshots:
   micromatch@4.0.8:
     dependencies:
       braces: 3.0.3
-      picomatch: 2.3.1
+      picomatch: 2.3.2
 
   minimist@1.2.8: {}
 
@@ -1208,7 +1216,7 @@ snapshots:
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
-      semver: 7.7.4
+      semver: 7.8.5
       validate-npm-package-license: 3.0.4
 
   outdent@0.5.0: {}
@@ -1243,7 +1251,7 @@ snapshots:
 
   parse-json@7.1.1:
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       error-ex: 1.3.4
       json-parse-even-better-errors: 3.0.2
       lines-and-columns: 2.0.4
@@ -1259,7 +1267,7 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  picomatch@2.3.1: {}
+  picomatch@2.3.2: {}
 
   pify@4.0.1: {}
 
@@ -1285,7 +1293,7 @@ snapshots:
   read-yaml-file@1.1.0:
     dependencies:
       graceful-fs: link:../../../node/graceful-fs/node_modules/graceful-fs
-      js-yaml: 3.14.2
+      js-yaml: 3.15.2
       pify: 4.0.1
       strip-bom: 3.0.0
 
@@ -1299,7 +1307,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  semver@7.7.4: {}
+  semver@7.8.5: {}
 
   shebang-command@2.0.0:
     dependencies:

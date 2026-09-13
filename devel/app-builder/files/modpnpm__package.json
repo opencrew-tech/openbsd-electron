@@ -44,10 +44,5 @@
       "win/ia32/app-builder.exe",
       "win/x64/app-builder.exe"
     ]
-  },
-  "pnpm": {
-    "overrides": {
-      "graceful-fs": "link:../../../node/graceful-fs/node_modules/graceful-fs"
-    }
   }
 }

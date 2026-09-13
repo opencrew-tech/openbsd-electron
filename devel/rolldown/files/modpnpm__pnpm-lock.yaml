@@ -4162,7 +4162,7 @@ packages:
     resolution: {integrity: sha512-ZaOxZceP7SOUW7Lqw5IRVweSQYWaeIPnXIGLiB690EBA3FGJTO40EEr2L5yZplJWsgTCogILRSpcAe7+U0Otdg==}
     engines: {node: '>=16.0.0 || 14 >= 14.17'}
     peerDependencies:
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4171,7 +4171,7 @@ packages:
     resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4180,7 +4180,7 @@ packages:
     resolution: {integrity: sha512-lUYM3UBGuM93CnMPG1YocWu7X802BrNF3jW2zny5gQyLQgRFJhV1Sq0Zi74+dh/6NBx1DxFC4b4GXg9wUCG5Qg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4189,7 +4189,7 @@ packages:
     resolution: {integrity: sha512-MfPp06CjRLfXQ3wY0R8vJDYBy/MvVcc9OulEfR0B8Iv9ko+GCNaRZ+EpJYFl27LhKsZK0o420sYCRHCjfCgeUg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4264,7 +4264,7 @@ packages:
   '@tailwindcss/typography@0.5.20':
     resolution: {integrity: sha512-hwbzQuNUfcPvbegQFatVPl/MY/tcM9KLl963hQ5laJKPh81TEZ1+dNG9PirGvcaDBkp+BCshExAyKVPW91dozw==}
     peerDependencies:
-      tailwindcss: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/tailwindcss/node_modules/tailwindcss
+      tailwindcss: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/tailwindcss/node_modules/tailwindcss
 
   '@tanstack/virtual-core@3.17.7':
     resolution: {integrity: sha512-bp+v10y65sp2H7WpWfIMyxTNfl8ZVfxFTLRjPIFRryi6FV/J33z4IS53WO4pTk36KlvJ4iLiQz+oaydDC1xbcA==}
@@ -4464,7 +4464,7 @@ packages:
       '@arethetypeswrong/core': ^0.18.1
       '@types/node': ^20.19.0 || >=22.12.0
       '@vitejs/devtools': ^0.4.0
-      esbuild: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/esbuild/node_modules/esbuild
+      esbuild: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/esbuild/node_modules/esbuild
       jiti: '>=1.21.0'
       less: ^4.0.0
       publint: ^0.3.8
@@ -4684,17 +4684,17 @@ packages:
     peerDependencies:
       vitest: ^4
 
-  '@yuku-codegen/wasm@0.9.0':
-    resolution: {integrity: sha512-AjDKbuM87XrLwkcwPHLJoQWIYM6TtR4Sf5gIx0eV+heaS7E7aJoh4Keov+Gskjz4v9Bq7K0ODyqrp3hHZ7sAnQ==}
+  '@yuku-codegen/wasm@0.10.1':
+    resolution: {integrity: sha512-cLgiMBi7ivjx8FP42XHyPyQnzsp8imwCNcegFjjk7WlpwhwM8xYGktv1Qcrr7OBpjKcSwkXB36zo9YkWXS6wzw==}
 
-  '@yuku-parser/wasm@0.9.0':
-    resolution: {integrity: sha512-gON6JjIvJQAko5OhOhlEWPgFKVEM7uTLN/zScwhhgK01pJSbM1ykMQwTP9Af4Eq/2R9+a8kYdJ49aJ/3NVorhA==}
+  '@yuku-parser/wasm@0.10.1':
+    resolution: {integrity: sha512-aErQbjwSuRnOTvYmf4BxT2+CMvL7LMDt2Z2obz/naqwfc4YGP8xqwZjyyMTSeRrnja/KYZlSjhIs5dFeE0Qacw==}
+
+  '@yuku-toolchain/types@0.10.1':
+    resolution: {integrity: sha512-nZqE/tf118GLFyuPDD68u3Sal9f2w/bS9s2f+UvS9W+31BuZ9EW4xcOVIhZtJcvUSpdBYL3gJVXV6ky2gxuDgg==}
 
   '@yuku-toolchain/types@0.8.7':
     resolution: {integrity: sha512-2Z53dNxAJL6UvFoIrDZvYf3zlO8s4VJK4O2hhaB4mXVwwpX/7ajtss3cmfqKvamlNLWyt9FSWs4eoYdlbxpnHA==}
-
-  '@yuku-toolchain/types@0.9.0':
-    resolution: {integrity: sha512-ta11OgDlY5ESPaO4mer9on6BMYtbQc5itQB+JYxQ7DWVZBgxgJmQkMTUlSDddBg0ueYOpxBrp9vLjkZlhQfClA==}
 
   '@zkochan/which@2.0.3':
     resolution: {integrity: sha512-C1ReN7vt2/2O0fyTsx5xnbQuxBrmG5NMSbcIkPKCCfCTJgpZBsuRYzFXHj3nVq8vTfK7vxHUmzfCpSHgO7j4rg==}
@@ -6711,7 +6711,7 @@ packages:
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      esbuild: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/esbuild/node_modules/esbuild
+      esbuild: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/esbuild/node_modules/esbuild
       jiti: '>=1.21.0'
       less: ^4.0.0
       sass: ^1.70.0
@@ -6759,8 +6759,8 @@ packages:
     resolution: {integrity: sha512-jTNOMGoMRhs0JuueJrJqbW8tOwxumaWYq+V5i+PD+8ecSCVkuX27tGW7BXqDgoULQ55rO7IdNxPcnsWtshz3AA==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
-      esbuild: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/esbuild/node_modules/esbuild
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      esbuild: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/esbuild/node_modules/esbuild
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
 
   rou3@0.9.2:
     resolution: {integrity: sha512-3SOzvaAg8rkHrXtRjpCvCvbyO5to9oOO27Z/XqHEYXfMRVSw/qMIVdmaOk9W2lcRLtR6dlqTjo9hDeJk70QBYQ==}
@@ -7265,9 +7265,9 @@ packages:
       '@farmfe/core': '*'
       '@rspack/core': '*'
       bun-types-no-globals: '*'
-      esbuild: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/esbuild/node_modules/esbuild
+      esbuild: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/esbuild/node_modules/esbuild
       rolldown: '*'
-      rollup: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/rollup/node_modules/rollup
+      rollup: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/rollup/node_modules/rollup
       unloader: '*'
       vite: '*'
       webpack: '*'
@@ -7338,7 +7338,7 @@ packages:
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
       '@vitejs/devtools': ^0.4.0
-      esbuild: link:/mnt/ext/tmp/modpnpm.fUCnz27/rolldown-1.2.5/node/esbuild/node_modules/esbuild
+      esbuild: link:/mnt/ext/tmp/modpnpm.5718iFf/rolldown-1.2.5/node/esbuild/node_modules/esbuild
       jiti: '>=1.21.0'
       less: ^4.0.0
       sass: ^1.70.0
@@ -7651,11 +7651,11 @@ packages:
   youch@4.1.0-beta.10:
     resolution: {integrity: sha512-rLfVLB4FgQneDr0dv1oddCVZmKjcJ6yX6mS4pU82Mq/Dt9a3cLZQ62pDBL4AUO+uVrCvtWz3ZFUL2HFAFJ/BXQ==}
 
+  yuku-ast@0.10.1:
+    resolution: {integrity: sha512-uxQ9wMKPfFmKXwCwrcYUnp8xQ6HltLN3ifzBZfjgoACu9sQrxlqiyibeINSqR3VNoHPJMkUmD69hWOoO5TUqtQ==}
+
   yuku-ast@0.8.7:
     resolution: {integrity: sha512-h6+4bDfyootiMB9vckk5uKo5r5j0GHrkr17FQTDNfEsFT3DWlN9uu1HJwQwc64pgmLCI945fWM3lbTIqxjT3GQ==}
-
-  yuku-ast@0.9.0:
-    resolution: {integrity: sha512-+cfaDdcTQuOH5EnfxPvcB3ju4fzWYxZVpbYjKUJ/LMkrfBnuajiY9OcZBwfugKtk+mOTsTLIX87+Vth1zm7r/w==}
 
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
@@ -10579,8 +10579,8 @@ snapshots:
       '@oxc-project/types': 0.143.0
       lightningcss: lightningcss-wasm@1.33.0
       postcss: 8.5.26
-      yuku-codegen: '@yuku-codegen/wasm@0.9.0'
-      yuku-parser: '@yuku-parser/wasm@0.9.0'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       '@types/node': 24.10.3
       '@voidzero-dev/vite-plus-darwin-arm64': 0.2.9
@@ -10768,16 +10768,16 @@ snapshots:
       '@webcontainer/snapshot': 0.1.0
       vitest: 4.1.10(@types/node@24.10.3)(@vitest/browser-playwright@4.1.10)(@vitest/browser-preview@4.1.10)(vite@8.2.1(@types/node@24.10.3)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
 
-  '@yuku-codegen/wasm@0.9.0': {}
+  '@yuku-codegen/wasm@0.10.1': {}
 
-  '@yuku-parser/wasm@0.9.0':
+  '@yuku-parser/wasm@0.10.1':
     dependencies:
-      '@yuku-toolchain/types': 0.9.0
-      yuku-ast: 0.9.0
+      '@yuku-toolchain/types': 0.10.1
+      yuku-ast: 0.10.1
+
+  '@yuku-toolchain/types@0.10.1': {}
 
   '@yuku-toolchain/types@0.8.7': {}
-
-  '@yuku-toolchain/types@0.9.0': {}
 
   '@zkochan/which@2.0.3':
     dependencies:
@@ -12794,8 +12794,8 @@ snapshots:
       obug: 2.1.4
       rolldown: link:packages/rolldown
       yuku-ast: 0.8.7
-      yuku-codegen: '@yuku-codegen/wasm@0.9.0'
-      yuku-parser: '@yuku-parser/wasm@0.9.0'
+      yuku-codegen: '@yuku-codegen/wasm@0.10.1'
+      yuku-parser: '@yuku-parser/wasm@0.10.1'
     optionalDependencies:
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -13884,13 +13884,13 @@ snapshots:
       cookie: 1.1.1
       youch-core: 0.3.3
 
+  yuku-ast@0.10.1:
+    dependencies:
+      '@yuku-toolchain/types': 0.10.1
+
   yuku-ast@0.8.7:
     dependencies:
       '@yuku-toolchain/types': 0.8.7
-
-  yuku-ast@0.9.0:
-    dependencies:
-      '@yuku-toolchain/types': 0.9.0
 
   zod@4.4.3: {}
 

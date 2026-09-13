@@ -1,7 +1,9 @@
 packages:
   - packages/*
-
 catalog:
-  "@napi-rs/cli": 3.6.0
-
+  '@napi-rs/cli': 3.6.0
 verifyDepsBeforeRun: install
+trustLockfile: true
+overrides:
+  esbuild: link:../node/esbuild/node_modules/esbuild
+  graceful-fs: link:../node/graceful-fs/node_modules/graceful-fs

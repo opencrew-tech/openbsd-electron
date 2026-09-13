@@ -331,7 +331,7 @@ SHA256 (npm_modules/@sindresorhus-merge-streams-4.0.0.tgz) = VuO76n+Y3opY6ziyP+1
 SHA256 (npm_modules/@swc-core-1.15.21.tgz) = PRRQYdmg9z2znYttWJ9CZJL2HxpSm6Z/QKOhHfdejus=
 SHA256 (npm_modules/@swc-counter-0.1.3.tgz) = MdIYsOn2f/nLKgO2Qp+pTofdjqRwoYa82TZSqtEEsBk=
 SHA256 (npm_modules/@swc-types-0.1.26.tgz) = Tf72fTBrJAPA78BSXp70PjaKm9ADz8ANNPVG4FhUgEs=
-SHA256 (npm_modules/@swc-wasm-1.16.0.tgz) = 7gyeFAjdgFAkVuXQ469ESGS9tcbkSNlXSnXmxpImT84=
+SHA256 (npm_modules/@swc-wasm-1.16.2.tgz) = YT1vY/50aeAoBICi/v8ee+gG2MkHjwG4wicJL3KgyI4=
 SHA256 (npm_modules/@tokenizer-inflate-0.4.1.tgz) = QfamCxPPKe690GcjIj3Gj/HUdyHVbk/vk9LUUBZ9ncA=
 SHA256 (npm_modules/@tokenizer-token-0.3.0.tgz) = kRdYzsojnI5TcnAO7fu9UU8W08EXta8KZI9ucgSHwgk=
 SHA256 (npm_modules/@tsconfig-node10-1.0.11.tgz) = UGDEz6/uiAzMBRpGJWc6UfMOT4Hxi1gWDwpJZFt/Ezg=
@@ -1337,7 +1337,7 @@ SIZE (npm_modules/@sindresorhus-merge-streams-4.0.0.tgz) = 3756
 SIZE (npm_modules/@swc-core-1.15.21.tgz) = 21025
 SIZE (npm_modules/@swc-counter-0.1.3.tgz) = 841
 SIZE (npm_modules/@swc-types-0.1.26.tgz) = 19126
-SIZE (npm_modules/@swc-wasm-1.16.0.tgz) = 5134839
+SIZE (npm_modules/@swc-wasm-1.16.2.tgz) = 5391430
 SIZE (npm_modules/@tokenizer-inflate-0.4.1.tgz) = 7797
 SIZE (npm_modules/@tokenizer-token-0.3.0.tgz) = 1529
 SIZE (npm_modules/@tsconfig-node10-1.0.11.tgz) = 1297

@@ -3,6 +3,8 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	Yes
+
 DISTFILES.pnpm += \
 ${MODPNPM_DIST}/@11ty-{@11ty/gray-matter/-/}gray-matter-2.1.0.tgz \
 ${MODPNPM_DIST}/@antfu-{@antfu/install-pkg/-/}install-pkg-1.1.0.tgz \
@@ -380,10 +382,10 @@ ${MODPNPM_DIST}/@vueuse-{@vueuse/shared/-/}shared-14.4.0.tgz \
 ${MODPNPM_DIST}/@webcontainer-{@webcontainer/api/-/}api-1.6.4.tgz \
 ${MODPNPM_DIST}/@webcontainer-{@webcontainer/snapshot/-/}snapshot-0.1.0.tgz \
 ${MODPNPM_DIST}/@webcontainer-{@webcontainer/test/-/}test-0.3.0.tgz \
-${MODPNPM_DIST}/@yuku-codegen-{@yuku-codegen/wasm/-/}wasm-0.9.0.tgz \
-${MODPNPM_DIST}/@yuku-parser-{@yuku-parser/wasm/-/}wasm-0.9.0.tgz \
+${MODPNPM_DIST}/@yuku-codegen-{@yuku-codegen/wasm/-/}wasm-0.10.1.tgz \
+${MODPNPM_DIST}/@yuku-parser-{@yuku-parser/wasm/-/}wasm-0.10.1.tgz \
+${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.10.1.tgz \
 ${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.8.7.tgz \
-${MODPNPM_DIST}/@yuku-toolchain-{@yuku-toolchain/types/-/}types-0.9.0.tgz \
 ${MODPNPM_DIST}/@zkochan-{@zkochan/which/-/}which-2.0.3.tgz \
 ${MODPNPM_DIST}/{acorn-dynamic-import/-/}acorn-dynamic-import-4.0.0.tgz \
 ${MODPNPM_DIST}/{acorn-import-assertions/-/}acorn-import-assertions-1.9.0.tgz \
@@ -1053,8 +1055,8 @@ ${MODPNPM_DIST}/{yocto-queue/-/}yocto-queue-0.1.0.tgz \
 ${MODPNPM_DIST}/{yoctocolors/-/}yoctocolors-2.1.2.tgz \
 ${MODPNPM_DIST}/{youch-core/-/}youch-core-0.3.3.tgz \
 ${MODPNPM_DIST}/{youch/-/}youch-4.1.0-beta.10.tgz \
+${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.10.1.tgz \
 ${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.8.7.tgz \
-${MODPNPM_DIST}/{yuku-ast/-/}yuku-ast-0.9.0.tgz \
 ${MODPNPM_DIST}/{zod/-/}zod-4.4.3.tgz \
 ${MODPNPM_DIST}/{zwitch/-/}zwitch-2.0.4.tgz \
 ${MODPNPM_DIST}/{zx/-/}zx-8.8.5.tgz \
@@ -1436,10 +1438,10 @@ MODPNPM_PKGS += \
 @webcontainer/api@1.6.4;@webcontainer-api-1.6.4.tgz \
 @webcontainer/snapshot@0.1.0;@webcontainer-snapshot-0.1.0.tgz \
 @webcontainer/test@0.3.0;@webcontainer-test-0.3.0.tgz \
-@yuku-codegen/wasm@0.9.0;@yuku-codegen-wasm-0.9.0.tgz \
-@yuku-parser/wasm@0.9.0;@yuku-parser-wasm-0.9.0.tgz \
+@yuku-codegen/wasm@0.10.1;@yuku-codegen-wasm-0.10.1.tgz \
+@yuku-parser/wasm@0.10.1;@yuku-parser-wasm-0.10.1.tgz \
+@yuku-toolchain/types@0.10.1;@yuku-toolchain-types-0.10.1.tgz \
 @yuku-toolchain/types@0.8.7;@yuku-toolchain-types-0.8.7.tgz \
-@yuku-toolchain/types@0.9.0;@yuku-toolchain-types-0.9.0.tgz \
 @zkochan/which@2.0.3;@zkochan-which-2.0.3.tgz \
 acorn-dynamic-import@4.0.0;acorn-dynamic-import-4.0.0.tgz \
 acorn-import-assertions@1.9.0;acorn-import-assertions-1.9.0.tgz \
@@ -2109,8 +2111,8 @@ yocto-queue@0.1.0;yocto-queue-0.1.0.tgz \
 yoctocolors@2.1.2;yoctocolors-2.1.2.tgz \
 youch-core@0.3.3;youch-core-0.3.3.tgz \
 youch@4.1.0-beta.10;youch-4.1.0-beta.10.tgz \
+yuku-ast@0.10.1;yuku-ast-0.10.1.tgz \
 yuku-ast@0.8.7;yuku-ast-0.8.7.tgz \
-yuku-ast@0.9.0;yuku-ast-0.9.0.tgz \
 zod@4.4.3;zod-4.4.3.tgz \
 zwitch@2.0.4;zwitch-2.0.4.tgz \
 zx@8.8.5;zx-8.8.5.tgz \

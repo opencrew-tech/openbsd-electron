@@ -539,8 +539,16 @@ modpnpm-pre-gen-modules:
 modpnpm-post-gen-modules:
 .endif
 
+_modpnpm-gen-config:
+# config fix
+	@for target in ${MODPNPM_PACKAGES} ; do \
+		echo "MODPNPM: fix config files $${target}" ; \
+		cd $${target} || exit 1 ; \
+		${MODPNPM_gen-configfiles} \
+	done
+
 .if !target(_modpnpm-gen-modules)
-_modpnpm-gen-modules: modpnpm-pre-gen-modules
+_modpnpm-gen-modules: _modpnpm-gen-config modpnpm-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
 # scan for modules to override, update or add
 	@rm -f ${WRKDIR}/newmods
@@ -600,12 +608,6 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 		cat ${WRKDIR}/missmods || \
 		true
 .  endif
-# config fix
-	@for target in ${MODPNPM_PACKAGES} ; do \
-		echo "MODPNPM: fix config files $${target}" ; \
-		cd $${target} || exit 1 ; \
-		${MODPNPM_gen-configfiles} \
-	done
 # mods triggered overrides
 .for _mod _port _override in ${MODPNPM_MODULES}
 .  if !empty(MODPNPM_MODS:M${_mod}) && "${_override}" != "."
@@ -750,7 +752,7 @@ _modpnpm-gen-modules: modpnpm-pre-gen-modules
 .endif # !target(_modpnpm-gen-modules)
 
 .if !target(modpnpm-gen-modules)
-modpnpm-gen-modules:
+modpnpm-gen-modules: prepare
 	@which jq >/dev/null
 	@which yq >/dev/null
 	@t=${_MODPNPM_GEN_DIR} && \

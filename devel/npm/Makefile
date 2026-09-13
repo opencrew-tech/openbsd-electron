@@ -45,6 +45,9 @@ MODNPM_BIN=		node ${WRKDIR}/npm/bin/npm
 
 MODNPM_ARGS_WORKSPACE=	--workspaces --include-workspace-root
 
+BUILD_DEPENDS+=		lang/node
+RUN_DEPENDS+=		lang/node
+
 post-patch:
 	rm -rf ${WRKSRC}/node_modules/graceful-fs ; \
 	ln -sf ${WRKDIR}/npm/lib/node_modules/npm/node_modules/graceful-fs \

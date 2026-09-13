@@ -14,8 +14,8 @@ MAINTAINER =	Fabien Romano <fabien@openbsd.org>
 # BSD-2-Clause
 PERMIT_PACKAGE =	Yes
 
-BUILD_DEPENDS =		lang/node
-RUN_DEPENDS =		lang/node
+BUILD_DEPENDS+=		lang/node
+RUN_DEPENDS+=		lang/node
 
 PORTHOME =		${WRKDIR}/vendor
 

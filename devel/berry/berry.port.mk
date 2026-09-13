@@ -483,8 +483,16 @@ modberry-pre-gen-modules:
 modberry-post-gen-modules:
 .endif
 
+_modberry-gen-config:
+# config fix
+	@for target in ${MODBERRY_PACKAGES} ; do \
+		echo "MODBERRY: fix config files $${target}" ; \
+		cd $${target} || exit 1 ; \
+		${MODBERRY_gen-configfiles} \
+	done
+
 .if !target(_modberry-gen-modules)
-_modberry-gen-modules: modberry-pre-gen-modules
+_modberry-gen-modules: _modberry-gen-config modberry-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
 # scan for modules to override, update or add
 	@rm -f ${WRKDIR}/newmods
@@ -544,13 +552,6 @@ _modberry-gen-modules: modberry-pre-gen-modules
 		cat ${WRKDIR}/missmods || \
 		true
 .  endif
-# config fix
-	@for target in ${MODBERRY_PACKAGES} ; do \
-		cd $${target} ; \
-		echo "MODBERRY: fix config files $${target}" ; \
-		${MODBERRY_gen-configfiles} \
-		true ; \
-	done
 # mods triggered overrides
 .for _mod _port _override in ${MODBERRY_MODULES}
 .  if !empty(MODBERRY_MODS:M${_mod}) && "${_override}" != "."
@@ -664,7 +665,7 @@ _modberry-gen-modules: modberry-pre-gen-modules
 .endif # !target(_modberry-gen-modules)
 
 .if !target(modberry-gen-modules)
-modberry-gen-modules:
+modberry-gen-modules: prepare
 	@which jq >/dev/null
 	@which yq >/dev/null
 	@t=${_MODBERRY_GEN_DIR} && \

@@ -465,8 +465,16 @@ modyarn-pre-gen-modules:
 modyarn-post-gen-modules:
 .endif
 
+_modyarn-gen-config:
+# config fix
+	@for target in ${MODYARN_PACKAGES} ; do \
+		echo "MODYARN: fix config files $${target}" ; \
+		cd $${target} || exit 1 ; \
+		${MODYARN_gen-configfiles} \
+	done
+
 .if !target(_modyarn-gen-modules)
-_modyarn-gen-modules: modyarn-pre-gen-modules
+_modyarn-gen-modules: _modyarn-gen-config modyarn-pre-gen-modules
 # run with custom BUILD_USER & WRKOBJDIR
 # scan for modules to override, update or add
 	@rm -f ${WRKDIR}/newmods
@@ -526,13 +534,6 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 		cat ${WRKDIR}/missmods || \
 		true
 .  endif
-# config fix
-	@for target in ${MODYARN_PACKAGES} ; do \
-		cd $${target} ; \
-		echo "MODYARN: fix config files $${target}" ; \
-		${MODYARN_gen-configfiles} \
-		true ; \
-	done
 # mods triggered overrides
 .for _mod _port _override in ${MODYARN_MODULES}
 .  if !empty(MODYARN_MODS:M${_mod}) && "${_override}" != "."
@@ -652,7 +653,7 @@ _modyarn-gen-modules: modyarn-pre-gen-modules
 .endif # !target(_modyarn-gen-modules)
 
 .if !target(modyarn-gen-modules)
-modyarn-gen-modules:
+modyarn-gen-modules: prepare
 	@which jq >/dev/null
 	@which yq >/dev/null
 	@t=${_MODYARN_GEN_DIR} && \

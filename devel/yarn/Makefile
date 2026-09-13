@@ -14,7 +14,7 @@ PERMIT_PACKAGE =	Yes
 
 SITES =		https://github.com/yarnpkg/yarn/releases/download/${V}/
 
-RUN_DEPENDS =	lang/node
+RUN_DEPENDS+=	lang/node
 
 NO_BUILD =	Yes
 NO_TEST =	Yes

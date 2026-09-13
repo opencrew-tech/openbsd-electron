@@ -1,6 +1,6 @@
 COMMENT=		unofficial Microsoft Teams client
 
-DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.8.0 .
+DIST_TUPLE=		github IsmaelMartinez teams-for-linux v2.18.0 .
 
 CATEGORIES=		net
 
@@ -19,8 +19,6 @@ MODELECTRON_WRAPPER=	Yes
 MODNPM_BUILD=		No
 MODNPM_INSTALL=		No
 
-MODNPM_MODS+=7zip-bin
-MODNPM_MODS+=app-builder-bin
 MODNPM_MODS+=electron-builder
 MODNPM_MODS+=graceful-fs
 

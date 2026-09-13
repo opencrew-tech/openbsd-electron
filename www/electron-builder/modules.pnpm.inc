@@ -3,6 +3,8 @@
 #EXCLUDES=
 #FORCE=
 
+MODPNPM_MULTI_PROJECT?=	Yes
+
 DISTFILES.pnpm += \
 ${MODPNPM_DIST}/@ampproject-{@ampproject/remapping/-/}remapping-2.3.0.tgz \
 ${MODPNPM_DIST}/@babel-{@babel/code-frame/-/}code-frame-7.28.6.tgz \
@@ -255,7 +257,7 @@ ${MODPNPM_DIST}/@stylistic-{@stylistic/eslint-plugin/-/}eslint-plugin-2.13.0.tgz
 ${MODPNPM_DIST}/@swc-{@swc/core/-/}core-1.15.33.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/counter/-/}counter-0.1.3.tgz \
 ${MODPNPM_DIST}/@swc-{@swc/types/-/}types-0.1.26.tgz \
-${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.0.tgz \
+${MODPNPM_DIST}/@swc-{@swc/wasm/-/}wasm-1.16.2.tgz \
 ${MODPNPM_DIST}/@szmarczak-{@szmarczak/http-timer/-/}http-timer-4.0.6.tgz \
 ${MODPNPM_DIST}/@tsconfig-{@tsconfig/node10/-/}node10-1.0.11.tgz \
 ${MODPNPM_DIST}/@tsconfig-{@tsconfig/node12/-/}node12-1.0.11.tgz \
@@ -1156,7 +1158,7 @@ MODPNPM_PKGS += \
 @swc/core@1.15.33;@swc-core-1.15.33.tgz \
 @swc/counter@0.1.3;@swc-counter-0.1.3.tgz \
 @swc/types@0.1.26;@swc-types-0.1.26.tgz \
-@swc/wasm@1.16.0;@swc-wasm-1.16.0.tgz \
+@swc/wasm@1.16.2;@swc-wasm-1.16.2.tgz \
 @szmarczak/http-timer@4.0.6;@szmarczak-http-timer-4.0.6.tgz \
 @tsconfig/node10@1.0.11;@tsconfig-node10-1.0.11.tgz \
 @tsconfig/node12@1.0.11;@tsconfig-node12-1.0.11.tgz \

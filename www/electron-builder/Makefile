@@ -3,6 +3,7 @@ COMMENT =	solution to package and build Electron app
 V =		26.15.7
 DISTNAME =	electron-builder-electron-builder-${V}
 PKGNAME =	electron-builder-${V}
+REVISION =	0
 
 DIST_TUPLE =	github electron-userland electron-builder \
 		electron-builder@${V} .

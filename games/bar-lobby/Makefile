@@ -41,7 +41,7 @@ MODNPM_BUILD =		No
 MODNPM_INSTALL =	No
 
 # XXX 7za is only used for the initial pool cache
-RUN_DEPENDS+=	archivers/p7zip \
+RUN_DEPENDS+=	archivers/7zip \
 		devel/desktop-file-utils
 
 post-patch:

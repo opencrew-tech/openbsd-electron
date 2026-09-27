@@ -23,7 +23,7 @@ PERMIT_PACKAGE=	Yes
 
 BUILD_DEPENDS+=	devel/app-builder
 
-RUN_DEPENDS+=	archivers/p7zip \
+RUN_DEPENDS+=	archivers/7zip \
 		devel/desktop-file-utils
 
 MODULES=	devel/npm \

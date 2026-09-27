@@ -16,7 +16,7 @@ MODULES =		devel/npm
 
 MODNPM_INSTALL =	7zip-bin
 
-RUN_DEPENDS =		archivers/p7zip
+RUN_DEPENDS =		archivers/7zip
 
 post-extract:
 	cd ${WRKSRC} && rm -rf linux mac win

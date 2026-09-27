@@ -1,6 +1,7 @@
 COMMENT =	all your web-services in one place
 
 DIST_TUPLE =	github ferdium ferdium-app v7.2.1 .
+REVISION =	0
 
 CATEGORIES =	net
 
@@ -43,8 +44,8 @@ MODPNPM_MODS+=@parcel/watcher
 MODPNPM_ENV_TEST+= \
 	ELECTRON_OVERRIDE_DIST_PATH=${LOCALBASE}/electron/${ELECTRON_V}
 
-# fix build, to revisit on next update
-MODPNPM_GEN_UPDATE=sqlite3@5.1.7
+# fix node-gyp build with newer python, to revisit on next update
+MODPNPM_GEN_OVERRIDES+=	"sqlite3" "6.0.1"
 
 RUN_DEPENDS+=		devel/desktop-file-utils \
 			x11/gtk+4,-guic

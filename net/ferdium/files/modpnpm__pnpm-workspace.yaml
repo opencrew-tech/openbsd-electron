@@ -1,5 +1,6 @@
 overrides:
   usocket: _EXCLUDED_
+  sqlite3: 6.0.1
   electron-builder: link:../node/electron-builder/node_modules/electron-builder
   esbuild: link:../node/esbuild/node_modules/esbuild
   graceful-fs: link:../node/graceful-fs/node_modules/graceful-fs

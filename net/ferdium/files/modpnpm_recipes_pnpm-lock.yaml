@@ -5,6 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  sqlite3: 6.0.1
   graceful-fs: link:../../node/graceful-fs/node_modules/graceful-fs
 
 importers:

@@ -179,16 +179,21 @@ MODNPM_ENV_GEN?=
 # XXX better way to inject CI=true
 # XXX custom npm conflict with node
 MODNPM_BIN?=		onpm
+MODNPM_CMD_WRAPPER?=\
+	/bin/sh -c 'ulimit -S -d "$$(ulimit -H -d)" && \
+	    exec "$$@"' modnpm
 MODNPM_CMD?=\
-	${SETENV} ${MODNPM_ENV} CI=true ${MODNPM_BIN}
+	${SETENV} ${MODNPM_ENV} CI=true ${MODNPM_CMD_WRAPPER} \
+	    ${MODNPM_BIN}
 MODNPM_CMD_BUILD?=\
 	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true ${MODNPM_ENV_BUILD} \
-	    ${MODNPM_BIN}
+	    ${MODNPM_CMD_WRAPPER} ${MODNPM_BIN}
 MODNPM_CMD_TEST?=\
 	${SETENV} ${MAKE_ENV} ${MODNPM_ENV} CI=true ${MODNPM_ENV_TEST} \
-	    ${MODNPM_BIN}
+	    ${MODNPM_CMD_WRAPPER} ${MODNPM_BIN}
 MODNPM_CMD_GEN?=\
-	${SETENV} ${MODNPM_ENV} ${MODNPM_ENV_GEN} ${MODNPM_BIN}
+	${SETENV} ${MODNPM_ENV} ${MODNPM_ENV_GEN} \
+	    ${MODNPM_CMD_WRAPPER} ${MODNPM_BIN}
 
 # common args
 # XXX useless ? --no-audit --no-fund --legacy-peer-deps

@@ -181,17 +181,22 @@ MODPNPM_ENV_GEN?=
 # cmd
 # XXX better way to inject CI=true
 MODPNPM_BIN?=		pnpm
+MODPNPM_CMD_WRAPPER?=\
+	/bin/sh -c '\
+	    ulimit -S -d "$$(ulimit -H -d)" && \
+	    exec "$$@"' modpnpm
 MODPNPM_CMD?=\
-	${SETENV} ${MODPNPM_ENV} CI=true ${MODPNPM_BIN}
+	${SETENV} ${MODPNPM_ENV} CI=true ${MODPNPM_CMD_WRAPPER} \
+	    ${MODPNPM_BIN}
 MODPNPM_CMD_BUILD?=\
 	${SETENV} ${MAKE_ENV} ${MODPNPM_ENV} CI=true ${MODPNPM_ENV_BUILD} \
-	    ${MODPNPM_BIN}
+	    ${MODPNPM_CMD_WRAPPER} ${MODPNPM_BIN}
 MODPNPM_CMD_TEST?=\
-	${SETENV} ${MODPNPM_ENV}  CI=true ${MODPNPM_ENV_TEST} ${MODPNPM_BIN}
+	${SETENV} ${MODPNPM_ENV} CI=true ${MODPNPM_ENV_TEST} \
+	    ${MODPNPM_CMD_WRAPPER} ${MODPNPM_BIN}
 MODPNPM_CMD_GEN?=\
-	ulimit -d `ulimit -H -d`; \
-	ulimit -m `ulimit -H -m`; \
-	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_GEN} ${MODPNPM_BIN}
+	${SETENV} ${MODPNPM_ENV} ${MODPNPM_ENV_GEN} \
+	    ${MODPNPM_CMD_WRAPPER} ${MODPNPM_BIN}
 
 # common args
 MODPNPM_ARGS?=\
@@ -256,9 +261,7 @@ MODPNPM_post-extract += \
 	mkdir -p ${PORTHOME} ; \
 	mkdir -p ${WRKDIR}/tmp ; \
 	mkdir -p ${MODPNPM_BUILD_DIST} ; \
-	ln -fs ${MODPNPM_INSTALL_DIST} ${WRKDIR}/ ; \
-	ulimit -d `ulimit -H -d` ; \
-	ulimit -m `ulimit -H -m` ;
+	ln -fs ${MODPNPM_INSTALL_DIST} ${WRKDIR}/ ;
 
 .if empty(_GEN_MODULES)
 

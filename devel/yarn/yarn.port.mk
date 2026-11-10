@@ -38,11 +38,11 @@ MODYARN_GEN_ENGINES?=	Yes
 # make show=MODYARN_MODULES, list of custom modules to handle
 MODYARN_MODS?=
 
-.if ${NO_BUILD:L} == "no"
 MODYARN_BUILDDEP?=	Yes
+
+.if ${NO_BUILD:L} == "no"
 MODYARN_BUILD?=		Yes
 .else
-MODYARN_BUILDDEP?=	No
 MODYARN_BUILD?=		No
 .endif
 

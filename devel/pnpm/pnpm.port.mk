@@ -36,11 +36,11 @@ MODPNPM_GEN_ENGINES?=	Yes
 # make show=MODPNPM_MODULES, list of custom modules to handle
 MODPNPM_MODS?=
 
-.if ${NO_BUILD:L} == "no"
 MODPNPM_BUILDDEP?=	Yes
+
+.if ${NO_BUILD:L} == "no"
 MODPNPM_BUILD?=		Yes
 .else
-MODPNPM_BUILDDEP?=	No
 MODPNPM_BUILD?=		No
 .endif
 

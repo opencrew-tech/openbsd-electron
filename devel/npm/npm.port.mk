@@ -40,11 +40,11 @@ MODNPM_GEN_BUNDLE?=	Yes
 # make show=MODNPM_MODULES, list of custom modules to handle
 MODNPM_MODS?=
 
-.if ${NO_BUILD:L} == "no"
 MODNPM_BUILDDEP?=	Yes
+
+.if ${NO_BUILD:L} == "no"
 MODNPM_BUILD?=		Yes
 .else
-MODNPM_BUILDDEP?=	No
 MODNPM_BUILD?=		No
 .endif
 

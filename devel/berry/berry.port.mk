@@ -49,11 +49,11 @@ MODBERRY_MODS?=
 # how many instance of berry xargs can run during extract
 MODBERRY_EXTRACT_JOBS?=	$$(sysctl -n hw.ncpu)
 
-.if ${NO_BUILD:L} == "no"
 MODBERRY_BUILDDEP?=	Yes
+
+.if ${NO_BUILD:L} == "no"
 MODBERRY_BUILD?=	Yes
 .else
-MODBERRY_BUILDDEP?=	No
 MODBERRY_BUILD?=	No
 .endif
 

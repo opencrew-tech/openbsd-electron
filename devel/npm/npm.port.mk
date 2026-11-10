@@ -389,7 +389,7 @@ MODNPM_INSTALL_TARGET=\
 		[ -d node_modules ] && ( \
 			echo "MODNPM: bundle node_modules $$(pwd)" ; \
 			cd node_modules && \
-			pax -rw -pe . ${PREFIX}/${MODNPM_INSTALL_DIR}/ \
+			pax -rw -pp . ${PREFIX}/${MODNPM_INSTALL_DIR}/ \
 		) ; \
 		find -L ${PREFIX}/${MODNPM_INSTALL_DIR} -type l -print | \
 		while read _link ; do \
@@ -423,7 +423,7 @@ MODNPM_INSTALL_TARGET=\
 				[ -n "$${srcdir}" ] && \
 				[ -d $${target}/$${srcdir}/node_modules ] && (\
 				cd $${target}/$${srcdir} && \
-				pax -rw -pe node_modules \
+				pax -rw -pp node_modules \
 				    ${PREFIX}/${MODNPM_INSTALL_DIR}/$${pkg} \
 				) ; \
 			fi ; \
@@ -461,7 +461,7 @@ MODNPM_INSTALL_TARGET=\
 	done ; \
 	[ -d ${PORTHOME}/lib/node_modules ] && \
 	( cd ${PORTHOME}/lib/node_modules && \
-		pax -rw -pe . ${PREFIX}/${MODNPM_INSTALL_DIR}/ ) || true ; \
+		pax -rw -pp . ${PREFIX}/${MODNPM_INSTALL_DIR}/ ) || true ; \
 	[ -d ${PORTHOME}/bin ] && \
 	for bin in ${PORTHOME}/bin/* ; do \
 		_name=$$(basename $$bin) ; \

@@ -4,6 +4,7 @@ V =		4.18.0
 DISTNAME =	berry--yarnpkg-cli-${V}
 PKGNAME =	berry-${V}
 DIST_TUPLE =	github yarnpkg berry @yarnpkg/cli/${V} .
+WRKDIST =	${WRKDIR}/${DISTNAME}
 
 CATEGORIES =	devel
 

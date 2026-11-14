@@ -698,6 +698,7 @@ modyarn-gen-vendor:
 	make -D _GEN_VENDOR ${_MODYARN_GEN_VAR} _modyarn-gen-vendor && \
 	echo "MODYARN: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
-	echo "MODYARN: rm $${t}, done." || \
-	echo "MODYARN: FAIL, try again with _MODYARN_GEN_DIR=$${t}"
+	echo "MODYARN: rm $${t}, done." || (\
+	echo "MODYARN: FAIL, try again with _MODYARN_GEN_DIR=$${t}" ; \
+	false )
 .endif

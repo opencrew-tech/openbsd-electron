@@ -708,6 +708,7 @@ modberry-gen-vendor:
 	make -D _GEN_VENDOR ${_MODBERRY_GEN_VAR} _modberry-gen-vendor && \
 	echo "MODBERRY: rm $${t}..." && \
 	[ -d "$${t}" ] && rm -rf $${t} && \
-	echo "MODBERRY: rm $${t}, done." || \
-	echo "MODBERRY: FAIL, try again with _MODBERRY_GEN_DIR=$${t}"
+	echo "MODBERRY: rm $${t}, done." || (\
+	echo "MODBERRY: FAIL, try again with _MODBERRY_GEN_DIR=$${t}" ; \
+	false )
 .endif

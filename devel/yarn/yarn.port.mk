@@ -363,7 +363,7 @@ MODYARN_PREBUILD_TARGET=\
 MODYARN_BUILD_TARGET=\
 	for target in ${MODYARN_TARGETS} ; do \
 		cd $${target} ; \
-		target=$$(cat package.json | grep name | \
+		target=$$(cat ${MODYARN_PACKAGE} | grep -m1 name | \
 			awk -F\" '{print $$4}') ; \
 		tgz=$$(echo $$target | tr '/' '-' | tr -d '@') ; \
 		echo "MODYARN: pack $${target} in $${tgz}" ; \

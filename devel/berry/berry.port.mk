@@ -342,7 +342,6 @@ MODBERRY_post-extract += \
 	for target in ${MODBERRY_TARGETS}; do \
 		echo "MODBERRY: re-hash lockfile for system deps $${target}" ; \
 		cd $${target} && \
-		echo '${MODBERRY_CMD_REHASH} ${MODBERRY_ARGS_REHASH}' && \
 		${MODBERRY_CMD_REHASH} ${MODBERRY_ARGS_REHASH} ; \
 		cd - >/dev/null ; \
 	done ;

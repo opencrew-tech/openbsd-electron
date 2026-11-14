@@ -528,7 +528,7 @@ _modberry-gen-modules: _modberry-gen-config modberry-pre-gen-modules
 .  endif
 .endfor
 # reports mods to (un)activate
-.  if empty(MODBERRY_SKIP_GEN_MODS)
+.  if empty(MODBERRY_SKIP_GEN_MODS) || ${MODBERRY_SKIP_GEN_MODS:L} != "yes"
 	@if [ -f ${WRKDIR}/newmods ] ; then \
 		echo "MODBERRY: either add those mods in your Makefile" ; \
 		cat ${WRKDIR}/newmods ; \

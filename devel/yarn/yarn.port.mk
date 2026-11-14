@@ -512,7 +512,7 @@ _modyarn-gen-modules: _modyarn-gen-config modyarn-pre-gen-modules
 .  endif
 .endfor
 # reports mods to (un)activate
-.  if empty(MODYARN_SKIP_GEN_MODS)
+.  if empty(MODYARN_SKIP_GEN_MODS) || ${MODYARN_SKIP_GEN_MODS:L} != "yes"
 	@if [ -f ${WRKDIR}/newmods ] ; then \
 		echo "MODYARN: either add those mods in your Makefile" ; \
 		cat ${WRKDIR}/newmods ; \

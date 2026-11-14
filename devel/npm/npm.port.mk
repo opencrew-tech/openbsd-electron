@@ -640,7 +640,7 @@ _modnpm-gen-modules: _modnpm-gen-config modnpm-pre-gen-modules
 .  endif
 .endfor
 # reports mods to (un)activate
-.  if empty(MODNPM_SKIP_GEN_MODS)
+.  if empty(MODNPM_SKIP_GEN_MODS) || ${MODNPM_SKIP_GEN_MODS:L} != "yes"
 	@if [ -f ${WRKDIR}/newmods ] ; then \
 		echo "MODNPM: either add those mods in your Makefile" ; \
 		cat ${WRKDIR}/newmods ; \

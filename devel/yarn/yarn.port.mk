@@ -260,15 +260,15 @@ MODYARN_post-extract += \
 .if empty(_GEN_MODULES)
 
 MODYARN_post-extract += \
-	for target in ${MODYARN_TARGETS} ; do \
+	for target in ${MODYARN_PACKAGES} ; do \
 		mkdir -p $${target} ; \
 		cd $${target} ;
 # backup lock files
 .for _CONF in ${MODYARN_CONFIGFILES}
 MODYARN_post-extract += \
-		[ -f ${_CONF}${MODYARN_PATCHORIG} ] || \
-			[ -f ${_CONF} ] && \
-			cp ${_CONF}{,${MODYARN_PATCHORIG}} ;
+		if [ -f ${_CONF} -a ! -f ${_CONF}${MODYARN_PATCHORIG} ]; then \
+			cp ${_CONF}{,${MODYARN_PATCHORIG}} ; \
+		fi ;
 .endfor
 
 MODYARN_post-extract += \
@@ -418,19 +418,19 @@ do-test:
 .if !target(modyarn-diff)
 modyarn-diff:
 .for _CONF in ${MODYARN_CONFIGFILES}
-	@for target in ${MODYARN_TARGETS} ; do \
+	@for target in ${MODYARN_PACKAGES} ; do \
 		cd ${FILESDIR} ; \
 		prefix=$$(echo "$${target##${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix##_} ; \
 		prefix=$${prefix%%_} ; \
 		conf=${_CONF:S/\//_/g} ; \
-		if [[ $${target}${_CONF} == *.json ]] ; then \
-			[ -f $${target}${_CONF}${MODYARN_PATCHORIG} ] && \
-			jq '.' $${target}${_CONF}${MODYARN_PATCHORIG} | \
+		if [[ $${target}/${_CONF} == *.json ]] ; then \
+			[ -f $${target}/${_CONF}${MODYARN_PATCHORIG} ] && \
+			jq '.' $${target}/${_CONF}${MODYARN_PATCHORIG} | \
 			diff -uN - modyarn_$${prefix}_$${conf} || true ; \
 		else \
-			[ -f $${target}${_CONF}${MODYARN_PATCHORIG} ] && \
-			diff -uN $${target}${_CONF}${MODYARN_PATCHORIG} \
+			[ -f $${target}/${_CONF}${MODYARN_PATCHORIG} ] && \
+			diff -uN $${target}/${_CONF}${MODYARN_PATCHORIG} \
 				modyarn_$${prefix}_$${conf} || true ; \
 		fi ; \
 	done

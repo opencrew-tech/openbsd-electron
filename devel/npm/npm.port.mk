@@ -282,9 +282,9 @@ MODNPM_post-extract += \
 # backup lock files
 .for _CONF in ${MODNPM_CONFIGFILES}
 MODNPM_post-extract += \
-		[ -f ${_CONF}${MODNPM_PATCHORIG} ] || \
-			[ -f ${_CONF} ] && \
-			cp ${_CONF}{,${MODNPM_PATCHORIG}} ;
+		if [ -f ${_CONF} -a ! -f ${_CONF}${MODNPM_PATCHORIG} ]; then \
+			cp ${_CONF}{,${MODNPM_PATCHORIG}} ; \
+		fi ;
 .endfor
 
 MODNPM_post-extract += \

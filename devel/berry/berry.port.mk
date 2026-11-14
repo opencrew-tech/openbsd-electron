@@ -275,15 +275,15 @@ MODBERRY_post-extract += \
 .if empty(_GEN_MODULES)
 
 MODBERRY_post-extract += \
-	for target in ${MODBERRY_TARGETS} ; do \
+	for target in ${MODBERRY_PACKAGES} ; do \
 		mkdir -p $${target} ; \
 		cd $${target} ;
 # backup lock files
 .for _CONF in ${MODBERRY_CONFIGFILES}
 MODBERRY_post-extract += \
-		[ -f ${_CONF}${MODBERRY_PATCHORIG} ] || \
-			[ -f ${_CONF} ] && \
-			cp ${_CONF}{,${MODBERRY_PATCHORIG}} ;
+		if [ -f ${_CONF} -a ! -f ${_CONF}${MODBERRY_PATCHORIG} ]; then \
+			cp ${_CONF}{,${MODBERRY_PATCHORIG}} ; \
+		fi ;
 .endfor
 
 MODBERRY_post-extract += \
@@ -429,19 +429,19 @@ do-test:
 .if !target(modberry-diff)
 modberry-diff:
 .for _CONF in ${MODBERRY_CONFIGFILES}
-	@for target in ${MODBERRY_TARGETS} ; do \
+	@for target in ${MODBERRY_PACKAGES} ; do \
 		cd ${FILESDIR} ; \
-		prefix=$$(echo "$${target##"${WRKSRC}/"}" | tr '/' '_') ; \
+		prefix=$$(echo "$${target##${WRKSRC}}" | tr '/' '_') ; \
 		prefix=$${prefix##_} ; \
 		prefix=$${prefix%%_} ; \
 		conf=${_CONF:S/\//_/g} ; \
-		if [[ $${target}${_CONF} == *.json ]] ; then \
-			[ -f $${target}${_CONF}${MODBERRY_PATCHORIG} ] && \
-			jq '.' $${target}${_CONF}${MODBERRY_PATCHORIG} | \
+		if [[ $${target}/${_CONF} == *.json ]] ; then \
+			[ -f $${target}/${_CONF}${MODBERRY_PATCHORIG} ] && \
+			jq '.' $${target}/${_CONF}${MODBERRY_PATCHORIG} | \
 			diff -uN - modberry_$${prefix}_$${conf} || true ; \
 		else \
-			[ -f $${target}${_CONF}${MODBERRY_PATCHORIG} ] && \
-			diff -uN $${target}${_CONF}${MODBERRY_PATCHORIG} \
+			[ -f $${target}/${_CONF}${MODBERRY_PATCHORIG} ] && \
+			diff -uN $${target}/${_CONF}${MODBERRY_PATCHORIG} \
 				modberry_$${prefix}_$${conf} || true ; \
 		fi ; \
 	done

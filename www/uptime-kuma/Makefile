@@ -26,7 +26,7 @@ MODNPM_MODS+=esbuild
 MODNPM_MODS+=graceful-fs
 MODNPM_MODS+=rollup
 
-# @louislam/sqlite3 restricts node-addon-api to ^4.2.0.
+# @louislam/sqlite3 restricts node-addon-api to ^4.2.0 (doesn't build)
 MODNPM_GEN_OVERRIDES =	node-addon-api 6.1.0
 
 MODNPM_NO_DEV =		Yes
@@ -39,6 +39,12 @@ LIB_DEPENDS =		databases/sqlite3
 MAKE_ENV+=		npm_config_sqlite=${LOCALBASE}
 
 NO_TEST =		Yes
+
+# drop the build-time override before npm pack checks bundled dependencies
+pre-build:
+	@${MODNPM_PREBUILD_TARGET}
+	cd ${WRKSRC} && \
+		${MODNPM_CMD_BUILD} pkg delete overrides.node-addon-api
 
 post-install:
 	cp -a ${WRKDIR}/dist \

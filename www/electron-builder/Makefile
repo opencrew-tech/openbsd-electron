@@ -2,6 +2,7 @@ COMMENT =	solution to package and build Electron app
 
 V =		26.15.7
 DISTNAME =	electron-builder-electron-builder-${V}
+WRKDIST =	${WRKDIR}/${DISTNAME}
 PKGNAME =	electron-builder-${V}
 REVISION =	0
 

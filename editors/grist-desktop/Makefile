@@ -1,6 +1,7 @@
 COMMENT =	easily open and edit Grist spreadsheets
 
 V=		v0.3.14
+REVISION=	0
 CORE_ID=fe672818f879c86d2d145f3f30cb30f106e15f1a
 DIST_TUPLE =	github gristlabs grist-desktop ${V} .
 DIST_TUPLE+=	github gristlabs grist-core ${CORE_ID} core

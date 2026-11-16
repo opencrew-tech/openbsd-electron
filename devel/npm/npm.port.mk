@@ -342,11 +342,24 @@ MODNPM_post-extract += \
 
 .endif # empty(_GEN_MODULES) && empty(_GEN_VENDOR)
 
+# npm skips bundled dependencies' scripts even when allowScripts permits them.
 MODNPM_PREBUILD_TARGET=\
+	for target in ${MODNPM_PACKAGES} ; do \
+		if [ ! -f $${target}/${MODNPM_PACKAGE}.modnpm-bundle ]; then \
+			cp $${target}/${MODNPM_PACKAGE}{,.modnpm-bundle} ; \
+		fi ; \
+		${MODNPM_CMD} pkg delete bundleDependencies bundledDependencies \
+		    --prefix="$${target}" --workspaces=false ; \
+	done ; \
 	for target in ${MODNPM_TARGETS} ; do \
 		echo "MODNPM: rebuild $${target}" ; \
 		cd $${target} && \
+		rm -f node_modules/.package-lock.json && \
 		${MODNPM_CMD_BUILD} ${MODNPM_ARGS_REBUILD} ; \
+	done ; \
+	for target in ${MODNPM_PACKAGES} ; do \
+		cd $${target} && \
+		mv ${MODNPM_PACKAGE}.modnpm-bundle ${MODNPM_PACKAGE} ; \
 	done
 
 # XXX --include-workspace-root ?

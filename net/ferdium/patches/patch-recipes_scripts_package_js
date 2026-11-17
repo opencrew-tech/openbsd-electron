@@ -1,0 +1,14 @@
+Index: recipes/scripts/package.js
+--- recipes/scripts/package.js.orig
++++ recipes/scripts/package.js
+@@ -67,7 +67,9 @@ const compress = (src, dest) =>
+   fs.removeSync(allJson);
+ 
+   const git = await simpleGit(repoRoot);
+-  const isGitRepo = await git.checkIsRepo();
++  const isGitRepo =
++    fs.existsSync(path.join(repoRoot, '.git')) &&
++    (await git.checkIsRepo());
+   if (!isGitRepo) {
+     console.debug('NOT A git repo: will bypass dirty state checks');
+   }

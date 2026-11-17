@@ -3,6 +3,7 @@ COMMENT=		Signal Desktop links with Signal
 V=			8.23.0
 DISTNAME=		Signal-Desktop-${V}
 PKGNAME=		${DISTNAME:L}
+REVISION=		0
 
 DIST_TUPLE=		github signalapp Signal-Desktop v${V} .
 
@@ -15,7 +16,7 @@ MAINTAINER=		Fabien Romano <fabien@openbsd.org>
 # BSD 2-Clause
 PERMIT_PACKAGE=		Yes
 
-WANTLIB += ${MODCARGO_WANTLIB} c++ m vpx
+WANTLIB += ${MODCARGO_WANTLIB} aom c++ m vpx
 
 # make versions
 # ELECTRON_V=43.0.0
@@ -179,7 +180,8 @@ BUILD_DEPENDS+=		devel/esbuild \
 			devel/protobuf \
 			textproc/re2 \
 			www/tailwindcss
-LIB_DEPENDS+=		multimedia/libvpx
+LIB_DEPENDS+=		multimedia/aom \
+			multimedia/libvpx
 RUN_DEPENDS+=		devel/desktop-file-utils \
 			x11/gnome/keyring
 
@@ -529,7 +531,6 @@ _ringrtc-lock:
 ringrtc-lock:
 	@t=${_GEN_DIR} ; \
 	ulimit -d `ulimit -H -d` ; \
-	ulimit -m `ulimit -H -m` ; \
 	echo "ringrtc-lock: extract in $${t} as $$(whoami)" && \
 	make -D _GEN_LOCK ${_GEN_VAR} patch && \
 	echo "ringrtc-lock: generate lock in $${t} as $$(whoami)" && \
